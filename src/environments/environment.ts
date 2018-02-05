@@ -5,6 +5,9 @@
 
 export const environment = {
   production: false,
+  nb: {
+    apiURL: 'https://api.nb.no'
+  },
   firebase: {
     apiKey: 'AIzaSyCVG1WAE5GFtWF-3-oiIfz_8hWFw-R5QhM',
     authDomain: 'nbdigi.com',

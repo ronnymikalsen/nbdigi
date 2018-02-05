@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpHandler } from '@a
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './auth-service/auth.service';
 import { TypeaheadService } from './typeahead-service/typeahead.service';
+import { SearchService } from './search-service/search.service';
 import { CustomHttp } from './custom-http';
 
 export function httpFactory(handler: HttpHandler) {
@@ -18,6 +19,7 @@ export function httpFactory(handler: HttpHandler) {
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
+    SearchService,
     TypeaheadService
   ]
 })

@@ -26,19 +26,24 @@ export class SearchPageComponent {
 
 
   query(query: string): void {
+    this.store.dispatch(new search.LoadHints(query));
     this.store.dispatch(new search.SetQuery(query));
+    this.store.dispatch(new search.Search());
   }
 
   toggleFilter(filter: Hint): void {
     this.store.dispatch(new search.ToggleFilter(filter));
+    this.store.dispatch(new search.Search());
   }
 
   removeFilter(filter: Hint): void {
     this.store.dispatch(new search.RemoveFilter(filter));
+    this.store.dispatch(new search.Search());
   }
 
   addFilter(filter: Hint): void {
     this.store.dispatch(new search.AddFilter(filter));
+    this.store.dispatch(new search.Search());
   }
 
 }

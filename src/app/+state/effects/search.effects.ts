@@ -1,27 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { mergeMap, switchMap, map, catchError, tap } from 'rxjs/operators';
+import { mergeMap, switchMap, map, catchError, tap, withLatestFrom } from 'rxjs/operators';
 
 import * as fromRoot from './../reducers';
 import * as search from '../actions/search.actions';
-import { LoadHints, SetQuery, SearchActionTypes } from './../actions/search.actions';
+import { LoadHints, SetQuery, SearchActionTypes, Search } from './../actions/search.actions';
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
+import { SearchCriteria } from '../../models/search-criteria.model';
+import { SearchResult } from './../../models/search-result.model';
+import { SearchService } from './../../core/search-service/search.service';
 
 @Injectable()
 export class SearchEffects {
 
-  @Effect() 
-  setQuery: Observable<Action> = this.actions.ofType(SearchActionTypes.SetQuery).pipe(
-    map((action: SetQuery) => {
-      return new search.LoadHints(action.payload);
+  @Effect()
+  search: Observable<Action> = this.actions.ofType(SearchActionTypes.Search).pipe(
+    withLatestFrom(this.store),
+    switchMap(([action, storeState]) => {
+      return this.searchService.search({
+        q: storeState.search.q
+      }).pipe(
+        map(() => {
+          return new search.SearchSuccess(new SearchResult());
+        })
+      );
     })
 
   );
 
-  @Effect() 
+  @Effect()
   loadHints: Observable<Action> = this.actions.ofType(SearchActionTypes.LoadHints).pipe(
     switchMap((action: LoadHints) => {
       const hints = new Hints();
@@ -38,7 +48,9 @@ export class SearchEffects {
   );
 
   constructor(
+    private store: Store<fromRoot.State>,
     private actions: Actions,
-    private typeaheadService: TypeaheadService
+    private typeaheadService: TypeaheadService,
+    private searchService: SearchService
   ) {}
 }
