@@ -1,0 +1,29 @@
+<form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()" novalidate>
+  <mat-form-field fxFlex [floatLabel]="'never'" color="accent">
+    <div matPrefix>
+      <button type="submit" mat-icon-button>
+        <mat-icon class="input-icon">search</mat-icon>
+      </button>
+    </div>
+    <div matSuffix>
+      <button type="button" mat-icon-button>
+        <mat-icon class="input-icon" (click)="clear()">clear</mat-icon>
+      </button>
+    </div>
+    <input type="text" placeholder="Søk" aria-label="Søk" matInput [formControl]="queryControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="optionSelected($event)">
+      <mat-option *ngFor="let hint of hints?.creators" [value]="hint">
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon>{{hint.type}}</mat-icon>
+          <div>{{hint.label}}</div>
+        </div>
+      </mat-option>
+      <mat-option *ngFor="let hint of hints?.places" [value]="hint">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>{{hint.type}}</mat-icon>
+            <div>{{hint.label}}</div>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+  </mat-form-field>
+</form>

@@ -1,0 +1,23 @@
+
+{
+    "lang": "no",
+    "short_name": "NBDigi",
+    "name": "NBDigi",
+    "icons": [
+      {
+        "src":"assets/images/favicons/favicon-192x192.png",
+        "sizes": "192x192 512x512",
+        "type": "image/png"
+      },
+      {
+        "src":"assets/images/favicons/favicon-144x144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "./?utm_source=homescreen",
+    "background_color": "#ffffff",
+    "theme_color": "#00BCD4",
+    "display": "standalone"
+  }
+  

@@ -1,0 +1,26 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row class="search-box-container">
+    <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <div fxFlex="100" fxFlex.gt-sm="700px">
+        <app-search-box [hints]="search.hints" 
+          (query)="query.emit($event)"
+          (hintSelected)="addFilter.emit($event)"></app-search-box>
+      </div>
+    </div>
+  </mat-toolbar-row>
+  <mat-toolbar-row *ngIf="search.filters?.length > 0" class="filters-container">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-chip-list *ngFor="let filter of search.filters">
+        <mat-chip color="accent" [selected]="filter.enabled" (click)="toggleFilter.emit(filter)" (removed)="removeFilter.emit(filter)">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>{{filter.type}}</mat-icon>
+            <div>
+              {{filter.label}}
+            </div>
+          </div>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+      </div>
+  </mat-toolbar-row>
+</mat-toolbar>

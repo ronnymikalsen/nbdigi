@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div fxFlex>
+      Innstillinger
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<section class="settings-container">
+  <div *ngIf="session.user" fxLayout="column" fxLayoutAlign="center start">
+    <div>Logget inn som {{session.user.email}}</div>
+    <button mat-raised-button color="primary" (click)="signOut.emit()">Logg ut</button>
+  </div>
+</section>
