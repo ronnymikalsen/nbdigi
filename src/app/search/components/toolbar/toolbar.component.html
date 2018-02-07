@@ -3,6 +3,7 @@
     <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
       <div fxFlex="100" fxFlex.gt-sm="700px">
         <app-search-box [hints]="search.hints" 
+          (searchSelected)="searchSelected.emit($event)"
           (query)="query.emit($event)"
           (hintSelected)="addFilter.emit($event)"></app-search-box>
       </div>

@@ -11,6 +11,7 @@ import * as fromSearch from './../../../+state/reducers/search.reducer';
 })
 export class ToolbarComponent implements OnInit {
   @Input() search: fromSearch.State;
+  @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();

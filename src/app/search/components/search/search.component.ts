@@ -11,6 +11,7 @@ import { Hint } from './../../../core/typeahead-service/hints.model';
 })
 export class SearchComponent implements OnInit {
   @Input() search: fromSearch.State;
+  @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();

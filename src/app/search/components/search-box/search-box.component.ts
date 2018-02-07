@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators/map';
@@ -18,11 +18,13 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-  public searchForm: FormGroup;
-  public queryControl: FormControl;
   @Input()  hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
+  @Output() searchSelected = new EventEmitter<void>();
+  @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
+  public searchForm: FormGroup;
+  public queryControl: FormControl;
   private destroyed: Subject<void> = new Subject();
 
   constructor(private fb: FormBuilder) {
@@ -31,7 +33,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.queryControl.valueChanges.pipe(takeUntil(this.destroyed), startWith(''), debounceTime(300)).subscribe(val => {
-      this.query.emit(val);      
+      this.query.emit(val);
     });
   }
 
@@ -41,7 +43,9 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log('searching');
+    this.matAutocomplete.closePanel();
+    this.query.emit(this.queryControl.value);
+    this.searchSelected.emit();
   }
 
   clear(): void {

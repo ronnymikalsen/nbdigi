@@ -17,11 +17,18 @@ import { SearchService } from './../../core/search-service/search.service';
 export class SearchEffects {
 
   @Effect()
-  search: Observable<Action> = this.actions.ofType(SearchActionTypes.Search).pipe(
+  search: Observable<Action> = this.actions.ofType(
+    SearchActionTypes.Search,
+    SearchActionTypes.AddFilter,
+    SearchActionTypes.RemoveFilter,
+    SearchActionTypes.ToggleFilter).pipe(
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
-      return this.searchService.search({
-        q: storeState.search.q
+      return this.searchService.super({
+        q: storeState.search.q,
+        filters: storeState.search.filters
+          .filter(h => h.enabled)
+          .map(h => h.value)
       }).pipe(
         map(() => {
           return new search.SearchSuccess(new SearchResult());
