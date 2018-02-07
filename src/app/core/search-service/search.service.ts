@@ -36,9 +36,13 @@ export class SearchService {
         const books = mediaTypeResults
           .find(m => m.mediaType === 'bøker');
         if (books) {
+          searchResult.books.totalElements = books.result.page.totalElements;
           books.result._embedded.items.forEach(i => {
             searchResult.books.addItem(new Item({
-              title: i.metadata.title
+              title: i.metadata.title,
+              creator: i.metadata.creators ? i.metadata.creators[0] : null,
+              issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,
+              thumbnail: i._links.thumbnail_custom.href.replace('width', '400').replace('height', '400')
             }));
           });
         }

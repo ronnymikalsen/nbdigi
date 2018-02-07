@@ -52,11 +52,12 @@ export const metaReducers: MetaReducer<State>[] = !environment.production ? [sto
  * Settings Reducers
  */
 export const getSessionState = createFeatureSelector<fromSession.State>('session');
-export const currentUser= createSelector(getSessionState, fromSession.currentUser);
+export const currentUser = createSelector(getSessionState, fromSession.currentUser);
 export const getAuthError = createSelector(getSessionState, fromSession.getError);
 
 /**
  * Search Reducers
  */
 export const getSearchState = createFeatureSelector<fromSearch.State>('search');
+export const getSearchResult = createSelector(getSearchState, fromSearch.searchResult);
 

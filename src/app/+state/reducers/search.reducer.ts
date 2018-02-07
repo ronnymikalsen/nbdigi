@@ -1,7 +1,7 @@
-import { Hints, Hint } from "./../../core/typeahead-service/hints.model";
-import { SearchAction, SearchActionTypes } from "./../actions/search.actions";
-import { SuperSearchResult } from "../../models/search-result.model";
-
+import { Hints, Hint } from './../../core/typeahead-service/hints.model';
+import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import { SuperSearchResult } from '../../models/search-result.model';
+0
 export interface State {
   q: string;
   filters: Hint[];
@@ -53,3 +53,5 @@ export function reducer(state = initialState, action: SearchAction): State {
     }
   }
 }
+
+export const searchResult = (state: State) => state.searchResult;

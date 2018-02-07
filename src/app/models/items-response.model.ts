@@ -1,21 +1,41 @@
 export interface ItemsResponse {
-    _embedded: EmbeddetResponse;
+  page: PageResponse;
+  _embedded: EmbeddetResponse;
+}
+
+export interface PageResponse {
+  totalElements: number;
 }
 
 export interface EmbeddetResponse {
-    mediaTypeResults: MediaTypeResponse[];
-    items: ItemResponse[];
+  mediaTypeResults: MediaTypeResponse[];
+  items: ItemResponse[];
 }
 
 export interface MediaTypeResponse {
-    mediaType: string;
-    result: ItemsResponse;
+  mediaType: string;
+  result: ItemsResponse;
 }
 
 export interface ItemResponse {
-    metadata: MetadataResponse;
+  _links: LinksResponse;
+  metadata: MetadataResponse;
+}
+
+export interface LinksResponse {
+  thumbnail_custom: LinkResponse;
+}
+
+export interface LinkResponse {
+  href: string;
 }
 
 export interface MetadataResponse {
-    title: string;
+  title: string;
+  creators: string[];
+  originInfo: OriginInfoResponse;
+}
+
+export interface OriginInfoResponse {
+  issued: string;
 }
