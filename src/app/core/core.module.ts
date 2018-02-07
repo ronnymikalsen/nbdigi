@@ -13,7 +13,9 @@ export function httpFactory(handler: HttpHandler) {
 }
 
 @NgModule({
-  imports: [HttpClientModule],
+  imports: [
+    HttpClientModule
+  ],
   declarations: [],
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },

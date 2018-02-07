@@ -1,6 +1,7 @@
 .search-result-container {
   height: calc(100% - 64px);
   overflow: auto;
+  margin: 4px
 }
 
 mat-chip {
@@ -9,4 +10,15 @@ mat-chip {
 
 .filters-container {
   overflow: auto;
+}
+
+.thumbnail {
+  height: 64px;
+  width: 64px;
+  object-fit: cover;
+}
+
+.mat-card {
+  padding: 2px !important;
+  margin: 4px !important;
 }

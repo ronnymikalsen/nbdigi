@@ -2,13 +2,133 @@
   <app-toolbar [search]="search" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
     (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
   </app-toolbar>
-  <section class="search-result-container">
-    <ng-container *ngIf="searchResult.books.totalElements > 0">
-      <div *ngFor="let item of searchResult.books.items">
-        {{item.title}}
-        {{item.creator}}
-        {{item.issued}}
-      </div>
-    </ng-container>
+
+
+  <section class="search-result-container" fxLayout="column">
+    <section *ngIf="searchResult.books.totalElements > 0">
+      <mat-toolbar>
+        <h1>Bøker</h1>
+      </mat-toolbar>
+      <mat-card *ngFor="let item of searchResult.books.items">
+        <mat-card-content>
+          <div fxLayout="row">
+            <div lazy-load-images>
+              <img class="thumbnail" [attr.data-src]="item.thumbnail">
+            </div>
+            <div fxLayout="column">
+              <div>
+                {{item.title}}
+              </div>
+              <div>
+                {{item.creator}}
+              </div>
+              <div>
+                {{item.issued}}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+    <section *ngIf="searchResult.newspapers.totalElements > 0">
+      <mat-toolbar>
+        <h1>Aviser</h1>
+      </mat-toolbar>
+      <mat-card *ngFor="let item of searchResult.newspapers.items">
+        <mat-card-content>
+          <div fxLayout="row">
+            <div lazy-load-images>
+              <img class="thumbnail" [attr.data-src]="item.thumbnail">
+            </div>
+            <div fxLayout="column">
+              <div>
+                {{item.title}}
+              </div>
+              <div>
+                {{item.creator}}
+              </div>
+              <div>
+                {{item.issued}}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+    <section *ngIf="searchResult.photos.totalElements > 0">
+      <mat-toolbar>
+        <h1>Bilder</h1>
+      </mat-toolbar>
+      <mat-card *ngFor="let item of searchResult.photos.items">
+        <mat-card-content>
+          <div fxLayout="row">
+            <div lazy-load-images>
+              <img class="thumbnail" [attr.data-src]="item.thumbnail">
+            </div>
+            <div fxLayout="column">
+              <div>
+                {{item.title}}
+              </div>
+              <div>
+                {{item.creator}}
+              </div>
+              <div>
+                {{item.issued}}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+    <section *ngIf="searchResult.periodicals.totalElements > 0">
+      <mat-toolbar>
+        <h1>Tidsskift</h1>
+      </mat-toolbar>
+      <mat-card *ngFor="let item of searchResult.periodicals.items">
+        <mat-card-content>
+          <div fxLayout="row">
+            <div lazy-load-images>
+              <img class="thumbnail" [attr.data-src]="item.thumbnail">
+            </div>
+            <div fxLayout="column">
+              <div>
+                {{item.title}}
+              </div>
+              <div>
+                {{item.creator}}
+              </div>
+              <div>
+                {{item.issued}}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
+    <section *ngIf="searchResult.others.totalElements > 0">
+      <mat-toolbar>
+        <h1>Andre</h1>
+      </mat-toolbar>
+      <mat-card *ngFor="let item of searchResult.others.items">
+        <mat-card-content>
+          <div fxLayout="row">
+            <div lazy-load-images>
+              <img class="thumbnail" [attr.data-src]="item.thumbnail">
+            </div>
+            <div fxLayout="column">
+              <div>
+                {{item.title}}
+              </div>
+              <div>
+                {{item.creator}}
+              </div>
+              <div>
+                {{item.issued}}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </section>
   </section>
 </div>
