@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { SearchResult } from './../../models/search-result.model';
+import { SuperSearchResult } from './../../models/search-result.model';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 
 export enum SearchActionTypes {
@@ -21,7 +21,7 @@ export class Search implements Action {
 export class SearchSuccess implements Action {
   readonly type = SearchActionTypes.SearchSuccess;
 
-  constructor(public payload: SearchResult) { }
+  constructor(public payload: SuperSearchResult) { }
 }
 
 export class SetQuery implements Action {

@@ -10,7 +10,7 @@ import { LoadHints, SetQuery, SearchActionTypes, Search } from './../actions/sea
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
-import { SearchResult } from './../../models/search-result.model';
+import { SuperSearchResult } from './../../models/search-result.model';
 import { SearchService } from './../../core/search-service/search.service';
 
 @Injectable()
@@ -25,13 +25,14 @@ export class SearchEffects {
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       return this.searchService.super({
+        size: 3,
         q: storeState.search.q,
         filters: storeState.search.filters
           .filter(h => h.enabled)
           .map(h => h.value)
       }).pipe(
-        map(() => {
-          return new search.SearchSuccess(new SearchResult());
+        map((searchResult) => {
+          return new search.SearchSuccess(searchResult);
         })
       );
     })

@@ -1,16 +1,19 @@
-import { Hints, Hint } from './../../core/typeahead-service/hints.model';
-import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import { Hints, Hint } from "./../../core/typeahead-service/hints.model";
+import { SearchAction, SearchActionTypes } from "./../actions/search.actions";
+import { SuperSearchResult } from "../../models/search-result.model";
 
 export interface State {
   q: string;
   filters: Hint[];
   hints: Hints;
+  searchResult: SuperSearchResult;
 }
 
 export const initialState: State = {
   q: null,
   filters: [],
-  hints: null
+  hints: null,
+  searchResult: new SuperSearchResult()
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -25,7 +28,10 @@ export function reducer(state = initialState, action: SearchAction): State {
       return { ...state, filters: [...state.filters, action.payload] };
     }
     case SearchActionTypes.RemoveFilter: {
-      return { ...state, filters: state.filters.filter(f => f !== action.payload) };
+      return {
+        ...state,
+        filters: state.filters.filter(f => f !== action.payload)
+      };
     }
     case SearchActionTypes.ToggleFilter: {
       const index = state.filters.findIndex(f => f === action.payload);
@@ -34,6 +40,12 @@ export function reducer(state = initialState, action: SearchAction): State {
         filters: state.filters.map((f, i) => {
           return i !== index ? f : { ...f, enabled: !f.enabled };
         })
+      };
+    }
+    case SearchActionTypes.SearchSuccess: {
+      return {
+        ...state,
+        searchResult: action.payload
       };
     }
     default: {
