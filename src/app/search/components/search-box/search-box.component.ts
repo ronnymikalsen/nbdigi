@@ -1,13 +1,21 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewChild
+} from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger
+} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operators/map';
-import { startWith } from 'rxjs/operators/startWith';
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { takeUntil } from 'rxjs/operators/takeUntil';
+import { map, takeUntil, debounceTime, skipWhile } from 'rxjs/operators';
 
 import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
 
@@ -18,7 +26,7 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBoxComponent implements OnInit, OnDestroy {
-  @Input()  hints: Hints;
+  @Input() hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<void>();
@@ -32,9 +40,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.queryControl.valueChanges.pipe(takeUntil(this.destroyed), startWith(''), debounceTime(300)).subscribe(val => {
-      this.query.emit(val);
-    });
+    this.queryControl.valueChanges
+      .pipe(
+        takeUntil(this.destroyed),
+        skipWhile(val => val.length < 2),
+        debounceTime(300)
+      )
+      .subscribe(val => this.query.emit(val));
   }
 
   ngOnDestroy() {
