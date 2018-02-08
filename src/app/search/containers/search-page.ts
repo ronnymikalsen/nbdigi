@@ -14,7 +14,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
     <app-search
       [search]="search | async"
       [searchResult]="searchResult | async"
-      (searchSelected)="searchSelected($event)"
+      (searchSelected)="searchSelected()"
       (query)="query($event)"
       (addFilter)="addFilter($event)"
       (removeFilter)="removeFilter($event)"
