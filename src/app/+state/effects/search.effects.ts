@@ -24,12 +24,19 @@ export class SearchEffects {
     SearchActionTypes.ToggleFilter).pipe(
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
+
+      let filters = [...storeState.search.filters
+      .filter(h => h.enabled)
+      .map(h => h.value)];
+
+      if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
+        filters = [...filters, 'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'];
+      }
+
       return this.searchService.super({
         size: 3,
         q: storeState.search.q,
-        filters: storeState.search.filters
-          .filter(h => h.enabled)
-          .map(h => h.value)
+        filters: filters
       }).pipe(
         map((searchResult) => {
           return new search.SearchSuccess(searchResult);
