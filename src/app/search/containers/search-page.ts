@@ -1,3 +1,5 @@
+import { MediaTypeResults } from './../../models/search-result.model';
+import { getBooks } from './../../+state/reducers/index';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -13,7 +15,11 @@ import { SuperSearchResult } from '../../models/search-result.model';
   template: `
     <app-search
       [search]="search | async"
-      [searchResult]="searchResult | async"
+      [books]="books | async"
+      [newspapers]="newspapers | async"
+      [photos]="photos | async"
+      [periodicals]="periodicals | async"
+      [others]="others | async"
       (searchSelected)="searchSelected()"
       (query)="query($event)"
       (addFilter)="addFilter($event)"
@@ -24,7 +30,11 @@ import { SuperSearchResult } from '../../models/search-result.model';
 })
 export class SearchPageComponent {
   search: Observable<fromSearch.State> = this.store.select(fromRoot.getSearchState);
-  searchResult: Observable<SuperSearchResult> = this.store.select(fromRoot.getSearchResult);
+  books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
+  newspapers: Observable<MediaTypeResults> = this.store.select(fromRoot.getNewspapers);
+  photos: Observable<MediaTypeResults> = this.store.select(fromRoot.getPhotos);
+  periodicals: Observable<MediaTypeResults> = this.store.select(fromRoot.getPeriodicals);
+  others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
 
   constructor(private store: Store<fromRoot.State>) { }
 

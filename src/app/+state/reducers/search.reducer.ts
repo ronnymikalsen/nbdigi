@@ -1,19 +1,34 @@
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchAction, SearchActionTypes } from './../actions/search.actions';
-import { SuperSearchResult } from '../../models/search-result.model';
-0
+import {
+  SuperSearchResult,
+  MediaTypeResults
+} from '../../models/search-result.model';
+
 export interface State {
   q: string;
   filters: Hint[];
   hints: Hints;
-  searchResult: SuperSearchResult;
+  searchResult: {
+    books: MediaTypeResults,
+    newspapers: MediaTypeResults,
+    photos: MediaTypeResults,
+    periodicals: MediaTypeResults,
+    others: MediaTypeResults
+  };
 }
 
 export const initialState: State = {
   q: null,
   filters: [],
   hints: null,
-  searchResult: new SuperSearchResult()
+  searchResult: {
+    books: new MediaTypeResults(),
+    newspapers: new MediaTypeResults(),
+    photos: new MediaTypeResults(),
+    periodicals: new MediaTypeResults(),
+    others: new MediaTypeResults()
+  }
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -45,7 +60,13 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SearchSuccess: {
       return {
         ...state,
-        searchResult: action.payload
+        searchResult: {
+          books: action.payload.books,
+          newspapers: action.payload.newspapers,
+          photos: action.payload.photos,
+          periodicals: action.payload.periodicals,
+          others: action.payload.others
+        }
       };
     }
     default: {
@@ -54,4 +75,8 @@ export function reducer(state = initialState, action: SearchAction): State {
   }
 }
 
-export const searchResult = (state: State) => state.searchResult;
+export const getBooks = (state: State) => state.searchResult.books;
+export const getNewspapers = (state: State) => state.searchResult.newspapers;
+export const getPhotos = (state: State) => state.searchResult.photos;
+export const getPeriodicals = (state: State) => state.searchResult.periodicals;
+export const getOthers = (state: State) => state.searchResult.others;

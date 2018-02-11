@@ -11,28 +11,3 @@ mat-chip {
 .filters-container {
   overflow: auto;
 }
-
-.thumbnail {
-  max-height: 64px;
-  min-height: 64px;
-  width: 64px;
-  object-fit: cover;
-  margin-left: 4px;
-  margin-top: 4px;
-}
-
-.metadata-container {
-  padding: 4px;
-  overflow: hidden;
-}
-
-.mat-card {
-  padding: 0px !important;
-  margin: 0px !important;
-}
-
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;  
-}

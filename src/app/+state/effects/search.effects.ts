@@ -34,7 +34,7 @@ export class SearchEffects {
       }
 
       return this.searchService.super({
-        size: 3,
+        size: 20,
         q: storeState.search.q,
         filters: filters
       }).pipe(

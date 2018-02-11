@@ -1,9 +1,19 @@
 export class SuperSearchResult {
-  public books = new MediaTypeResults();
-  public newspapers = new MediaTypeResults();
-  public photos = new MediaTypeResults();
-  public periodicals = new MediaTypeResults();
-  public others = new MediaTypeResults();
+  public books = new MediaTypeResults({
+    mediaType: 'bøker'
+  });
+  public newspapers = new MediaTypeResults({
+    mediaType: 'aviser'
+  });
+  public photos = new MediaTypeResults({
+    mediaType: 'bilder'
+  });
+  public periodicals = new MediaTypeResults({
+    mediaType: 'tidsskrift'
+  });
+  public others = new MediaTypeResults({
+    mediaType: 'andre'
+  });
 
   constructor(fields?: {
     books?: MediaTypeResults;
@@ -23,11 +33,13 @@ export class SuperSearchResult {
 }
 
 export class MediaTypeResults {
+  public mediaType = null;
   public totalElements = 0;
   public items: Item[] = [];
 
-  constructor(fields?: { totalElements?: number }) {
+  constructor(fields?: { mediaType?: string, totalElements?: number }) {
     if (fields) {
+      this.mediaType = fields.mediaType || this.mediaType;
       this.totalElements = fields.totalElements || this.totalElements;
     }
   }
