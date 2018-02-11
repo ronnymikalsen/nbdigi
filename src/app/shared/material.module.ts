@@ -9,22 +9,11 @@ import {
   MatInputModule,
   MatIconModule,
   MatTooltipModule,
-  MatChipsModule
+  MatChipsModule,
+  MatCardModule
 } from '@angular/material';
 
 @NgModule({
-  imports: [
-    MatButtonModule,
-    MatToolbarModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatChipsModule
-  ],
   exports: [
     MatButtonModule,
     MatToolbarModule,
@@ -35,7 +24,8 @@ import {
     MatInputModule,
     MatIconModule,
     MatTooltipModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCardModule
   ]
 })
 export class MaterialModule {}

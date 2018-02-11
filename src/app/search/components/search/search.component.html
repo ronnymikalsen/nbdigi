@@ -1,91 +1,13 @@
 <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
-  <app-toolbar [search]="search" 
-    (query)="query.emit($event)"
-    (addFilter)="addFilter.emit($event)"
-    (removeFilter)="removeFilter.emit($event)"
-    (toggleFilter)="toggleFilter.emit($event)">
+  <app-toolbar [search]="search" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
+    (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
   </app-toolbar>
-  <section class="search-result-container">
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-    <div>test</div>
-  </section>
 
-  </div>
+  <section class="search-result-container" fxLayout="column">
+    <app-items-section [mediaTypeResults]="books"></app-items-section>
+    <app-items-section [mediaTypeResults]="newspapers"></app-items-section>
+    <app-items-section [mediaTypeResults]="photos"></app-items-section>
+    <app-items-section [mediaTypeResults]="periodicals"></app-items-section>
+    <app-items-section [mediaTypeResults]="others"></app-items-section>
+  </section>
+</div>

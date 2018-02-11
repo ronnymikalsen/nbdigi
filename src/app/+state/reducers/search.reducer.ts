@@ -1,16 +1,34 @@
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import {
+  SuperSearchResult,
+  MediaTypeResults
+} from '../../models/search-result.model';
 
 export interface State {
   q: string;
   filters: Hint[];
   hints: Hints;
+  searchResult: {
+    books: MediaTypeResults,
+    newspapers: MediaTypeResults,
+    photos: MediaTypeResults,
+    periodicals: MediaTypeResults,
+    others: MediaTypeResults
+  };
 }
 
 export const initialState: State = {
   q: null,
   filters: [],
-  hints: null
+  hints: null,
+  searchResult: {
+    books: new MediaTypeResults(),
+    newspapers: new MediaTypeResults(),
+    photos: new MediaTypeResults(),
+    periodicals: new MediaTypeResults(),
+    others: new MediaTypeResults()
+  }
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -25,7 +43,10 @@ export function reducer(state = initialState, action: SearchAction): State {
       return { ...state, filters: [...state.filters, action.payload] };
     }
     case SearchActionTypes.RemoveFilter: {
-      return { ...state, filters: state.filters.filter(f => f !== action.payload) };
+      return {
+        ...state,
+        filters: state.filters.filter(f => f !== action.payload)
+      };
     }
     case SearchActionTypes.ToggleFilter: {
       const index = state.filters.findIndex(f => f === action.payload);
@@ -36,8 +57,26 @@ export function reducer(state = initialState, action: SearchAction): State {
         })
       };
     }
+    case SearchActionTypes.SearchSuccess: {
+      return {
+        ...state,
+        searchResult: {
+          books: action.payload.books,
+          newspapers: action.payload.newspapers,
+          photos: action.payload.photos,
+          periodicals: action.payload.periodicals,
+          others: action.payload.others
+        }
+      };
+    }
     default: {
       return state;
     }
   }
 }
+
+export const getBooks = (state: State) => state.searchResult.books;
+export const getNewspapers = (state: State) => state.searchResult.newspapers;
+export const getPhotos = (state: State) => state.searchResult.photos;
+export const getPeriodicals = (state: State) => state.searchResult.periodicals;
+export const getOthers = (state: State) => state.searchResult.others;

@@ -5,14 +5,15 @@ import { map } from 'rxjs/operators/map';
 
 import { Hint } from './hints.model';
 import { TypeaheadResponse } from './typeahead.response';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class TypeaheadService {
-  private apiUrl = 'https://api.nb.no';
+
   constructor(private http: HttpClient) {}
 
   public creators(q: string): Observable<Hint[]> {
-    return this.http.get<TypeaheadResponse>(`${this.apiUrl}/catalog/v1/typeahead/namecreators?q=${q}&size=3`).pipe(
+    return this.http.get<TypeaheadResponse>(`${environment.nb.apiURL}/catalog/v1/typeahead/namecreators?q=${q}&size=3`).pipe(
       map(resp => {
         const creators: Hint[] = [];
         const items = resp._embedded.items;
@@ -33,7 +34,7 @@ export class TypeaheadService {
   }
 
   public places(q: string): Observable<Hint[]> {
-    return this.http.get<TypeaheadResponse>(`${this.apiUrl}/catalog/v1/typeahead/subjectgeographic?q=${q}&size=3`).pipe(
+    return this.http.get<TypeaheadResponse>(`${environment.nb.apiURL}/catalog/v1/typeahead/subjectgeographic?q=${q}&size=3`).pipe(
       map(resp => {
         const creators: Hint[] = [];
         const items = resp._embedded.items;
