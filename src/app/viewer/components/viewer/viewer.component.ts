@@ -10,7 +10,9 @@ import { Item } from '../../../models/search-result.model';
 })
 export class ViewerComponent implements OnInit {
   @Input() item: Item;
-  config = new MimeViewerConfig({});
+  config = new MimeViewerConfig({
+    attributionDialogHideTimeout: 3
+  });
 
   constructor() {}
 
