@@ -12,6 +12,7 @@ import { StoreRouterConnectingModule, routerReducer, RouterStateSerializer } fro
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import 'hammerjs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
@@ -24,6 +25,7 @@ import { SessionEffects } from './+state/effects/session.effects';
 import { AuthGuard } from './core/auth.guard';
 import { CustomSerializer } from './custom-serializer';
 import { ItemEffects } from './+state/effects/item.effects';
+import { ViewerModule } from './viewer/viewer.module';
 
 @NgModule({
   imports: [
@@ -40,7 +42,8 @@ import { ItemEffects } from './+state/effects/item.effects';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    SharedModule
+    SharedModule,
+    ViewerModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
