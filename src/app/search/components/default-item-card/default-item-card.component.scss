@@ -1,0 +1,23 @@
+:host {
+  cursor: pointer;
+}
+
+.thumbnail {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  margin-left: 4px;
+  margin-top: 4px;
+}
+
+.metadata-container {
+  min-height: 56px;
+  padding: 4px;
+  overflow: hidden;
+}
+
+.mat-card {
+  padding: 0px !important;
+  margin: 0px !important;
+}
+

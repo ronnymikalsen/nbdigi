@@ -54,18 +54,22 @@ export class Item {
   public creator: string;
   public issued: string;
   public thumbnail: string;
+  public manifestUri: string;
+
 
   constructor(fields?: {
     title?: string;
     creator?: string;
     issued?: string;
     thumbnail?: string;
+    manifestUri?: string;
   }) {
     if (fields) {
       this.title = fields.title || this.title;
       this.creator = fields.creator || this.creator;
       this.issued = fields.issued || this.issued;
       this.thumbnail = fields.thumbnail || this.thumbnail;
+      this.manifestUri = fields.manifestUri || this.manifestUri;
     }
   }
 }

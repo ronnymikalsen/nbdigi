@@ -7,6 +7,7 @@ import { AuthService } from './auth-service/auth.service';
 import { TypeaheadService } from './typeahead-service/typeahead.service';
 import { SearchService } from './search-service/search.service';
 import { CustomHttp } from './custom-http';
+import { ViewerService } from './viewer-service/viewer.service';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -22,7 +23,8 @@ export function httpFactory(handler: HttpHandler) {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
     SearchService,
-    TypeaheadService
+    TypeaheadService,
+    ViewerService
   ]
 })
 export class CoreModule { }

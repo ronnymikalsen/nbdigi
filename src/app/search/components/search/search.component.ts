@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 
 import * as fromSearch from './../../../+state/reducers/search.reducer';
 import { Hint } from './../../../core/typeahead-service/hints.model';
-import { SuperSearchResult } from '../../../models/search-result.model';
+import { SuperSearchResult, Item } from '../../../models/search-result.model';
 import { MediaTypeResults } from './../../../models/search-result.model';
 
 @Component({
@@ -23,9 +23,15 @@ export class SearchComponent implements OnInit {
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
+  @Output() itemSelected = new EventEmitter<Item>();
+  @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
 
-  constructor() {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {}
 
+  searching() {
+    this.searchSelected.emit();
+    setTimeout(() => this.searchResultContainer.nativeElement.focus());
+  }
 }

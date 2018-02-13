@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+  <div class="viewer-header-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+    <div>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div class="truncate">
+      {{item?.title}}
+    </div>
+  </div>
+</mat-toolbar>
+<div *ngIf="item" class="viewer-container">
+  <mime-viewer [manifestUri]="item.manifestUri" [config]="config"></mime-viewer>
+</div>

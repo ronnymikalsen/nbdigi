@@ -4,26 +4,8 @@
   </mat-toolbar>
   <div fxLayout="rov" fxLayoutWrap>
     <ng-container *ngFor="let item of mediaTypeResults.items| slice:0:size">
-      <mat-card fxFlex.xs="50" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
-        <mat-card-content>
-          <div fxLayout="column">
-            <div lazy-load-images>
-              <img class="thumbnail" [attr.data-src]="item.thumbnail">
-            </div>
-            <div class="metadata-container" fxLayout="column">
-              <div class="truncate">
-                {{item.title}}
-              </div>
-              <div class="truncate">
-                {{item.creator}}
-              </div>
-              <div class="truncate">
-                {{item.issued}}
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <app-default-item-card [item]="item" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10" (click)="itemSelected.emit(item)">
+      </app-default-item-card>
     </ng-container>
   </div>
 </section>

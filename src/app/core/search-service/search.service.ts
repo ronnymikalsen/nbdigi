@@ -107,7 +107,8 @@ export class SearchService {
       title: i.metadata.title,
       creator: i.metadata.creators ? i.metadata.creators[0] : null,
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,
-      thumbnail: i._links.thumbnail_custom ? i._links.thumbnail_custom.href.replace('{width}', '400').replace('{height}', '400') : null
+      thumbnail: i._links.thumbnail_custom ? i._links.thumbnail_custom.href.replace('{width}', '400').replace('{height}', '400') : null,
+      manifestUri: i._links.presentation ? i._links.presentation.href : null
     });
   }
 
