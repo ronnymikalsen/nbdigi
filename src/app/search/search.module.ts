@@ -7,10 +7,11 @@ import { SearchComponent } from './components/search/search.component';
 import { SearchPageComponent } from './containers/search-page';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ItemsSectionComponent } from './components/items-section/items-section.component';
+import { DefaultItemCardComponent } from './components/default-item-card/default-item-card.component';
 
 @NgModule({
   imports: [SharedModule, SearchBoxModule, SearchRoutingModule],
-  declarations: [SearchPageComponent, SearchComponent, ToolbarComponent, ItemsSectionComponent],
+  declarations: [SearchPageComponent, SearchComponent, ToolbarComponent, ItemsSectionComponent, DefaultItemCardComponent],
   providers: []
 })
 export class SearchModule {}

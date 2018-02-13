@@ -12,3 +12,11 @@ body {
   height: 85px !important;
   width: 85px !important;
 }
+
+.cdk-overlay-pane {
+  max-width: none !important;
+}
+
+.viewer-panel > mat-dialog-container {
+  padding: 0px !important;
+}

@@ -4,7 +4,7 @@ export interface SizeStrategy {
 
 export class XsSizeStrategy implements SizeStrategy {
   getSize() {
-    return 4;
+    return 6;
   }
 }
 

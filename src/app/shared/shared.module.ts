@@ -5,6 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { LazyLoadImagesModule } from 'ngx-lazy-load-images';
 
 import { MaterialModule } from './material.module';
+import { ViewerModule } from './../viewer/viewer.module';
 
 @NgModule({
   exports: [
@@ -12,7 +13,8 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
-    LazyLoadImagesModule
+    LazyLoadImagesModule,
+    ViewerModule
   ]
 })
 export class SharedModule {}

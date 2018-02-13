@@ -23,6 +23,7 @@ import { SearchEffects } from './+state/effects/search.effects';
 import { SessionEffects } from './+state/effects/session.effects';
 import { AuthGuard } from './core/auth.guard';
 import { CustomSerializer } from './custom-serializer';
+import { ItemEffects } from './+state/effects/item.effects';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { CustomSerializer } from './custom-serializer';
     CoreModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([SearchEffects, SessionEffects]),
+    EffectsModule.forRoot([SearchEffects, SessionEffects, ItemEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),

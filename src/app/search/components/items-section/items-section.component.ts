@@ -4,12 +4,14 @@ import {
   Input,
   ChangeDetectionStrategy,
   OnDestroy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  EventEmitter,
+  Output
 } from '@angular/core';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MediaTypeResults } from './../../../models/search-result.model';
+import { MediaTypeResults, Item } from './../../../models/search-result.model';
 import { SizeStrategyFactory } from './size-strategy.factory';
 
 @Component({
@@ -20,6 +22,7 @@ import { SizeStrategyFactory } from './size-strategy.factory';
 })
 export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() mediaTypeResults = new MediaTypeResults();
+  @Output() itemSelected = new EventEmitter<Item>();
   size = 4;
   private watcher: Subscription;
 

@@ -19,6 +19,7 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import * as fromSession from './session.reducer';
 import * as fromSearch from './search.reducer';
+import * as fromItem from './item.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
@@ -27,6 +28,7 @@ import * as fromSearch from './search.reducer';
 export interface State {
   session: fromSession.State;
   search: fromSearch.State;
+  item: fromItem.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -38,6 +40,7 @@ export interface State {
 export const reducers: ActionReducerMap<State> = {
   session: fromSession.reducer,
   search: fromSearch.reducer,
+  item: fromItem.reducer,
   router: fromRouter.routerReducer
 };
 
