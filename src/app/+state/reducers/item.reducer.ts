@@ -22,3 +22,5 @@ export function reducer(state = initialState, action: ItemAction): State {
     }
   }
 }
+
+export const getCurrentItem = (state: State) => state.currentItem;

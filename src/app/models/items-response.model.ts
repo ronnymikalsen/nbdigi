@@ -24,6 +24,7 @@ export interface ItemResponse {
 
 export interface LinksResponse {
   thumbnail_custom: LinkResponse;
+  presentation: LinkResponse;
 }
 
 export interface LinkResponse {

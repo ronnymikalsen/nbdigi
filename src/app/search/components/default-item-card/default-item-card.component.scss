@@ -11,6 +11,7 @@
 }
 
 .metadata-container {
+  min-height: 56px;
   padding: 4px;
   overflow: hidden;
 }
@@ -20,8 +21,3 @@
   margin: 0px !important;
 }
 
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}

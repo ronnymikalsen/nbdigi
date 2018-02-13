@@ -12,7 +12,8 @@ export class ViewerService {
     const dialogRef = this.dialog.open(ViewerPageComponent, {
       width: '100%',
       height: '100%',
-      data: item
+      data: item,
+      panelClass: 'viewer-panel'
     });
   }
 }
