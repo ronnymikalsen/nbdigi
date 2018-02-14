@@ -7,19 +7,21 @@ import {
 
 export interface State {
   q: string;
+  mediaType: string;
   filters: Hint[];
   hints: Hints;
   searchResult: {
-    books: MediaTypeResults,
-    newspapers: MediaTypeResults,
-    photos: MediaTypeResults,
-    periodicals: MediaTypeResults,
-    others: MediaTypeResults
+    books: MediaTypeResults;
+    newspapers: MediaTypeResults;
+    photos: MediaTypeResults;
+    periodicals: MediaTypeResults;
+    others: MediaTypeResults;
   };
 }
 
 export const initialState: State = {
   q: null,
+  mediaType: null,
   filters: [],
   hints: null,
   searchResult: {
@@ -35,6 +37,12 @@ export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
     case SearchActionTypes.SetQuery: {
       return { ...state, q: action.payload };
+    }
+    case SearchActionTypes.SetMediaType: {
+      return {
+        ...state,
+        mediaType: action.payload
+      };
     }
     case SearchActionTypes.HintsLoaded: {
       return { ...state, hints: action.payload };
@@ -58,6 +66,19 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.SearchSuccess: {
+      return {
+        ...state,
+        searchResult: {
+          books: action.payload.books,
+          newspapers: action.payload.newspapers,
+          photos: action.payload.photos,
+          periodicals: action.payload.periodicals,
+          others: action.payload.others
+        }
+      };
+    }
+    case SearchActionTypes.ShowMoreSuccess: {
+      console.log(action.payload);
       return {
         ...state,
         searchResult: {

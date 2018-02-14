@@ -1,11 +1,20 @@
 <section *ngIf="mediaTypeResults.totalElements > 0">
   <mat-toolbar>
-    <h1>{{mediaTypeResults.mediaType | uppercase}}</h1>
+    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <h1>{{mediaTypeResults.mediaType | uppercase}}</h1>
+      <button *ngIf="!selected" mat-button (click)="mediatypeSelected.emit(mediaTypeResults)">VIS FLERE</button>
+    </div>
   </mat-toolbar>
-  <div fxLayout="rov" fxLayoutWrap>
-    <ng-container *ngFor="let item of mediaTypeResults.items| slice:0:size">
+  <div fxLayout="rov" fxLayoutWrap *ngIf="selected">
+    <ng-container *ngFor="let item of mediaTypeResults.items">
       <app-default-item-card [item]="item" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10" (click)="itemSelected.emit(item)">
       </app-default-item-card>
     </ng-container>
   </div>
-</section>
+  <div fxLayout="rov" fxLayoutWrap *ngIf="!selected">
+      <ng-container *ngFor="let item of mediaTypeResults.items| slice:0:size">
+        <app-default-item-card [item]="item" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10" (click)="itemSelected.emit(item)">
+        </app-default-item-card>
+      </ng-container>
+    </div>
+  </section>

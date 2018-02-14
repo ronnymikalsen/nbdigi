@@ -1,6 +1,11 @@
 export interface ItemsResponse {
+  _links: MediaTypeResultsLinksResponse;
   page: PageResponse;
   _embedded: EmbeddetResponse;
+}
+
+export interface MediaTypeResultsLinksResponse {
+  next: LinkResponse;
 }
 
 export interface PageResponse {
@@ -18,11 +23,11 @@ export interface MediaTypeResponse {
 }
 
 export interface ItemResponse {
-  _links: LinksResponse;
+  _links: ItemsLinksResponse;
   metadata: MetadataResponse;
 }
 
-export interface LinksResponse {
+export interface ItemsLinksResponse {
   thumbnail_custom: LinkResponse;
   presentation: LinkResponse;
 }

@@ -35,12 +35,14 @@ export class SuperSearchResult {
 export class MediaTypeResults {
   public mediaType = null;
   public totalElements = 0;
+  public nextLink? = null;
   public items: Item[] = [];
 
-  constructor(fields?: { mediaType?: string, totalElements?: number }) {
+  constructor(fields?: { mediaType?: string, totalElements?: number, nextLink?: string }) {
     if (fields) {
       this.mediaType = fields.mediaType || this.mediaType;
       this.totalElements = fields.totalElements || this.totalElements;
+      this.nextLink = fields.nextLink || this.nextLink;
     }
   }
 

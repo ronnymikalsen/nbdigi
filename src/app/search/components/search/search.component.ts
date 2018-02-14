@@ -24,6 +24,7 @@ export class SearchComponent implements OnInit {
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() itemSelected = new EventEmitter<Item>();
+  @Output() mediatypeSelected = new EventEmitter<MediaTypeResults>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
 
   constructor(private renderer: Renderer2) {}
