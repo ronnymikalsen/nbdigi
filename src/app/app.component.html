@@ -3,7 +3,7 @@
     <router-outlet></router-outlet>
   </div>
   <mat-toolbar color="primary">
-    <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutAlign.xs="space-between center" fxLayoutGap="16px">
+    <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutAlign.lt-lg="space-between center" fxLayoutGap="16px">
       <button mat-icon-button routerLink="/home" routerLinkActive #rla1="routerLinkActive" [color]="rla1.isActive ? 'accent' : ''" matTooltip="Hjem" [attr.aria-label]="'Hjem'">
         <mat-icon>home</mat-icon>
       </button>
