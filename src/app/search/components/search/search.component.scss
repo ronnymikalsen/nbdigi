@@ -1,5 +1,6 @@
 .search-result-container {
   height: calc(100% - 64px);
+  overflow: auto;
   margin: 4px
 }
 
