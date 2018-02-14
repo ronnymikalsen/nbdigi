@@ -1,4 +1,9 @@
 .my-activity-container {
-  height: calc(100% - 64px);
   overflow: auto;
+  @media (max-width: 600px) {
+    height: calc(100% - 56px);
+  }
+  @media (min-width: 601px) {
+    height: calc(100% - 64px);
+  }
 }

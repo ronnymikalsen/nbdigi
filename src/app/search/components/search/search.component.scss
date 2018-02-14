@@ -1,5 +1,12 @@
 .search-result-container {
-  height: calc(100% - 64px);
+  @media (max-width: 600px)
+  {
+      height: calc(100% - 56px);
+  }
+  @media (min-width: 601px)
+  {
+      height: calc(100% - 64px);
+  }
   overflow: auto;
   margin: 4px
 }
