@@ -81,16 +81,53 @@ export function reducer(state = initialState, action: SearchAction): State {
         }
       };
     }
-    case SearchActionTypes.ShowMoreSuccess: {
-      console.log(action.payload);
+    case SearchActionTypes.LoadMoreSuccess: {
+      let books;
+      let newspapers;
+      let photos;
+      let periodicals;
+      let others;
+      if (state.mediaType === 'bøker') {
+        const items = [
+          ...state.searchResult.books.items,
+          ...action.payload.books.items
+        ];
+        books = { ...state.searchResult.books, items: items };
+      } else if (state.mediaType === 'aviser') {
+        const items = [
+          ...state.searchResult.newspapers.items,
+          ...action.payload.newspapers.items
+        ];
+        newspapers = { ...state.searchResult.newspapers, items: items };
+      } else if (state.mediaType === 'bilder') {
+        const items = [
+          ...state.searchResult.photos.items,
+          ...action.payload.photos.items
+        ];
+        photos = { ...state.searchResult.photos, items: items };
+      } else if (state.mediaType === 'tidsskrift') {
+        const items = [
+          ...state.searchResult.periodicals.items,
+          ...action.payload.periodicals.items
+        ];
+        periodicals = { ...state.searchResult.periodicals, items: items };
+      } else if (state.mediaType === 'others') {
+        const items = [
+          ...state.searchResult.others.items,
+          ...action.payload.others.items
+        ];
+        others = { ...state.searchResult.others, items: items };
+      }
+
       return {
         ...state,
         searchResult: {
-          books: action.payload.books,
-          newspapers: action.payload.newspapers,
-          photos: action.payload.photos,
-          periodicals: action.payload.periodicals,
-          others: action.payload.others
+          ...state.searchResult,
+          books: books,
+          newspapers: newspapers,
+          photos: photos,
+          periodicals: periodicals,
+          others: others
         }
       };
     }

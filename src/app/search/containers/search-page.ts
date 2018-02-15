@@ -27,7 +27,8 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (removeFilter)="removeFilter($event)"
       (toggleFilter)="toggleFilter($event)"
       (itemSelected)="open($event)"
-      (mediatypeSelected)="showMore($event)">
+      (mediatypeSelected)="showMore($event)"
+      (loadMore)="loadMore()">
     </app-search>
   `
 })
@@ -64,6 +65,10 @@ export class SearchPageComponent {
 
   showMore(mediaTypeResults: MediaTypeResults): void {
     this.store.dispatch(new searchAction.SetMediaType(mediaTypeResults.mediaType));
+  }
+
+  loadMore(): void {
+    this.store.dispatch(new searchAction.LoadMore);
   }
 
   open(item: Item): void {

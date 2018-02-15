@@ -80,15 +80,28 @@ export class SearchEffects {
     );
 
   @Effect()
-  showMore: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.ShowMore)
+  loadMore: Observable<Action> = this.actions
+    .ofType(SearchActionTypes.LoadMore)
     .pipe(
-      switchMap((action: search.ShowMore) => {
+      withLatestFrom(this.store),
+      switchMap(([action, storeState]) => {
+        let url: string;
+        if (storeState.search.mediaType === 'bøker') {
+          url = storeState.search.searchResult.books.nextLink;
+        } else if (storeState.search.mediaType === 'bilder') {
+          url = storeState.search.searchResult.photos.nextLink;
+        } else if (storeState.search.mediaType === 'aviser') {
+          url = storeState.search.searchResult.newspapers.nextLink;
+        } else if (storeState.search.mediaType === 'tidsskrift') {
+          url = storeState.search.searchResult.periodicals.nextLink;
+        } else if (storeState.search.mediaType === 'others') {
+          url = storeState.search.searchResult.others.nextLink;
+        }
         return this.searchService
-          .searchByUrl(action.payload.mediaType, action.payload.nextLink)
+          .searchByUrl(storeState.search.mediaType, url)
           .pipe(
             map(searchResult => {
-              return new search.ShowMoreSuccess(searchResult);
+              return new search.LoadMoreSuccess(searchResult);
             })
           );
       })

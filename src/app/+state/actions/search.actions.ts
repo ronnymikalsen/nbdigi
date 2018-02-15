@@ -16,8 +16,8 @@ export enum SearchActionTypes {
   RemoveFilter = '[Search] Remove filter',
   ToggleFilter = '[Search] Toggle filter',
   SetMediaType = '[Search] Set media type',
-  ShowMore = '[Search] Show more',
-  ShowMoreSuccess = '[Search] Show more success'
+  LoadMore = '[Search] Load more',
+  LoadMoreSuccess = '[Search] Load more success',
 }
 
 export class Search implements Action {
@@ -72,16 +72,14 @@ export class SetMediaType implements Action {
   constructor(public payload: string) {}
 }
 
-export class ShowMore implements Action {
-  readonly type = SearchActionTypes.ShowMore;
-
-  constructor(public payload: MediaTypeResults) {}
-}
-
-export class ShowMoreSuccess implements Action {
-  readonly type = SearchActionTypes.ShowMoreSuccess;
+export class LoadMoreSuccess implements Action {
+  readonly type = SearchActionTypes.LoadMoreSuccess;
 
   constructor(public payload: SuperSearchResult) {}
+}
+
+export class LoadMore implements Action {
+  readonly type = SearchActionTypes.LoadMore;
 }
 
 export type SearchAction =
@@ -94,5 +92,5 @@ export type SearchAction =
   | RemoveFilter
   | ToggleFilter
   | SetMediaType
-  | ShowMore
-  | ShowMoreSuccess;
+  | LoadMoreSuccess
+  | LoadMore;

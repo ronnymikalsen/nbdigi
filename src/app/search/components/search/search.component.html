@@ -2,7 +2,12 @@
   <app-toolbar [search]="search" (searchSelected)="searching()" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
     (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
   </app-toolbar>
-  <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
+  <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0"
+  infiniteScroll
+  [infiniteScrollDistance]="1"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()"
+  [scrollWindow]="false">
     <app-items-section [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'bøker'" tabindex="0"></app-items-section>
     <app-items-section [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'aviser'" tabindex="0"></app-items-section>
     <app-items-section [mediaTypeResults]="photos" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'bilder'" tabindex="0"></app-items-section>
