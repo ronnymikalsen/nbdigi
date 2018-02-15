@@ -17,6 +17,7 @@ export interface State {
     periodicals: MediaTypeResults;
     others: MediaTypeResults;
   };
+  isLoading: boolean;
 }
 
 export const initialState: State = {
@@ -30,7 +31,8 @@ export const initialState: State = {
     photos: new MediaTypeResults(),
     periodicals: new MediaTypeResults(),
     others: new MediaTypeResults()
-  }
+  },
+  isLoading: false
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -39,25 +41,32 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         q: action.payload,
-        mediaType: null
+        mediaType: null,
+        isLoading: true
       };
     }
     case SearchActionTypes.SetMediaType: {
       return {
         ...state,
-        mediaType: action.payload
+        mediaType: action.payload,
+        isLoading: true
       };
     }
     case SearchActionTypes.HintsLoaded: {
       return { ...state, hints: action.payload };
     }
     case SearchActionTypes.AddFilter: {
-      return { ...state, filters: [...state.filters, action.payload] };
+      return {
+        ...state,
+        filters: [...state.filters, action.payload],
+        isLoading: true
+      };
     }
     case SearchActionTypes.RemoveFilter: {
       return {
         ...state,
-        filters: state.filters.filter(f => f !== action.payload)
+        filters: state.filters.filter(f => f !== action.payload),
+        isLoading: true
       };
     }
     case SearchActionTypes.ToggleFilter: {
@@ -66,7 +75,8 @@ export function reducer(state = initialState, action: SearchAction): State {
         ...state,
         filters: state.filters.map((f, i) => {
           return i !== index ? f : { ...f, enabled: !f.enabled };
-        })
+        }),
+        isLoading: true
       };
     }
     case SearchActionTypes.SearchSuccess: {
@@ -78,7 +88,8 @@ export function reducer(state = initialState, action: SearchAction): State {
           photos: action.payload.photos,
           periodicals: action.payload.periodicals,
           others: action.payload.others
-        }
+        },
+        isLoading: false
       };
     }
     case SearchActionTypes.LoadMoreSuccess: {

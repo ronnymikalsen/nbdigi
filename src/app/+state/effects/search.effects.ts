@@ -75,7 +75,6 @@ export class SearchEffects {
               })
             );
         }
-
       })
     );
 
@@ -104,6 +103,18 @@ export class SearchEffects {
               return new search.LoadMoreSuccess(searchResult);
             })
           );
+      })
+    );
+
+  @Effect({ dispatch: false })
+  scrollTop: Observable<Action> = this.actions
+    .ofType(SearchActionTypes.SearchSuccess)
+    .pipe(
+      tap(() => {
+        /*
+        const element = document.querySelector('.search-result-container');
+        element.scrollTo(0, 0);
+        */
       })
     );
 

@@ -2,16 +2,22 @@
   <app-toolbar [search]="search" (searchSelected)="searching()" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
     (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
   </app-toolbar>
-  <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0"
-  infiniteScroll
-  [infiniteScrollDistance]="1"
-  [infiniteScrollThrottle]="50"
-  (scrolled)="onScroll()"
-  [scrollWindow]="false">
-    <app-items-section [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'bøker'" tabindex="0"></app-items-section>
-    <app-items-section [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'aviser'" tabindex="0"></app-items-section>
-    <app-items-section [mediaTypeResults]="photos" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'bilder'" tabindex="0"></app-items-section>
-    <app-items-section [mediaTypeResults]="periodicals" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'tidsskrift'" tabindex="0"></app-items-section>
-    <app-items-section [mediaTypeResults]="others" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="mediatypeSelected.emit($event)" [selected]="search.mediaType === 'others'" tabindex="0"></app-items-section>
+  <div *ngIf="search.isLoading" class="progress-bar">
+    <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
+  </div>
+  <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
+    <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
+      [fromRoot]="true" (scrolled)="onScroll()">
+      <app-items-section [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'bøker'" tabindex="0"></app-items-section>
+      <app-items-section [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'aviser'" tabindex="0"></app-items-section>
+      <app-items-section [mediaTypeResults]="photos" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'bilder'" tabindex="0"></app-items-section>
+      <app-items-section [mediaTypeResults]="periodicals" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'tidsskrift'" tabindex="0"></app-items-section>
+      <app-items-section [mediaTypeResults]="others" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'others'" tabindex="0"></app-items-section>
+    </div>
   </section>
 </div>

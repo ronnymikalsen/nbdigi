@@ -37,6 +37,7 @@ export class SearchComponent implements OnInit {
   @Output() mediatypeSelected = new EventEmitter<MediaTypeResults>();
   @Output() loadMore = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
+  selector = '.search-result-container';
 
   constructor(private renderer: Renderer2) {}
 
@@ -45,6 +46,10 @@ export class SearchComponent implements OnInit {
   searching() {
     this.searchSelected.emit();
     setTimeout(() => this.searchResultContainer.nativeElement.focus());
+  }
+
+  onMediaTypeSelected(selected: MediaTypeResults) {
+    this.mediatypeSelected.emit(selected);
   }
 
   onScroll() {
