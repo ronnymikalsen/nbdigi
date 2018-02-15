@@ -10,7 +10,11 @@ import {
   ItemResponse,
   MediaTypeResponse
 } from './../../models/items-response.model';
-import { SuperSearchResult, Item } from './../../models/search-result.model';
+import {
+  SuperSearchResult,
+  Item,
+  MediaTypeResults
+} from './../../models/search-result.model';
 import { QueryBuilder } from './query-builder';
 
 @Injectable()
@@ -41,7 +45,8 @@ export class SearchService {
         );
         if (books) {
           searchResult.books.nextLink = books.result._links.next
-            ? books.result._links.next.href : null;
+            ? books.result._links.next.href
+            : null;
           searchResult.books.totalElements = books.result.page.totalElements;
           books.result._embedded.items.forEach(i => {
             searchResult.books.addItem(this.extractItem(i));
@@ -54,7 +59,8 @@ export class SearchService {
         );
         if (newspapers) {
           searchResult.newspapers.nextLink = newspapers.result._links.next
-            ? newspapers.result._links.next.href : null;
+            ? newspapers.result._links.next.href
+            : null;
           searchResult.newspapers.totalElements =
             newspapers.result.page.totalElements;
           newspapers.result._embedded.items.forEach(i => {
@@ -68,7 +74,8 @@ export class SearchService {
         );
         if (photos) {
           searchResult.photos.nextLink = photos.result._links.next
-            ? photos.result._links.next.href : null;
+            ? photos.result._links.next.href
+            : null;
           searchResult.photos.totalElements = photos.result.page.totalElements;
           photos.result._embedded.items.forEach(i => {
             searchResult.photos.addItem(this.extractItem(i));
@@ -81,7 +88,8 @@ export class SearchService {
         );
         if (periodical) {
           searchResult.periodicals.nextLink = periodical.result._links.next
-            ? periodical.result._links.next.href : null;
+            ? periodical.result._links.next.href
+            : null;
           searchResult.periodicals.totalElements =
             periodical.result.page.totalElements;
           periodical.result._embedded.items.forEach(i => {
@@ -95,7 +103,8 @@ export class SearchService {
         );
         if (others) {
           searchResult.others.nextLink = others.result._links.next
-            ? others.result._links.next.href : null;
+            ? others.result._links.next.href
+            : null;
           searchResult.others.totalElements = others.result.page.totalElements;
           others.result._embedded.items.forEach(i => {
             searchResult.others.addItem(this.extractItem(i));
@@ -122,22 +131,7 @@ export class SearchService {
 
     return this.http.get<ItemsResponse>(builder.build()).pipe(
       map(resp => {
-        const searchResult = new SuperSearchResult();
-        const embedded = resp;
-        if ('bøker' === sc.mediaType) {
-          searchResult.books.nextLink = resp._links.next
-            ? resp._links.next.href : null;
-          searchResult.books.totalElements = resp.page.totalElements;
-          resp._embedded.items.forEach(i => {
-            searchResult.books.addItem(this.extractItem(i));
-          });
-
-        } else if ('bilder' === sc.mediaType) {
-        } else if ('aviser' === sc.mediaType) {
-        } else if ('tidsskrift' === sc.mediaType) {
-        } else if ('others' === sc.mediaType) {
-        }
-        return searchResult;
+        return this.extractItemsSearch(sc.mediaType, resp);
       })
     );
   }
@@ -145,24 +139,27 @@ export class SearchService {
   searchByUrl(mediaType: string, url: string): Observable<SuperSearchResult> {
     return this.http.get<ItemsResponse>(url).pipe(
       map(resp => {
-        const searchResult = new SuperSearchResult();
-        const embedded = resp;
-        if ('bøker' === mediaType) {
-          searchResult.books.nextLink = resp._links.next
-            ? resp._links.next.href : null;
-          searchResult.books.totalElements = resp.page.totalElements;
-          resp._embedded.items.forEach(i => {
-            searchResult.books.addItem(this.extractItem(i));
-          });
-
-        } else if ('bilder' === mediaType) {
-        } else if ('aviser' === mediaType) {
-        } else if ('tidsskrift' === mediaType) {
-        } else if ('others' === mediaType) {
-        }
-        return searchResult;
+        return this.extractItemsSearch(mediaType, resp);
       })
     );
+  }
+
+  private extractItemsSearch(mediaType: string, resp: ItemsResponse): SuperSearchResult {
+    const searchResult = new SuperSearchResult();
+    const mediaTypeResult = this.extractMediatypeResult(resp);
+
+    if ('bøker' === mediaType) {
+      searchResult.books = mediaTypeResult;
+    } else if ('bilder' === mediaType) {
+      searchResult.photos = mediaTypeResult;
+    } else if ('aviser' === mediaType) {
+      searchResult.newspapers = mediaTypeResult;
+    } else if ('tidsskrift' === mediaType) {
+      searchResult.books = mediaTypeResult;
+    } else if ('others' === mediaType) {
+      searchResult.others = mediaTypeResult;
+    }
+    return searchResult;
   }
 
   private extractMediatypeResponse(
@@ -170,6 +167,18 @@ export class SearchService {
     mediaTypeResponses: MediaTypeResponse[]
   ): MediaTypeResponse {
     return mediaTypeResponses.find(m => m.mediaType === mediaType);
+  }
+
+  private extractMediatypeResult(resp: ItemsResponse) {
+    const mediaTypeResults = new MediaTypeResults();
+
+    mediaTypeResults.nextLink = resp._links.next ? resp._links.next.href : null;
+    mediaTypeResults.totalElements = resp.page.totalElements;
+    resp._embedded.items.forEach(i => {
+      mediaTypeResults.addItem(this.extractItem(i));
+    });
+
+    return mediaTypeResults;
   }
 
   private extractItem(i: ItemResponse): Item {

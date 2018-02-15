@@ -36,7 +36,11 @@ export const initialState: State = {
 export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
     case SearchActionTypes.SetQuery: {
-      return { ...state, q: action.payload };
+      return {
+        ...state,
+        q: action.payload,
+        mediaType: null
+      };
     }
     case SearchActionTypes.SetMediaType: {
       return {
