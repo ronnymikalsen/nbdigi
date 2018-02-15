@@ -2,7 +2,7 @@
   <app-toolbar [search]="search" (searchSelected)="searching()" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
     (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
   </app-toolbar>
-  <div *ngIf="search.isLoading" class="progress-bar">
+  <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
   </div>
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">

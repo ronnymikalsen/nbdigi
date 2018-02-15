@@ -18,6 +18,7 @@ export interface State {
     others: MediaTypeResults;
   };
   isLoading: boolean;
+  isLoadingMore: boolean;
 }
 
 export const initialState: State = {
@@ -32,7 +33,8 @@ export const initialState: State = {
     periodicals: new MediaTypeResults(),
     others: new MediaTypeResults()
   },
-  isLoading: false
+  isLoading: false,
+  isLoadingMore: false
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -92,6 +94,12 @@ export function reducer(state = initialState, action: SearchAction): State {
         isLoading: false
       };
     }
+    case SearchActionTypes.LoadMore: {
+      return {
+        ...state,
+        isLoadingMore: true
+      };
+    }
     case SearchActionTypes.LoadMoreSuccess: {
       let books;
       let newspapers;
@@ -139,7 +147,8 @@ export function reducer(state = initialState, action: SearchAction): State {
           photos: photos,
           periodicals: periodicals,
           others: others
-        }
+        },
+        isLoadingMore: false
       };
     }
     default: {
