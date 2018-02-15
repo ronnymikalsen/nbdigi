@@ -7,19 +7,23 @@ import {
 
 export interface State {
   q: string;
+  mediaType: string;
   filters: Hint[];
   hints: Hints;
   searchResult: {
-    books: MediaTypeResults,
-    newspapers: MediaTypeResults,
-    photos: MediaTypeResults,
-    periodicals: MediaTypeResults,
-    others: MediaTypeResults
+    books: MediaTypeResults;
+    newspapers: MediaTypeResults;
+    photos: MediaTypeResults;
+    periodicals: MediaTypeResults;
+    others: MediaTypeResults;
   };
+  isLoading: boolean;
+  isLoadingMore: boolean;
 }
 
 export const initialState: State = {
   q: null,
+  mediaType: null,
   filters: [],
   hints: null,
   searchResult: {
@@ -28,24 +32,43 @@ export const initialState: State = {
     photos: new MediaTypeResults(),
     periodicals: new MediaTypeResults(),
     others: new MediaTypeResults()
-  }
+  },
+  isLoading: false,
+  isLoadingMore: false
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
     case SearchActionTypes.SetQuery: {
-      return { ...state, q: action.payload };
+      return {
+        ...state,
+        q: action.payload,
+        mediaType: null,
+        isLoading: true
+      };
+    }
+    case SearchActionTypes.SetMediaType: {
+      return {
+        ...state,
+        mediaType: action.payload,
+        isLoading: true
+      };
     }
     case SearchActionTypes.HintsLoaded: {
       return { ...state, hints: action.payload };
     }
     case SearchActionTypes.AddFilter: {
-      return { ...state, filters: [...state.filters, action.payload] };
+      return {
+        ...state,
+        filters: [...state.filters, action.payload],
+        isLoading: true
+      };
     }
     case SearchActionTypes.RemoveFilter: {
       return {
         ...state,
-        filters: state.filters.filter(f => f !== action.payload)
+        filters: state.filters.filter(f => f !== action.payload),
+        isLoading: true
       };
     }
     case SearchActionTypes.ToggleFilter: {
@@ -54,7 +77,8 @@ export function reducer(state = initialState, action: SearchAction): State {
         ...state,
         filters: state.filters.map((f, i) => {
           return i !== index ? f : { ...f, enabled: !f.enabled };
-        })
+        }),
+        isLoading: true
       };
     }
     case SearchActionTypes.SearchSuccess: {
@@ -66,7 +90,65 @@ export function reducer(state = initialState, action: SearchAction): State {
           photos: action.payload.photos,
           periodicals: action.payload.periodicals,
           others: action.payload.others
-        }
+        },
+        isLoading: false
+      };
+    }
+    case SearchActionTypes.LoadMore: {
+      return {
+        ...state,
+        isLoadingMore: true
+      };
+    }
+    case SearchActionTypes.LoadMoreSuccess: {
+      let books;
+      let newspapers;
+      let photos;
+      let periodicals;
+      let others;
+      if (state.mediaType === 'bøker') {
+        const items = [
+          ...state.searchResult.books.items,
+          ...action.payload.books.items
+        ];
+        books = { ...state.searchResult.books, items: items };
+      } else if (state.mediaType === 'aviser') {
+        const items = [
+          ...state.searchResult.newspapers.items,
+          ...action.payload.newspapers.items
+        ];
+        newspapers = { ...state.searchResult.newspapers, items: items };
+      } else if (state.mediaType === 'bilder') {
+        const items = [
+          ...state.searchResult.photos.items,
+          ...action.payload.photos.items
+        ];
+        photos = { ...state.searchResult.photos, items: items };
+      } else if (state.mediaType === 'tidsskrift') {
+        const items = [
+          ...state.searchResult.periodicals.items,
+          ...action.payload.periodicals.items
+        ];
+        periodicals = { ...state.searchResult.periodicals, items: items };
+      } else if (state.mediaType === 'others') {
+        const items = [
+          ...state.searchResult.others.items,
+          ...action.payload.others.items
+        ];
+        others = { ...state.searchResult.others, items: items };
+      }
+
+      return {
+        ...state,
+        searchResult: {
+          ...state.searchResult,
+          books: books,
+          newspapers: newspapers,
+          photos: photos,
+          periodicals: periodicals,
+          others: others
+        },
+        isLoadingMore: false
       };
     }
     default: {

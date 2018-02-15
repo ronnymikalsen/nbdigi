@@ -1,3 +1,4 @@
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
@@ -10,7 +11,7 @@ import { ItemsSectionComponent } from './components/items-section/items-section.
 import { DefaultItemCardComponent } from './components/default-item-card/default-item-card.component';
 
 @NgModule({
-  imports: [SharedModule, SearchBoxModule, SearchRoutingModule],
+  imports: [InfiniteScrollModule, SharedModule, SearchBoxModule, SearchRoutingModule],
   declarations: [SearchPageComponent, SearchComponent, ToolbarComponent, ItemsSectionComponent, DefaultItemCardComponent],
   providers: []
 })

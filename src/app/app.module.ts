@@ -1,3 +1,4 @@
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,7 +9,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreRouterConnectingModule, routerReducer, RouterStateSerializer } from '@ngrx/router-store';
+import {
+  StoreRouterConnectingModule,
+  routerReducer,
+  RouterStateSerializer
+} from '@ngrx/router-store';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -43,11 +48,15 @@ import { ViewerModule } from './viewer/viewer.module';
     AngularFirestoreModule,
     AngularFireAuthModule,
     SharedModule,
-    ViewerModule
+    ViewerModule,
+    InfiniteScrollModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
-  providers: [AuthGuard, { provide: RouterStateSerializer, useClass: CustomSerializer }],
+  providers: [
+    AuthGuard,
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
+  ],
   exports: []
 })
 export class AppModule {}

@@ -1,3 +1,7 @@
+.progress-bar {
+  padding: 4px;
+}
+
 .search-result-container {
   @media (max-width: 600px)
   {
@@ -17,4 +21,9 @@ mat-chip {
 
 .filters-container {
   overflow: auto;
+}
+
+.search-results {
+  height: 100px;
+  overflow: scroll;
 }

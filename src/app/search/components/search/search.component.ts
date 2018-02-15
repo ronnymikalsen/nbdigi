@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ElementRef,
+  Renderer2
+} from '@angular/core';
 
 import * as fromSearch from './../../../+state/reducers/search.reducer';
 import { Hint } from './../../../core/typeahead-service/hints.model';
@@ -24,7 +34,10 @@ export class SearchComponent implements OnInit {
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() itemSelected = new EventEmitter<Item>();
+  @Output() mediatypeSelected = new EventEmitter<MediaTypeResults>();
+  @Output() loadMore = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
+  selector = '.search-result-container';
 
   constructor(private renderer: Renderer2) {}
 
@@ -33,5 +46,15 @@ export class SearchComponent implements OnInit {
   searching() {
     this.searchSelected.emit();
     setTimeout(() => this.searchResultContainer.nativeElement.focus());
+  }
+
+  onMediaTypeSelected(selected: MediaTypeResults) {
+    this.mediatypeSelected.emit(selected);
+  }
+
+  onScroll() {
+    if (this.search.mediaType) {
+      this.loadMore.emit();
+    }
   }
 }

@@ -5,13 +5,20 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import { SearchCriteria } from './../../models/search-criteria.model';
-import { ItemsResponse, ItemResponse, MediaTypeResponse } from './../../models/items-response.model';
-import { SuperSearchResult, Item } from './../../models/search-result.model';
+import {
+  ItemsResponse,
+  ItemResponse,
+  MediaTypeResponse
+} from './../../models/items-response.model';
+import {
+  SuperSearchResult,
+  Item,
+  MediaTypeResults
+} from './../../models/search-result.model';
 import { QueryBuilder } from './query-builder';
 
 @Injectable()
 export class SearchService {
-
   constructor(private http: HttpClient) {}
 
   super(sc: SearchCriteria): Observable<SuperSearchResult> {
@@ -32,44 +39,35 @@ export class SearchService {
         const searchResult = new SuperSearchResult();
         const mediaTypeResponses = resp._embedded.mediaTypeResults;
 
-        const books = this.extractMediatypeResponse('bøker', mediaTypeResponses);
+        const books = this.findMediatypeResponse('bøker', mediaTypeResponses);
         if (books) {
-          searchResult.books.totalElements = books.result.page.totalElements;
-          books.result._embedded.items.forEach(i => {
-            searchResult.books.addItem(this.extractItem(i));
-          });
+          searchResult.books = this.extractMediaTypeResponse(books);
         }
 
-        const newspapers = this.extractMediatypeResponse('aviser', mediaTypeResponses);
+        const newspapers = this.findMediatypeResponse(
+          'aviser',
+          mediaTypeResponses
+        );
         if (newspapers) {
-          searchResult.newspapers.totalElements = newspapers.result.page.totalElements;
-          newspapers.result._embedded.items.forEach(i => {
-            searchResult.newspapers.addItem(this.extractItem(i));
-          });
+          searchResult.newspapers = this.extractMediaTypeResponse(newspapers);
         }
 
-        const photos = this.extractMediatypeResponse('bilder', mediaTypeResponses);
+        const photos = this.findMediatypeResponse('bilder', mediaTypeResponses);
         if (photos) {
-          searchResult.photos.totalElements = photos.result.page.totalElements;
-          photos.result._embedded.items.forEach(i => {
-            searchResult.photos.addItem(this.extractItem(i));
-          });
+          searchResult.photos = this.extractMediaTypeResponse(photos);
         }
 
-        const periodical = this.extractMediatypeResponse('tidsskrift', mediaTypeResponses);
-        if (periodical) {
-          searchResult.periodicals.totalElements = periodical.result.page.totalElements;
-          periodical.result._embedded.items.forEach(i => {
-            searchResult.periodicals.addItem(this.extractItem(i));
-          });
+        const periodicals = this.findMediatypeResponse(
+          'tidsskrift',
+          mediaTypeResponses
+        );
+        if (periodicals) {
+          searchResult.periodicals = this.extractMediaTypeResponse(periodicals);
         }
 
-        const others = this.extractMediatypeResponse('other', mediaTypeResponses);
+        const others = this.findMediatypeResponse('other', mediaTypeResponses);
         if (others) {
-          searchResult.others.totalElements = others.result.page.totalElements;
-          others.result._embedded.items.forEach(i => {
-            searchResult.others.addItem(this.extractItem(i));
-          });
+          searchResult.others = this.extractMediaTypeResponse(others);
         }
 
         return searchResult;
@@ -82,7 +80,6 @@ export class SearchService {
       .withQ(sc.q)
       .withSize(sc.size)
       .addFilter('contentClasses:jp2')
-      .addFilter('mediatype:aviser OR mediatype:bilder OR mediatype:bøker')
       .withDigitalAccessibleOnly(true)
       .withMediaType(sc.mediaType);
 
@@ -92,14 +89,65 @@ export class SearchService {
 
     return this.http.get<ItemsResponse>(builder.build()).pipe(
       map(resp => {
-        return null;
+        return this.extractItemsSearch(sc.mediaType, resp);
       })
     );
   }
 
-  private extractMediatypeResponse(mediaType: string, mediaTypeResponses: MediaTypeResponse[]): MediaTypeResponse {
-    return mediaTypeResponses
-      .find(m => m.mediaType === mediaType);
+  searchByUrl(mediaType: string, url: string): Observable<SuperSearchResult> {
+    return this.http.get<ItemsResponse>(url).pipe(
+      map(resp => {
+        return this.extractItemsSearch(mediaType, resp);
+      })
+    );
+  }
+
+  private findMediatypeResponse(
+    mediaType: string,
+    mediaTypeResponses: MediaTypeResponse[]
+  ): MediaTypeResponse {
+    return mediaTypeResponses.find(m => m.mediaType === mediaType);
+  }
+
+  private extractMediaTypeResponse(resp: MediaTypeResponse) {
+    const mediaTypeResults = this.extractItemsResponse(resp.result);
+    mediaTypeResults.mediaType = resp.mediaType;
+
+    return mediaTypeResults;
+  }
+
+  private extractItemsResponse(resp: ItemsResponse): MediaTypeResults {
+    const mediaTypeResults = new MediaTypeResults();
+
+    mediaTypeResults.nextLink = resp._links.next ? resp._links.next.href : null;
+    mediaTypeResults.totalElements = resp.page.totalElements;
+    resp._embedded.items.forEach(i => {
+      mediaTypeResults.addItem(this.extractItem(i));
+    });
+
+    return mediaTypeResults;
+  }
+
+  private extractItemsSearch(
+    mediaType: string,
+    resp: ItemsResponse
+  ): SuperSearchResult {
+    const searchResult = new SuperSearchResult();
+    const mediaTypeResult = this.extractItemsResponse(resp);
+    mediaTypeResult.mediaType = mediaType;
+
+    if ('bøker' === mediaType) {
+      searchResult.books = mediaTypeResult;
+    } else if ('bilder' === mediaType) {
+      searchResult.photos = mediaTypeResult;
+    } else if ('aviser' === mediaType) {
+      searchResult.newspapers = mediaTypeResult;
+    } else if ('tidsskrift' === mediaType) {
+      searchResult.books = mediaTypeResult;
+    } else if ('others' === mediaType) {
+      searchResult.others = mediaTypeResult;
+    }
+    return searchResult;
   }
 
   private extractItem(i: ItemResponse): Item {
@@ -107,9 +155,12 @@ export class SearchService {
       title: i.metadata.title,
       creator: i.metadata.creators ? i.metadata.creators[0] : null,
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,
-      thumbnail: i._links.thumbnail_custom ? i._links.thumbnail_custom.href.replace('{width}', '400').replace('{height}', '400') : null,
+      thumbnail: i._links.thumbnail_custom
+        ? i._links.thumbnail_custom.href
+            .replace('{width}', '400')
+            .replace('{height}', '400')
+        : null,
       manifestUri: i._links.presentation ? i._links.presentation.href : null
     });
   }
-
 }

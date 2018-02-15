@@ -72,6 +72,10 @@ export class QueryBuilder {
       params.push(`size=${this.size}`);
     }
 
+    if (this.mediaType) {
+      params.push(`filter=mediatype:${this.mediaType}`);
+    }
+
     return this.apiURL +
       (this.mediaType ? 'items' : 'search') +
       '?' +
