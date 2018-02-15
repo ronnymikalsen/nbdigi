@@ -8,16 +8,16 @@
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()">
-      <app-items-section [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
-        [selected]="search.mediaType === 'bøker'" tabindex="0"></app-items-section>
-      <app-items-section [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
-        [selected]="search.mediaType === 'aviser'" tabindex="0"></app-items-section>
-      <app-items-section [mediaTypeResults]="photos" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
-        [selected]="search.mediaType === 'bilder'" tabindex="0"></app-items-section>
-      <app-items-section [mediaTypeResults]="periodicals" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
-        [selected]="search.mediaType === 'tidsskrift'" tabindex="0"></app-items-section>
-      <app-items-section [mediaTypeResults]="others" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
-        [selected]="search.mediaType === 'others'" tabindex="0"></app-items-section>
+      <app-items-section [label]="books?.mediaType" [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'bøker'" [showMoreButton]="!search.mediaType"  tabindex="0"></app-items-section>
+      <app-items-section [label]="newspapers?.mediaType" [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'aviser'" [showMoreButton]="!search.mediaType"  tabindex="0"></app-items-section>
+      <app-items-section [label]="photos?.mediaType" [mediaTypeResults]="photos" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'bilder'" [showMoreButton]="!search.mediaType"  tabindex="0"></app-items-section>
+      <app-items-section [label]="periodicals?.mediaType" [mediaTypeResults]="periodicals" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'tidsskrift'" [showMoreButton]="!search.mediaType" tabindex="0"></app-items-section>
+      <app-items-section [label]="'andre'" [mediaTypeResults]="others" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
+        [selected]="search.mediaType === 'others'" [showMoreButton]="false" tabindex="0"></app-items-section>
     </div>
   </section>
 </div>

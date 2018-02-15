@@ -23,6 +23,8 @@ import { SizeStrategyFactory } from './size-strategy.factory';
 export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() mediaTypeResults = new MediaTypeResults();
   @Input() selected = false;
+  @Input() label: string;
+  @Input() showMoreButton = false;
   @Output() itemSelected = new EventEmitter<Item>();
   @Output() mediatypeSelected = new EventEmitter<MediaTypeResults>();
   size = 4;
