@@ -15,6 +15,7 @@ export interface PageResponse {
 export interface EmbeddetResponse {
   mediaTypeResults: MediaTypeResponse[];
   items: ItemResponse[];
+  aggregations: AggregationResponse[];
 }
 
 export interface MediaTypeResponse {
@@ -44,4 +45,14 @@ export interface MetadataResponse {
 
 export interface OriginInfoResponse {
   issued: string;
+}
+
+export interface AggregationResponse {
+  name: string;
+  buckets: BucketResponse[];
+}
+
+export interface BucketResponse {
+  key: string;
+  count: number;
 }

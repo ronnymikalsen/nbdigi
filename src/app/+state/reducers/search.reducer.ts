@@ -15,6 +15,12 @@ export interface State {
     newspapers: MediaTypeResults;
     photos: MediaTypeResults;
     periodicals: MediaTypeResults;
+    maps: MediaTypeResults;
+    musicBooks: MediaTypeResults;
+    musicManuscripts: MediaTypeResults;
+    posters: MediaTypeResults;
+    privateArchives: MediaTypeResults;
+    programReports: MediaTypeResults;
     others: MediaTypeResults;
   };
   isLoading: boolean;
@@ -31,6 +37,12 @@ export const initialState: State = {
     newspapers: new MediaTypeResults(),
     photos: new MediaTypeResults(),
     periodicals: new MediaTypeResults(),
+    maps: new MediaTypeResults(),
+    musicBooks: new MediaTypeResults(),
+    musicManuscripts: new MediaTypeResults(),
+    posters: new MediaTypeResults(),
+    privateArchives: new MediaTypeResults(),
+    programReports: new MediaTypeResults(),
     others: new MediaTypeResults()
   },
   isLoading: false,
@@ -89,6 +101,12 @@ export function reducer(state = initialState, action: SearchAction): State {
           newspapers: action.payload.newspapers,
           photos: action.payload.photos,
           periodicals: action.payload.periodicals,
+          maps: action.payload.maps,
+          musicBooks: action.payload.musicBooks,
+          musicManuscripts: action.payload.musicManuscripts,
+          posters: action.payload.posters,
+          privateArchives: action.payload.privateArchives,
+          programReports: action.payload.programReports,
           others: action.payload.others
         },
         isLoading: false

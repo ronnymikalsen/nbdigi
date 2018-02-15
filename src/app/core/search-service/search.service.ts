@@ -8,7 +8,8 @@ import { SearchCriteria } from './../../models/search-criteria.model';
 import {
   ItemsResponse,
   ItemResponse,
-  MediaTypeResponse
+  MediaTypeResponse,
+  BucketResponse
 } from './../../models/items-response.model';
 import {
   SuperSearchResult,
@@ -38,6 +39,7 @@ export class SearchService {
       map(resp => {
         const searchResult = new SuperSearchResult();
         const mediaTypeResponses = resp._embedded.mediaTypeResults;
+        const aggregations = resp._embedded.aggregations;
 
         const books = this.findMediatypeResponse('bøker', mediaTypeResponses);
         if (books) {
@@ -69,6 +71,49 @@ export class SearchService {
         if (others) {
           searchResult.others = this.extractMediaTypeResponse(others);
         }
+
+        const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
+          .buckets;
+        searchResult.books.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.books.mediaType
+        );
+        searchResult.newspapers.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.newspapers.mediaType
+        );
+        searchResult.photos.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.photos.mediaType
+        );
+        searchResult.periodicals.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.periodicals.mediaType
+        );
+        searchResult.maps.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.maps.mediaType
+        );
+        searchResult.musicBooks.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.musicBooks.mediaType
+        );
+        searchResult.musicManuscripts.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.musicManuscripts.mediaType
+        );
+        searchResult.posters.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.posters.mediaType
+        );
+        searchResult.privateArchives.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.privateArchives.mediaType
+        );
+        searchResult.programReports.counts = this.extractCount(
+          mediatypeBuckets,
+          searchResult.programReports.mediaType
+        );
 
         return searchResult;
       })
@@ -143,7 +188,19 @@ export class SearchService {
     } else if ('aviser' === mediaType) {
       searchResult.newspapers = mediaTypeResult;
     } else if ('tidsskrift' === mediaType) {
-      searchResult.books = mediaTypeResult;
+      searchResult.periodicals = mediaTypeResult;
+    } else if ('kart' === mediaType) {
+      searchResult.maps = mediaTypeResult;
+    } else if ('noter' === mediaType) {
+      searchResult.musicBooks = mediaTypeResult;
+    } else if ('musikkmanuskripter' === mediaType) {
+      searchResult.musicManuscripts = mediaTypeResult;
+    } else if ('plakater' === mediaType) {
+      searchResult.posters = mediaTypeResult;
+    } else if ('privatarkivmateriale' === mediaType) {
+      searchResult.privateArchives = mediaTypeResult;
+    } else if ('programrapporter' === mediaType) {
+      searchResult.programReports = mediaTypeResult;
     } else if ('others' === mediaType) {
       searchResult.others = mediaTypeResult;
     }
@@ -162,5 +219,10 @@ export class SearchService {
         : null,
       manifestUri: i._links.presentation ? i._links.presentation.href : null
     });
+  }
+
+  private extractCount(buckets: BucketResponse[], mediaType: string): number {
+    const bucket = buckets.find(b => b.key === mediaType);
+    return bucket ? bucket.count : 0;
   }
 }
