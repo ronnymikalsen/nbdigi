@@ -19,7 +19,7 @@
         (mediatypeSelected)="onMediaTypeSelected($event)" [selected]="search.mediaType === 'tidsskrift'" [showMoreButton]="!search.mediaType"
         tabindex="0"></app-items-section>
 
-      <div class="others-mediatype-container" fxLayout="row" fxLayoutWrap>
+      <div *ngIf="!search.mediaType" class="others-mediatype-container" fxLayout="row" fxLayoutWrap>
         <app-media-type-button [mediaType]="maps?.mediaType" [counts]="maps?.counts" (selected)="onMediaTypeSelected(maps)"></app-media-type-button>
         <app-media-type-button [mediaType]="musicBooks?.mediaType" [counts]="musicBooks?.counts" (selected)="onMediaTypeSelected(musicBooks)"></app-media-type-button>
         <app-media-type-button [mediaType]="musicManuscripts?.mediaType" [counts]="musicManuscripts?.counts" (selected)="onMediaTypeSelected(musicManuscripts)"></app-media-type-button>
