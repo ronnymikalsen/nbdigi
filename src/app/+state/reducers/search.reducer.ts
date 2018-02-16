@@ -123,6 +123,12 @@ export function reducer(state = initialState, action: SearchAction): State {
       let newspapers;
       let photos;
       let periodicals;
+      let maps;
+      let musicBooks;
+      let musicManuscripts;
+      let posters;
+      let privateArchives;
+      let programReports;
       let others;
       if (state.mediaType === 'bøker') {
         const items = [
@@ -148,6 +154,42 @@ export function reducer(state = initialState, action: SearchAction): State {
           ...action.payload.periodicals.items
         ];
         periodicals = { ...state.searchResult.periodicals, items: items };
+      } else if (state.mediaType === 'kart') {
+        const items = [
+          ...state.searchResult.maps.items,
+          ...action.payload.maps.items
+        ];
+        maps = { ...state.searchResult.maps, items: items };
+      } else if (state.mediaType === 'noter') {
+        const items = [
+          ...state.searchResult.musicBooks.items,
+          ...action.payload.musicBooks.items
+        ];
+        musicBooks = { ...state.searchResult.musicBooks, items: items };
+      } else if (state.mediaType === 'musikkmanuskripter') {
+        const items = [
+          ...state.searchResult.musicManuscripts.items,
+          ...action.payload.musicManuscripts.items
+        ];
+        musicManuscripts = { ...state.searchResult.musicManuscripts, items: items };
+      } else if (state.mediaType === 'plakater') {
+        const items = [
+          ...state.searchResult.posters.items,
+          ...action.payload.posters.items
+        ];
+        posters = { ...state.searchResult.posters, items: items };
+      } else if (state.mediaType === 'privatarkivmateriale') {
+        const items = [
+          ...state.searchResult.privateArchives.items,
+          ...action.payload.privateArchives.items
+        ];
+        privateArchives = { ...state.searchResult.privateArchives, items: items };
+      } else if (state.mediaType === 'programrapporter') {
+        const items = [
+          ...state.searchResult.programReports.items,
+          ...action.payload.programReports.items
+        ];
+        programReports = { ...state.searchResult.programReports, items: items };
       } else if (state.mediaType === 'others') {
         const items = [
           ...state.searchResult.others.items,
@@ -164,6 +206,12 @@ export function reducer(state = initialState, action: SearchAction): State {
           newspapers: newspapers,
           photos: photos,
           periodicals: periodicals,
+          maps: maps,
+          musicBooks: musicBooks,
+          musicManuscripts: musicManuscripts,
+          posters: posters,
+          privateArchives: privateArchives,
+          programReports: programReports,
           others: others
         },
         isLoadingMore: false
