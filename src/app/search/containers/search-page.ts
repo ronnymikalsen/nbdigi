@@ -20,6 +20,12 @@ import { SuperSearchResult } from '../../models/search-result.model';
       [newspapers]="newspapers | async"
       [photos]="photos | async"
       [periodicals]="periodicals | async"
+      [maps]="maps | async"
+      [musicBooks]="musicBooks | async"
+      [musicManuscripts]="musicManuscripts | async"
+      [posters]="posters | async"
+      [privateArchives]="privateArchives | async"
+      [programReports]="programReports | async"
       [others]="others | async"
       (searchSelected)="searchSelected()"
       (query)="query($event)"
@@ -38,6 +44,12 @@ export class SearchPageComponent {
   newspapers: Observable<MediaTypeResults> = this.store.select(fromRoot.getNewspapers);
   photos: Observable<MediaTypeResults> = this.store.select(fromRoot.getPhotos);
   periodicals: Observable<MediaTypeResults> = this.store.select(fromRoot.getPeriodicals);
+  maps: Observable<MediaTypeResults> = this.store.select(fromRoot.getMaps);
+  musicBooks: Observable<MediaTypeResults> = this.store.select(fromRoot.getMusicBooks);
+  musicManuscripts: Observable<MediaTypeResults> = this.store.select(fromRoot.getMusicManuscripts);
+  posters: Observable<MediaTypeResults> = this.store.select(fromRoot.getPosters);
+  privateArchives: Observable<MediaTypeResults> = this.store.select(fromRoot.getPrivateArchives);
+  programReports: Observable<MediaTypeResults> = this.store.select(fromRoot.getProgramReports);
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
 
   constructor(private store: Store<fromRoot.State>) { }

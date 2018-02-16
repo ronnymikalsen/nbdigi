@@ -27,6 +27,12 @@ export class SearchComponent implements OnInit {
   @Input() newspapers = new MediaTypeResults();
   @Input() photos = new MediaTypeResults();
   @Input() periodicals = new MediaTypeResults();
+  @Input() maps = new MediaTypeResults();
+  @Input() musicBooks = new MediaTypeResults();
+  @Input() musicManuscripts = new MediaTypeResults();
+  @Input() posters = new MediaTypeResults();
+  @Input() privateArchives = new MediaTypeResults();
+  @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
   @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
@@ -56,5 +62,9 @@ export class SearchComponent implements OnInit {
     if (this.search.mediaType) {
       this.loadMore.emit();
     }
+  }
+
+  createLabel(mediaType: string, counts: number): string {
+    return mediaType ? `${mediaType.toUpperCase()} (${counts})` : '';
   }
 }
