@@ -39,7 +39,6 @@ export class SearchService {
       map(resp => {
         const searchResult = new SuperSearchResult();
         const mediaTypeResponses = resp._embedded.mediaTypeResults;
-        const aggregations = resp._embedded.aggregations;
 
         const books = this.findMediatypeResponse('bøker', mediaTypeResponses);
         if (books) {
@@ -72,48 +71,7 @@ export class SearchService {
           searchResult.others = this.extractMediaTypeResponse(others);
         }
 
-        const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
-          .buckets;
-        searchResult.books.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.books.mediaType
-        );
-        searchResult.newspapers.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.newspapers.mediaType
-        );
-        searchResult.photos.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.photos.mediaType
-        );
-        searchResult.periodicals.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.periodicals.mediaType
-        );
-        searchResult.maps.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.maps.mediaType
-        );
-        searchResult.musicBooks.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.musicBooks.mediaType
-        );
-        searchResult.musicManuscripts.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.musicManuscripts.mediaType
-        );
-        searchResult.posters.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.posters.mediaType
-        );
-        searchResult.privateArchives.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.privateArchives.mediaType
-        );
-        searchResult.programReports.counts = this.extractCount(
-          mediatypeBuckets,
-          searchResult.programReports.mediaType
-        );
+        this.extractCounts(resp, searchResult);
 
         return searchResult;
       })
@@ -125,6 +83,7 @@ export class SearchService {
       .withQ(sc.q)
       .withSize(sc.size)
       .addFilter('contentClasses:jp2')
+      .addAggs('mediatype')
       .withDigitalAccessibleOnly(true)
       .withMediaType(sc.mediaType);
 
@@ -204,6 +163,9 @@ export class SearchService {
     } else if ('others' === mediaType) {
       searchResult.others = mediaTypeResult;
     }
+
+    this.extractCounts(resp, searchResult);
+
     return searchResult;
   }
 
@@ -225,4 +187,21 @@ export class SearchService {
     const bucket = buckets.find(b => b.key === mediaType);
     return bucket ? bucket.count : 0;
   }
+
+  private extractCounts(resp: ItemsResponse, searchResult: SuperSearchResult) {
+    const aggregations = resp._embedded.aggregations;
+    const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
+      .buckets;
+    searchResult.books.counts = this.extractCount(mediatypeBuckets, searchResult.books.mediaType);
+    searchResult.newspapers.counts = this.extractCount(mediatypeBuckets, searchResult.newspapers.mediaType);
+    searchResult.photos.counts = this.extractCount(mediatypeBuckets, searchResult.photos.mediaType);
+    searchResult.periodicals.counts = this.extractCount(mediatypeBuckets, searchResult.periodicals.mediaType);
+    searchResult.maps.counts = this.extractCount(mediatypeBuckets, searchResult.maps.mediaType);
+    searchResult.musicBooks.counts = this.extractCount(mediatypeBuckets, searchResult.musicBooks.mediaType);
+    searchResult.musicManuscripts.counts = this.extractCount(mediatypeBuckets, searchResult.musicManuscripts.mediaType);
+    searchResult.posters.counts = this.extractCount(mediatypeBuckets, searchResult.posters.mediaType);
+    searchResult.privateArchives.counts = this.extractCount(mediatypeBuckets, searchResult.privateArchives.mediaType);
+    searchResult.programReports.counts = this.extractCount(mediatypeBuckets, searchResult.programReports.mediaType);
+  }
+
 }
