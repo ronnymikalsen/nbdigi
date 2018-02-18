@@ -9,6 +9,7 @@ import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 export enum SearchActionTypes {
   Search = '[Search] Searching',
   SearchSuccess = '[Search] Search success',
+  SearchError = '[Search] Search error',
   SetQuery = '[Search] Set query',
   LoadHints = '[Search] Load hints',
   HintsLoaded = '[Search] Hints Loaded',
@@ -28,6 +29,12 @@ export class SearchSuccess implements Action {
   readonly type = SearchActionTypes.SearchSuccess;
 
   constructor(public payload: SuperSearchResult) {}
+}
+
+export class SearchError implements Action {
+  readonly type = SearchActionTypes.SearchError;
+
+  constructor(public payload: any) {}
 }
 
 export class SetQuery implements Action {
@@ -85,6 +92,7 @@ export class LoadMore implements Action {
 export type SearchAction =
   | Search
   | SearchSuccess
+  | SearchError
   | SetQuery
   | LoadHints
   | HintsLoaded

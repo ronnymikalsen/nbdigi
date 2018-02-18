@@ -1,5 +1,5 @@
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
-import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import { SearchAction, SearchActionTypes, SearchError } from './../actions/search.actions';
 import {
   SuperSearchResult,
   MediaTypeResults
@@ -25,6 +25,7 @@ export interface State {
   };
   isLoading: boolean;
   isLoadingMore: boolean;
+  hasError: boolean;
 }
 
 export const initialState: State = {
@@ -46,7 +47,8 @@ export const initialState: State = {
     others: new MediaTypeResults()
   },
   isLoading: false,
-  isLoadingMore: false
+  isLoadingMore: false,
+  hasError: false
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -109,7 +111,16 @@ export function reducer(state = initialState, action: SearchAction): State {
           programReports: action.payload.programReports,
           others: action.payload.others
         },
+        hasError: false,
         isLoading: false
+      };
+    }
+    case SearchActionTypes.SearchError: {
+      return {
+        ...state,
+        hasError: true,
+        isLoading: false,
+        isLoadingMore: false
       };
     }
     case SearchActionTypes.LoadMore: {
@@ -214,7 +225,8 @@ export function reducer(state = initialState, action: SearchAction): State {
           programReports: programReports,
           others: others
         },
-        isLoadingMore: false
+        isLoadingMore: false,
+        hasError: false
       };
     }
     default: {
