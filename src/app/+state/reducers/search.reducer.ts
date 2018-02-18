@@ -57,7 +57,12 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         q: action.payload,
-        mediaType: null,
+        mediaType: null
+      };
+    }
+    case SearchActionTypes.Search: {
+      return {
+        ...state,
         isLoading: true
       };
     }
