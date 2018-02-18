@@ -93,6 +93,18 @@ export class SearchEffects {
           url = storeState.search.searchResult.newspapers.nextLink;
         } else if (storeState.search.mediaType === 'tidsskrift') {
           url = storeState.search.searchResult.periodicals.nextLink;
+        } else if (storeState.search.mediaType === 'kart') {
+          url = storeState.search.searchResult.maps.nextLink;
+        } else if (storeState.search.mediaType === 'noter') {
+          url = storeState.search.searchResult.musicBooks.nextLink;
+        } else if (storeState.search.mediaType === 'musikkmanuskripter') {
+          url = storeState.search.searchResult.musicManuscripts.nextLink;
+        } else if (storeState.search.mediaType === 'plakater') {
+          url = storeState.search.searchResult.posters.nextLink;
+        } else if (storeState.search.mediaType === 'privatarkivmateriale') {
+          url = storeState.search.searchResult.privateArchives.nextLink;
+        } else if (storeState.search.mediaType === 'programrapporter') {
+          url = storeState.search.searchResult.programReports.nextLink;
         } else if (storeState.search.mediaType === 'others') {
           url = storeState.search.searchResult.others.nextLink;
         }

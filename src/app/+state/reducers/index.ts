@@ -56,6 +56,24 @@ export const getNewspapers = createSelector(
   getSearchState,
   fromSearch.getNewspapers
 );
+export const getMaps = createSelector(getSearchState, fromSearch.getMaps);
+export const getMusicBooks = createSelector(
+  getSearchState,
+  fromSearch.getMusicBooks
+);
+export const getMusicManuscripts = createSelector(
+  getSearchState,
+  fromSearch.getMusicManuscripts
+);
+export const getPosters = createSelector(getSearchState, fromSearch.getPosters);
+export const getPrivateArchives = createSelector(
+  getSearchState,
+  fromSearch.getPrivateArchives
+);
+export const getProgramReports = createSelector(
+  getSearchState,
+  fromSearch.getProgramReports
+);
 export const getPhotos = createSelector(getSearchState, fromSearch.getPhotos);
 export const getPeriodicals = createSelector(
   getSearchState,

@@ -2,6 +2,7 @@ export class QueryBuilder {
   private apiURL: string;
   private q: string;
   private filters: string[] = [];
+  private aggs: string[] = [];
   private digitalAccessibleOnly = false;
   private mediaTypeOrder: string;
   private mediaTypeSize: number;
@@ -20,6 +21,13 @@ export class QueryBuilder {
   addFilter(value: string): QueryBuilder {
     if (!this.filters.includes(value)) {
       this.filters.push(value);
+    }
+    return this;
+  }
+
+  addAggs(value: string): QueryBuilder {
+    if (!this.aggs.includes(value)) {
+      this.aggs.push(value);
     }
     return this;
   }
@@ -75,6 +83,9 @@ export class QueryBuilder {
     if (this.mediaType) {
       params.push(`filter=mediatype:${this.mediaType}`);
     }
+
+    const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);
+    params.push(...aggsParams);
 
     return this.apiURL +
       (this.mediaType ? 'items' : 'search') +

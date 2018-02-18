@@ -15,6 +15,12 @@ export interface State {
     newspapers: MediaTypeResults;
     photos: MediaTypeResults;
     periodicals: MediaTypeResults;
+    maps: MediaTypeResults;
+    musicBooks: MediaTypeResults;
+    musicManuscripts: MediaTypeResults;
+    posters: MediaTypeResults;
+    privateArchives: MediaTypeResults;
+    programReports: MediaTypeResults;
     others: MediaTypeResults;
   };
   isLoading: boolean;
@@ -31,6 +37,12 @@ export const initialState: State = {
     newspapers: new MediaTypeResults(),
     photos: new MediaTypeResults(),
     periodicals: new MediaTypeResults(),
+    maps: new MediaTypeResults(),
+    musicBooks: new MediaTypeResults(),
+    musicManuscripts: new MediaTypeResults(),
+    posters: new MediaTypeResults(),
+    privateArchives: new MediaTypeResults(),
+    programReports: new MediaTypeResults(),
     others: new MediaTypeResults()
   },
   isLoading: false,
@@ -89,6 +101,12 @@ export function reducer(state = initialState, action: SearchAction): State {
           newspapers: action.payload.newspapers,
           photos: action.payload.photos,
           periodicals: action.payload.periodicals,
+          maps: action.payload.maps,
+          musicBooks: action.payload.musicBooks,
+          musicManuscripts: action.payload.musicManuscripts,
+          posters: action.payload.posters,
+          privateArchives: action.payload.privateArchives,
+          programReports: action.payload.programReports,
           others: action.payload.others
         },
         isLoading: false
@@ -105,6 +123,12 @@ export function reducer(state = initialState, action: SearchAction): State {
       let newspapers;
       let photos;
       let periodicals;
+      let maps;
+      let musicBooks;
+      let musicManuscripts;
+      let posters;
+      let privateArchives;
+      let programReports;
       let others;
       if (state.mediaType === 'bøker') {
         const items = [
@@ -130,6 +154,42 @@ export function reducer(state = initialState, action: SearchAction): State {
           ...action.payload.periodicals.items
         ];
         periodicals = { ...state.searchResult.periodicals, items: items };
+      } else if (state.mediaType === 'kart') {
+        const items = [
+          ...state.searchResult.maps.items,
+          ...action.payload.maps.items
+        ];
+        maps = { ...state.searchResult.maps, items: items };
+      } else if (state.mediaType === 'noter') {
+        const items = [
+          ...state.searchResult.musicBooks.items,
+          ...action.payload.musicBooks.items
+        ];
+        musicBooks = { ...state.searchResult.musicBooks, items: items };
+      } else if (state.mediaType === 'musikkmanuskripter') {
+        const items = [
+          ...state.searchResult.musicManuscripts.items,
+          ...action.payload.musicManuscripts.items
+        ];
+        musicManuscripts = { ...state.searchResult.musicManuscripts, items: items };
+      } else if (state.mediaType === 'plakater') {
+        const items = [
+          ...state.searchResult.posters.items,
+          ...action.payload.posters.items
+        ];
+        posters = { ...state.searchResult.posters, items: items };
+      } else if (state.mediaType === 'privatarkivmateriale') {
+        const items = [
+          ...state.searchResult.privateArchives.items,
+          ...action.payload.privateArchives.items
+        ];
+        privateArchives = { ...state.searchResult.privateArchives, items: items };
+      } else if (state.mediaType === 'programrapporter') {
+        const items = [
+          ...state.searchResult.programReports.items,
+          ...action.payload.programReports.items
+        ];
+        programReports = { ...state.searchResult.programReports, items: items };
       } else if (state.mediaType === 'others') {
         const items = [
           ...state.searchResult.others.items,
@@ -146,6 +206,12 @@ export function reducer(state = initialState, action: SearchAction): State {
           newspapers: newspapers,
           photos: photos,
           periodicals: periodicals,
+          maps: maps,
+          musicBooks: musicBooks,
+          musicManuscripts: musicManuscripts,
+          posters: posters,
+          privateArchives: privateArchives,
+          programReports: programReports,
           others: others
         },
         isLoadingMore: false
@@ -161,4 +227,10 @@ export const getBooks = (state: State) => state.searchResult.books;
 export const getNewspapers = (state: State) => state.searchResult.newspapers;
 export const getPhotos = (state: State) => state.searchResult.photos;
 export const getPeriodicals = (state: State) => state.searchResult.periodicals;
+export const getMaps = (state: State) => state.searchResult.maps;
+export const getMusicBooks = (state: State) => state.searchResult.musicBooks;
+export const getMusicManuscripts = (state: State) => state.searchResult.musicManuscripts;
+export const getPosters = (state: State) => state.searchResult.posters;
+export const getPrivateArchives = (state: State) => state.searchResult.privateArchives;
+export const getProgramReports = (state: State) => state.searchResult.programReports;
 export const getOthers = (state: State) => state.searchResult.others;
