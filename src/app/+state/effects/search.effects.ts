@@ -1,3 +1,4 @@
+import { MatSnackBar } from '@angular/material';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -60,7 +61,8 @@ export class SearchEffects {
             .pipe(
               map(searchResult => {
                 return new search.SearchSuccess(searchResult);
-              })
+              }),
+              catchError(err => Observable.of(new search.SearchError(err)))
             );
         } else {
           return this.searchService
@@ -72,7 +74,8 @@ export class SearchEffects {
             .pipe(
               map(searchResult => {
                 return new search.SearchSuccess(searchResult);
-              })
+              }),
+              catchError(err => Observable.of(new search.SearchError(err)))
             );
         }
       })
@@ -113,7 +116,8 @@ export class SearchEffects {
           .pipe(
             map(searchResult => {
               return new search.LoadMoreSuccess(searchResult);
-            })
+            }),
+            catchError(err => Observable.of(new search.SearchError(err)))
           );
       })
     );
@@ -127,6 +131,17 @@ export class SearchEffects {
         const element = document.querySelector('.search-result-container');
         element.scrollTo(0, 0);
         */
+      })
+    );
+
+  @Effect({ dispatch: false })
+  error: Observable<Action> = this.actions
+    .ofType(SearchActionTypes.SearchError)
+    .pipe(
+      tap(() => {
+        this.snackBar.open('Det har oppstått en feil', null, {
+          duration: 2000,
+        });
       })
     );
 
@@ -151,6 +166,7 @@ export class SearchEffects {
     private store: Store<fromRoot.State>,
     private actions: Actions,
     private typeaheadService: TypeaheadService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    public snackBar: MatSnackBar
   ) {}
 }

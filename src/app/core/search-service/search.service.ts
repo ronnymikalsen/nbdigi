@@ -184,6 +184,10 @@ export class SearchService {
   }
 
   private extractCount(buckets: BucketResponse[], mediaType: string): number {
+    if (buckets === null) {
+      return 0;
+    }
+
     const bucket = buckets.find(b => b.key === mediaType);
     return bucket ? bucket.count : 0;
   }
