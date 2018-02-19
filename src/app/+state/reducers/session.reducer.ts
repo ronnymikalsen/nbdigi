@@ -1,4 +1,8 @@
-import { AuthAction, AuthActionTypes, AuthError } from './../actions/session.actions';
+import {
+  AuthAction,
+  AuthActionTypes,
+  AuthError
+} from './../actions/session.actions';
 import { User } from './../../models/user.model';
 import { AuthError as AuthErrorModel } from './../../models/auth-error.model';
 
@@ -15,23 +19,20 @@ export const initialState: State = {
 export function reducer(state = initialState, action: AuthAction): State {
   switch (action.type) {
     case AuthActionTypes.SignedIn: {
-      return { 
+      return {
         ...state,
         user: action.payload,
         error: null
       };
     }
-    case AuthActionTypes.SignedOut: {
-      return { ...initialState };
-    }
-    case AuthActionTypes.AuthError : {
-      return { 
+    case AuthActionTypes.AuthError: {
+      return {
         ...state,
         error: action.payload
       };
     }
-    case AuthActionTypes.AuthError : {
-      return { 
+    case AuthActionTypes.AuthError: {
+      return {
         ...state,
         error: action.payload
       };
