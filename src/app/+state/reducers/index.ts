@@ -80,6 +80,7 @@ export const getPeriodicals = createSelector(
   fromSearch.getPeriodicals
 );
 export const getOthers = createSelector(getSearchState, fromSearch.getOthers);
+export const getMoreUrl = createSelector(getSearchState, fromSearch.getMoreUrl);
 
 /**
  * Item Reducers
