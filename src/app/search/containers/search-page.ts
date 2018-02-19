@@ -27,6 +27,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       [privateArchives]="privateArchives | async"
       [programReports]="programReports | async"
       [others]="others | async"
+      [moreUrl]="moreUrl | async"
       (searchSelected)="searchSelected()"
       (query)="query($event)"
       (addFilter)="addFilter($event)"
@@ -51,6 +52,7 @@ export class SearchPageComponent {
   privateArchives: Observable<MediaTypeResults> = this.store.select(fromRoot.getPrivateArchives);
   programReports: Observable<MediaTypeResults> = this.store.select(fromRoot.getProgramReports);
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
+  moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
 
   constructor(private store: Store<fromRoot.State>) { }
 

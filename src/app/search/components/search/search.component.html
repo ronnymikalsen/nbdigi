@@ -7,7 +7,8 @@
   </div>
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
-      [fromRoot]="true" (scrolled)="onScroll()">
+      [fromRoot]="true" (scrolled)="onScroll()"
+      [infiniteScrollDisabled]="!moreUrl">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts)" [mediaTypeResults]="books" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"
         [selected]="search.mediaType === 'bøker'" [showMoreButton]="!search.mediaType" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(newspapers?.mediaType, newspapers?.counts)" [mediaTypeResults]="newspapers" (itemSelected)="itemSelected.emit($event)"

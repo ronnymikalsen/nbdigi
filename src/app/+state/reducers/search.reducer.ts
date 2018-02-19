@@ -1,5 +1,9 @@
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
-import { SearchAction, SearchActionTypes, SearchError } from './../actions/search.actions';
+import {
+  SearchAction,
+  SearchActionTypes,
+  SearchError
+} from './../actions/search.actions';
 import {
   SuperSearchResult,
   MediaTypeResults
@@ -151,67 +155,111 @@ export function reducer(state = initialState, action: SearchAction): State {
           ...state.searchResult.books.items,
           ...action.payload.books.items
         ];
-        books = { ...state.searchResult.books, items: items };
+        books = {
+          ...state.searchResult.books,
+          items: items,
+          nextLink: action.payload.books.nextLink
+        };
       } else if (state.mediaType === 'aviser') {
         const items = [
           ...state.searchResult.newspapers.items,
           ...action.payload.newspapers.items
         ];
-        newspapers = { ...state.searchResult.newspapers, items: items };
+        newspapers = {
+          ...state.searchResult.newspapers,
+          items: items,
+          nextLink: action.payload.newspapers.nextLink
+        };
       } else if (state.mediaType === 'bilder') {
         const items = [
           ...state.searchResult.photos.items,
           ...action.payload.photos.items
         ];
-        photos = { ...state.searchResult.photos, items: items };
+        photos = {
+          ...state.searchResult.photos,
+          items: items,
+          nextLink: action.payload.photos.nextLink
+        };
       } else if (state.mediaType === 'tidsskrift') {
         const items = [
           ...state.searchResult.periodicals.items,
           ...action.payload.periodicals.items
         ];
-        periodicals = { ...state.searchResult.periodicals, items: items };
+        periodicals = {
+          ...state.searchResult.periodicals,
+          items: items,
+          nextLink: action.payload.periodicals.nextLink
+        };
       } else if (state.mediaType === 'kart') {
         const items = [
           ...state.searchResult.maps.items,
           ...action.payload.maps.items
         ];
-        maps = { ...state.searchResult.maps, items: items };
+        maps = {
+          ...state.searchResult.maps,
+          items: items,
+          nextLink: action.payload.maps.nextLink
+        };
       } else if (state.mediaType === 'noter') {
         const items = [
           ...state.searchResult.musicBooks.items,
           ...action.payload.musicBooks.items
         ];
-        musicBooks = { ...state.searchResult.musicBooks, items: items };
+        musicBooks = {
+          ...state.searchResult.musicBooks,
+          items: items,
+          nextLink: action.payload.musicBooks.nextLink
+        };
       } else if (state.mediaType === 'musikkmanuskripter') {
         const items = [
           ...state.searchResult.musicManuscripts.items,
           ...action.payload.musicManuscripts.items
         ];
-        musicManuscripts = { ...state.searchResult.musicManuscripts, items: items };
+        musicManuscripts = {
+          ...state.searchResult.musicManuscripts,
+          items: items,
+          nextLink: action.payload.musicManuscripts.nextLink
+        };
       } else if (state.mediaType === 'plakater') {
         const items = [
           ...state.searchResult.posters.items,
           ...action.payload.posters.items
         ];
-        posters = { ...state.searchResult.posters, items: items };
+        posters = {
+          ...state.searchResult.posters,
+          items: items,
+          nextLink: action.payload.posters.nextLink
+        };
       } else if (state.mediaType === 'privatarkivmateriale') {
         const items = [
           ...state.searchResult.privateArchives.items,
           ...action.payload.privateArchives.items
         ];
-        privateArchives = { ...state.searchResult.privateArchives, items: items };
+        privateArchives = {
+          ...state.searchResult.privateArchives,
+          items: items,
+          nextLink: action.payload.privateArchives.nextLink
+        };
       } else if (state.mediaType === 'programrapporter') {
         const items = [
           ...state.searchResult.programReports.items,
           ...action.payload.programReports.items
         ];
-        programReports = { ...state.searchResult.programReports, items: items };
+        programReports = {
+          ...state.searchResult.programReports,
+          items: items,
+          nextLink: action.payload.programReports.nextLink
+        };
       } else if (state.mediaType === 'others') {
         const items = [
           ...state.searchResult.others.items,
           ...action.payload.others.items
         ];
-        others = { ...state.searchResult.others, items: items };
+        others = {
+          ...state.searchResult.others,
+          items: items,
+          nextLink: action.payload.others.nextLink
+        };
       }
 
       return {
@@ -246,8 +294,40 @@ export const getPhotos = (state: State) => state.searchResult.photos;
 export const getPeriodicals = (state: State) => state.searchResult.periodicals;
 export const getMaps = (state: State) => state.searchResult.maps;
 export const getMusicBooks = (state: State) => state.searchResult.musicBooks;
-export const getMusicManuscripts = (state: State) => state.searchResult.musicManuscripts;
+export const getMusicManuscripts = (state: State) =>
+  state.searchResult.musicManuscripts;
 export const getPosters = (state: State) => state.searchResult.posters;
-export const getPrivateArchives = (state: State) => state.searchResult.privateArchives;
-export const getProgramReports = (state: State) => state.searchResult.programReports;
+export const getPrivateArchives = (state: State) =>
+  state.searchResult.privateArchives;
+export const getProgramReports = (state: State) =>
+  state.searchResult.programReports;
 export const getOthers = (state: State) => state.searchResult.others;
+
+export const getMoreUrl = (state: State) => {
+  let url: string;
+  if (state.mediaType === 'bøker') {
+    url = state.searchResult.books.nextLink;
+  } else if (state.mediaType === 'bilder') {
+    url = state.searchResult.photos.nextLink;
+  } else if (state.mediaType === 'aviser') {
+    url = state.searchResult.newspapers.nextLink;
+  } else if (state.mediaType === 'tidsskrift') {
+    url = state.searchResult.periodicals.nextLink;
+  } else if (state.mediaType === 'kart') {
+    url = state.searchResult.maps.nextLink;
+  } else if (state.mediaType === 'noter') {
+    url = state.searchResult.musicBooks.nextLink;
+  } else if (state.mediaType === 'musikkmanuskripter') {
+    url = state.searchResult.musicManuscripts.nextLink;
+  } else if (state.mediaType === 'plakater') {
+    url = state.searchResult.posters.nextLink;
+  } else if (state.mediaType === 'privatarkivmateriale') {
+    url = state.searchResult.privateArchives.nextLink;
+  } else if (state.mediaType === 'programrapporter') {
+    url = state.searchResult.programReports.nextLink;
+  } else if (state.mediaType === 'others') {
+    url = state.searchResult.others.nextLink;
+  }
+
+  return url;
+};

@@ -34,6 +34,7 @@ export class SearchComponent implements OnInit {
   @Input() privateArchives = new MediaTypeResults();
   @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
+  @Input() moreUrl = null;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
