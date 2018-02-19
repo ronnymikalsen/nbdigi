@@ -14,6 +14,7 @@ import { RouterStateUrl } from '../../custom-serializer';
 import * as fromSession from './session.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromItem from './item.reducer';
+import { AuthActionTypes } from './../actions/session.actions';
 
 export interface State {
   session: fromSession.State;
@@ -21,6 +22,7 @@ export interface State {
   item: fromItem.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
+
 export const reducers: ActionReducerMap<State> = {
   session: fromSession.reducer,
   search: fromSearch.reducer,
@@ -28,9 +30,20 @@ export const reducers: ActionReducerMap<State> = {
   router: fromRouter.routerReducer
 };
 
+export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state, action) {
+    switch (action.type) {
+      case AuthActionTypes.SignedOut: {
+        state = undefined;
+      }
+    }
+
+    return reducer(state, action);
+  };
+}
 export const metaReducers: MetaReducer<State>[] = !environment.production
-  ? [storeFreeze]
-  : [];
+  ? [storeFreeze, debug]
+  : [debug];
 
 /**
  * Settings Reducers
