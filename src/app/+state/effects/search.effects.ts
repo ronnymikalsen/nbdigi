@@ -141,6 +141,7 @@ export class SearchEffects {
       tap(() => {
         this.snackBar.open('Det har oppstått en feil', null, {
           duration: 2000,
+          panelClass: 'error'
         });
       })
     );
