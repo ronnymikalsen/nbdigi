@@ -1,6 +1,6 @@
 import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { getBooks } from './../../+state/reducers/index';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -39,7 +39,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
     </app-search>
   `
 })
-export class SearchPageComponent {
+export class SearchPageComponent implements OnInit {
   search: Observable<fromSearch.State> = this.store.select(fromRoot.getSearchState);
   books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
   newspapers: Observable<MediaTypeResults> = this.store.select(fromRoot.getNewspapers);
@@ -55,6 +55,11 @@ export class SearchPageComponent {
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
 
   constructor(private store: Store<fromRoot.State>) { }
+
+  ngOnInit() {
+    console.log('init');
+    this.store.dispatch(new searchAction.SearchAggs());
+  }
 
   query(query: string): void {
     this.store.dispatch(new searchAction.LoadHints(query));

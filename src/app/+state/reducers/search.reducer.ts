@@ -1,3 +1,5 @@
+import { map } from 'rxjs/operators/map';
+import { MediaTypeCount } from './../../models/media-types-count';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import {
   SearchAction,
@@ -14,6 +16,18 @@ export interface State {
   mediaType: string;
   filters: Hint[];
   hints: Hints;
+  mediaTypes: {
+    books: MediaTypeCount;
+    newspapers: MediaTypeCount;
+    photos: MediaTypeCount;
+    periodicals: MediaTypeCount;
+    maps: MediaTypeCount;
+    musicBooks: MediaTypeCount;
+    musicManuscripts: MediaTypeCount;
+    posters: MediaTypeCount;
+    privateArchives: MediaTypeCount;
+    programReports: MediaTypeCount;
+  };
   searchResult: {
     books: MediaTypeResults;
     newspapers: MediaTypeResults;
@@ -37,6 +51,18 @@ export const initialState: State = {
   mediaType: null,
   filters: [],
   hints: null,
+  mediaTypes: {
+    books: new MediaTypeCount({mediaType: 'bøker'}),
+    newspapers: new MediaTypeCount({mediaType: 'bilder'}),
+    photos: new MediaTypeCount({mediaType: 'aviser'}),
+    periodicals: new MediaTypeCount({mediaType: 'tidsskrift'}),
+    maps: new MediaTypeCount({mediaType: 'kart'}),
+    musicBooks: new MediaTypeCount({mediaType: 'noter'}),
+    musicManuscripts: new MediaTypeCount({mediaType: 'musikkmanuskripter'}),
+    posters: new MediaTypeCount({mediaType: 'plakater'}),
+    privateArchives: new MediaTypeCount({mediaType: 'privatarkivmateriale'}),
+    programReports: new MediaTypeCount({mediaType: 'programrapporter'}),
+  },
   searchResult: {
     books: new MediaTypeResults(),
     newspapers: new MediaTypeResults(),
@@ -130,6 +156,23 @@ export function reducer(state = initialState, action: SearchAction): State {
         hasError: true,
         isLoading: false,
         isLoadingMore: false
+      };
+    }
+    case SearchActionTypes.SearchAggsSuccess: {
+      return {
+        ...state,
+        mediaTypes: {
+          books: {...state.mediaTypes.books, count: action.payload.books.counts},
+          newspapers: {...state.mediaTypes.newspapers, count: action.payload.newspapers.counts},
+          photos: {...state.mediaTypes.photos, count: action.payload.photos.counts},
+          periodicals: {...state.mediaTypes.periodicals, count: action.payload.periodicals.counts},
+          maps: {...state.mediaTypes.maps, count: action.payload.maps.counts},
+          musicBooks: {...state.mediaTypes.musicBooks, count: action.payload.musicBooks.counts},
+          musicManuscripts: {...state.mediaTypes.musicManuscripts, count: action.payload.musicManuscripts.counts},
+          posters: {...state.mediaTypes.posters, count: action.payload.posters.counts},
+          privateArchives: {...state.mediaTypes.privateArchives, count: action.payload.privateArchives.counts},
+          programReports: {...state.mediaTypes.programReports, count: action.payload.programReports.counts},
+        }
       };
     }
     case SearchActionTypes.LoadMore: {

@@ -10,6 +10,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ItemsSectionComponent } from './components/items-section/items-section.component';
 import { DefaultItemCardComponent } from './components/default-item-card/default-item-card.component';
 import { MediaTypeButtonComponent } from './components/media-type-button/media-type-button.component';
+import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { MediaTypeButtonComponent } from './components/media-type-button/media-t
     ToolbarComponent,
     ItemsSectionComponent,
     DefaultItemCardComponent,
-    MediaTypeButtonComponent
+    MediaTypeButtonComponent,
+    MediaTypeOptionComponent
   ],
   providers: []
 })

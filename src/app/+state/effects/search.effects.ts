@@ -82,6 +82,38 @@ export class SearchEffects {
     );
 
   @Effect()
+  searchAggregator: Observable<Action> = this.actions
+    .ofType(SearchActionTypes.SearchSuccess, SearchActionTypes.SearchAggs)
+    .pipe(
+      withLatestFrom(this.store),
+      switchMap(([action, storeState]) => {
+        let filters = [
+          ...storeState.search.filters.filter(h => h.enabled).map(h => h.value)
+        ];
+
+        if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
+          filters = [
+            ...filters,
+            'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
+          ];
+        }
+
+        return this.searchService
+          .search({
+            size: 1,
+            q: storeState.search.q,
+            filters: filters
+          })
+          .pipe(
+            map(searchResult => {
+              return new search.SearchAggsSuccess(searchResult);
+            }),
+            catchError(err => Observable.of(new search.SearchAggsError(err)))
+          );
+      })
+    );
+
+  @Effect()
   loadMore: Observable<Action> = this.actions
     .ofType(SearchActionTypes.LoadMore)
     .pipe(

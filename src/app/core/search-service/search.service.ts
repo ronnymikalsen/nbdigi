@@ -23,7 +23,7 @@ export class SearchService {
   constructor(private http: HttpClient) {}
 
   super(sc: SearchCriteria): Observable<SuperSearchResult> {
-    let builder = new QueryBuilder(environment.nb.apiURL)
+    let builder = new QueryBuilder(environment.nb.apiURL, 'search')
       .withQ(sc.q)
       .withSize(sc.size)
       .addFilter('contentClasses:jp2')
@@ -79,7 +79,7 @@ export class SearchService {
   }
 
   search(sc: SearchCriteria): Observable<SuperSearchResult> {
-    let builder = new QueryBuilder(environment.nb.apiURL)
+    let builder = new QueryBuilder(environment.nb.apiURL, 'items')
       .withQ(sc.q)
       .withSize(sc.size)
       .addFilter('contentClasses:jp2')
@@ -196,16 +196,45 @@ export class SearchService {
     const aggregations = resp._embedded.aggregations;
     const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
       .buckets;
-    searchResult.books.counts = this.extractCount(mediatypeBuckets, searchResult.books.mediaType);
-    searchResult.newspapers.counts = this.extractCount(mediatypeBuckets, searchResult.newspapers.mediaType);
-    searchResult.photos.counts = this.extractCount(mediatypeBuckets, searchResult.photos.mediaType);
-    searchResult.periodicals.counts = this.extractCount(mediatypeBuckets, searchResult.periodicals.mediaType);
-    searchResult.maps.counts = this.extractCount(mediatypeBuckets, searchResult.maps.mediaType);
-    searchResult.musicBooks.counts = this.extractCount(mediatypeBuckets, searchResult.musicBooks.mediaType);
-    searchResult.musicManuscripts.counts = this.extractCount(mediatypeBuckets, searchResult.musicManuscripts.mediaType);
-    searchResult.posters.counts = this.extractCount(mediatypeBuckets, searchResult.posters.mediaType);
-    searchResult.privateArchives.counts = this.extractCount(mediatypeBuckets, searchResult.privateArchives.mediaType);
-    searchResult.programReports.counts = this.extractCount(mediatypeBuckets, searchResult.programReports.mediaType);
+    searchResult.books.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.books.mediaType
+    );
+    searchResult.newspapers.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.newspapers.mediaType
+    );
+    searchResult.photos.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.photos.mediaType
+    );
+    searchResult.periodicals.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.periodicals.mediaType
+    );
+    searchResult.maps.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.maps.mediaType
+    );
+    searchResult.musicBooks.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.musicBooks.mediaType
+    );
+    searchResult.musicManuscripts.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.musicManuscripts.mediaType
+    );
+    searchResult.posters.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.posters.mediaType
+    );
+    searchResult.privateArchives.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.privateArchives.mediaType
+    );
+    searchResult.programReports.counts = this.extractCount(
+      mediatypeBuckets,
+      searchResult.programReports.mediaType
+    );
   }
-
 }

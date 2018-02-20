@@ -1,5 +1,13 @@
+import { FormControl } from '@angular/forms';
 import { Hint } from './../../../core/typeahead-service/hints.model';
-import { Component, Input, Output, OnInit, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 import * as fromSearch from './../../../+state/reducers/search.reducer';
 
@@ -16,6 +24,7 @@ export class ToolbarComponent implements OnInit {
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
+  mediaType = new FormControl();
 
   constructor() {}
 
