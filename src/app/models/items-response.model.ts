@@ -1,4 +1,5 @@
 export interface ItemsResponse {
+  totalElements: number;
   _links: MediaTypeResultsLinksResponse;
   page: PageResponse;
   _embedded: EmbeddetResponse;

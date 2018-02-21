@@ -72,7 +72,7 @@ export class SearchService {
         }
 
         this.extractCounts(resp, searchResult);
-
+        searchResult.totalElements = resp.totalElements;
         return searchResult;
       })
     );

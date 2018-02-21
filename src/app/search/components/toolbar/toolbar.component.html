@@ -27,7 +27,7 @@
     <mat-select [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediatypeSelected.emit($event.value)">
       <mat-select-trigger>
         {{mediaType.value | titlecase}}
-      </mat-select-trigger>        
+      </mat-select-trigger>
       <mat-option [value]="search.searchResult.books.mediaType">
         <app-media-type-option [mediaType]="search.searchResult.books.mediaType" [count]="search.searchResult.books.counts"></app-media-type-option>
       </mat-option>

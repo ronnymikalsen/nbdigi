@@ -21,13 +21,13 @@
         (mediatypeSelected)="onMediaTypeSelected($event)" [selected]="search.mediaType === 'tidsskrift'" [showMoreButton]="!search.mediaType"
         tabindex="0"></app-items-section>
 
-      <div *ngIf="!pristine && !search.mediaType" class="others-mediatype-container" fxLayout="row">
-        <app-media-type-button [mediaType]="maps?.mediaType" [counts]="maps?.counts" (selected)="onMediaTypeSelected(maps)"></app-media-type-button>
-        <app-media-type-button [mediaType]="musicBooks?.mediaType" [counts]="musicBooks?.counts" (selected)="onMediaTypeSelected(musicBooks)"></app-media-type-button>
-        <app-media-type-button [mediaType]="musicManuscripts?.mediaType" [counts]="musicManuscripts?.counts" (selected)="onMediaTypeSelected(musicManuscripts)"></app-media-type-button>
-        <app-media-type-button [mediaType]="posters?.mediaType" [counts]="posters?.counts" (selected)="onMediaTypeSelected(posters)"></app-media-type-button>
-        <app-media-type-button [mediaType]="privateArchives?.mediaType" [counts]="privateArchives?.counts" (selected)="onMediaTypeSelected(privateArchives)"></app-media-type-button>
-        <app-media-type-button [mediaType]="programReports?.mediaType" [counts]="programReports?.counts" (selected)="onMediaTypeSelected(programReports)"></app-media-type-button>
+      <div *ngIf="!pristine && !search.mediaType && search.searchResult.totalElements > 0" class="others-mediatype-container" fxLayout="row">
+        <app-media-type-button [mediaType]="maps?.mediaType" [counts]="maps?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
+        <app-media-type-button [mediaType]="musicBooks?.mediaType" [counts]="musicBooks?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
+        <app-media-type-button [mediaType]="musicManuscripts?.mediaType" [counts]="musicManuscripts?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
+        <app-media-type-button [mediaType]="posters?.mediaType" [counts]="posters?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
+        <app-media-type-button [mediaType]="privateArchives?.mediaType" [counts]="privateArchives?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
+        <app-media-type-button [mediaType]="programReports?.mediaType" [counts]="programReports?.counts" (selected)="onMediaTypeSelected($event)"></app-media-type-button>
       </div>
 
       <app-items-section [label]="'andre'" [mediaTypeResults]="others" (itemSelected)="itemSelected.emit($event)" (mediatypeSelected)="onMediaTypeSelected($event)"

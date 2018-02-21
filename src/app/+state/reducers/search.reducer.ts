@@ -184,7 +184,7 @@ export function reducer(state = initialState, action: SearchAction): State {
             ...state.searchResult.programReports,
             counts: action.payload.programReports.counts
           },
-          others: { ...action.payload.others }
+          others: { ...state.searchResult.others }
         }
       };
     }
