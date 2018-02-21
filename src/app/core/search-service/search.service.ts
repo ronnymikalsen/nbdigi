@@ -126,7 +126,7 @@ export class SearchService {
     mediaTypeResults.nextLink = resp._links.next ? resp._links.next.href : null;
     mediaTypeResults.totalElements = resp.page.totalElements;
     resp._embedded.items.forEach(i => {
-      mediaTypeResults.addItem(this.extractItem(i));
+      mediaTypeResults.items.push(this.extractItem(i));
     });
 
     return mediaTypeResults;
@@ -183,15 +183,6 @@ export class SearchService {
     });
   }
 
-  private extractCount(buckets: BucketResponse[], mediaType: string): number {
-    if (buckets === null) {
-      return 0;
-    }
-
-    const bucket = buckets.find(b => b.key === mediaType);
-    return bucket ? bucket.count : 0;
-  }
-
   private extractCounts(resp: ItemsResponse, searchResult: SuperSearchResult) {
     const aggregations = resp._embedded.aggregations;
     const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
@@ -236,5 +227,14 @@ export class SearchService {
       mediatypeBuckets,
       searchResult.programReports.mediaType
     );
+  }
+
+  private extractCount(buckets: BucketResponse[], mediaType: string): number {
+    if (buckets === null) {
+      return 0;
+    }
+
+    const bucket = buckets.find(b => b.key === mediaType);
+    return bucket ? bucket.count : 0;
   }
 }

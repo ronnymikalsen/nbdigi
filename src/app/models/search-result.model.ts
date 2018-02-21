@@ -1,4 +1,5 @@
 export class SuperSearchResult {
+  totalElements = 0;
   public books = new MediaTypeResults({
     mediaType: 'bøker'
   });
@@ -76,10 +77,6 @@ export class MediaTypeResults {
       this.counts = fields.counts || this.counts;
       this.nextLink = fields.nextLink || this.nextLink;
     }
-  }
-
-  public addItem(item: Item) {
-    this.items.push(item);
   }
 }
 

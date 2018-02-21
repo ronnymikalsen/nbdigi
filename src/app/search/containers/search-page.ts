@@ -16,6 +16,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
   template: `
     <app-search
       [search]="search | async"
+      [pristine]="pristine | async"
       [books]="books | async"
       [newspapers]="newspapers | async"
       [photos]="photos | async"
@@ -53,6 +54,7 @@ export class SearchPageComponent implements OnInit {
   programReports: Observable<MediaTypeResults> = this.store.select(fromRoot.getProgramReports);
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
+  pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
 
   constructor(private store: Store<fromRoot.State>) { }
 

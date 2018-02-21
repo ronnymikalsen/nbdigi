@@ -16,19 +16,8 @@ export interface State {
   mediaType: string;
   filters: Hint[];
   hints: Hints;
-  mediaTypes: {
-    books: MediaTypeCount;
-    newspapers: MediaTypeCount;
-    photos: MediaTypeCount;
-    periodicals: MediaTypeCount;
-    maps: MediaTypeCount;
-    musicBooks: MediaTypeCount;
-    musicManuscripts: MediaTypeCount;
-    posters: MediaTypeCount;
-    privateArchives: MediaTypeCount;
-    programReports: MediaTypeCount;
-  };
   searchResult: {
+    totalElements: number;
     books: MediaTypeResults;
     newspapers: MediaTypeResults;
     photos: MediaTypeResults;
@@ -51,29 +40,20 @@ export const initialState: State = {
   mediaType: null,
   filters: [],
   hints: null,
-  mediaTypes: {
-    books: new MediaTypeCount({mediaType: 'bøker'}),
-    newspapers: new MediaTypeCount({mediaType: 'bilder'}),
-    photos: new MediaTypeCount({mediaType: 'aviser'}),
-    periodicals: new MediaTypeCount({mediaType: 'tidsskrift'}),
-    maps: new MediaTypeCount({mediaType: 'kart'}),
-    musicBooks: new MediaTypeCount({mediaType: 'noter'}),
-    musicManuscripts: new MediaTypeCount({mediaType: 'musikkmanuskripter'}),
-    posters: new MediaTypeCount({mediaType: 'plakater'}),
-    privateArchives: new MediaTypeCount({mediaType: 'privatarkivmateriale'}),
-    programReports: new MediaTypeCount({mediaType: 'programrapporter'}),
-  },
   searchResult: {
-    books: new MediaTypeResults(),
-    newspapers: new MediaTypeResults(),
-    photos: new MediaTypeResults(),
-    periodicals: new MediaTypeResults(),
-    maps: new MediaTypeResults(),
-    musicBooks: new MediaTypeResults(),
-    musicManuscripts: new MediaTypeResults(),
-    posters: new MediaTypeResults(),
-    privateArchives: new MediaTypeResults(),
-    programReports: new MediaTypeResults(),
+    totalElements: 0,
+    books: new MediaTypeResults({ mediaType: 'bøker' }),
+    newspapers: new MediaTypeResults({ mediaType: 'bilder' }),
+    photos: new MediaTypeResults({ mediaType: 'aviser' }),
+    periodicals: new MediaTypeResults({ mediaType: 'tidsskrift' }),
+    maps: new MediaTypeResults({ mediaType: 'kart' }),
+    musicBooks: new MediaTypeResults({ mediaType: 'noter' }),
+    musicManuscripts: new MediaTypeResults({ mediaType: 'musikkmanuskripter' }),
+    posters: new MediaTypeResults({ mediaType: 'plakater' }),
+    privateArchives: new MediaTypeResults({
+      mediaType: 'privatarkivmateriale'
+    }),
+    programReports: new MediaTypeResults({ mediaType: 'programrapporter' }),
     others: new MediaTypeResults()
   },
   isLoading: false,
@@ -134,6 +114,7 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         searchResult: {
+          totalElements: action.payload.totalElements,
           books: action.payload.books,
           newspapers: action.payload.newspapers,
           photos: action.payload.photos,
@@ -161,17 +142,49 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SearchAggsSuccess: {
       return {
         ...state,
-        mediaTypes: {
-          books: {...state.mediaTypes.books, count: action.payload.books.counts},
-          newspapers: {...state.mediaTypes.newspapers, count: action.payload.newspapers.counts},
-          photos: {...state.mediaTypes.photos, count: action.payload.photos.counts},
-          periodicals: {...state.mediaTypes.periodicals, count: action.payload.periodicals.counts},
-          maps: {...state.mediaTypes.maps, count: action.payload.maps.counts},
-          musicBooks: {...state.mediaTypes.musicBooks, count: action.payload.musicBooks.counts},
-          musicManuscripts: {...state.mediaTypes.musicManuscripts, count: action.payload.musicManuscripts.counts},
-          posters: {...state.mediaTypes.posters, count: action.payload.posters.counts},
-          privateArchives: {...state.mediaTypes.privateArchives, count: action.payload.privateArchives.counts},
-          programReports: {...state.mediaTypes.programReports, count: action.payload.programReports.counts},
+        searchResult: {
+          totalElements: state.searchResult.totalElements,
+          books: {
+            ...state.searchResult.books,
+            counts: action.payload.books.counts
+          },
+          newspapers: {
+            ...state.searchResult.newspapers,
+            counts: action.payload.newspapers.counts
+          },
+          photos: {
+            ...state.searchResult.photos,
+            counts: action.payload.photos.counts
+          },
+          periodicals: {
+            ...state.searchResult.periodicals,
+            counts: action.payload.periodicals.counts
+          },
+          maps: {
+            ...state.searchResult.maps,
+            counts: action.payload.maps.counts
+          },
+          musicBooks: {
+            ...state.searchResult.musicBooks,
+            counts: action.payload.musicBooks.counts
+          },
+          musicManuscripts: {
+            ...state.searchResult.musicManuscripts,
+            counts: action.payload.musicManuscripts.counts
+          },
+          posters: {
+            ...state.searchResult.posters,
+            counts: action.payload.posters.counts
+          },
+          privateArchives: {
+            ...state.searchResult.privateArchives,
+            counts: action.payload.privateArchives.counts
+          },
+          programReports: {
+            ...state.searchResult.programReports,
+            counts: action.payload.programReports.counts
+          },
+          others: { ...action.payload.others }
         }
       };
     }
@@ -182,127 +195,73 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.LoadMoreSuccess: {
-      let books;
-      let newspapers;
-      let photos;
-      let periodicals;
-      let maps;
-      let musicBooks;
-      let musicManuscripts;
-      let posters;
-      let privateArchives;
-      let programReports;
-      let others;
+      const books = { ...state.searchResult.books };
+      const newspapers = { ...state.searchResult.newspapers };
+      const photos = { ...state.searchResult.photos };
+      const periodicals = { ...state.searchResult.periodicals };
+      const maps = { ...state.searchResult.maps };
+      const musicBooks = { ...state.searchResult.musicBooks };
+      const musicManuscripts = { ...state.searchResult.musicManuscripts };
+      const posters = { ...state.searchResult.posters };
+      const privateArchives = { ...state.searchResult.privateArchives };
+      const programReports = { ...state.searchResult.programReports };
+      const others = { ...state.searchResult.others };
       if (state.mediaType === 'bøker') {
-        const items = [
-          ...state.searchResult.books.items,
-          ...action.payload.books.items
-        ];
-        books = {
-          ...state.searchResult.books,
-          items: items,
-          nextLink: action.payload.books.nextLink
-        };
+        const items = [...books.items, ...action.payload.books.items];
+        books.items = items;
+        books.nextLink = action.payload.books.nextLink;
       } else if (state.mediaType === 'aviser') {
-        const items = [
-          ...state.searchResult.newspapers.items,
-          ...action.payload.newspapers.items
-        ];
-        newspapers = {
-          ...state.searchResult.newspapers,
-          items: items,
-          nextLink: action.payload.newspapers.nextLink
-        };
+        const items = [...newspapers.items, ...action.payload.newspapers.items];
+        newspapers.items = items;
+        newspapers.nextLink = action.payload.newspapers.nextLink;
       } else if (state.mediaType === 'bilder') {
-        const items = [
-          ...state.searchResult.photos.items,
-          ...action.payload.photos.items
-        ];
-        photos = {
-          ...state.searchResult.photos,
-          items: items,
-          nextLink: action.payload.photos.nextLink
-        };
+        const items = [...photos.items, ...action.payload.photos.items];
+        photos.items = items;
+        photos.nextLink = action.payload.photos.nextLink;
       } else if (state.mediaType === 'tidsskrift') {
         const items = [
-          ...state.searchResult.periodicals.items,
+          ...periodicals.items,
           ...action.payload.periodicals.items
         ];
-        periodicals = {
-          ...state.searchResult.periodicals,
-          items: items,
-          nextLink: action.payload.periodicals.nextLink
-        };
+        periodicals.items = items;
+        periodicals.nextLink = action.payload.periodicals.nextLink;
       } else if (state.mediaType === 'kart') {
-        const items = [
-          ...state.searchResult.maps.items,
-          ...action.payload.maps.items
-        ];
-        maps = {
-          ...state.searchResult.maps,
-          items: items,
-          nextLink: action.payload.maps.nextLink
-        };
+        const items = [...maps.items, ...action.payload.maps.items];
+        maps.items = items;
+        maps.nextLink = action.payload.maps.nextLink;
       } else if (state.mediaType === 'noter') {
-        const items = [
-          ...state.searchResult.musicBooks.items,
-          ...action.payload.musicBooks.items
-        ];
-        musicBooks = {
-          ...state.searchResult.musicBooks,
-          items: items,
-          nextLink: action.payload.musicBooks.nextLink
-        };
+        const items = [...musicBooks.items, ...action.payload.musicBooks.items];
+        musicBooks.items = items;
+        musicBooks.nextLink = action.payload.musicBooks.nextLink;
       } else if (state.mediaType === 'musikkmanuskripter') {
         const items = [
-          ...state.searchResult.musicManuscripts.items,
+          ...musicManuscripts.items,
           ...action.payload.musicManuscripts.items
         ];
-        musicManuscripts = {
-          ...state.searchResult.musicManuscripts,
-          items: items,
-          nextLink: action.payload.musicManuscripts.nextLink
-        };
+        musicManuscripts.items = items;
+        musicManuscripts.nextLink = action.payload.musicManuscripts.nextLink;
       } else if (state.mediaType === 'plakater') {
-        const items = [
-          ...state.searchResult.posters.items,
-          ...action.payload.posters.items
-        ];
-        posters = {
-          ...state.searchResult.posters,
-          items: items,
-          nextLink: action.payload.posters.nextLink
-        };
+        const items = [...posters.items, ...action.payload.posters.items];
+        posters.items = items;
+        posters.nextLink = action.payload.posters.nextLink;
       } else if (state.mediaType === 'privatarkivmateriale') {
         const items = [
-          ...state.searchResult.privateArchives.items,
+          ...privateArchives.items,
           ...action.payload.privateArchives.items
         ];
-        privateArchives = {
-          ...state.searchResult.privateArchives,
-          items: items,
-          nextLink: action.payload.privateArchives.nextLink
-        };
+        privateArchives.items = items;
+        privateArchives.nextLink = action.payload.privateArchives.nextLink;
       } else if (state.mediaType === 'programrapporter') {
         const items = [
-          ...state.searchResult.programReports.items,
+          ...programReports.items,
           ...action.payload.programReports.items
         ];
-        programReports = {
-          ...state.searchResult.programReports,
-          items: items,
-          nextLink: action.payload.programReports.nextLink
-        };
+        programReports.items = items;
+        programReports.nextLink = action.payload.programReports.nextLink;
       } else if (state.mediaType === 'others') {
-        const items = [
-          ...state.searchResult.others.items,
-          ...action.payload.others.items
-        ];
-        others = {
-          ...state.searchResult.others,
-          items: items,
-          nextLink: action.payload.others.nextLink
-        };
+        const items = [...others.items, ...action.payload.others.items];
+        others.items = items;
+        others.nextLink = action.payload.others.nextLink;
       }
 
       return {
@@ -373,4 +332,12 @@ export const getMoreUrl = (state: State) => {
   }
 
   return url;
+};
+
+export const pristine = (state: State) => {
+  return (
+    state.q === initialState.q &&
+    state.mediaType === initialState.mediaType &&
+    state.filters === initialState.filters
+  );
 };
