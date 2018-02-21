@@ -132,6 +132,7 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.SearchError: {
+      console.log(action.payload);
       return {
         ...state,
         hasError: true,

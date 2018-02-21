@@ -149,7 +149,9 @@ export class SearchEffects {
             map(searchResult => {
               return new search.LoadMoreSuccess(searchResult);
             }),
-            catchError(err => Observable.of(new search.SearchError(err)))
+            catchError(err => {
+              return Observable.of(new search.SearchError(err));
+            })
           );
       })
     );
