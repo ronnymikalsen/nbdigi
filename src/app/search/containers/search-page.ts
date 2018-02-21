@@ -57,7 +57,6 @@ export class SearchPageComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) { }
 
   ngOnInit() {
-    console.log('init');
     this.store.dispatch(new searchAction.SearchAggs());
   }
 
@@ -82,8 +81,8 @@ export class SearchPageComponent implements OnInit {
     this.store.dispatch(new searchAction.Search());
   }
 
-  showMore(mediaTypeResults: MediaTypeResults): void {
-    this.store.dispatch(new searchAction.SetMediaType(mediaTypeResults.mediaType));
+  showMore(mediaType: string): void {
+    this.store.dispatch(new searchAction.SetMediaType(mediaType));
   }
 
   loadMore(): void {

@@ -1,6 +1,7 @@
 <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
   <app-toolbar [search]="search" (searchSelected)="searching()" (query)="query.emit($event)" (addFilter)="addFilter.emit($event)"
-    (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)">
+    (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
+    (mediatypeSelected)="onMediaTypeSelected($event)">
   </app-toolbar>
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>

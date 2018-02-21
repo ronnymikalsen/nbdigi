@@ -41,7 +41,7 @@ export class SearchComponent implements OnInit {
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() itemSelected = new EventEmitter<Item>();
-  @Output() mediatypeSelected = new EventEmitter<MediaTypeResults>();
+  @Output() mediatypeSelected = new EventEmitter<string>();
   @Output() loadMore = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
@@ -55,7 +55,7 @@ export class SearchComponent implements OnInit {
     setTimeout(() => this.searchResultContainer.nativeElement.focus());
   }
 
-  onMediaTypeSelected(selected: MediaTypeResults) {
+  onMediaTypeSelected(selected: string) {
     this.mediatypeSelected.emit(selected);
   }
 

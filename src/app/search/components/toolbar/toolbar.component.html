@@ -22,11 +22,11 @@
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-toolbar color="primary">
+<mat-toolbar>
   <mat-form-field [floatLabel]="'never'">
-    <mat-select [formControl]="mediaType" placeholder="Mediatyper">
+    <mat-select [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediatypeSelected.emit($event.value)">
       <mat-select-trigger>
-        Mediatype: {{mediaType.value}}
+        {{mediaType.value | titlecase}}
       </mat-select-trigger>        
       <mat-option [value]="search.mediaTypes.books.mediaType">
         <app-media-type-option [mediaType]="search.mediaTypes.books.mediaType" [count]="search.mediaTypes.books.count"></app-media-type-option>
