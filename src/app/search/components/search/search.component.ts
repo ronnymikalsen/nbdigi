@@ -1,13 +1,15 @@
 import {
   Component,
   OnInit,
+  OnChanges,
   Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
   ViewChild,
   ElementRef,
-  Renderer2
+  Renderer2,
+  SimpleChanges
 } from '@angular/core';
 
 import * as fromSearch from './../../../+state/reducers/search.reducer';
@@ -21,7 +23,7 @@ import { MediaTypeResults } from './../../../models/search-result.model';
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
   @Input() pristine: boolean;
   @Input() books = new MediaTypeResults();
@@ -50,6 +52,21 @@ export class SearchComponent implements OnInit {
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['search']) {
+      if (
+        this.moreUrl &&
+        !this.search.isLoading &&
+        !this.search.isLoadingMore &&
+        this.search.mediaType &&
+        this.searchResultContainer.nativeElement.clientHeight ===
+          this.searchResultContainer.nativeElement.scrollHeight
+      ) {
+        this.loadMore.emit();
+      }
+    }
+  }
 
   searching() {
     this.searchSelected.emit();

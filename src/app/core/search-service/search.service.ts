@@ -185,6 +185,11 @@ export class SearchService {
 
   private extractCounts(resp: ItemsResponse, searchResult: SuperSearchResult) {
     const aggregations = resp._embedded.aggregations;
+
+    if (!aggregations) {
+      return;
+    }
+
     const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
       .buckets;
     searchResult.books.counts = this.extractCount(
