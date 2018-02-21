@@ -10,6 +10,9 @@ export enum SearchActionTypes {
   Search = '[Search] Searching',
   SearchSuccess = '[Search] Search success',
   SearchError = '[Search] Search error',
+  SearchAggs = '[Search] Searching aggs',
+  SearchAggsSuccess = '[Search] Search aggs success',
+  SearchAggsError = '[Search] Search aggs error',
   SetQuery = '[Search] Set query',
   LoadHints = '[Search] Load hints',
   HintsLoaded = '[Search] Hints Loaded',
@@ -33,6 +36,22 @@ export class SearchSuccess implements Action {
 
 export class SearchError implements Action {
   readonly type = SearchActionTypes.SearchError;
+
+  constructor(public payload: any) {}
+}
+
+export class SearchAggs implements Action {
+  readonly type = SearchActionTypes.SearchAggs;
+}
+
+export class SearchAggsSuccess implements Action {
+  readonly type = SearchActionTypes.SearchAggsSuccess;
+
+  constructor(public payload: SuperSearchResult) {}
+}
+
+export class SearchAggsError implements Action {
+  readonly type = SearchActionTypes.SearchAggsError;
 
   constructor(public payload: any) {}
 }
@@ -93,6 +112,9 @@ export type SearchAction =
   | Search
   | SearchSuccess
   | SearchError
+  | SearchAggs
+  | SearchAggsSuccess
+  | SearchAggsError
   | SetQuery
   | LoadHints
   | HintsLoaded

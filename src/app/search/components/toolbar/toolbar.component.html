@@ -2,10 +2,7 @@
   <mat-toolbar-row class="search-box-container">
     <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
       <div fxFlex="100" fxFlex.gt-sm="700px">
-        <app-search-box [hints]="search.hints" 
-          (searchSelected)="searchSelected.emit($event)"
-          (query)="query.emit($event)"
-          (hintSelected)="addFilter.emit($event)"></app-search-box>
+        <app-search-box [hints]="search.hints" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (hintSelected)="addFilter.emit($event)"></app-search-box>
       </div>
     </div>
   </mat-toolbar-row>
@@ -22,6 +19,45 @@
           <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
       </mat-chip-list>
-      </div>
+    </div>
   </mat-toolbar-row>
+</mat-toolbar>
+<mat-toolbar>
+  <mat-form-field [floatLabel]="'never'">
+    <mat-select [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediatypeSelected.emit($event.value)">
+      <mat-select-trigger>
+        {{mediaType.value | titlecase}}
+      </mat-select-trigger>
+      <mat-option [value]="search.searchResult.books.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.books.mediaType" [count]="search.searchResult.books.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.newspapers.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.newspapers.mediaType" [count]="search.searchResult.newspapers.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.photos.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.photos.mediaType" [count]="search.searchResult.photos.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.periodicals.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.periodicals.mediaType" [count]="search.searchResult.periodicals.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.maps.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.maps.mediaType" [count]="search.searchResult.maps.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.musicBooks.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.musicBooks.mediaType" [count]="search.searchResult.musicBooks.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.musicManuscripts.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.musicManuscripts.mediaType" [count]="search.searchResult.musicManuscripts.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.posters.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.posters.mediaType" [count]="search.searchResult.posters.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.privateArchives.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.privateArchives.mediaType" [count]="search.searchResult.privateArchives.counts"></app-media-type-option>
+      </mat-option>
+      <mat-option [value]="search.searchResult.programReports.mediaType">
+        <app-media-type-option [mediaType]="search.searchResult.programReports.mediaType" [count]="search.searchResult.programReports.counts"></app-media-type-option>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 </mat-toolbar>

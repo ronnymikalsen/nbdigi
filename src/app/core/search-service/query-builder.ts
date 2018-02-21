@@ -9,8 +9,8 @@ export class QueryBuilder {
   private mediaType: string;
   private size = 1;
 
-  constructor(apiURL: string) {
-    this.apiURL = `${apiURL}/catalog/v1/`;
+  constructor(apiURL: string, service: string) {
+    this.apiURL = `${apiURL}/catalog/v1/${service}`;
   }
 
   withQ(value: string): QueryBuilder {
@@ -60,10 +60,12 @@ export class QueryBuilder {
   build(): string {
     const params = [];
 
-    const qParam = this.q && this.q.length >  0 ? this.q : '-qwertyuiop';
+    const qParam = this.q && this.q.length > 0 ? this.q : '-qwertyuiop';
     params.push(`q=${qParam}`);
 
-    const filtersParams = this.filters.map(f => `filter=${encodeURIComponent(f)}`);
+    const filtersParams = this.filters.map(
+      f => `filter=${encodeURIComponent(f)}`
+    );
     params.push(...filtersParams);
 
     params.push(`digitalAccessibleOnly=${this.digitalAccessibleOnly}`);
@@ -87,9 +89,6 @@ export class QueryBuilder {
     const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);
     params.push(...aggsParams);
 
-    return this.apiURL +
-      (this.mediaType ? 'items' : 'search') +
-      '?' +
-      params.join('&');
+    return this.apiURL + '?' + params.join('&');
   }
 }

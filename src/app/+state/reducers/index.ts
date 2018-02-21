@@ -64,6 +64,7 @@ export const getAuthError = createSelector(
  * Search Reducers
  */
 export const getSearchState = createFeatureSelector<fromSearch.State>('search');
+export const pristine = createSelector(getSearchState, fromSearch.pristine);
 export const getBooks = createSelector(getSearchState, fromSearch.getBooks);
 export const getNewspapers = createSelector(
   getSearchState,
