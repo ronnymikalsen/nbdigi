@@ -38,5 +38,4 @@ export class ToolbarComponent implements OnInit, OnChanges {
       this.mediaType.setValue(this.search.mediaType);
     }
   }
-
 }

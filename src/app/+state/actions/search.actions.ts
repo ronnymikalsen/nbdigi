@@ -21,7 +21,7 @@ export enum SearchActionTypes {
   ToggleFilter = '[Search] Toggle filter',
   SetMediaType = '[Search] Set media type',
   LoadMore = '[Search] Load more',
-  LoadMoreSuccess = '[Search] Load more success',
+  LoadMoreSuccess = '[Search] Load more success'
 }
 
 export class Search implements Action {

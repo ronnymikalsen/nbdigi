@@ -17,10 +17,9 @@ import { Authenticate } from './../../models/auth.model';
 export class ResetPasswordPageComponent {
   authError = this.store.select(fromRoot.getAuthError);
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   resetPassord(email: string) {
     this.store.dispatch(new session.SendPasswordResetEmail(email));
   }
-
 }

@@ -27,31 +27,48 @@ export class AppComponent implements OnInit, OnDestroy {
     private afAuth: AngularFireAuth,
     private store: Store<fromRoot.State>
   ) {
-    iconRegistry.addSvgIcon('logo', sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg'));
-    iconRegistry.addSvgIcon('google', sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg'));
+    iconRegistry.addSvgIcon(
+      'logo',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg')
+    );
+    iconRegistry.addSvgIcon(
+      'google',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg')
+    );
   }
 
   ngOnInit() {
     if (this.swUpdate) {
-      this.swUpdate.available.pipe(takeUntil(this.destroyed)).subscribe(event => {
-        const snackBarRef = this.snackBar.open('En ny oppdatering av NBDigi er tilgjengelig', 'Oppdater nå');
-        snackBarRef.onAction().subscribe(() => {
-          this.swUpdate.activateUpdate().then(() => document.location.reload());
+      this.swUpdate.available
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(event => {
+          const snackBarRef = this.snackBar.open(
+            'En ny oppdatering av NBDigi er tilgjengelig',
+            'Oppdater nå'
+          );
+          snackBarRef.onAction().subscribe(() => {
+            this.swUpdate
+              .activateUpdate()
+              .then(() => document.location.reload());
+          });
         });
-      });
     }
 
-    this.afAuth.authState.pipe(
-    ).subscribe((authState) => {
-      if (authState) {
-        this.store.dispatch(new session.SignedIn({
-          displayName: authState.displayName,
-          email: authState.email
-        }));
-      } else {
-        this.store.dispatch(new session.SignOut());
-      }
-    }, (err) => console.log('errr', err));
+    this.afAuth.authState.pipe().subscribe(
+      authState => {
+        if (authState) {
+          this.store.dispatch(
+            new session.SignedIn({
+              displayName: authState.displayName,
+              email: authState.email
+            })
+          );
+        } else {
+          this.store.dispatch(new session.SignOut());
+        }
+      },
+      err => console.log('errr', err)
+    );
   }
 
   ngOnDestroy() {

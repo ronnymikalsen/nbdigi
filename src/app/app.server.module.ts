@@ -7,13 +7,20 @@ import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AppShellComponent } from './app-shell/app-shell.component';
 
-const routes: Routes = [{ path: 'app-shell-path', component: AppShellComponent }];
+const routes: Routes = [
+  { path: 'app-shell-path', component: AppShellComponent }
+];
 
 declare var global: any;
 (global as any).XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 
 @NgModule({
-  imports: [AppModule, ServerModule, RouterModule.forRoot(routes), SharedModule],
+  imports: [
+    AppModule,
+    ServerModule,
+    RouterModule.forRoot(routes),
+    SharedModule
+  ],
   bootstrap: [AppComponent],
   declarations: [AppShellComponent]
 })

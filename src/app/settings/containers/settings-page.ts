@@ -17,12 +17,13 @@ import { Hint } from './../../core/typeahead-service/hints.model';
   `
 })
 export class SettingsPageComponent {
-  session: Observable<fromSession.State> = this.store.select(fromRoot.getSessionState);
+  session: Observable<fromSession.State> = this.store.select(
+    fromRoot.getSessionState
+  );
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   signOut(): void {
     this.store.dispatch(new session.SignOut());
   }
-
 }

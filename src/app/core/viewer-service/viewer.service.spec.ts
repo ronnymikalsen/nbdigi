@@ -9,7 +9,10 @@ describe('ViewerService', () => {
     });
   });
 
-  it('should be created', inject([ViewerService], (service: ViewerService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([ViewerService], (service: ViewerService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

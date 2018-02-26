@@ -1,4 +1,12 @@
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
@@ -13,7 +21,8 @@ import { AuthError } from './../../models/auth-error.model';
 export class LoginComponent implements OnInit, OnChanges {
   @Input() authError: AuthError;
   @Output() signInWithGoogleSelected = new EventEmitter<void>();
-  @Output() signInWithEmailAndPasswordSelected = new EventEmitter<Authenticate>();
+  @Output()
+  signInWithEmailAndPasswordSelected = new EventEmitter<Authenticate>();
   loginForm: FormGroup;
   email: FormControl;
   password: FormControl;
@@ -30,19 +39,19 @@ export class LoginComponent implements OnInit, OnChanges {
       if (curr) {
         if (curr.code === 'auth/wrong-password') {
           this.password.setErrors({
-            'wrongPassword': curr.message
+            wrongPassword: curr.message
           });
         } else if (curr.code === 'auth/user-not-found') {
           this.email.setErrors({
-            'userNotFound': curr.message
+            userNotFound: curr.message
           });
         } else if (curr.code === 'auth/invalid-email') {
           this.email.setErrors({
-            'invalidEmail': curr.message
+            invalidEmail: curr.message
           });
         } else if (curr.code === 'auth/too-many-requests') {
           this.loginForm.setErrors({
-            'tooManyRequests': curr.message
+            tooManyRequests: curr.message
           });
         }
       }

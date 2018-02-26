@@ -6,12 +6,13 @@ describe('MediaTypeOptionComponent', () => {
   let component: MediaTypeOptionComponent;
   let fixture: ComponentFixture<MediaTypeOptionComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MediaTypeOptionComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [MediaTypeOptionComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaTypeOptionComponent);
