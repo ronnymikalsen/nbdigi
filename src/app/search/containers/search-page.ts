@@ -41,22 +41,38 @@ import { SuperSearchResult } from '../../models/search-result.model';
   `
 })
 export class SearchPageComponent implements OnInit {
-  search: Observable<fromSearch.State> = this.store.select(fromRoot.getSearchState);
+  search: Observable<fromSearch.State> = this.store.select(
+    fromRoot.getSearchState
+  );
   books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
-  newspapers: Observable<MediaTypeResults> = this.store.select(fromRoot.getNewspapers);
+  newspapers: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewspapers
+  );
   photos: Observable<MediaTypeResults> = this.store.select(fromRoot.getPhotos);
-  periodicals: Observable<MediaTypeResults> = this.store.select(fromRoot.getPeriodicals);
+  periodicals: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getPeriodicals
+  );
   maps: Observable<MediaTypeResults> = this.store.select(fromRoot.getMaps);
-  musicBooks: Observable<MediaTypeResults> = this.store.select(fromRoot.getMusicBooks);
-  musicManuscripts: Observable<MediaTypeResults> = this.store.select(fromRoot.getMusicManuscripts);
-  posters: Observable<MediaTypeResults> = this.store.select(fromRoot.getPosters);
-  privateArchives: Observable<MediaTypeResults> = this.store.select(fromRoot.getPrivateArchives);
-  programReports: Observable<MediaTypeResults> = this.store.select(fromRoot.getProgramReports);
+  musicBooks: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getMusicBooks
+  );
+  musicManuscripts: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getMusicManuscripts
+  );
+  posters: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getPosters
+  );
+  privateArchives: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getPrivateArchives
+  );
+  programReports: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getProgramReports
+  );
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
@@ -88,11 +104,10 @@ export class SearchPageComponent implements OnInit {
   }
 
   loadMore(): void {
-    this.store.dispatch(new searchAction.LoadMore);
+    this.store.dispatch(new searchAction.LoadMore());
   }
 
   open(item: Item): void {
     this.store.dispatch(new itemAction.Open(item));
   }
-
 }

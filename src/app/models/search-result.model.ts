@@ -70,7 +70,12 @@ export class MediaTypeResults {
   public nextLink? = null;
   public items: Item[] = [];
 
-  constructor(fields?: { mediaType?: string, totalElements?: number, counts?: number, nextLink?: string }) {
+  constructor(fields?: {
+    mediaType?: string;
+    totalElements?: number;
+    counts?: number;
+    nextLink?: string;
+  }) {
     if (fields) {
       this.mediaType = fields.mediaType || this.mediaType;
       this.totalElements = fields.totalElements || this.totalElements;
@@ -86,7 +91,6 @@ export class Item {
   public issued: string;
   public thumbnail: string;
   public manifestUri: string;
-
 
   constructor(fields?: {
     title?: string;

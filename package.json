@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "precommit": "pretty-quick --staged",
     "clean": "rimraf dist",
     "ng": "ng",
     "start": "ng s -H 0.0.0.0 --disable-host-check",
@@ -12,6 +13,7 @@
     "ngsw:version": "./node_modules/.bin/ngsw-config dist/ src/ngsw-config.json",
     "test": "ng test",
     "test:once": "ng test --single-run",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "lint": "ng lint",
     "coverage": "ng test --single-run --code-coverage",
     "e2e": "ng e2e",
@@ -60,6 +62,7 @@
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "^6.0.96",
     "codelyzer": "^4.0.1",
+    "husky": "0.14.3",
     "jasmine-core": "~2.6.2",
     "jasmine-spec-reporter": "~4.1.0",
     "karma": "~1.7.0",
@@ -68,11 +71,13 @@
     "karma-coverage-istanbul-reporter": "^1.2.1",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
-    "prettier": "^1.9.0",
+    "prettier": "1.10.2",
+    "pretty-quick": "1.4.1",
     "protractor": "~5.1.2",
     "rimraf": "2.6.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
+    "tslint-config-prettier": "1.9.0",
     "typescript": "2.6.2"
   }
 }

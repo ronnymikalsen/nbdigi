@@ -6,11 +6,8 @@ import { ViewerComponent } from './components/viewer/viewer.component';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SharedModule
-  ],
+  imports: [CommonModule, SharedModule],
   declarations: [ViewerPageComponent, ViewerComponent],
   entryComponents: [ViewerPageComponent]
 })
-export class ViewerModule { }
+export class ViewerModule {}

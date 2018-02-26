@@ -17,17 +17,18 @@ import { Authenticate } from './../../models/auth.model';
 export class CreateAccountPageComponent {
   authError = this.store.select(fromRoot.getAuthError);
 
-  constructor(private store: Store<fromRoot.State>) { }
+  constructor(private store: Store<fromRoot.State>) {}
 
   signInWithGoogle(): void {
     this.store.dispatch(new session.SignInWithGoogle());
   }
 
   signUp(authenticate: Authenticate): void {
-    this.store.dispatch(new session.SignUpWithEmailAndPassword({
-      email: authenticate.email,
-      password: authenticate.password
-    }));
+    this.store.dispatch(
+      new session.SignUpWithEmailAndPassword({
+        email: authenticate.email,
+        password: authenticate.password
+      })
+    );
   }
-
 }

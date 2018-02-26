@@ -14,7 +14,11 @@ describe('SessionEffects', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [SessionEffects, DataPersistence, provideMockActions(() => actions)]
+      providers: [
+        SessionEffects,
+        DataPersistence,
+        provideMockActions(() => actions)
+      ]
     });
 
     effects = TestBed.get(SessionEffects);

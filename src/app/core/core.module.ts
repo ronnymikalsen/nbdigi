@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient, HttpHandler } from '@angular/common/http';
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpHandler
+} from '@angular/common/http';
 
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './auth-service/auth.service';
@@ -14,9 +19,7 @@ export function httpFactory(handler: HttpHandler) {
 }
 
 @NgModule({
-  imports: [
-    HttpClientModule
-  ],
+  imports: [HttpClientModule],
   declarations: [],
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
@@ -27,4 +30,4 @@ export function httpFactory(handler: HttpHandler) {
     ViewerService
   ]
 })
-export class CoreModule { }
+export class CoreModule {}

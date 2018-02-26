@@ -6,12 +6,13 @@ describe('ViewerDialogComponent', () => {
   let component: ViewerDialogComponent;
   let fixture: ComponentFixture<ViewerDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ViewerDialogComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewerDialogComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewerDialogComponent);

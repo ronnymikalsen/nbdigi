@@ -1,6 +1,19 @@
 import { AuthError } from './../../../models/auth-error.model';
-import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  EventEmitter,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators
+} from '@angular/forms';
 
 import { PasswordValidation } from './password.validation';
 import { Authenticate } from './../../../models/auth.model';
@@ -22,7 +35,7 @@ export class CreateAccountComponent implements OnInit, OnChanges {
     this.createForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['authError']) {
@@ -30,15 +43,15 @@ export class CreateAccountComponent implements OnInit, OnChanges {
       if (curr) {
         if (curr.code === 'auth/email-already-in-use') {
           this.email.setErrors({
-            'emailAlreadyInUse': curr.message
+            emailAlreadyInUse: curr.message
           });
         } else if (curr.code === 'auth/invalid-email') {
           this.email.setErrors({
-            'invalidEmail': curr.message
+            invalidEmail: curr.message
           });
         } else if (curr.code === 'auth/weak-password') {
           this.password.setErrors({
-            'weakPassword': curr.message
+            weakPassword: curr.message
           });
         }
       }

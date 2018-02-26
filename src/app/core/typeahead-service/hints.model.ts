@@ -16,12 +16,18 @@ export class Hint {
   public value: string;
   public enabled = true;
 
-  constructor(fields?: { type?: string; label?: string; value?: string; enabled?: boolean }) {
+  constructor(fields?: {
+    type?: string;
+    label?: string;
+    value?: string;
+    enabled?: boolean;
+  }) {
     if (fields) {
       this.type = fields.type || this.type;
       this.label = fields.label || this.label;
       this.value = fields.value || this.value;
-      this.enabled = fields.enabled !== undefined ? fields.enabled : this.enabled;
+      this.enabled =
+        fields.enabled !== undefined ? fields.enabled : this.enabled;
     }
   }
 }

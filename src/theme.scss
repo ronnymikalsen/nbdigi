@@ -10,13 +10,17 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
 $default-primary: mat-palette($mat-cyan);
-$default-accent:  mat-palette($mat-light-green, A200, A100, A400);
+$default-accent: mat-palette($mat-light-green, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$default-warn:    mat-palette($mat-deep-orange);
+$default-warn: mat-palette($mat-deep-orange);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$default-theme: mat-light-theme($default-primary, $default-accent, $default-warn);
+$default-theme: mat-light-theme(
+  $default-primary,
+  $default-accent,
+  $default-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component

@@ -6,12 +6,13 @@ describe('MediaTypeButtonComponent', () => {
   let component: MediaTypeButtonComponent;
   let fixture: ComponentFixture<MediaTypeButtonComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MediaTypeButtonComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [MediaTypeButtonComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MediaTypeButtonComponent);

@@ -8,7 +8,6 @@ import {
 } from './size.strategy';
 
 export class SizeStrategyFactory {
-
   public static createStrategy(mqAlias: string): SizeStrategy {
     if (mqAlias === 'xs') {
       return new XsSizeStrategy();

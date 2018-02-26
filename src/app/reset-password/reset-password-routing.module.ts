@@ -4,7 +4,9 @@ import { RouterModule } from '@angular/router';
 import { ResetPasswordPageComponent } from './containers/reset-password-page';
 
 @NgModule({
-  imports: [RouterModule.forChild([{ path: '', component: ResetPasswordPageComponent }])],
+  imports: [
+    RouterModule.forChild([{ path: '', component: ResetPasswordPageComponent }])
+  ],
   exports: [RouterModule]
 })
 export class ResetPasswordRoutingModule {}
