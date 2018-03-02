@@ -235,7 +235,7 @@ export class SearchService {
   }
 
   private extractCount(buckets: BucketResponse[], mediaType: string): number {
-    if (buckets === null) {
+    if (!buckets) {
       return 0;
     }
 
