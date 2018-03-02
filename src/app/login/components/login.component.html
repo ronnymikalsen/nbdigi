@@ -1,12 +1,16 @@
 <div fxFill fxLayout="column" fxLayoutAlign="center center">
-  <a routerLink="/home"><mat-icon class="mat-h2 logo" svgIcon="logo"></mat-icon></a>
+  <a routerLink="/home">
+    <mat-icon class="mat-h2 logo" svgIcon="logo"></mat-icon>
+  </a>
   <div class="mat-h1">NBDIGI</div>
   <div class="mat-h2">Multimedialt bibliotek</div>
-    <button class="google-login-button" mat-raised-button (click)="signInWithGoogle()">
+  <div>
+    <button class="google-login-button" (click)="signInWithGoogle()" mat-raised-button>
       <mat-icon class="google-logo" svgIcon="google"></mat-icon>Logg inn med Google
     </button>
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="signInWithEmailAndPassword()" novalidate>
-      <div fxLayout="column">
+  </div>
+  <form class="login-form" [formGroup]="loginForm" (ngSubmit)="signInWithEmailAndPassword()" novalidate>
+    <div fxLayout="column">
       <h2 class="mat-h2 seperator">Eller</h2>
       <mat-error *ngIf="loginForm.errors?.tooManyRequests">For mange forsøk. Prøv igjen senere</mat-error>
       <mat-form-field>
