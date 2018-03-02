@@ -1,5 +1,4 @@
 export class QueryBuilder {
-  private apiURL: string;
   private q: string;
   private filters: string[] = [];
   private aggs: string[] = [];
@@ -9,9 +8,7 @@ export class QueryBuilder {
   private mediaType: string;
   private size = 1;
 
-  constructor(apiURL: string, service: string) {
-    this.apiURL = `${apiURL}/catalog/v1/${service}`;
-  }
+  constructor() {}
 
   withQ(value: string): QueryBuilder {
     this.q = value;
@@ -89,6 +86,6 @@ export class QueryBuilder {
     const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);
     params.push(...aggsParams);
 
-    return this.apiURL + '?' + params.join('&');
+    return '?' + params.join('&');
   }
 }

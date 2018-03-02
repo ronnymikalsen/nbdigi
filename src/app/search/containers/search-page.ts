@@ -79,8 +79,8 @@ export class SearchPageComponent implements OnInit {
   }
 
   query(query: string): void {
-    this.store.dispatch(new searchAction.LoadHints(query));
     this.store.dispatch(new searchAction.SetQuery(query));
+    this.store.dispatch(new searchAction.LoadHints());
   }
 
   toggleFilter(filter: Hint): void {

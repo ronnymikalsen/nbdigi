@@ -5,6 +5,7 @@ import {
   MediaTypeResults
 } from './../../models/search-result.model';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
+import { SearchCriteria } from '../../models/search-criteria.model';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -65,7 +66,7 @@ export class SetQuery implements Action {
 export class LoadHints implements Action {
   readonly type = SearchActionTypes.LoadHints;
 
-  constructor(public payload: string) {}
+  constructor() {}
 }
 
 export class HintsLoaded implements Action {
