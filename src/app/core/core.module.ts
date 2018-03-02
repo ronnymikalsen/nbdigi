@@ -13,6 +13,7 @@ import { TypeaheadService } from './typeahead-service/typeahead.service';
 import { SearchService } from './search-service/search.service';
 import { CustomHttp } from './custom-http';
 import { ViewerService } from './viewer-service/viewer.service';
+import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -27,7 +28,8 @@ export function httpFactory(handler: HttpHandler) {
     AuthService,
     SearchService,
     TypeaheadService,
-    ViewerService
+    ViewerService,
+    CheckForUpdateService
   ]
 })
 export class CoreModule {}

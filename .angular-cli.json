@@ -7,11 +7,7 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": [
-        "assets",
-        "favicon.ico",
-        "pwa-manifest.json"
-      ],
+      "assets": ["assets", "favicon.ico", "pwa-manifest.json"],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
@@ -19,10 +15,7 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [
-        "styles.scss",
-        "theme.scss"
-      ],
+      "styles": ["styles.scss", "theme.scss"],
       "scripts": [
         "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
       ],
@@ -40,24 +33,15 @@
     {
       "root": "src",
       "outDir": "dist-server",
-      "assets": [
-        "assets",
-        "favicon.ico",
-        "pwa-manifest.json"
-      ],
+      "assets": ["assets", "favicon.ico", "pwa-manifest.json"],
       "index": "index.html",
       "main": "main.server.ts",
       "test": "test.ts",
       "tsconfig": "tsconfig.server.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "styles": [
-        "styles.scss",
-        "theme.scss"
-      ],
-      "scripts": [
-        "../node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-      ],
+      "styles": ["styles.scss", "theme.scss"],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
