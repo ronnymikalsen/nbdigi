@@ -6,17 +6,19 @@ import { map } from 'rxjs/operators/map';
 import { Hint } from './hints.model';
 import { TypeaheadResponse } from './typeahead.response';
 import { environment } from '../../../environments/environment';
+import { QueryBuilder } from './../../builders/query-builder';
+import { SearchCriteria } from '../../models/search-criteria.model';
 
 @Injectable()
 export class TypeaheadService {
   constructor(private http: HttpClient) {}
 
-  public creators(q: string): Observable<Hint[]> {
+  public creators(sc: SearchCriteria): Observable<Hint[]> {
     return this.http
       .get<TypeaheadResponse>(
         `${
           environment.nb.apiURL
-        }/catalog/v1/typeahead/namecreators?q=${q}&size=3`
+        }/catalog/v1/typeahead/namecreators${this.buildQuery(sc)}`
       )
       .pipe(
         map(resp => {
@@ -38,12 +40,12 @@ export class TypeaheadService {
       );
   }
 
-  public places(q: string): Observable<Hint[]> {
+  public places(sc: SearchCriteria): Observable<Hint[]> {
     return this.http
       .get<TypeaheadResponse>(
         `${
           environment.nb.apiURL
-        }/catalog/v1/typeahead/subjectgeographic?q=${q}&size=3`
+        }/catalog/v1/typeahead/subjectgeographic${this.buildQuery(sc)}`
       )
       .pipe(
         map(resp => {
@@ -63,5 +65,19 @@ export class TypeaheadService {
           return creators;
         })
       );
+  }
+
+  private buildQuery(sc: SearchCriteria): string {
+    let builder = new QueryBuilder()
+      .withQ(sc.q)
+      .withSize(3)
+      .withDigitalAccessibleOnly(true)
+      .withMediaType(sc.mediaType);
+
+    sc.filters.forEach(f => {
+      builder = builder.addFilter(f);
+    });
+
+    return builder.build();
   }
 }

@@ -39,16 +39,8 @@ export class SearchEffects {
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
-        let filters = [
-          ...storeState.search.filters.filter(h => h.enabled).map(h => h.value)
-        ];
-
-        if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
-          filters = [
-            ...filters,
-            'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
-          ];
-        }
+        const hints = new Hints();
+        const filters = this.addAllFilters(storeState);
 
         if (storeState.search.mediaType) {
           return this.searchService
@@ -87,16 +79,8 @@ export class SearchEffects {
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
-        let filters = [
-          ...storeState.search.filters.filter(h => h.enabled).map(h => h.value)
-        ];
-
-        if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
-          filters = [
-            ...filters,
-            'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
-          ];
-        }
+        const hints = new Hints();
+        const filters = this.addAllFilters(storeState);
 
         return this.searchService
           .search({
@@ -184,11 +168,19 @@ export class SearchEffects {
   loadHints: Observable<Action> = this.actions
     .ofType(SearchActionTypes.LoadHints)
     .pipe(
-      switchMap((action: LoadHints) => {
+      withLatestFrom(this.store),
+      switchMap(([action, storeState]) => {
         const hints = new Hints();
-        return this.typeaheadService.creators(action.payload).pipe(
+        const filters = this.addAllFilters(storeState);
+        const sc = {
+          size: 50,
+          mediaType: storeState.search.mediaType,
+          q: storeState.search.q,
+          filters: filters
+        };
+        return this.typeaheadService.creators(sc).pipe(
           map((h: Hint[]) => (hints.creators = h)),
-          mergeMap(h => this.typeaheadService.places(action.payload)),
+          mergeMap(h => this.typeaheadService.places(sc)),
           map((h: Hint[]) => (hints.places = h)),
           map(() => {
             return new search.HintsLoaded(hints);
@@ -204,4 +196,21 @@ export class SearchEffects {
     private searchService: SearchService,
     public snackBar: MatSnackBar
   ) {}
+
+  private addAllFilters(storeState): string[] {
+    let filters = [
+      ...storeState.search.filters.filter(h => h.enabled).map(h => h.value)
+    ];
+
+    if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
+      filters = [
+        ...filters,
+        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
+      ];
+    }
+    filters = [...filters, 'digital:Ja'];
+    filters = [...filters, 'contentClasses:jp2'];
+
+    return filters;
+  }
 }
