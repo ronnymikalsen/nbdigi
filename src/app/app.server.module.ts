@@ -17,8 +17,8 @@ declare var global: any;
 @NgModule({
   imports: [
     AppModule,
-    ServerModule,
     RouterModule.forRoot(routes),
+    ServerModule,
     SharedModule
   ],
   bootstrap: [AppComponent],
