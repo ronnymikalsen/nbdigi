@@ -18,7 +18,7 @@ export class CheckForUpdateService {
         const snackBarRef = this.snackBar.open(
           'En ny oppdatering av NBDigi er tilgjengelig',
           'Oppdater nå',
-          { duration: 5000 }
+          { duration: 10000 }
         );
         snackBarRef.onAction().subscribe(() => {
           updates.activateUpdate().then(() => document.location.reload());
