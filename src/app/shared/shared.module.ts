@@ -11,8 +11,10 @@ import {
 } from '@nationallibraryofnorway/ngx-mime';
 
 import { MaterialModule } from './material.module';
+import { DateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
+  declarations: [DateFormatPipe],
   exports: [
     CommonModule,
     ReactiveFormsModule,
@@ -20,7 +22,8 @@ import { MaterialModule } from './material.module';
     MaterialModule,
     LazyLoadImagesModule,
     InfiniteScrollModule,
-    MimeModule
+    MimeModule,
+    DateFormatPipe
   ],
   providers: [{ provide: MimeViewerIntl, useClass: MimeViewerIntlNoNb }]
 })

@@ -12,7 +12,7 @@
           {{item.creator}}
         </div>
         <div class="truncate" [matTooltip]="item.issued">
-          {{item.issued}}
+          {{item.issued | dateFormat}}
         </div>
       </div>
     </div>
