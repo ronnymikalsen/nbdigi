@@ -15,6 +15,7 @@ export interface State {
   q: string;
   mediaType: string;
   filters: Hint[];
+  sort: string;
   hints: Hints;
   searchResult: {
     totalElements: number;
@@ -39,6 +40,7 @@ export const initialState: State = {
   q: null,
   mediaType: null,
   filters: [],
+  sort: null,
   hints: null,
   searchResult: {
     totalElements: 0,
@@ -107,6 +109,13 @@ export function reducer(state = initialState, action: SearchAction): State {
         filters: state.filters.map((f, i) => {
           return i !== index ? f : { ...f, enabled: !f.enabled };
         }),
+        isLoading: true
+      };
+    }
+    case SearchActionTypes.SetSort: {
+      return {
+        ...state,
+        sort: action.payload,
         isLoading: true
       };
     }

@@ -34,7 +34,8 @@ export class SearchEffects {
       SearchActionTypes.SetMediaType,
       SearchActionTypes.AddFilter,
       SearchActionTypes.RemoveFilter,
-      SearchActionTypes.ToggleFilter
+      SearchActionTypes.ToggleFilter,
+      SearchActionTypes.SetSort
     )
     .pipe(
       withLatestFrom(this.store),
@@ -48,7 +49,8 @@ export class SearchEffects {
               size: 50,
               mediaType: storeState.search.mediaType,
               q: storeState.search.q,
-              filters: filters
+              filters: filters,
+              sort: storeState.search.sort
             })
             .pipe(
               map(searchResult => {
@@ -61,7 +63,8 @@ export class SearchEffects {
             .super({
               size: 20,
               q: storeState.search.q,
-              filters: filters
+              filters: filters,
+              sort: storeState.search.sort
             })
             .pipe(
               map(searchResult => {
@@ -86,7 +89,8 @@ export class SearchEffects {
           .search({
             size: 1,
             q: storeState.search.q,
-            filters: filters
+            filters: filters,
+            sort: storeState.search.sort
           })
           .pipe(
             map(searchResult => {
@@ -176,7 +180,8 @@ export class SearchEffects {
           size: 50,
           mediaType: storeState.search.mediaType,
           q: storeState.search.q,
-          filters: filters
+          filters: filters,
+          sort: storeState.search.sort
         };
         return this.typeaheadService.creators(sc).pipe(
           map((h: Hint[]) => (hints.creators = h)),

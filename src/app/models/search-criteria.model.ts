@@ -3,4 +3,5 @@ export class SearchCriteria {
   mediaType?: string;
   size?: number;
   filters?: string[] = [];
+  sort: string;
 }

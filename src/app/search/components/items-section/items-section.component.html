@@ -2,7 +2,7 @@
   <mat-toolbar>
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
       <h1>{{label | uppercase}}</h1>
-      <button *ngIf="showMoreButton" mat-button (click)="mediatypeSelected.emit(mediaTypeResults.mediaType)">VIS FLERE</button>
+      <button *ngIf="showMoreButton" mat-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)">VIS FLERE</button>
     </div>
   </mat-toolbar>
   <div fxLayout="rov wrap" *ngIf="selected">

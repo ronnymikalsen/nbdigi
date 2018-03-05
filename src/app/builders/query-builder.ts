@@ -7,6 +7,7 @@ export class QueryBuilder {
   private mediaTypeSize: number;
   private mediaType: string;
   private size = 1;
+  private sort: string;
 
   constructor() {}
 
@@ -54,6 +55,11 @@ export class QueryBuilder {
     return this;
   }
 
+  withSort(value: string): QueryBuilder {
+    this.sort = value;
+    return this;
+  }
+
   build(): string {
     const params = [];
 
@@ -81,6 +87,10 @@ export class QueryBuilder {
 
     if (this.mediaType) {
       params.push(`filter=mediatype:${this.mediaType}`);
+    }
+
+    if (this.sort) {
+      params.push(`sort=${this.sort}`);
     }
 
     const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);

@@ -22,7 +22,8 @@ export enum SearchActionTypes {
   ToggleFilter = '[Search] Toggle filter',
   SetMediaType = '[Search] Set media type',
   LoadMore = '[Search] Load more',
-  LoadMoreSuccess = '[Search] Load more success'
+  LoadMoreSuccess = '[Search] Load more success',
+  SetSort = '[Search] Set sort'
 }
 
 export class Search implements Action {
@@ -109,6 +110,12 @@ export class LoadMore implements Action {
   readonly type = SearchActionTypes.LoadMore;
 }
 
+export class SetSort implements Action {
+  readonly type = SearchActionTypes.SetSort;
+
+  constructor(public payload: string) {}
+}
+
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -124,4 +131,5 @@ export type SearchAction =
   | ToggleFilter
   | SetMediaType
   | LoadMoreSuccess
-  | LoadMore;
+  | LoadMore
+  | SetSort;
