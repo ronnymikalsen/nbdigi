@@ -9,7 +9,7 @@ import { startWith } from 'rxjs/operators';
 export class CheckForUpdateService {
   constructor(updates: SwUpdate, private snackBar: MatSnackBar) {
     if (updates.isEnabled) {
-      interval(10 * 60 * 60 * 1000)
+      interval(10 * 60 * 1000)
         .pipe(startWith(0))
         .subscribe(() => {
           updates.checkForUpdate();
