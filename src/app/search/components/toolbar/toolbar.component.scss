@@ -1,3 +1,11 @@
 mat-chip {
   cursor: pointer !important;
 }
+
+::ng-deep .mat-select-value-text {
+  font-family: 'Roboto Condensed' !important;
+}
+
+::ng-deep .mat-option-text {
+  font-family: 'Roboto Condensed';
+}

@@ -35,7 +35,8 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (removeFilter)="removeFilter($event)"
       (toggleFilter)="toggleFilter($event)"
       (itemSelected)="open($event)"
-      (mediatypeSelected)="showMore($event)"
+      (mediaTypeChanged)="mediaTypeChanged($event)"
+      (sortChanged)="sortChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -99,8 +100,12 @@ export class SearchPageComponent implements OnInit {
     this.store.dispatch(new searchAction.Search());
   }
 
-  showMore(mediaType: string): void {
+  mediaTypeChanged(mediaType: string): void {
     this.store.dispatch(new searchAction.SetMediaType(mediaType));
+  }
+
+  sortChanged(sort: string): void {
+    this.store.dispatch(new searchAction.SetSort(sort));
   }
 
   loadMore(): void {

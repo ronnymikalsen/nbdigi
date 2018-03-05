@@ -26,8 +26,18 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
-  @Output() mediatypeSelected = new EventEmitter<string>();
+  @Output() mediaTypeChanged = new EventEmitter<string>();
+  @Output() sortChanged = new EventEmitter<string>();
   mediaType = new FormControl();
+  sortControl = new FormControl();
+  sortOptions = [
+    { value: '_score,desc', viewValue: 'Relevans' },
+    { value: 'title,asc', viewValue: 'Tittel A-Å' },
+    { value: 'title,desc', viewValue: 'Tittel Å-A' },
+    { value: 'date,asc', viewValue: 'Eldste først' },
+    { value: 'date,desc', viewValue: 'Nyeste først' },
+    { value: 'firstDigitalContentTime,desc', viewValue: 'Nyankommet' }
+  ];
 
   constructor() {}
 
@@ -36,6 +46,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
       this.mediaType.setValue(this.search.mediaType);
+      this.sortControl.setValue(this.search.sort);
     }
   }
 }
