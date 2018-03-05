@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar, MatIconRegistry } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { interval } from 'rxjs/observable/interval';
 import { startWith } from 'rxjs/operators';
+
+import { SwUpdateMessageComponent } from '../sw-update-message/sw-update-message.component';
 
 @Injectable()
 export class CheckForUpdateService {
@@ -16,13 +18,14 @@ export class CheckForUpdateService {
         });
 
       updates.available.subscribe(event => {
-        const snackBarRef = this.snackBar.open(
-          'En ny oppdatering av NBDigi er tilgjengelig',
-          'Oppdater nå',
-          { duration: 10000 }
-        );
-        snackBarRef.onAction().subscribe(() => {
-          updates.activateUpdate().then(() => document.location.reload());
+        const ref = this.snackBar.openFromComponent(SwUpdateMessageComponent);
+
+        ref.instance.onAction.subscribe((action: string) => {
+          if (action === 'UPDATE') {
+            updates.activateUpdate().then(() => document.location.reload());
+          } else {
+            ref.dismiss();
+          }
         });
       });
     }
