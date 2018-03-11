@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { Item } from './../../../models/search-result.model';
+import { Item } from './../../models/search-result.model';
 
 @Component({
   selector: 'app-default-item-card',

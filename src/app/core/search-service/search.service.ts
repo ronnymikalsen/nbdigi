@@ -189,6 +189,7 @@ export class SearchService {
 
   private extractItem(i: ItemResponse): Item {
     return new Item({
+      id: i.id,
       title: i.metadata.title,
       creator: i.metadata.creators ? i.metadata.creators[0] : null,
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,

@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MimeViewerConfig } from '@nationallibraryofnorway/ngx-mime';
+import {
+  MimeViewerConfig,
+  MimeManifest
+} from '@nationallibraryofnorway/ngx-mime';
 
 import { Item } from '../../../models/search-result.model';
 
@@ -17,4 +20,6 @@ export class ViewerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  onManifestChange(manifest: MimeManifest) {}
 }

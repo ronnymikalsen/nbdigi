@@ -25,6 +25,7 @@ export interface MediaTypeResponse {
 }
 
 export interface ItemResponse {
+  id: string;
   _links: ItemsLinksResponse;
   metadata: MetadataResponse;
 }

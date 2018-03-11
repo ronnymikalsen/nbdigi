@@ -6,6 +6,7 @@ import {
   HttpClient,
   HttpHandler
 } from '@angular/common/http';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AuthInterceptor } from './auth.interceptor';
 import { AuthService } from './auth-service/auth.service';
@@ -31,7 +32,8 @@ export function httpFactory(handler: HttpHandler) {
     SearchService,
     TypeaheadService,
     ViewerService,
-    CheckForUpdateService
+    CheckForUpdateService,
+    AngularFireDatabase
   ],
   entryComponents: [SwUpdateMessageComponent]
 })

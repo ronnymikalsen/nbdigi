@@ -42,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (authState) {
           this.store.dispatch(
             new session.SignedIn({
+              uid: authState.uid,
               displayName: authState.displayName,
               email: authState.email
             })
