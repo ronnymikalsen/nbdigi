@@ -12,7 +12,7 @@ import * as firebase from 'firebase/app';
 
 import * as fromRoot from './../reducers';
 import { Item } from '../../models/search-result.model';
-import { ItemActionTypes, Open } from '../actions/item.actions';
+import { ItemActionTypes, Open, Change } from '../actions/item.actions';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
 
 @Injectable()
@@ -20,10 +20,17 @@ export class ItemEffects {
   private itemsRef: AngularFirestoreCollection<Item>;
 
   @Effect({ dispatch: false })
-  open: Observable<Action> = this.actions.ofType(ItemActionTypes.Open).pipe(
+  open: Observable<Action> = this.actions
+    .ofType(ItemActionTypes.Open)
+    .pipe(
+      map(action => action),
+      tap((action: Open) => this.viewerService.open(action.payload))
+    );
+
+  @Effect({ dispatch: false })
+  change: Observable<Action> = this.actions.ofType(ItemActionTypes.Change).pipe(
     map(action => action),
-    tap((action: Open) => this.viewerService.open(action.payload)),
-    tap((action: Open) =>
+    tap((action: Change) =>
       this.itemsRef.doc(action.payload.id).set({
         ...action.payload,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
