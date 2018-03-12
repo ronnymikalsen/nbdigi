@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 
 import { Item } from '../../../models/search-result.model';
 import { Observable } from 'rxjs/Observable';
-import { distinctUntilChanged, debounce } from 'rxjs/operators';
+import { distinctUntilChanged, debounce, debounceTime } from 'rxjs/operators';
 import { timer } from 'rxjs/observable/timer';
 
 @Component({
@@ -34,7 +34,7 @@ export class ViewerComponent implements OnInit {
   get onItemChange(): Observable<Item> {
     return this.itemSubject
       .asObservable()
-      .pipe(distinctUntilChanged(), debounce(() => timer(2000)));
+      .pipe(distinctUntilChanged(), debounceTime(2000));
   }
 
   onManifestChange(manifest: MimeManifest) {
