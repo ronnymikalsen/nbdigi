@@ -5,13 +5,13 @@
         <img class="thumbnail" [attr.data-src]="item.thumbnail">
       </div>
       <div class="metadata-container" fxLayout="column">
-        <div class="truncate" [matTooltip]="item.title">
+        <div class="title truncate" [matTooltip]="item.title">
           {{item.title}}
         </div>
-        <div class="truncate" [matTooltip]="item.creator">
+        <div class="truncate creator" [matTooltip]="item.creator">
           {{item.creator}}
         </div>
-        <div class="truncate" [matTooltip]="item.issued">
+        <div class="truncate issued" [matTooltip]="item.issued">
           {{item.issued | dateFormat}}
         </div>
       </div>

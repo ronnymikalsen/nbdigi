@@ -1,8 +1,8 @@
 <section *ngIf="mediaTypeResults?.totalElements > 0">
   <mat-toolbar>
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-      <h1>{{label | uppercase}}</h1>
-      <button *ngIf="showMoreButton" mat-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)">VIS FLERE</button>
+      <h1>{{label}}</h1>
+      <button *ngIf="showMoreButton" mat-raised-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)" color="primary">VIS FLERE</button>
     </div>
   </mat-toolbar>
   <div fxLayout="rov wrap" *ngIf="selected">

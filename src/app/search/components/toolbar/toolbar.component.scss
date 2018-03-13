@@ -9,3 +9,7 @@ mat-chip {
 ::ng-deep .mat-option-text {
   font-family: 'Roboto Condensed';
 }
+
+.mediaType {
+  text-transform: capitalize;
+}

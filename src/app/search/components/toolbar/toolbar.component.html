@@ -28,7 +28,7 @@
       <mat-form-field [floatLabel]="'never'">
         <mat-select panelClass="mediaTypeOptions" [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediaTypeChanged.emit($event.value)">
           <mat-select-trigger>
-            {{mediaType.value | titlecase}}
+            <div class="mediaType">{{mediaType.value}}</div>
           </mat-select-trigger>
           <mat-option [value]="search.searchResult.books.mediaType">
             <app-media-type-option [mediaType]="search.searchResult.books.mediaType" [count]="search.searchResult.books.counts"></app-media-type-option>

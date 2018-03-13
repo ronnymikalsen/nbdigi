@@ -81,6 +81,6 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   createLabel(mediaType: string, counts: number): string {
-    return mediaType ? `${mediaType.toUpperCase()} (${counts})` : '';
+    return mediaType ? `${mediaType} (${counts})` : '';
   }
 }
