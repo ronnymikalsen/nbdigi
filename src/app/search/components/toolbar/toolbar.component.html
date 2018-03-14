@@ -2,7 +2,8 @@
   <mat-toolbar-row class="search-box-container">
     <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
       <div fxFlex="100" fxFlex.gt-sm="700px">
-        <app-search-box [hints]="search.hints" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (hintSelected)="addFilter.emit($event)"></app-search-box>
+        <app-search-box [hints]="search.hints" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (hintSelected)="addFilter.emit($event)"
+          (debugChanged)="debugChanged.emit($event)"></app-search-box>
       </div>
     </div>
   </mat-toolbar-row>
@@ -23,7 +24,8 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-toolbar>
-  <div fxLayout="row" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+    <app-debug [isDebugOn]="isDebugOn" [href]="search.searchResult.selfLink?.href"></app-debug>
     <div>
       <mat-form-field [floatLabel]="'never'">
         <mat-select panelClass="mediaTypeOptions" [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediaTypeChanged.emit($event.value)">

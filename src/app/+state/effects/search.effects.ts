@@ -14,12 +14,6 @@ import {
 
 import * as fromRoot from './../reducers';
 import * as search from '../actions/search.actions';
-import {
-  LoadHints,
-  SetQuery,
-  SearchActionTypes,
-  Search
-} from './../actions/search.actions';
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
@@ -30,12 +24,12 @@ export class SearchEffects {
   @Effect()
   search: Observable<Action> = this.actions
     .ofType(
-      SearchActionTypes.Search,
-      SearchActionTypes.SetMediaType,
-      SearchActionTypes.AddFilter,
-      SearchActionTypes.RemoveFilter,
-      SearchActionTypes.ToggleFilter,
-      SearchActionTypes.SetSort
+      search.SearchActionTypes.Search,
+      search.SearchActionTypes.SetMediaType,
+      search.SearchActionTypes.AddFilter,
+      search.SearchActionTypes.RemoveFilter,
+      search.SearchActionTypes.ToggleFilter,
+      search.SearchActionTypes.SetSort
     )
     .pipe(
       withLatestFrom(this.store),
@@ -78,7 +72,10 @@ export class SearchEffects {
 
   @Effect()
   searchAggregator: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.SearchSuccess, SearchActionTypes.SearchAggs)
+    .ofType(
+      search.SearchActionTypes.SearchSuccess,
+      search.SearchActionTypes.SearchAggs
+    )
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
@@ -103,7 +100,7 @@ export class SearchEffects {
 
   @Effect()
   loadMore: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.LoadMore)
+    .ofType(search.SearchActionTypes.LoadMore)
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
@@ -145,20 +142,8 @@ export class SearchEffects {
     );
 
   @Effect({ dispatch: false })
-  scrollTop: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.SearchSuccess)
-    .pipe(
-      tap(() => {
-        /*
-        const element = document.querySelector('.search-result-container');
-        element.scrollTo(0, 0);
-        */
-      })
-    );
-
-  @Effect({ dispatch: false })
   error: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.SearchError)
+    .ofType(search.SearchActionTypes.SearchError)
     .pipe(
       tap(() => {
         this.snackBar.open('Det har oppstått en feil', null, {
@@ -170,7 +155,7 @@ export class SearchEffects {
 
   @Effect()
   loadHints: Observable<Action> = this.actions
-    .ofType(SearchActionTypes.LoadHints)
+    .ofType(search.SearchActionTypes.LoadHints)
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {

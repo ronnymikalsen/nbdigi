@@ -38,6 +38,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
   @Input() moreUrl = null;
+  @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
@@ -45,6 +46,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
   @Output() sortChanged = new EventEmitter<string>();
+  @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';

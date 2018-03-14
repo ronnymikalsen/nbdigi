@@ -1,0 +1,8 @@
+<div class="debug-container" *ngIf="isDebugOn">
+  <a class="debug" [href]="href" target="_blank">
+    <div fxLayout="row" fxLayoutAlign="start center" (click)="$event.stopPropagation();">
+      <mat-icon>link</mat-icon>
+      <div>api</div>
+    </div>
+  </a>
+</div>

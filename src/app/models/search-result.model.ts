@@ -1,5 +1,8 @@
+import { LinkResponse } from './items-response.model';
+
 export class SuperSearchResult {
   totalElements = 0;
+  selfLink: string;
   public books = new MediaTypeResults({
     mediaType: 'bøker'
   });
@@ -35,6 +38,7 @@ export class SuperSearchResult {
   });
 
   constructor(fields?: {
+    selfLink?: string;
     books?: MediaTypeResults;
     newspapers?: MediaTypeResults;
     photos?: MediaTypeResults;
@@ -48,6 +52,7 @@ export class SuperSearchResult {
     others?: MediaTypeResults;
   }) {
     if (fields) {
+      this.selfLink = fields.selfLink || this.selfLink;
       this.books = fields.books || this.books;
       this.newspapers = fields.newspapers || this.newspapers;
       this.photos = fields.photos || this.photos;
@@ -67,6 +72,7 @@ export class MediaTypeResults {
   public mediaType = null;
   public totalElements = 0;
   public counts = 0;
+  public selfLink? = null;
   public nextLink? = null;
   public items: Item[] = [];
 
@@ -74,12 +80,14 @@ export class MediaTypeResults {
     mediaType?: string;
     totalElements?: number;
     counts?: number;
+    selfLink?: string;
     nextLink?: string;
   }) {
     if (fields) {
       this.mediaType = fields.mediaType || this.mediaType;
       this.totalElements = fields.totalElements || this.totalElements;
       this.counts = fields.counts || this.counts;
+      this.selfLink = fields.selfLink || this.selfLink;
       this.nextLink = fields.nextLink || this.nextLink;
     }
   }
@@ -94,6 +102,7 @@ export class Item {
   public manifestUri: string = null;
   public currentCanvasId = 0;
   public timestamp = new Date();
+  public selfLink? = null;
 
   constructor(fields?: {
     id?: string;
@@ -104,6 +113,7 @@ export class Item {
     manifestUri?: string;
     currentCanvasId?: number;
     timestamp?: Date;
+    selfLink?: string;
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -114,6 +124,7 @@ export class Item {
       this.manifestUri = fields.manifestUri || this.manifestUri;
       this.currentCanvasId = fields.currentCanvasId || this.currentCanvasId;
       this.timestamp = fields.timestamp || this.timestamp;
+      this.selfLink = fields.selfLink || this.selfLink;
     }
   }
 }

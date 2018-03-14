@@ -1,4 +1,5 @@
 import { map } from 'rxjs/operators/map';
+
 import { MediaTypeCount } from './../../models/media-types-count';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import {
@@ -10,6 +11,7 @@ import {
   SuperSearchResult,
   MediaTypeResults
 } from '../../models/search-result.model';
+import { LinkResponse } from '../../models/items-response.model';
 
 export interface State {
   q: string;
@@ -18,6 +20,7 @@ export interface State {
   sort: string;
   hints: Hints;
   searchResult: {
+    selfLink: string;
     totalElements: number;
     books: MediaTypeResults;
     newspapers: MediaTypeResults;
@@ -43,6 +46,7 @@ export const initialState: State = {
   sort: null,
   hints: null,
   searchResult: {
+    selfLink: null,
     totalElements: 0,
     books: new MediaTypeResults({ mediaType: 'bøker' }),
     newspapers: new MediaTypeResults({ mediaType: 'bilder' }),
@@ -68,7 +72,7 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SetQuery: {
       return {
         ...state,
-        q: action.payload
+        q: action.payload.trim()
       };
     }
     case SearchActionTypes.Search: {
@@ -123,6 +127,7 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         searchResult: {
+          selfLink: action.payload.selfLink,
           totalElements: action.payload.totalElements,
           books: action.payload.books,
           newspapers: action.payload.newspapers,
@@ -153,6 +158,7 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         searchResult: {
+          selfLink: state.searchResult.selfLink,
           totalElements: state.searchResult.totalElements,
           books: {
             ...state.searchResult.books,

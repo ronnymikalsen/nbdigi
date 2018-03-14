@@ -14,6 +14,9 @@
         <div class="truncate issued" [matTooltip]="item.issued">
           {{item.issued | dateFormat}}
         </div>
+        <div>
+          <app-debug [isDebugOn]="isDebugOn | async" [href]="item.selfLink"></app-debug>
+        </div>
       </div>
     </div>
   </mat-card-content>

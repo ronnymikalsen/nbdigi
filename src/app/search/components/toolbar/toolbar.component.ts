@@ -21,6 +21,7 @@ import * as fromSearch from './../../../+state/reducers/search.reducer';
 })
 export class ToolbarComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
+  @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() query = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
@@ -28,6 +29,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
   @Output() sortChanged = new EventEmitter<string>();
+  @Output() debugChanged = new EventEmitter<boolean>();
   mediaType = new FormControl();
   sortControl = new FormControl();
   sortOptions = [
