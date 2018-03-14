@@ -86,25 +86,34 @@ export class MediaTypeResults {
 }
 
 export class Item {
-  public title: string;
-  public creator: string;
-  public issued: string;
-  public thumbnail: string;
-  public manifestUri: string;
+  public id: string = null;
+  public title: string = null;
+  public creator: string = null;
+  public issued: string = null;
+  public thumbnail: string = null;
+  public manifestUri: string = null;
+  public currentCanvasId = 0;
+  public timestamp = new Date();
 
   constructor(fields?: {
+    id?: string;
     title?: string;
     creator?: string;
     issued?: string;
     thumbnail?: string;
     manifestUri?: string;
+    currentCanvasId?: number;
+    timestamp?: Date;
   }) {
     if (fields) {
+      this.id = fields.id || this.id;
       this.title = fields.title || this.title;
       this.creator = fields.creator || this.creator;
       this.issued = fields.issued || this.issued;
       this.thumbnail = fields.thumbnail || this.thumbnail;
       this.manifestUri = fields.manifestUri || this.manifestUri;
+      this.currentCanvasId = fields.currentCanvasId || this.currentCanvasId;
+      this.timestamp = fields.timestamp || this.timestamp;
     }
   }
 }

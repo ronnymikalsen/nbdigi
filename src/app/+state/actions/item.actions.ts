@@ -3,7 +3,8 @@ import { Action } from '@ngrx/store';
 import { Item } from '../../models/search-result.model';
 
 export enum ItemActionTypes {
-  Open = '[Viewer] Open'
+  Open = '[Viewer] Open',
+  Change = '[Viewer] Change'
 }
 
 export class Open implements Action {
@@ -12,4 +13,10 @@ export class Open implements Action {
   constructor(public payload: Item) {}
 }
 
-export type ItemAction = Open;
+export class Change implements Action {
+  readonly type = ItemActionTypes.Change;
+
+  constructor(public payload: Item) {}
+}
+
+export type ItemAction = Open | Change;

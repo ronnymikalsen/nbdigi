@@ -15,6 +15,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
   declarations: [DateFormatPipe],
+  imports: [MaterialModule, LazyLoadImagesModule],
   exports: [
     CommonModule,
     ReactiveFormsModule,

@@ -6,18 +6,19 @@ import {
   LgSizeStrategy,
   XlSizeStrategy
 } from './size.strategy';
+import { ObservableMedia } from '@angular/flex-layout';
 
 export class SizeStrategyFactory {
-  public static createStrategy(mqAlias: string): SizeStrategy {
-    if (mqAlias === 'xs') {
+  public static createStrategy(media: ObservableMedia): SizeStrategy {
+    if (media.isActive('xs')) {
       return new XsSizeStrategy();
-    } else if (mqAlias === 'sm') {
+    } else if (media.isActive('sm')) {
       return new SmSizeStrategy();
-    } else if (mqAlias === 'md') {
+    } else if (media.isActive('md')) {
       return new MdSizeStrategy();
-    } else if (mqAlias === 'lg') {
+    } else if (media.isActive('lg')) {
       return new LgSizeStrategy();
-    } else if (mqAlias === 'xl') {
+    } else if (media.isActive('xl')) {
       return new XlSizeStrategy();
     }
 

@@ -1,1 +1,8 @@
-<p>home works!</p>
+<ng-container *ngIf="items && items.length > 0">
+  <h3>Forsett å lese</h3>
+  <div fxLayout="rov wrap">
+    <div *ngFor="let item of items">
+      <app-default-item-card [item]="item" fxFlex="200px"></app-default-item-card>
+    </div>
+  </div>
+</ng-container>

@@ -4,7 +4,10 @@ import {
   Input,
   ChangeDetectionStrategy
 } from '@angular/core';
+import { Store } from '@ngrx/store';
 
+import * as fromRoot from './../../../+state/reducers';
+import * as itemAction from './../../../+state/actions/item.actions';
 import { Item } from './../../../models/search-result.model';
 
 @Component({
@@ -16,7 +19,11 @@ import { Item } from './../../../models/search-result.model';
 export class DefaultItemCardComponent implements OnInit {
   @Input() item: Item;
 
-  constructor() {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {}
+
+  open(item: Item): void {
+    this.store.dispatch(new itemAction.Open(item));
+  }
 }
