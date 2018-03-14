@@ -30,6 +30,9 @@
           <mat-select-trigger>
             <div class="mediaType">{{mediaType.value}}</div>
           </mat-select-trigger>
+          <mat-option [value]="">
+            Alle
+          </mat-option>
           <mat-option [value]="search.searchResult.books.mediaType">
             <app-media-type-option [mediaType]="search.searchResult.books.mediaType" [count]="search.searchResult.books.counts"></app-media-type-option>
           </mat-option>

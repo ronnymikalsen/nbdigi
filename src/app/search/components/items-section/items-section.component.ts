@@ -31,8 +31,9 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
 
   constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {
     this.watcher = this.media.subscribe((change: MediaChange) => {
-      this.calculateAndUpdateSize(change);
+      this.calculateAndUpdateSize();
     });
+    this.calculateAndUpdateSize();
   }
 
   ngOnInit() {}
@@ -41,8 +42,8 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
     this.watcher.unsubscribe();
   }
 
-  private calculateAndUpdateSize(change: MediaChange): void {
-    const sizeStrategy = SizeStrategyFactory.createStrategy(change.mqAlias);
+  private calculateAndUpdateSize(): void {
+    const sizeStrategy = SizeStrategyFactory.createStrategy(this.media);
     const newSize = sizeStrategy.getSize();
     if (this.size !== newSize) {
       this.size = sizeStrategy.getSize();
