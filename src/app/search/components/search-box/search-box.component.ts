@@ -39,7 +39,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Output() debugChanged = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   public searchForm: FormGroup;
-  public queryControl: FormControl;
+  public queryControl = new FormControl('');
   private destroyed: Subject<void> = new Subject();
 
   constructor(private fb: FormBuilder) {
@@ -66,12 +66,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     let q: string = this.queryControl.value;
     if (q.includes('debugon')) {
       q = q.replace('debugon', '');
+      this.queryControl.setValue(q);
       this.debugChanged.emit(true);
     } else if (q.includes('debugoff')) {
       q = q.replace('debugoff', '');
+      this.queryControl.setValue(q);
       this.debugChanged.emit(false);
     }
-    this.queryControl.setValue(q);
     this.matAutocomplete.closePanel();
     this.query.emit(q);
     this.searchSelected.emit();
@@ -91,7 +92,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   private createForm() {
-    this.queryControl = new FormControl('');
     this.searchForm = this.fb.group({
       q: this.queryControl
     });
