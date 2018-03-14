@@ -2,7 +2,7 @@
   <h3>Forsett å lese</h3>
   <div fxLayout="rov wrap">
     <div *ngFor="let item of items">
-      <app-default-item-card [item]="item" fxFlex="200px" (click)="itemSelected.emit(item)"></app-default-item-card>
+      <app-default-item-card [item]="item" fxFlex="200px"></app-default-item-card>
     </div>
   </div>
 </ng-container>

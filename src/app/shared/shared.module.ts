@@ -1,4 +1,3 @@
-import { DefaultItemCardComponent } from './default-item-card/default-item-card.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,7 +14,7 @@ import { MaterialModule } from './material.module';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
-  declarations: [DateFormatPipe, DefaultItemCardComponent],
+  declarations: [DateFormatPipe],
   imports: [MaterialModule, LazyLoadImagesModule],
   exports: [
     CommonModule,
@@ -25,8 +24,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     LazyLoadImagesModule,
     InfiniteScrollModule,
     MimeModule,
-    DateFormatPipe,
-    DefaultItemCardComponent
+    DateFormatPipe
   ],
   providers: [{ provide: MimeViewerIntl, useClass: MimeViewerIntlNoNb }]
 })

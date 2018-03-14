@@ -25,25 +25,28 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() selected = false;
   @Input() label: string;
   @Input() showMoreButton = false;
-  @Output() itemSelected = new EventEmitter<Item>();
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
   size = 4;
   private watcher: Subscription;
 
-  constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {}
-
-  ngOnInit() {
+  constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {
     this.watcher = this.media.subscribe((change: MediaChange) => {
-      const sizeStrategy = SizeStrategyFactory.createStrategy(change.mqAlias);
-      const newSize = sizeStrategy.getSize();
-      if (this.size !== newSize) {
-        this.size = sizeStrategy.getSize();
-        this.cdr.markForCheck();
-      }
+      this.calculateAndUpdateSize(change);
     });
   }
 
+  ngOnInit() {}
+
   ngOnDestroy() {
     this.watcher.unsubscribe();
+  }
+
+  private calculateAndUpdateSize(change: MediaChange): void {
+    const sizeStrategy = SizeStrategyFactory.createStrategy(change.mqAlias);
+    const newSize = sizeStrategy.getSize();
+    if (this.size !== newSize) {
+      this.size = sizeStrategy.getSize();
+      this.cdr.markForCheck();
+    }
   }
 }

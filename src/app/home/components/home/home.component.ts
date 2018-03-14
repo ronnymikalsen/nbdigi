@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { Item } from './../../../models/search-result.model';
 
@@ -9,7 +9,6 @@ import { Item } from './../../../models/search-result.model';
 })
 export class HomeComponent implements OnInit {
   @Input() items: Item[];
-  @Output() itemSelected = new EventEmitter<Item>();
 
   constructor() {}
 

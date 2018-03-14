@@ -14,8 +14,7 @@ import { User } from './../../models/user.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<app-home [items]="items | async"
-  (itemSelected)="open($event)"></app-home>`
+  template: `<app-home [items]="items | async"></app-home>`
 })
 export class HomePageComponent {
   items: Observable<Item[]>;
@@ -36,9 +35,5 @@ export class HomePageComponent {
           )
           .valueChanges();
       });
-  }
-
-  open(item: Item): void {
-    this.store.dispatch(new itemAction.Open(item));
   }
 }

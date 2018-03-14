@@ -43,7 +43,6 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
-  @Output() itemSelected = new EventEmitter<Item>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
   @Output() sortChanged = new EventEmitter<string>();
   @Output() loadMore = new EventEmitter<void>();
@@ -81,6 +80,6 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   createLabel(mediaType: string, counts: number): string {
-    return mediaType ? `${mediaType} (${counts})` : '';
+    return mediaType ? `${mediaType} (${counts} treff)` : '';
   }
 }

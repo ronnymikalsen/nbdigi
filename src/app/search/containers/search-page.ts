@@ -34,7 +34,6 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (addFilter)="addFilter($event)"
       (removeFilter)="removeFilter($event)"
       (toggleFilter)="toggleFilter($event)"
-      (itemSelected)="open($event)"
       (mediaTypeChanged)="mediaTypeChanged($event)"
       (sortChanged)="sortChanged($event)"
       (loadMore)="loadMore()">
@@ -110,9 +109,5 @@ export class SearchPageComponent implements OnInit {
 
   loadMore(): void {
     this.store.dispatch(new searchAction.LoadMore());
-  }
-
-  open(item: Item): void {
-    this.store.dispatch(new itemAction.Open(item));
   }
 }
