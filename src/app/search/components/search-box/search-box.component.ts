@@ -64,12 +64,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     let q: string = this.queryControl.value;
-    if (q.includes('debugon')) {
-      q = q.replace('debugon', '');
+    if (q.toLocaleLowerCase().includes('debugon')) {
+      q = q.replace(/debugon/gi, '');
       this.queryControl.setValue(q);
       this.debugChanged.emit(true);
-    } else if (q.includes('debugoff')) {
-      q = q.replace('debugoff', '');
+    } else if (q.toLocaleLowerCase().includes('debugoff')) {
+      q = q.replace(/debugoff/gi, '');
       this.queryControl.setValue(q);
       this.debugChanged.emit(false);
     }
