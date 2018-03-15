@@ -25,6 +25,7 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() selected = false;
   @Input() label: string;
   @Input() showMoreButton = false;
+  @Input() isDebugOn: boolean;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
   size = 4;
   private watcher: Subscription;

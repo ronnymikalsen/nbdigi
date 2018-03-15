@@ -6,6 +6,7 @@ export interface ItemsResponse {
 }
 
 export interface MediaTypeResultsLinksResponse {
+  self: LinkResponse;
   next: LinkResponse;
 }
 
@@ -31,6 +32,7 @@ export interface ItemResponse {
 }
 
 export interface ItemsLinksResponse {
+  self: LinkResponse;
   thumbnail_custom: LinkResponse;
   presentation: LinkResponse;
 }

@@ -11,6 +11,7 @@ import { ItemsSectionComponent } from './components/items-section/items-section.
 import { MediaTypeButtonComponent } from './components/media-type-button/media-type-button.component';
 import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
 import { ItemCardModule } from '../item-card/item-card.module';
+import { DebugModule } from './../debug/debug.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { ItemCardModule } from '../item-card/item-card.module';
     SharedModule,
     SearchBoxModule,
     SearchRoutingModule,
-    ItemCardModule
+    ItemCardModule,
+    DebugModule
   ],
   declarations: [
     SearchPageComponent,

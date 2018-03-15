@@ -15,6 +15,9 @@
           {{item.issued | dateFormat}}
         </div>
       </div>
+      <div>
+        <app-debug [isDebugOn]="isDebugOn | async" [href]="item.selfLink"></app-debug>
+      </div>
     </div>
   </mat-card-content>
 </mat-card>

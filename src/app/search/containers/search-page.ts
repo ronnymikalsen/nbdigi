@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import * as fromRoot from './../../+state/reducers';
 import * as fromSearch from './../../+state/reducers/search.reducer';
 import * as searchAction from './../../+state/actions/search.actions';
+import * as sessionAction from './../../+state/actions/session.actions';
 import * as itemAction from './../../+state/actions/item.actions';
 import { Hint } from './../../core/typeahead-service/hints.model';
 import { SuperSearchResult } from '../../models/search-result.model';
@@ -29,6 +30,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       [programReports]="programReports | async"
       [others]="others | async"
       [moreUrl]="moreUrl | async"
+      [isDebugOn]="isDebugOn | async"
       (searchSelected)="searchSelected()"
       (query)="query($event)"
       (addFilter)="addFilter($event)"
@@ -36,6 +38,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (toggleFilter)="toggleFilter($event)"
       (mediaTypeChanged)="mediaTypeChanged($event)"
       (sortChanged)="sortChanged($event)"
+      (debugChanged)="debugChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -71,6 +74,7 @@ export class SearchPageComponent implements OnInit {
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
+  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -105,6 +109,12 @@ export class SearchPageComponent implements OnInit {
 
   sortChanged(sort: string): void {
     this.store.dispatch(new searchAction.SetSort(sort));
+  }
+
+  debugChanged(debug: boolean): void {
+    debug
+      ? this.store.dispatch(new sessionAction.DebugOn())
+      : this.store.dispatch(new sessionAction.DebugOff());
   }
 
   loadMore(): void {

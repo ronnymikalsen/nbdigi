@@ -19,11 +19,11 @@
         </div>
       </mat-option>
       <mat-option *ngFor="let hint of hints?.places" [value]="hint">
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon>{{hint.type}}</mat-icon>
-            <div>{{hint.label}}</div>
-          </div>
-        </mat-option>
-      </mat-autocomplete>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon>{{hint.type}}</mat-icon>
+          <div>{{hint.label}}</div>
+        </div>
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
 </form>

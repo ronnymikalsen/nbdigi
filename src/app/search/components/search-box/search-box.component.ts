@@ -15,7 +15,13 @@ import {
 } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { map, takeUntil, debounceTime, skipWhile } from 'rxjs/operators';
+import {
+  map,
+  takeUntil,
+  debounceTime,
+  skipWhile,
+  distinctUntilChanged
+} from 'rxjs/operators';
 
 import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
 
@@ -30,9 +36,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<void>();
+  @Output() debugChanged = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   public searchForm: FormGroup;
-  public queryControl: FormControl;
+  public queryControl = new FormControl('');
   private destroyed: Subject<void> = new Subject();
 
   constructor(private fb: FormBuilder) {
@@ -42,6 +49,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.queryControl.valueChanges
       .pipe(
+        distinctUntilChanged(),
         takeUntil(this.destroyed),
         skipWhile(val => val.length < 2),
         debounceTime(300)
@@ -55,8 +63,18 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    let q: string = this.queryControl.value;
+    if (q.toLocaleLowerCase().includes('debugon')) {
+      q = q.replace(/debugon/gi, '');
+      this.queryControl.setValue(q);
+      this.debugChanged.emit(true);
+    } else if (q.toLocaleLowerCase().includes('debugoff')) {
+      q = q.replace(/debugoff/gi, '');
+      this.queryControl.setValue(q);
+      this.debugChanged.emit(false);
+    }
     this.matAutocomplete.closePanel();
-    this.query.emit(this.queryControl.value);
+    this.query.emit(q);
     this.searchSelected.emit();
   }
 
@@ -74,7 +92,6 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   private createForm() {
-    this.queryControl = new FormControl('');
     this.searchForm = this.fb.group({
       q: this.queryControl
     });

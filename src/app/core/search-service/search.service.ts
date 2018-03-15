@@ -85,6 +85,7 @@ export class SearchService {
 
           this.extractCounts(resp, searchResult);
           searchResult.totalElements = resp.totalElements;
+          searchResult.selfLink = resp._links.self.href;
           return searchResult;
         })
       );
@@ -139,6 +140,7 @@ export class SearchService {
   private extractItemsResponse(resp: ItemsResponse): MediaTypeResults {
     const mediaTypeResults = new MediaTypeResults();
 
+    mediaTypeResults.selfLink = resp._links.self ? resp._links.self.href : null;
     mediaTypeResults.nextLink = resp._links.next ? resp._links.next.href : null;
     mediaTypeResults.totalElements = resp.page.totalElements;
     if (resp._embedded.items) {
@@ -198,7 +200,8 @@ export class SearchService {
             .replace('{width}', '400')
             .replace('{height}', '400')
         : null,
-      manifestUri: i._links.presentation ? i._links.presentation.href : null
+      manifestUri: i._links.presentation ? i._links.presentation.href : null,
+      selfLink: i._links.self ? i._links.self.href : null
     });
   }
 
