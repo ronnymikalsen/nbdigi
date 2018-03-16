@@ -71,15 +71,15 @@ export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
     case SearchActionTypes.SetQuery: {
       return {
-        ...state,
-        q: action.payload.trim()
+        ...state
       };
     }
     case SearchActionTypes.Search: {
       return {
         ...state,
         isLoading: true,
-        mediaType: null
+        mediaType: null,
+        q: action.payload.trim()
       };
     }
     case SearchActionTypes.SetMediaType: {
@@ -306,6 +306,7 @@ export function reducer(state = initialState, action: SearchAction): State {
   }
 }
 
+export const getQ = (state: State) => state.q;
 export const getBooks = (state: State) => state.searchResult.books;
 export const getNewspapers = (state: State) => state.searchResult.newspapers;
 export const getPhotos = (state: State) => state.searchResult.photos;

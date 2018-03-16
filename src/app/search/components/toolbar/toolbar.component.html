@@ -19,7 +19,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-toolbar>
-  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+  <div fxLayout="row" fxLayoutAlign="start center">
     <app-debug [isDebugOn]="isDebugOn" [href]="search.searchResult.selfLink"></app-debug>
     <div>
       <mat-form-field [floatLabel]="'never'">
@@ -63,7 +63,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div>
+    <div class="sort-container">
       <mat-form-field [floatLabel]="'never'">
         <mat-select panelClass="sortOptions" [formControl]="sortControl" placeholder="Sortering" (selectionChange)="sortChanged.emit($event.value)">
           <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption.value">

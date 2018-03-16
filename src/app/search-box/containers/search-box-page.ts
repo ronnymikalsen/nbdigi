@@ -21,8 +21,9 @@ import { SuperSearchResult } from '../../models/search-result.model';
   selector: 'app-search-box',
   template: `
     <app-search-box-container 
+      [q]="q | async"
       [hints]="(search | async).hints"
-      (searchSelected)="onSearchSelected()"
+      (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
       (debugChanged)="debugChanged($event)"
@@ -31,16 +32,17 @@ import { SuperSearchResult } from '../../models/search-result.model';
   `
 })
 export class SearchBoxPageComponent {
-  @Output() searchSelected = new EventEmitter<void>();
+  @Output() searchSelected = new EventEmitter<string>();
   search: Observable<fromSearch.State> = this.store.select(
     fromRoot.getSearchState
   );
+  q: Observable<string> = this.store.select(fromRoot.getQ);
 
   constructor(private store: Store<fromRoot.State>) {}
 
-  onSearchSelected(): void {
-    this.store.dispatch(new searchAction.Search());
-    this.searchSelected.emit();
+  onSearchSelected(query: string): void {
+    this.store.dispatch(new searchAction.Search(query));
+    this.searchSelected.emit(query);
   }
 
   query(query: string): void {

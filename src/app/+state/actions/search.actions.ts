@@ -28,6 +28,8 @@ export enum SearchActionTypes {
 
 export class Search implements Action {
   readonly type = SearchActionTypes.Search;
+
+  constructor(public payload: string) {}
 }
 
 export class SearchSuccess implements Action {
