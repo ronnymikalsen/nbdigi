@@ -3,7 +3,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { SharedModule } from '../shared/shared.module';
 import { SearchRoutingModule } from './search-routing.module';
-import { SearchBoxModule } from './components/search-box/search-box.module';
 import { SearchComponent } from './components/search/search.component';
 import { SearchPageComponent } from './containers/search-page';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
@@ -12,6 +11,7 @@ import { MediaTypeButtonComponent } from './components/media-type-button/media-t
 import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
 import { ItemCardModule } from '../item-card/item-card.module';
 import { DebugModule } from './../debug/debug.module';
+import { SearchBoxModule } from '../search-box/search-box.module';
 
 @NgModule({
   imports: [

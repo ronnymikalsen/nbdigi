@@ -18,6 +18,7 @@ import { TypeaheadService } from './../../core/typeahead-service/typeahead.servi
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { SearchService } from './../../core/search-service/search.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SearchEffects {
@@ -35,6 +36,7 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
+        this.router.navigate(['/search', { q: storeState.search.q }]);
         const filters = this.addAllFilters(storeState);
 
         if (storeState.search.mediaType) {
@@ -180,6 +182,7 @@ export class SearchEffects {
     );
 
   constructor(
+    private router: Router,
     private store: Store<fromRoot.State>,
     private actions: Actions,
     private typeaheadService: TypeaheadService,

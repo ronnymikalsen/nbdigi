@@ -11,15 +11,17 @@ import * as fromRoot from './../../+state/reducers';
 import * as itemAction from './../../+state/actions/item.actions';
 import { Item } from './../../models/search-result.model';
 import { User } from './../../models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<app-home [items]="items | async"></app-home>`
+  template: `<app-home [items]="items | async" (searchSelected)="onSearchSelected()"></app-home>`
 })
 export class HomePageComponent {
   items: Observable<Item[]>;
 
   constructor(
+    private router: Router,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>
   ) {
@@ -36,4 +38,6 @@ export class HomePageComponent {
           .valueChanges();
       });
   }
+
+  onSearchSelected() {}
 }

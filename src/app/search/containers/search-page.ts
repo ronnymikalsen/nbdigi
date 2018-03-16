@@ -32,7 +32,6 @@ import { SuperSearchResult } from '../../models/search-result.model';
       [moreUrl]="moreUrl | async"
       [isDebugOn]="isDebugOn | async"
       (searchSelected)="searchSelected()"
-      (query)="query($event)"
       (addFilter)="addFilter($event)"
       (removeFilter)="removeFilter($event)"
       (toggleFilter)="toggleFilter($event)"
@@ -80,11 +79,6 @@ export class SearchPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
-  }
-
-  query(query: string): void {
-    this.store.dispatch(new searchAction.SetQuery(query));
-    this.store.dispatch(new searchAction.LoadHints());
   }
 
   toggleFilter(filter: Hint): void {
