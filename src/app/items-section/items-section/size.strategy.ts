@@ -1,33 +1,33 @@
 export interface SizeStrategy {
-  getSize(): number;
+  getSize(rows: number): number;
 }
 
 export class XsSizeStrategy implements SizeStrategy {
-  getSize() {
-    return 6;
+  getSize(rows: number) {
+    return 6 * rows / 2;
   }
 }
 
 export class SmSizeStrategy implements SizeStrategy {
-  getSize() {
-    return 10;
+  getSize(rows: number) {
+    return 10 * rows / 2;
   }
 }
 
 export class MdSizeStrategy implements SizeStrategy {
-  getSize() {
-    return 16;
+  getSize(rows: number) {
+    return 16 * rows / 2;
   }
 }
 
 export class LgSizeStrategy implements SizeStrategy {
-  getSize() {
-    return 20;
+  getSize(rows: number) {
+    return 20 * rows / 2;
   }
 }
 
 export class XlSizeStrategy implements SizeStrategy {
-  getSize() {
-    return 20;
+  getSize(rows: number) {
+    return 20 * rows / 2;
   }
 }

@@ -1,4 +1,7 @@
 h1 {
   font-weight: 300;
+}
+
+h1:first-letter {
   text-transform: capitalize;
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -9,7 +9,7 @@ import { filter } from 'rxjs/operators';
 
 import * as fromRoot from './../../+state/reducers';
 import * as itemAction from './../../+state/actions/item.actions';
-import { Item } from './../../models/search-result.model';
+import { Item, MediaTypeResults } from './../../models/search-result.model';
 import { User } from './../../models/user.model';
 import { Router } from '@angular/router';
 
@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<app-home [items]="items | async" (searchSelected)="onSearchSelected()"></app-home>`
 })
-export class HomePageComponent {
-  items: Observable<Item[]>;
+export class HomePageComponent implements OnInit {
+  items: Observable<MediaTypeResults>;
 
   constructor(
     private router: Router,
@@ -33,11 +33,18 @@ export class HomePageComponent {
           .collection('users')
           .doc(user.uid)
           .collection<Item>('items', ref =>
-            ref.orderBy('timestamp', 'desc').limit(1)
+            ref.orderBy('timestamp', 'desc').limit(20)
           )
-          .valueChanges();
+          .valueChanges()
+          .map(i => {
+            return new MediaTypeResults({
+              items: i
+            });
+          });
       });
   }
+
+  ngOnInit() {}
 
   onSearchSelected() {}
 }

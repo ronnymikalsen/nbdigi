@@ -1,3 +1,4 @@
+import { ItemsSectionModule } from './../items-section/items-section.module';
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
@@ -8,7 +9,13 @@ import { ItemCardModule } from '../item-card/item-card.module';
 import { SearchBoxModule } from '../search-box/search-box.module';
 
 @NgModule({
-  imports: [SharedModule, HomeRoutingModule, ItemCardModule, SearchBoxModule],
+  imports: [
+    SharedModule,
+    HomeRoutingModule,
+    ItemCardModule,
+    SearchBoxModule,
+    ItemsSectionModule
+  ],
   declarations: [HomePageComponent, HomeComponent],
   providers: []
 })

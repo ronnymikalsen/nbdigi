@@ -53,6 +53,8 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       err => console.log('errr', err)
     );
+
+    this.updates.init();
   }
 
   ngOnDestroy() {

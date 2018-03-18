@@ -82,6 +82,7 @@ export class MediaTypeResults {
     counts?: number;
     selfLink?: string;
     nextLink?: string;
+    items?: Item[];
   }) {
     if (fields) {
       this.mediaType = fields.mediaType || this.mediaType;
@@ -89,6 +90,7 @@ export class MediaTypeResults {
       this.counts = fields.counts || this.counts;
       this.selfLink = fields.selfLink || this.selfLink;
       this.nextLink = fields.nextLink || this.nextLink;
+      this.items = fields.items || this.items;
     }
   }
 }

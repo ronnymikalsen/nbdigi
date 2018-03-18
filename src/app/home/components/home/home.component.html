@@ -1,11 +1,6 @@
 <mat-toolbar color="primary">
   <app-search-box fxFlex="100" (searchSelected)="searchSelected.emit($event)"></app-search-box>
 </mat-toolbar>
-<ng-container *ngIf="items && items.length > 0">
-  <h3>Forsett å lese</h3>
-  <div fxLayout="rov wrap">
-    <div *ngFor="let item of items">
-      <app-default-item-card [item]="item" fxFlex="200px"></app-default-item-card>
-    </div>
-  </div>
-</ng-container>
+
+
+<app-items-section [label]="'Forsett å lese'" [mediaTypeResults]="items" [isDebugOn]="isDebugOn" [rows]="1" tabindex="0"></app-items-section>

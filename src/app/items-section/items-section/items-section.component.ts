@@ -11,7 +11,7 @@ import {
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 
-import { MediaTypeResults, Item } from './../../../models/search-result.model';
+import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { SizeStrategyFactory } from './size-strategy.factory';
 
 @Component({
@@ -26,18 +26,19 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() label: string;
   @Input() showMoreButton = false;
   @Input() isDebugOn: boolean;
+  @Input() rows = 2;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
   size = 4;
   private watcher: Subscription;
 
-  constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {
+  constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
     this.watcher = this.media.subscribe((change: MediaChange) => {
       this.calculateAndUpdateSize();
     });
     this.calculateAndUpdateSize();
   }
-
-  ngOnInit() {}
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
@@ -45,9 +46,9 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
 
   private calculateAndUpdateSize(): void {
     const sizeStrategy = SizeStrategyFactory.createStrategy(this.media);
-    const newSize = sizeStrategy.getSize();
+    const newSize = sizeStrategy.getSize(this.rows);
     if (this.size !== newSize) {
-      this.size = sizeStrategy.getSize();
+      this.size = sizeStrategy.getSize(this.rows);
       this.cdr.markForCheck();
     }
   }
