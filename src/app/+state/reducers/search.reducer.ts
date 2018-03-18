@@ -71,15 +71,15 @@ export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
     case SearchActionTypes.SetQuery: {
       return {
-        ...state
+        ...state,
+        q: action.payload.trim()
       };
     }
     case SearchActionTypes.Search: {
       return {
         ...state,
         isLoading: true,
-        mediaType: null,
-        q: action.payload.trim()
+        mediaType: null
       };
     }
     case SearchActionTypes.SetMediaType: {
