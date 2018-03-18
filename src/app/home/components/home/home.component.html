@@ -1,3 +1,6 @@
+<mat-toolbar color="primary">
+  <app-search-box fxFlex="100" (searchSelected)="searchSelected.emit($event)"></app-search-box>
+</mat-toolbar>
 <ng-container *ngIf="items && items.length > 0">
   <h3>Forsett å lese</h3>
   <div fxLayout="rov wrap">

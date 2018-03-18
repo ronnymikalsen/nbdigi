@@ -1,11 +1,6 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row class="search-box-container">
-    <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
-      <div fxFlex="100" fxFlex.gt-sm="700px">
-        <app-search-box [hints]="search.hints" (searchSelected)="searchSelected.emit($event)" (query)="query.emit($event)" (hintSelected)="addFilter.emit($event)"
-          (debugChanged)="debugChanged.emit($event)"></app-search-box>
-      </div>
-    </div>
+    <app-search-box fxFlex="100" (searchSelected)="searchSelected.emit($event)"></app-search-box>
   </mat-toolbar-row>
   <mat-toolbar-row *ngIf="search.filters?.length > 0" class="filters-container">
     <div fxLayout="row" fxLayoutAlign="start center">

@@ -23,8 +23,6 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
   @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
-  @Output() query = new EventEmitter<string>();
-  @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();

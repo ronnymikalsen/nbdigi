@@ -6,9 +6,12 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  ViewChild
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import {
   MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger
@@ -20,13 +23,14 @@ import {
   takeUntil,
   debounceTime,
   skipWhile,
-  distinctUntilChanged
+  distinctUntilChanged,
+  filter
 } from 'rxjs/operators';
 
 import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
 
 @Component({
-  selector: 'app-search-box',
+  selector: 'app-search-box-container',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -39,10 +43,14 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Output() debugChanged = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   public searchForm: FormGroup;
-  public queryControl = new FormControl('');
+  public queryControl = new FormControl();
   private destroyed: Subject<void> = new Subject();
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {
     this.createForm();
   }
 
@@ -50,11 +58,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.queryControl.valueChanges
       .pipe(
         distinctUntilChanged(),
+        filter(f => f !== null),
         takeUntil(this.destroyed),
         skipWhile(val => val.length < 2),
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
+
+    this.route.paramMap
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((params: ParamMap) => {
+        this.queryControl.setValue(params.get('q'));
+        this.cdr.detectChanges();
+      });
   }
 
   ngOnDestroy() {
@@ -83,7 +99,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   displayFn(value: Hint): string {
-    return value.label;
+    return value ? value.label : null;
   }
 
   optionSelected(selected: MatAutocompleteSelectedEvent): void {
