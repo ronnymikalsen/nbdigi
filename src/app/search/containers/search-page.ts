@@ -31,7 +31,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       [others]="others | async"
       [moreUrl]="moreUrl | async"
       [isDebugOn]="isDebugOn | async"
-      (searchSelected)="searchSelected()"
+      (searchSelected)="searchSelected($event)"
       (addFilter)="addFilter($event)"
       (removeFilter)="removeFilter($event)"
       (toggleFilter)="toggleFilter($event)"
@@ -93,8 +93,8 @@ export class SearchPageComponent implements OnInit {
     this.store.dispatch(new searchAction.AddFilter(filter));
   }
 
-  searchSelected(): void {
-    this.store.dispatch(new searchAction.Search());
+  searchSelected(query: string): void {
+    //this.store.dispatch(new searchAction.Search(query));
   }
 
   mediaTypeChanged(mediaType: string): void {

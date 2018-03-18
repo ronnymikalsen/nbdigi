@@ -7,6 +7,9 @@
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
   </div>
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
+    <div *ngIf="!pristine && !search.isLoading && search.searchResult.totalElements === 0">
+      Fant ingen resultater
+    </div>
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts)" [mediaTypeResults]="books" (mediaTypeChanged)="mediaTypeChanged.emit($event)"

@@ -159,6 +159,7 @@ export class SearchService {
     const searchResult = new SuperSearchResult();
     const mediaTypeResult = this.extractItemsResponse(resp);
     mediaTypeResult.mediaType = mediaType;
+    searchResult.totalElements = mediaTypeResult.totalElements;
 
     if ('bøker' === mediaType) {
       searchResult.books = mediaTypeResult;

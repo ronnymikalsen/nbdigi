@@ -22,7 +22,7 @@ import * as fromSearch from './../../../+state/reducers/search.reducer';
 export class ToolbarComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
   @Input() isDebugOn: boolean;
-  @Output() searchSelected = new EventEmitter<void>();
+  @Output() searchSelected = new EventEmitter<string>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();

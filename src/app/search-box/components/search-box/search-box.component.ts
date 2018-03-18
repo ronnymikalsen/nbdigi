@@ -8,7 +8,9 @@ import {
   ChangeDetectionStrategy,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -35,15 +37,16 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() q: string;
   @Input() hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
-  @Output() searchSelected = new EventEmitter<void>();
+  @Output() searchSelected = new EventEmitter<string>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   public searchForm: FormGroup;
-  public queryControl = new FormControl();
+  public queryControl: FormControl;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -64,13 +67,25 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
-
+    /* Material bug?
     this.route.paramMap
       .pipe(takeUntil(this.destroyed))
       .subscribe((params: ParamMap) => {
         this.queryControl.setValue(params.get('q'));
         this.cdr.detectChanges();
       });
+      */
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['q']) {
+      const curr = changes['q'].currentValue;
+      if (curr) {
+        /* Material bug?
+        this.queryControl.setValue(curr);
+        */
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -91,7 +106,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     }
     this.matAutocomplete.closePanel();
     this.query.emit(q);
-    this.searchSelected.emit();
+    this.searchSelected.emit(q);
   }
 
   clear(): void {
@@ -108,6 +123,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   private createForm() {
+    this.queryControl = new FormControl(this.q ? this.q : '');
     this.searchForm = this.fb.group({
       q: this.queryControl
     });

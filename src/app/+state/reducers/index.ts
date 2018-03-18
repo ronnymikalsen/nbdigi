@@ -65,6 +65,7 @@ export const isDebugOn = createSelector(getSessionState, fromSession.isDebugOn);
  * Search Reducers
  */
 export const getSearchState = createFeatureSelector<fromSearch.State>('search');
+export const getQ = createSelector(getSearchState, fromSearch.getQ);
 export const pristine = createSelector(getSearchState, fromSearch.pristine);
 export const getBooks = createSelector(getSearchState, fromSearch.getBooks);
 export const getNewspapers = createSelector(
