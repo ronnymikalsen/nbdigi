@@ -128,7 +128,7 @@ export function reducer(state = initialState, action: SearchAction): State {
         ...state,
         searchResult: {
           selfLink: action.payload.selfLink,
-          totalElements: action.payload.totalElements,
+          totalElements: state.searchResult.totalElements,
           books: action.payload.books,
           newspapers: action.payload.newspapers,
           photos: action.payload.photos,
@@ -159,7 +159,7 @@ export function reducer(state = initialState, action: SearchAction): State {
         ...state,
         searchResult: {
           selfLink: state.searchResult.selfLink,
-          totalElements: state.searchResult.totalElements,
+          totalElements: action.payload.totalElements,
           books: {
             ...state.searchResult.books,
             counts: action.payload.books.counts
