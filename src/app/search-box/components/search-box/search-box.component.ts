@@ -37,7 +37,7 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBoxComponent implements OnInit, OnDestroy, OnChanges {
+export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() q: string;
   @Input() hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
@@ -67,25 +67,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy, OnChanges {
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
-    /* Material bug?
     this.route.paramMap
       .pipe(takeUntil(this.destroyed))
       .subscribe((params: ParamMap) => {
-        this.queryControl.setValue(params.get('q'));
+        this.queryControl.patchValue(params.get('q'));
         this.cdr.detectChanges();
       });
-      */
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['q']) {
-      const curr = changes['q'].currentValue;
-      if (curr) {
-        /* Material bug?
-        this.queryControl.setValue(curr);
-        */
-      }
-    }
   }
 
   ngOnDestroy() {
@@ -97,11 +84,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy, OnChanges {
     let q: string = this.queryControl.value;
     if (q.toLocaleLowerCase().includes('debugon')) {
       q = q.replace(/debugon/gi, '');
-      this.queryControl.setValue(q);
+      this.queryControl.patchValue(q);
       this.debugChanged.emit(true);
     } else if (q.toLocaleLowerCase().includes('debugoff')) {
       q = q.replace(/debugoff/gi, '');
-      this.queryControl.setValue(q);
+      this.queryControl.patchValue(q);
       this.debugChanged.emit(false);
     }
     this.matAutocomplete.closePanel();
@@ -113,8 +100,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy, OnChanges {
     this.queryControl.patchValue('');
   }
 
-  displayFn(value: Hint): string {
-    return value ? value.label : null;
+  displayFn(value?: any): string {
+    return value instanceof Hint ? value.label : value;
   }
 
   optionSelected(selected: MatAutocompleteSelectedEvent): void {
