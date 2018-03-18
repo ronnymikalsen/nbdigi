@@ -15,10 +15,15 @@ import { Router } from '@angular/router';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<app-home [items]="items | async" (searchSelected)="onSearchSelected()"></app-home>`
+  template: `<app-home 
+      [items]="items | async"
+      [isDebugOn]="isDebugOn | async"
+      (searchSelected)="onSearchSelected()">
+    </app-home>`
 })
 export class HomePageComponent implements OnInit {
   items: Observable<MediaTypeResults>;
+  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
   constructor(
     private router: Router,

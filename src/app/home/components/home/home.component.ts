@@ -9,6 +9,7 @@ import { Item } from './../../../models/search-result.model';
 })
 export class HomeComponent implements OnInit {
   @Input() items: Item[];
+  @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
 
   constructor() {}
