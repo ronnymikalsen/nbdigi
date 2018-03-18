@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Optional } from '@angular/core';
+import { Component, OnInit, OnDestroy, Optional, NgZone } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroyed: Subject<void> = new Subject();
 
   constructor(
+    private ngZone: NgZone,
     private updates: CheckForUpdateService,
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
@@ -37,24 +38,26 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(
-      authState => {
-        if (authState) {
-          this.store.dispatch(
-            new session.SignedIn({
-              uid: authState.uid,
-              displayName: authState.displayName,
-              email: authState.email
-            })
-          );
-        } else {
-          this.store.dispatch(new session.SignOut());
-        }
-      },
-      err => console.log('errr', err)
-    );
-
     this.updates.init();
+
+    this.ngZone.runOutsideAngular(() => {
+      this.afAuth.authState.pipe(takeUntil(this.destroyed)).subscribe(
+        authState => {
+          if (authState) {
+            this.store.dispatch(
+              new session.SignedIn({
+                uid: authState.uid,
+                displayName: authState.displayName,
+                email: authState.email
+              })
+            );
+          } else {
+            this.store.dispatch(new session.SignOut());
+          }
+        },
+        err => console.log('errr', err)
+      );
+    });
   }
 
   ngOnDestroy() {
