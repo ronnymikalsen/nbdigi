@@ -36,9 +36,6 @@ import { ViewerModule } from './viewer/viewer.module';
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', {
-      enabled: environment.production
-    }),
     CoreModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
@@ -50,9 +47,12 @@ import { ViewerModule } from './viewer/viewer.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', {
+      enabled: environment.production
+    }),
+    InfiniteScrollModule,
     SharedModule,
-    ViewerModule,
-    InfiniteScrollModule
+    ViewerModule
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
