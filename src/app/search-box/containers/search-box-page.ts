@@ -41,6 +41,7 @@ export class SearchBoxPageComponent {
   constructor(private store: Store<fromRoot.State>) {}
 
   onSearchSelected(query: string): void {
+    this.store.dispatch(new searchAction.SetQuery(query));
     this.store.dispatch(new searchAction.Search());
     this.searchSelected.emit(query);
   }
