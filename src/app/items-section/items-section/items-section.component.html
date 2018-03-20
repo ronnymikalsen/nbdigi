@@ -1,5 +1,5 @@
 <section *ngIf="mediaTypeResults?.items.length > 0">
-  <mat-toolbar>
+  <mat-toolbar *ngIf="showToolbar">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
         <app-debug [isDebugOn]="isDebugOn" [href]="mediaTypeResults.selfLink"></app-debug>

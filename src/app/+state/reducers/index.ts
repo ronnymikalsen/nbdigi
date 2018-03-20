@@ -97,6 +97,10 @@ export const getPeriodicals = createSelector(
 );
 export const getOthers = createSelector(getSearchState, fromSearch.getOthers);
 export const getMoreUrl = createSelector(getSearchState, fromSearch.getMoreUrl);
+export const getCurrentMediaTypeCount = createSelector(
+  getSearchState,
+  fromSearch.getCurrentMediaTypeCount
+);
 
 /**
  * Item Reducers

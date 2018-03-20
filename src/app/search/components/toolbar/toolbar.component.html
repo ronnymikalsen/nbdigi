@@ -22,10 +22,10 @@
   <div fxLayout="row" fxLayoutAlign="start center">
     <app-debug [isDebugOn]="isDebugOn" [href]="search.searchResult.selfLink"></app-debug>
     <div>
-      <mat-form-field [floatLabel]="'never'">
+      <mat-form-field class="mediaTypeSelect" [floatLabel]="'never'">
         <mat-select panelClass="mediaTypeOptions" [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediaTypeChanged.emit($event.value)">
           <mat-select-trigger>
-            <div class="mediaType">{{mediaType.value}}</div>
+            <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount}})</div>
           </mat-select-trigger>
           <mat-option [value]="">
             <app-media-type-option [mediaType]="'Alle'" [count]="search.searchResult.totalElements"></app-media-type-option>

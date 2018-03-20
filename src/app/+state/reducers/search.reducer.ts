@@ -351,6 +351,35 @@ export const getMoreUrl = (state: State) => {
   return url;
 };
 
+export const getCurrentMediaTypeCount = (state: State) => {
+  let counts: number;
+  if (state.mediaType === 'bøker') {
+    counts = state.searchResult.books.counts;
+  } else if (state.mediaType === 'bilder') {
+    counts = state.searchResult.photos.counts;
+  } else if (state.mediaType === 'aviser') {
+    counts = state.searchResult.newspapers.counts;
+  } else if (state.mediaType === 'tidsskrift') {
+    counts = state.searchResult.periodicals.counts;
+  } else if (state.mediaType === 'kart') {
+    counts = state.searchResult.maps.counts;
+  } else if (state.mediaType === 'noter') {
+    counts = state.searchResult.musicBooks.counts;
+  } else if (state.mediaType === 'musikkmanuskripter') {
+    counts = state.searchResult.musicManuscripts.counts;
+  } else if (state.mediaType === 'plakater') {
+    counts = state.searchResult.posters.counts;
+  } else if (state.mediaType === 'privatarkivmateriale') {
+    counts = state.searchResult.privateArchives.counts;
+  } else if (state.mediaType === 'programrapporter') {
+    counts = state.searchResult.programReports.counts;
+  } else if (state.mediaType === 'others') {
+    counts = state.searchResult.others.counts;
+  }
+
+  return counts;
+};
+
 export const pristine = (state: State) => {
   return (
     state.q === initialState.q &&

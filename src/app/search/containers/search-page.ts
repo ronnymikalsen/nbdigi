@@ -17,6 +17,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
   template: `
     <app-search
       [search]="search | async"
+      [currentMediaTypeCount]="currentMediaTypeCount | async"
       [pristine]="pristine | async"
       [books]="books | async"
       [newspapers]="newspapers | async"
@@ -46,6 +47,7 @@ export class SearchPageComponent implements OnInit {
   search: Observable<fromSearch.State> = this.store.select(
     fromRoot.getSearchState
   );
+  currentMediaTypeCount: Observable<number> = this.store.select(fromRoot.getcu);
   books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
   newspapers: Observable<MediaTypeResults> = this.store.select(
     fromRoot.getNewspapers
