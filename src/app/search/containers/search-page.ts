@@ -47,7 +47,9 @@ export class SearchPageComponent implements OnInit {
   search: Observable<fromSearch.State> = this.store.select(
     fromRoot.getSearchState
   );
-  currentMediaTypeCount: Observable<number> = this.store.select(fromRoot.getcu);
+  currentMediaTypeCount: Observable<number> = this.store.select(
+    fromRoot.getCurrentMediaTypeCount
+  );
   books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
   newspapers: Observable<MediaTypeResults> = this.store.select(
     fromRoot.getNewspapers
