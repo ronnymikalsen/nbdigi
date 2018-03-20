@@ -56,7 +56,7 @@ export class SearchBoxPageComponent {
     this.store.dispatch(new searchAction.AddFilter(filter));
   }
 
-  onClearAll(filter: Hint): void {
+  onClearAll(): void {
     this.store.dispatch(new searchAction.ClearAll());
   }
 
