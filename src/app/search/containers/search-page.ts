@@ -97,9 +97,7 @@ export class SearchPageComponent implements OnInit {
     this.store.dispatch(new searchAction.AddFilter(filter));
   }
 
-  searchSelected(query: string): void {
-    //this.store.dispatch(new searchAction.Search(query));
-  }
+  searchSelected(query: string): void {}
 
   mediaTypeChanged(mediaType: string): void {
     this.store.dispatch(new searchAction.SetMediaType(mediaType));
