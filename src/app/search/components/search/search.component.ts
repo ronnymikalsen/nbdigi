@@ -25,6 +25,7 @@ import { MediaTypeResults } from './../../../models/search-result.model';
 })
 export class SearchComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
+  @Input() currentMediaTypeCount: number;
   @Input() pristine: boolean;
   @Input() books = new MediaTypeResults();
   @Input() newspapers = new MediaTypeResults();
