@@ -40,7 +40,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  q: null,
+  q: '',
   mediaType: null,
   filters: [],
   sort: null,
@@ -69,6 +69,11 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: SearchAction): State {
   switch (action.type) {
+    case SearchActionTypes.ClearAll: {
+      return {
+        ...initialState
+      };
+    }
     case SearchActionTypes.SetQuery: {
       return {
         ...state,

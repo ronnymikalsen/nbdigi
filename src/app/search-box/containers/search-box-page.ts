@@ -26,6 +26,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
+      (clearAll)="onClearAll()"
       (debugChanged)="debugChanged($event)"
       >
     </app-search-box-container>
@@ -53,6 +54,10 @@ export class SearchBoxPageComponent {
 
   addFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.AddFilter(filter));
+  }
+
+  onClearAll(filter: Hint): void {
+    this.store.dispatch(new searchAction.ClearAll());
   }
 
   debugChanged(debug: boolean): void {

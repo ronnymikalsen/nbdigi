@@ -44,10 +44,13 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<string>();
   @Output() debugChanged = new EventEmitter<boolean>();
+  @Output() clearAll = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   public searchForm: FormGroup;
   public queryControl: FormControl;
   private destroyed: Subject<void> = new Subject();
+  private timer: any;
+  private preventSimpleClick: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -97,7 +100,19 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    this.queryControl.patchValue('');
+    this.timer = 0;
+    this.preventSimpleClick = false;
+    this.timer = setTimeout(() => {
+      if (!this.preventSimpleClick) {
+        this.queryControl.patchValue('');
+      }
+    }, 200);
+  }
+
+  onClearAll(): void {
+    this.preventSimpleClick = true;
+    clearTimeout(this.timer);
+    this.clearAll.emit();
   }
 
   displayFn(value?: any): string {

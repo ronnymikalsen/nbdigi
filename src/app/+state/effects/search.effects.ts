@@ -36,7 +36,7 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
-        this.router.navigate(['/search', { q: storeState.search.q }]);
+        this.router.navigate(['/search']);
         const filters = this.addAllFilters(storeState);
 
         if (storeState.search.mediaType) {
