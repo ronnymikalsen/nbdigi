@@ -12,11 +12,13 @@ export class HomeComponent implements OnInit {
   @Input() newBooks: MediaTypeResults;
   @Input() newPeriodicals: MediaTypeResults;
   @Input() newPhotos: MediaTypeResults;
+  @Input() newNewspapers: MediaTypeResults;
   @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() showMoreBooks = new EventEmitter<void>();
   @Output() showMorePeriodicals = new EventEmitter<void>();
   @Output() showMorePhotos = new EventEmitter<void>();
+  @Output() showMoreNewspapers = new EventEmitter<void>();
 
   constructor() {}
 

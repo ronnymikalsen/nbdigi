@@ -19,70 +19,21 @@ import { SearchService } from './../../core/search-service/search.service';
 @Injectable()
 export class HomeEffects {
   @Effect()
-  loadNewBooks: Observable<Action> = this.actions
-    .ofType(home.HomeActionTypes.LoadNewBooks)
+  loadNewItems: Observable<Action> = this.actions
+    .ofType(home.HomeActionTypes.LoadNewItems)
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const filters = this.addAllFilters(storeState);
         return this.searchService
-          .search({
+          .super({
             size: 20,
-            mediaType: 'bøker',
             filters: filters,
             sort: 'firstDigitalContentTime,desc'
           })
           .pipe(
             map(searchResult => {
-              return new home.LoadNewBooksSuccess(searchResult.books);
-            }),
-            catchError(err => Observable.of(new home.LoadError(err)))
-          );
-      })
-    );
-
-  @Effect()
-  loadNewPeriodicals: Observable<Action> = this.actions
-    .ofType(home.HomeActionTypes.LoadNewPeriodicals)
-    .pipe(
-      withLatestFrom(this.store),
-      switchMap(([action, storeState]) => {
-        const filters = this.addAllFilters(storeState);
-        return this.searchService
-          .search({
-            size: 20,
-            mediaType: 'tidsskrift',
-            filters: filters,
-            sort: 'firstDigitalContentTime,desc'
-          })
-          .pipe(
-            map(searchResult => {
-              return new home.LoadNewPeriodicalsSuccess(
-                searchResult.periodicals
-              );
-            }),
-            catchError(err => Observable.of(new home.LoadError(err)))
-          );
-      })
-    );
-
-  @Effect()
-  loadNewPhotos: Observable<Action> = this.actions
-    .ofType(home.HomeActionTypes.LoadNewPhotos)
-    .pipe(
-      withLatestFrom(this.store),
-      switchMap(([action, storeState]) => {
-        const filters = this.addAllFilters(storeState);
-        return this.searchService
-          .search({
-            size: 20,
-            mediaType: 'bilder',
-            filters: filters,
-            sort: 'firstDigitalContentTime,desc'
-          })
-          .pipe(
-            map(searchResult => {
-              return new home.LoadNewPhotosSuccess(searchResult.photos);
+              return new home.LoadNewItemsSuccess(searchResult);
             }),
             catchError(err => Observable.of(new home.LoadError(err)))
           );
@@ -104,6 +55,10 @@ export class HomeEffects {
         'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
       ];
     }
+    filters = [
+      ...filters,
+      'mediatype:bøker OR mediatype:bilder OR mediatype:aviser OR mediatype:tidsskrift'
+    ];
     filters = [...filters, 'digital:Ja'];
     filters = [...filters, 'contentClasses:jp2'];
 

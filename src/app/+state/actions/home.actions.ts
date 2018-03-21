@@ -1,45 +1,25 @@
 import { Action } from '@ngrx/store';
 
-import { Item, MediaTypeResults } from '../../models/search-result.model';
+import {
+  Item,
+  MediaTypeResults,
+  SuperSearchResult
+} from '../../models/search-result.model';
 
 export enum HomeActionTypes {
-  LoadNewBooks = '[Home] Load new books',
-  LoadNewBooksSuccess = '[Home] Load new books success',
-  LoadNewPeriodicals = '[Home] Load new periodicals',
-  LoadNewPeriodicalsSuccess = '[Home] Load new periodicals success',
-  LoadNewPhotos = '[Home] Load new photos',
-  LoadNewPhotosSuccess = '[Home] Load new photos success',
+  LoadNewItems = '[Home] Load new items',
+  LoadNewItemsSuccess = '[Home] Load new items success',
   LoadError = '[Home] Error loading'
 }
 
-export class LoadNewBooks implements Action {
-  readonly type = HomeActionTypes.LoadNewBooks;
+export class LoadNewItems implements Action {
+  readonly type = HomeActionTypes.LoadNewItems;
 }
 
-export class LoadNewBooksSuccess implements Action {
-  readonly type = HomeActionTypes.LoadNewBooksSuccess;
+export class LoadNewItemsSuccess implements Action {
+  readonly type = HomeActionTypes.LoadNewItemsSuccess;
 
-  constructor(public payload: MediaTypeResults) {}
-}
-
-export class LoadNewPeriodicals implements Action {
-  readonly type = HomeActionTypes.LoadNewPeriodicals;
-}
-
-export class LoadNewPeriodicalsSuccess implements Action {
-  readonly type = HomeActionTypes.LoadNewPeriodicalsSuccess;
-
-  constructor(public payload: MediaTypeResults) {}
-}
-
-export class LoadNewPhotos implements Action {
-  readonly type = HomeActionTypes.LoadNewPhotos;
-}
-
-export class LoadNewPhotosSuccess implements Action {
-  readonly type = HomeActionTypes.LoadNewPhotosSuccess;
-
-  constructor(public payload: MediaTypeResults) {}
+  constructor(public payload: SuperSearchResult) {}
 }
 
 export class LoadError implements Action {
@@ -48,11 +28,4 @@ export class LoadError implements Action {
   constructor(public payload: any) {}
 }
 
-export type HomeAction =
-  | LoadNewBooks
-  | LoadNewBooksSuccess
-  | LoadNewPeriodicals
-  | LoadNewPeriodicalsSuccess
-  | LoadNewPhotos
-  | LoadNewPhotosSuccess
-  | LoadError;
+export type HomeAction = LoadNewItems | LoadNewItemsSuccess | LoadError;

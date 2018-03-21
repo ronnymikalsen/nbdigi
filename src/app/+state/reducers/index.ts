@@ -58,6 +58,10 @@ export const getNewPeriodicals = createSelector(
   fromHome.getNewPeriodicals
 );
 export const getNewPhotos = createSelector(getHomeState, fromHome.getNewPhotos);
+export const getNewNewspapers = createSelector(
+  getHomeState,
+  fromHome.getNewNewspapers
+);
 
 /**
  * Settings Reducers

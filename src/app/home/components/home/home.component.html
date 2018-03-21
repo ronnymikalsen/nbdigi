@@ -6,6 +6,8 @@
   tabindex="0"></app-items-section>
 <app-items-section [label]="'Nye bøker'" [mediaTypeResults]="newBooks" [showMoreButton]="true" [isDebugOn]="isDebugOn" (mediaTypeChanged)="showMoreBooks.emit()"
   tabindex="0"></app-items-section>
+<app-items-section [label]="'Nye aviser'" [mediaTypeResults]="newNewspapers" [showMoreButton]="true" [isDebugOn]="isDebugOn"
+  (mediaTypeChanged)="showMoreNewspapers.emit()" tabindex="0"></app-items-section>
 <app-items-section [label]="'Nye tidsskrift'" [mediaTypeResults]="newPeriodicals" [showMoreButton]="true" [isDebugOn]="isDebugOn"
   (mediaTypeChanged)="showMorePeriodicals.emit()" tabindex="0"></app-items-section>
 <app-items-section [label]="'Nye bilder'" [mediaTypeResults]="newPhotos" [showMoreButton]="true" [isDebugOn]="isDebugOn"

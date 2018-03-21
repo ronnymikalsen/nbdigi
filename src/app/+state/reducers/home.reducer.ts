@@ -7,32 +7,25 @@ export interface State {
   books: MediaTypeResults;
   periodicals: MediaTypeResults;
   photos: MediaTypeResults;
+  newspapers: MediaTypeResults;
 }
 
 export const initialState: State = {
   books: null,
   periodicals: null,
-  photos: null
+  photos: null,
+  newspapers: null
 };
 
 export function reducer(state = initialState, action: HomeAction): State {
   switch (action.type) {
-    case HomeActionTypes.LoadNewBooksSuccess: {
+    case HomeActionTypes.LoadNewItemsSuccess: {
       return {
         ...state,
-        books: action.payload
-      };
-    }
-    case HomeActionTypes.LoadNewPeriodicalsSuccess: {
-      return {
-        ...state,
-        periodicals: action.payload
-      };
-    }
-    case HomeActionTypes.LoadNewPhotosSuccess: {
-      return {
-        ...state,
-        photos: action.payload
+        books: action.payload.books,
+        periodicals: action.payload.periodicals,
+        photos: action.payload.photos,
+        newspapers: action.payload.newspapers
       };
     }
     default: {
@@ -44,3 +37,4 @@ export function reducer(state = initialState, action: HomeAction): State {
 export const getNewBooks = (state: State) => state.books;
 export const getNewPeriodicals = (state: State) => state.periodicals;
 export const getNewPhotos = (state: State) => state.photos;
+export const getNewNewspapers = (state: State) => state.newspapers;

@@ -22,10 +22,12 @@ import { Router } from '@angular/router';
       [newBooks]="newBooks | async"
       [newPeriodicals]="newPeriodicals | async"
       [newPhotos]="newPhotos | async"
+      [newNewspapers]="newNewspapers | async"
       [isDebugOn]="isDebugOn | async"
       (showMoreBooks)="onShowMoreBooks()"
       (showMorePeriodicals)="onShowMorePeriodicals()"
       (showMorePhotos)="onShowMorePhotos()"
+      (showMoreNewspapers)="onShowMoreNewspapers()"
       (searchSelected)="onSearchSelected()"
       >
     </app-home>`
@@ -40,6 +42,9 @@ export class HomePageComponent implements OnInit {
   );
   newPhotos: Observable<MediaTypeResults> = this.store.select(
     fromRoot.getNewPhotos
+  );
+  newNewspapers: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewNewspapers
   );
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
@@ -68,9 +73,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new homeAction.LoadNewBooks());
-    this.store.dispatch(new homeAction.LoadNewPeriodicals());
-    this.store.dispatch(new homeAction.LoadNewPhotos());
+    this.store.dispatch(new homeAction.LoadNewItems());
   }
 
   onShowMoreBooks() {
@@ -79,14 +82,23 @@ export class HomePageComponent implements OnInit {
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
   }
+
   onShowMorePeriodicals() {
     this.store.dispatch(new searchAction.SetMediaType('tidsskrift'));
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
   }
+
   onShowMorePhotos() {
     this.store.dispatch(new searchAction.SetMediaType('bilder'));
+    this.store.dispatch(
+      new searchAction.SetSort('firstDigitalContentTime,desc')
+    );
+  }
+
+  onShowMoreNewspapers() {
+    this.store.dispatch(new searchAction.SetMediaType('aviser'));
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
