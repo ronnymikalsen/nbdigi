@@ -43,7 +43,9 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.watcher.unsubscribe();
+    if (this.watcher) {
+      this.watcher.unsubscribe();
+    }
   }
 
   private calculateAndUpdateSize(): void {

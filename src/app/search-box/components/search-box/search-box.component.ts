@@ -73,7 +73,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(takeUntil(this.destroyed))
       .subscribe((params: ParamMap) => {
-        this.queryControl.patchValue(params.get('q'));
+        const q = params.get('q');
+        this.queryControl.patchValue(q ? q : '');
         this.cdr.detectChanges();
       });
   }
