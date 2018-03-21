@@ -198,8 +198,8 @@ export class SearchService {
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,
       thumbnail: i._links.thumbnail_custom
         ? i._links.thumbnail_custom.href
-            .replace('{width}', '400')
-            .replace('{height}', '400')
+            .replace('{width}', '245')
+            .replace('{height}', '245')
         : null,
       manifestUri: i._links.presentation ? i._links.presentation.href : null,
       selfLink: i._links.self ? i._links.self.href : null
