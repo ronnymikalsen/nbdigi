@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   @Input() newPeriodicals: MediaTypeResults;
   @Input() newPhotos: MediaTypeResults;
   @Input() newNewspapers: MediaTypeResults;
+  @Input() newOthers: MediaTypeResults;
   @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() showMoreBooks = new EventEmitter<void>();

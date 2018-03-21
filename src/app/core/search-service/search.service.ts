@@ -28,7 +28,7 @@ export class SearchService {
       .withSize(sc.size)
       .withDigitalAccessibleOnly(true)
       .withMediaTypeOrder('bøker,aviser,bilder,tidsskrift,other')
-      .withMediaTypeSize(4)
+      .withMediaTypeSize(5)
       .withSort(sc.sort);
 
     sc.filters.forEach(f => {

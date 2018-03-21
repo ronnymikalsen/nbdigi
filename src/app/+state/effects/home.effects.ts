@@ -27,6 +27,7 @@ export class HomeEffects {
         const filters = this.addAllFilters(storeState);
         return this.searchService
           .super({
+            q: '-pleasecacheme',
             size: 20,
             filters: filters,
             sort: 'firstDigitalContentTime,desc'
@@ -55,10 +56,6 @@ export class HomeEffects {
         'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
       ];
     }
-    filters = [
-      ...filters,
-      'mediatype:bøker OR mediatype:bilder OR mediatype:aviser OR mediatype:tidsskrift'
-    ];
     filters = [...filters, 'digital:Ja'];
     filters = [...filters, 'contentClasses:jp2'];
 

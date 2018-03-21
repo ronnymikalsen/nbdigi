@@ -23,6 +23,7 @@ import { Router } from '@angular/router';
       [newPeriodicals]="newPeriodicals | async"
       [newPhotos]="newPhotos | async"
       [newNewspapers]="newNewspapers | async"
+      [newOthers]="newOthers | async"
       [isDebugOn]="isDebugOn | async"
       (showMoreBooks)="onShowMoreBooks()"
       (showMorePeriodicals)="onShowMorePeriodicals()"
@@ -45,6 +46,9 @@ export class HomePageComponent implements OnInit {
   );
   newNewspapers: Observable<MediaTypeResults> = this.store.select(
     fromRoot.getNewNewspapers
+  );
+  newOthers: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewOthers
   );
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 

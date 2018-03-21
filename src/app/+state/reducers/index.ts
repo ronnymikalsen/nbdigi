@@ -62,6 +62,7 @@ export const getNewNewspapers = createSelector(
   getHomeState,
   fromHome.getNewNewspapers
 );
+export const getNewOthers = createSelector(getHomeState, fromHome.getNewOthers);
 
 /**
  * Settings Reducers

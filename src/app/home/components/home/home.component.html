@@ -3,7 +3,7 @@
 </mat-toolbar>
 
 <div class="continueToRead">
-  <app-items-section [label]="'Forsett å lese'" [mediaTypeResults]="items" [showIfEmpty]="true" [isDebugOn]="isDebugOn" [rows]="1"
+  <app-items-section [label]="'Sist sett på'" [mediaTypeResults]="items" [showIfEmpty]="true" [isDebugOn]="isDebugOn" [rows]="1"
     tabindex="0"></app-items-section>
 </div>
 <app-items-section [label]="'Nye bøker'" [mediaTypeResults]="newBooks" [showMoreButton]="true" [isDebugOn]="isDebugOn" (mediaTypeChanged)="showMoreBooks.emit()"
@@ -14,3 +14,4 @@
   (mediaTypeChanged)="showMorePeriodicals.emit()" tabindex="0"></app-items-section>
 <app-items-section [label]="'Nye bilder'" [mediaTypeResults]="newPhotos" [showMoreButton]="true" [isDebugOn]="isDebugOn"
   (mediaTypeChanged)="showMorePhotos.emit()" tabindex="0"></app-items-section>
+<app-items-section [label]="'Andre nyheter'" [mediaTypeResults]="newOthers" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
