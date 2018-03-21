@@ -1,4 +1,4 @@
-<section *ngIf="mediaTypeResults?.items.length > 0">
+<section *ngIf="showIfEmpty || mediaTypeResults?.items.length > 0">
   <mat-toolbar *ngIf="showToolbar">
     <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
       <div fxLayout="row">
