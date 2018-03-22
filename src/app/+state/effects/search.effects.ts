@@ -1,5 +1,6 @@
-import { MatSnackBar } from '@angular/material';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -18,10 +19,13 @@ import { TypeaheadService } from './../../core/typeahead-service/typeahead.servi
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { SearchService } from './../../core/search-service/search.service';
-import { Router } from '@angular/router';
+import { AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Criteria } from './../../models/criteria';
 
 @Injectable()
 export class SearchEffects {
+  private criteriasRef: AngularFirestoreCollection<Criteria>;
+
   @Effect()
   search: Observable<Action> = this.actions
     .ofType(
@@ -36,17 +40,17 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
-        this.router.navigate(['/search', { q: storeState.search.q }]);
+        this.router.navigate(['/search', { q: storeState.search.criteria.q }]);
         const filters = this.addAllFilters(storeState);
 
-        if (storeState.search.mediaType) {
+        if (storeState.search.criteria.mediaType) {
           return this.searchService
             .search({
               size: 50,
-              mediaType: storeState.search.mediaType,
-              q: storeState.search.q,
+              mediaType: storeState.search.criteria.mediaType,
+              q: storeState.search.criteria.q,
               filters: filters,
-              sort: storeState.search.sort
+              sort: storeState.search.criteria.sort
             })
             .pipe(
               map(searchResult => {
@@ -58,9 +62,9 @@ export class SearchEffects {
           return this.searchService
             .super({
               size: 20,
-              q: storeState.search.q,
+              q: storeState.search.criteria.q,
               filters: filters,
-              sort: storeState.search.sort
+              sort: storeState.search.criteria.sort
             })
             .pipe(
               map(searchResult => {
@@ -87,9 +91,9 @@ export class SearchEffects {
         return this.searchService
           .search({
             size: 1,
-            q: storeState.search.q,
+            q: storeState.search.criteria.q,
             filters: filters,
-            sort: storeState.search.sort
+            sort: storeState.search.criteria.sort
           })
           .pipe(
             map(searchResult => {
@@ -97,7 +101,8 @@ export class SearchEffects {
             }),
             catchError(err => Observable.of(new search.SearchAggsError(err)))
           );
-      })
+      }),
+      tap(() => {})
     );
 
   @Effect()
@@ -107,31 +112,37 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         let url: string;
-        if (storeState.search.mediaType === 'bøker') {
+        if (storeState.search.criteria.mediaType === 'bøker') {
           url = storeState.search.searchResult.books.nextLink;
-        } else if (storeState.search.mediaType === 'bilder') {
+        } else if (storeState.search.criteria.mediaType === 'bilder') {
           url = storeState.search.searchResult.photos.nextLink;
-        } else if (storeState.search.mediaType === 'aviser') {
+        } else if (storeState.search.criteria.mediaType === 'aviser') {
           url = storeState.search.searchResult.newspapers.nextLink;
-        } else if (storeState.search.mediaType === 'tidsskrift') {
+        } else if (storeState.search.criteria.mediaType === 'tidsskrift') {
           url = storeState.search.searchResult.periodicals.nextLink;
-        } else if (storeState.search.mediaType === 'kart') {
+        } else if (storeState.search.criteria.mediaType === 'kart') {
           url = storeState.search.searchResult.maps.nextLink;
-        } else if (storeState.search.mediaType === 'noter') {
+        } else if (storeState.search.criteria.mediaType === 'noter') {
           url = storeState.search.searchResult.musicBooks.nextLink;
-        } else if (storeState.search.mediaType === 'musikkmanuskripter') {
+        } else if (
+          storeState.search.criteria.mediaType === 'musikkmanuskripter'
+        ) {
           url = storeState.search.searchResult.musicManuscripts.nextLink;
-        } else if (storeState.search.mediaType === 'plakater') {
+        } else if (storeState.search.criteria.mediaType === 'plakater') {
           url = storeState.search.searchResult.posters.nextLink;
-        } else if (storeState.search.mediaType === 'privatarkivmateriale') {
+        } else if (
+          storeState.search.criteria.mediaType === 'privatarkivmateriale'
+        ) {
           url = storeState.search.searchResult.privateArchives.nextLink;
-        } else if (storeState.search.mediaType === 'programrapporter') {
+        } else if (
+          storeState.search.criteria.mediaType === 'programrapporter'
+        ) {
           url = storeState.search.searchResult.programReports.nextLink;
-        } else if (storeState.search.mediaType === 'others') {
+        } else if (storeState.search.criteria.mediaType === 'others') {
           url = storeState.search.searchResult.others.nextLink;
         }
         return this.searchService
-          .searchByUrl(storeState.search.mediaType, url)
+          .searchByUrl(storeState.search.criteria.mediaType, url)
           .pipe(
             map(searchResult => {
               return new search.LoadMoreSuccess(searchResult);
@@ -165,10 +176,10 @@ export class SearchEffects {
         const filters = this.addAllFilters(storeState);
         const sc = {
           size: 50,
-          mediaType: storeState.search.mediaType,
-          q: storeState.search.q,
+          mediaType: storeState.search.criteria.mediaType,
+          q: storeState.search.criteria.q,
           filters: filters,
-          sort: storeState.search.sort
+          sort: storeState.search.criteria.sort
         };
         return this.typeaheadService.creators(sc).pipe(
           map((h: Hint[]) => (hints.creators = h)),
@@ -192,7 +203,9 @@ export class SearchEffects {
 
   private addAllFilters(storeState): string[] {
     let filters = [
-      ...storeState.search.filters.filter(h => h.enabled).map(h => h.value)
+      ...storeState.search.criteria.filters
+        .filter(h => h.enabled)
+        .map(h => h.value)
     ];
 
     if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {

@@ -1,5 +1,6 @@
 import { map } from 'rxjs/operators/map';
 
+import { Criteria } from './../../models/criteria';
 import { MediaTypeCount } from './../../models/media-types-count';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import {
@@ -14,10 +15,7 @@ import {
 import { LinkResponse } from '../../models/items-response.model';
 
 export interface State {
-  q: string;
-  mediaType: string;
-  filters: Hint[];
-  sort: string;
+  criteria: Criteria;
   hints: Hints;
   searchResult: {
     selfLink: string;
@@ -40,10 +38,7 @@ export interface State {
 }
 
 export const initialState: State = {
-  q: '',
-  mediaType: null,
-  filters: [],
-  sort: null,
+  criteria: new Criteria(),
   hints: null,
   searchResult: {
     selfLink: null,
@@ -77,7 +72,10 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SetQuery: {
       return {
         ...state,
-        q: action.payload
+        criteria: {
+          ...state.criteria,
+          q: action.payload
+        }
       };
     }
     case SearchActionTypes.Search: {
@@ -89,7 +87,10 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SetMediaType: {
       return {
         ...state,
-        mediaType: action.payload,
+        criteria: {
+          ...state.criteria,
+          mediaType: action.payload
+        },
         isLoading: true
       };
     }
@@ -99,31 +100,43 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.AddFilter: {
       return {
         ...state,
-        filters: [...state.filters, action.payload],
+        criteria: {
+          ...state.criteria,
+          filters: [...state.criteria.filters, action.payload]
+        },
         isLoading: true
       };
     }
     case SearchActionTypes.RemoveFilter: {
       return {
         ...state,
-        filters: state.filters.filter(f => f !== action.payload),
+        criteria: {
+          ...state.criteria,
+          filters: state.criteria.filters.filter(f => f !== action.payload)
+        },
         isLoading: true
       };
     }
     case SearchActionTypes.ToggleFilter: {
-      const index = state.filters.findIndex(f => f === action.payload);
+      const index = state.criteria.filters.findIndex(f => f === action.payload);
       return {
         ...state,
-        filters: state.filters.map((f, i) => {
-          return i !== index ? f : { ...f, enabled: !f.enabled };
-        }),
+        criteria: {
+          ...state.criteria,
+          filters: state.criteria.filters.map((f, i) => {
+            return i !== index ? f : { ...f, enabled: !f.enabled };
+          })
+        },
         isLoading: true
       };
     }
     case SearchActionTypes.SetSort: {
       return {
         ...state,
-        sort: action.payload,
+        criteria: {
+          ...state.criteria,
+          sort: action.payload
+        },
         isLoading: true
       };
     }
@@ -226,59 +239,59 @@ export function reducer(state = initialState, action: SearchAction): State {
       const privateArchives = { ...state.searchResult.privateArchives };
       const programReports = { ...state.searchResult.programReports };
       const others = { ...state.searchResult.others };
-      if (state.mediaType === 'bøker') {
+      if (state.criteria.mediaType === 'bøker') {
         const items = [...books.items, ...action.payload.books.items];
         books.items = items;
         books.nextLink = action.payload.books.nextLink;
-      } else if (state.mediaType === 'aviser') {
+      } else if (state.criteria.mediaType === 'aviser') {
         const items = [...newspapers.items, ...action.payload.newspapers.items];
         newspapers.items = items;
         newspapers.nextLink = action.payload.newspapers.nextLink;
-      } else if (state.mediaType === 'bilder') {
+      } else if (state.criteria.mediaType === 'bilder') {
         const items = [...photos.items, ...action.payload.photos.items];
         photos.items = items;
         photos.nextLink = action.payload.photos.nextLink;
-      } else if (state.mediaType === 'tidsskrift') {
+      } else if (state.criteria.mediaType === 'tidsskrift') {
         const items = [
           ...periodicals.items,
           ...action.payload.periodicals.items
         ];
         periodicals.items = items;
         periodicals.nextLink = action.payload.periodicals.nextLink;
-      } else if (state.mediaType === 'kart') {
+      } else if (state.criteria.mediaType === 'kart') {
         const items = [...maps.items, ...action.payload.maps.items];
         maps.items = items;
         maps.nextLink = action.payload.maps.nextLink;
-      } else if (state.mediaType === 'noter') {
+      } else if (state.criteria.mediaType === 'noter') {
         const items = [...musicBooks.items, ...action.payload.musicBooks.items];
         musicBooks.items = items;
         musicBooks.nextLink = action.payload.musicBooks.nextLink;
-      } else if (state.mediaType === 'musikkmanuskripter') {
+      } else if (state.criteria.mediaType === 'musikkmanuskripter') {
         const items = [
           ...musicManuscripts.items,
           ...action.payload.musicManuscripts.items
         ];
         musicManuscripts.items = items;
         musicManuscripts.nextLink = action.payload.musicManuscripts.nextLink;
-      } else if (state.mediaType === 'plakater') {
+      } else if (state.criteria.mediaType === 'plakater') {
         const items = [...posters.items, ...action.payload.posters.items];
         posters.items = items;
         posters.nextLink = action.payload.posters.nextLink;
-      } else if (state.mediaType === 'privatarkivmateriale') {
+      } else if (state.criteria.mediaType === 'privatarkivmateriale') {
         const items = [
           ...privateArchives.items,
           ...action.payload.privateArchives.items
         ];
         privateArchives.items = items;
         privateArchives.nextLink = action.payload.privateArchives.nextLink;
-      } else if (state.mediaType === 'programrapporter') {
+      } else if (state.criteria.mediaType === 'programrapporter') {
         const items = [
           ...programReports.items,
           ...action.payload.programReports.items
         ];
         programReports.items = items;
         programReports.nextLink = action.payload.programReports.nextLink;
-      } else if (state.mediaType === 'others') {
+      } else if (state.criteria.mediaType === 'others') {
         const items = [...others.items, ...action.payload.others.items];
         others.items = items;
         others.nextLink = action.payload.others.nextLink;
@@ -310,7 +323,7 @@ export function reducer(state = initialState, action: SearchAction): State {
   }
 }
 
-export const getQ = (state: State) => state.q;
+export const getQ = (state: State) => state.criteria.q;
 export const getBooks = (state: State) => state.searchResult.books;
 export const getNewspapers = (state: State) => state.searchResult.newspapers;
 export const getPhotos = (state: State) => state.searchResult.photos;
@@ -328,27 +341,27 @@ export const getOthers = (state: State) => state.searchResult.others;
 
 export const getMoreUrl = (state: State) => {
   let url: string;
-  if (state.mediaType === 'bøker') {
+  if (state.criteria.mediaType === 'bøker') {
     url = state.searchResult.books.nextLink;
-  } else if (state.mediaType === 'bilder') {
+  } else if (state.criteria.mediaType === 'bilder') {
     url = state.searchResult.photos.nextLink;
-  } else if (state.mediaType === 'aviser') {
+  } else if (state.criteria.mediaType === 'aviser') {
     url = state.searchResult.newspapers.nextLink;
-  } else if (state.mediaType === 'tidsskrift') {
+  } else if (state.criteria.mediaType === 'tidsskrift') {
     url = state.searchResult.periodicals.nextLink;
-  } else if (state.mediaType === 'kart') {
+  } else if (state.criteria.mediaType === 'kart') {
     url = state.searchResult.maps.nextLink;
-  } else if (state.mediaType === 'noter') {
+  } else if (state.criteria.mediaType === 'noter') {
     url = state.searchResult.musicBooks.nextLink;
-  } else if (state.mediaType === 'musikkmanuskripter') {
+  } else if (state.criteria.mediaType === 'musikkmanuskripter') {
     url = state.searchResult.musicManuscripts.nextLink;
-  } else if (state.mediaType === 'plakater') {
+  } else if (state.criteria.mediaType === 'plakater') {
     url = state.searchResult.posters.nextLink;
-  } else if (state.mediaType === 'privatarkivmateriale') {
+  } else if (state.criteria.mediaType === 'privatarkivmateriale') {
     url = state.searchResult.privateArchives.nextLink;
-  } else if (state.mediaType === 'programrapporter') {
+  } else if (state.criteria.mediaType === 'programrapporter') {
     url = state.searchResult.programReports.nextLink;
-  } else if (state.mediaType === 'others') {
+  } else if (state.criteria.mediaType === 'others') {
     url = state.searchResult.others.nextLink;
   }
 
@@ -357,27 +370,27 @@ export const getMoreUrl = (state: State) => {
 
 export const getCurrentMediaTypeCount = (state: State) => {
   let counts: number;
-  if (state.mediaType === 'bøker') {
+  if (state.criteria.mediaType === 'bøker') {
     counts = state.searchResult.books.counts;
-  } else if (state.mediaType === 'bilder') {
+  } else if (state.criteria.mediaType === 'bilder') {
     counts = state.searchResult.photos.counts;
-  } else if (state.mediaType === 'aviser') {
+  } else if (state.criteria.mediaType === 'aviser') {
     counts = state.searchResult.newspapers.counts;
-  } else if (state.mediaType === 'tidsskrift') {
+  } else if (state.criteria.mediaType === 'tidsskrift') {
     counts = state.searchResult.periodicals.counts;
-  } else if (state.mediaType === 'kart') {
+  } else if (state.criteria.mediaType === 'kart') {
     counts = state.searchResult.maps.counts;
-  } else if (state.mediaType === 'noter') {
+  } else if (state.criteria.mediaType === 'noter') {
     counts = state.searchResult.musicBooks.counts;
-  } else if (state.mediaType === 'musikkmanuskripter') {
+  } else if (state.criteria.mediaType === 'musikkmanuskripter') {
     counts = state.searchResult.musicManuscripts.counts;
-  } else if (state.mediaType === 'plakater') {
+  } else if (state.criteria.mediaType === 'plakater') {
     counts = state.searchResult.posters.counts;
-  } else if (state.mediaType === 'privatarkivmateriale') {
+  } else if (state.criteria.mediaType === 'privatarkivmateriale') {
     counts = state.searchResult.privateArchives.counts;
-  } else if (state.mediaType === 'programrapporter') {
+  } else if (state.criteria.mediaType === 'programrapporter') {
     counts = state.searchResult.programReports.counts;
-  } else if (state.mediaType === 'others') {
+  } else if (state.criteria.mediaType === 'others') {
     counts = state.searchResult.others.counts;
   }
 
@@ -386,8 +399,8 @@ export const getCurrentMediaTypeCount = (state: State) => {
 
 export const pristine = (state: State) => {
   return (
-    state.q === initialState.q &&
-    state.mediaType === initialState.mediaType &&
-    state.filters === initialState.filters
+    state.criteria.q === initialState.criteria.q &&
+    state.criteria.mediaType === initialState.criteria.mediaType &&
+    state.criteria.filters === initialState.criteria.filters
   );
 };

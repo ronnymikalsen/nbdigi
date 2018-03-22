@@ -61,7 +61,7 @@ export class SearchComponent implements OnInit, OnChanges {
         this.moreUrl &&
         !this.search.isLoading &&
         !this.search.isLoadingMore &&
-        this.search.mediaType &&
+        this.search.criteria.mediaType &&
         this.searchResultContainer.nativeElement.clientHeight ===
           this.searchResultContainer.nativeElement.scrollHeight
       ) {
@@ -76,7 +76,7 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   onScroll() {
-    if (this.search.mediaType) {
+    if (this.search.criteria.mediaType) {
       this.loadMore.emit();
     }
   }

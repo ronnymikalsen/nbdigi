@@ -46,8 +46,8 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
-      this.mediaType.setValue(this.search.mediaType);
-      this.sortControl.setValue(this.search.sort);
+      this.mediaType.setValue(this.search.criteria.mediaType);
+      this.sortControl.setValue(this.search.criteria.sort);
     }
   }
 }

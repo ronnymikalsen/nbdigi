@@ -13,19 +13,20 @@
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts)" [mediaTypeResults]="books" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'bøker'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn"
-        tabindex="0"></app-items-section>
+        [selected]="search.criteria.mediaType === 'bøker'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(newspapers?.mediaType, newspapers?.counts)" [mediaTypeResults]="newspapers" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'aviser'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn"
-        tabindex="0"></app-items-section>
+        [selected]="search.criteria.mediaType === 'aviser'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(photos?.mediaType, photos?.counts)" [mediaTypeResults]="photos" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'bilder'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn"
-        tabindex="0"></app-items-section>
+        [selected]="search.criteria.mediaType === 'bilder'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(periodicals?.mediaType, periodicals?.counts)" [mediaTypeResults]="periodicals" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'tidsskrift'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType"
+        [selected]="search.criteria.mediaType === 'tidsskrift'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
 
-      <div *ngIf="!pristine && !search.mediaType && search.searchResult.totalElements > 0" class="others-mediatype-container" fxLayout="row">
+      <div *ngIf="!pristine && !search.criteria.mediaType && search.searchResult.totalElements > 0" class="others-mediatype-container"
+        fxLayout="row">
         <app-media-type-button [mediaType]="maps?.mediaType" [counts]="maps?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
         <app-media-type-button [mediaType]="musicBooks?.mediaType" [counts]="musicBooks?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
         <app-media-type-button [mediaType]="musicManuscripts?.mediaType" [counts]="musicManuscripts?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
@@ -34,26 +35,26 @@
         <app-media-type-button [mediaType]="programReports?.mediaType" [counts]="programReports?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
       </div>
 
-      <app-items-section [label]="'andre'" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.mediaType === 'others'"
+      <app-items-section [label]="'andre'" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'others'"
         [showMoreButton]="false" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(maps?.mediaType, maps?.counts)" [mediaTypeResults]="maps" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'kart'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn"
-        tabindex="0"></app-items-section>
+        [selected]="search.criteria.mediaType === 'kart'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(musicBooks?.mediaType, musicBooks?.counts)" [mediaTypeResults]="musicBooks" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'noter'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn"
-        tabindex="0"></app-items-section>
+        [selected]="search.criteria.mediaType === 'noter'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(musicManuscripts?.mediaType, musicManuscripts?.counts)" [mediaTypeResults]="musicManuscripts"
-        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.mediaType === 'musikkmanuskripter'" [showMoreButton]="!search.mediaType"
-        [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'musikkmanuskripter'"
+        [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(posters?.mediaType, posters?.counts)" [mediaTypeResults]="posters" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.mediaType === 'plakater'" [showMoreButton]="!search.mediaType" [showToolbar]="!search.mediaType"
+        [selected]="search.criteria.mediaType === 'plakater'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(privateArchives?.mediaType, privateArchives?.counts)" [mediaTypeResults]="privateArchives"
-        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.mediaType === 'privatarkivmateriale'" [showMoreButton]="!search.mediaType"
-        [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'privatarkivmateriale'"
+        [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(programReports?.mediaType, programReports?.counts)" [mediaTypeResults]="programReports"
-        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.mediaType === 'programrapporter'" [showMoreButton]="!search.mediaType"
-        [showToolbar]="!search.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+        (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'programrapporter'" [showMoreButton]="!search.criteria.mediaType"
+        [showToolbar]="!search.criteria.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
 
     </div>
   </section>
