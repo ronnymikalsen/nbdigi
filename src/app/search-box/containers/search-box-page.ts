@@ -4,8 +4,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { MediaTypeResults, Item } from './../../models/search-result.model';
-import { getBooks } from './../../+state/reducers/index';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,6 +15,8 @@ import * as sessionAction from './../../+state/actions/session.actions';
 import * as itemAction from './../../+state/actions/item.actions';
 import { Hint } from './../../core/typeahead-service/hints.model';
 import { SuperSearchResult } from '../../models/search-result.model';
+import { MediaTypeResults, Item } from './../../models/search-result.model';
+import { getBooks } from './../../+state/reducers/index';
 
 @Component({
   selector: 'app-search-box',
@@ -26,6 +27,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
       (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
+      (clearAll)="onClearAll()"
       (debugChanged)="debugChanged($event)"
       >
     </app-search-box-container>
@@ -38,7 +40,7 @@ export class SearchBoxPageComponent {
   );
   q: Observable<string> = this.store.select(fromRoot.getQ);
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private router: Router, private store: Store<fromRoot.State>) {}
 
   onSearchSelected(query: string): void {
     this.store.dispatch(new searchAction.SetQuery(query));
@@ -53,6 +55,11 @@ export class SearchBoxPageComponent {
 
   addFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.AddFilter(filter));
+  }
+
+  onClearAll(): void {
+    this.store.dispatch(new searchAction.ClearAll());
+    this.router.navigate(['/search']);
   }
 
   debugChanged(debug: boolean): void {

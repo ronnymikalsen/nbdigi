@@ -29,6 +29,7 @@ import { SearchEffects } from './+state/effects/search.effects';
 import { SessionEffects } from './+state/effects/session.effects';
 import { AuthGuard } from './core/auth.guard';
 import { CustomSerializer } from './custom-serializer';
+import { HomeEffects } from './+state/effects/home.effects';
 import { ItemEffects } from './+state/effects/item.effects';
 import { ViewerModule } from './viewer/viewer.module';
 
@@ -39,7 +40,12 @@ import { ViewerModule } from './viewer/viewer.module';
     CoreModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([SearchEffects, SessionEffects, ItemEffects]),
+    EffectsModule.forRoot([
+      SessionEffects,
+      HomeEffects,
+      SearchEffects,
+      ItemEffects
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),

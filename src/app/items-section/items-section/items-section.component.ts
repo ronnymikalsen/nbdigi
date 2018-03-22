@@ -26,6 +26,7 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() label: string;
   @Input() showMoreButton = false;
   @Input() showToolbar = true;
+  @Input() showIfEmpty = false;
   @Input() isDebugOn: boolean;
   @Input() rows = 2;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
@@ -42,7 +43,9 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.watcher.unsubscribe();
+    if (this.watcher) {
+      this.watcher.unsubscribe();
+    }
   }
 
   private calculateAndUpdateSize(): void {

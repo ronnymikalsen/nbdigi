@@ -23,6 +23,7 @@ export enum SearchActionTypes {
   SetMediaType = '[Search] Set media type',
   LoadMore = '[Search] Load more',
   LoadMoreSuccess = '[Search] Load more success',
+  ClearAll = '[Search] Clear all',
   SetSort = '[Search] Set sort'
 }
 
@@ -116,6 +117,10 @@ export class SetSort implements Action {
   constructor(public payload: string) {}
 }
 
+export class ClearAll implements Action {
+  readonly type = SearchActionTypes.ClearAll;
+}
+
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -132,4 +137,5 @@ export type SearchAction =
   | SetMediaType
   | LoadMoreSuccess
   | LoadMore
-  | SetSort;
+  | SetSort
+  | ClearAll;

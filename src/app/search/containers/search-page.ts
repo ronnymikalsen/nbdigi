@@ -1,6 +1,11 @@
 import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { getBooks } from './../../+state/reducers/index';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -43,7 +48,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
     </app-search>
   `
 })
-export class SearchPageComponent implements OnInit {
+export class SearchPageComponent implements OnInit, OnDestroy {
   search: Observable<fromSearch.State> = this.store.select(
     fromRoot.getSearchState
   );
@@ -83,6 +88,10 @@ export class SearchPageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new searchAction.ClearAll());
   }
 
   toggleFilter(filter: Hint): void {

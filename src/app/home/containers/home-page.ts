@@ -9,6 +9,8 @@ import { filter } from 'rxjs/operators';
 
 import * as fromRoot from './../../+state/reducers';
 import * as itemAction from './../../+state/actions/item.actions';
+import * as searchAction from './../../+state/actions/search.actions';
+import * as homeAction from './../../+state/actions/home.actions';
 import { Item, MediaTypeResults } from './../../models/search-result.model';
 import { User } from './../../models/user.model';
 import { Router } from '@angular/router';
@@ -17,12 +19,37 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<app-home 
       [items]="items | async"
+      [newBooks]="newBooks | async"
+      [newPeriodicals]="newPeriodicals | async"
+      [newPhotos]="newPhotos | async"
+      [newNewspapers]="newNewspapers | async"
+      [newOthers]="newOthers | async"
       [isDebugOn]="isDebugOn | async"
-      (searchSelected)="onSearchSelected()">
+      (showMoreBooks)="onShowMoreBooks()"
+      (showMorePeriodicals)="onShowMorePeriodicals()"
+      (showMorePhotos)="onShowMorePhotos()"
+      (showMoreNewspapers)="onShowMoreNewspapers()"
+      (searchSelected)="onSearchSelected()"
+      >
     </app-home>`
 })
 export class HomePageComponent implements OnInit {
   items: Observable<MediaTypeResults>;
+  newBooks: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewBooks
+  );
+  newPeriodicals: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewPeriodicals
+  );
+  newPhotos: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewPhotos
+  );
+  newNewspapers: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewNewspapers
+  );
+  newOthers: Observable<MediaTypeResults> = this.store.select(
+    fromRoot.getNewOthers
+  );
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
   constructor(
@@ -49,7 +76,37 @@ export class HomePageComponent implements OnInit {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.dispatch(new homeAction.LoadNewItems());
+  }
+
+  onShowMoreBooks() {
+    this.store.dispatch(new searchAction.SetMediaType('bøker'));
+    this.store.dispatch(
+      new searchAction.SetSort('firstDigitalContentTime,desc')
+    );
+  }
+
+  onShowMorePeriodicals() {
+    this.store.dispatch(new searchAction.SetMediaType('tidsskrift'));
+    this.store.dispatch(
+      new searchAction.SetSort('firstDigitalContentTime,desc')
+    );
+  }
+
+  onShowMorePhotos() {
+    this.store.dispatch(new searchAction.SetMediaType('bilder'));
+    this.store.dispatch(
+      new searchAction.SetSort('firstDigitalContentTime,desc')
+    );
+  }
+
+  onShowMoreNewspapers() {
+    this.store.dispatch(new searchAction.SetMediaType('aviser'));
+    this.store.dispatch(
+      new searchAction.SetSort('firstDigitalContentTime,desc')
+    );
+  }
 
   onSearchSelected() {}
 }

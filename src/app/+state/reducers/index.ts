@@ -12,12 +12,14 @@ import { environment } from '../../../environments/environment';
 import { RouterStateUrl } from '../../custom-serializer';
 
 import * as fromSession from './session.reducer';
+import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromItem from './item.reducer';
 import { AuthActionTypes } from './../actions/session.actions';
 
 export interface State {
   session: fromSession.State;
+  home: fromHome.State;
   search: fromSearch.State;
   item: fromItem.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
@@ -25,6 +27,7 @@ export interface State {
 
 export const reducers: ActionReducerMap<State> = {
   session: fromSession.reducer,
+  home: fromHome.reducer,
   search: fromSearch.reducer,
   item: fromItem.reducer,
   router: fromRouter.routerReducer
@@ -44,6 +47,22 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [storeFreeze, debug]
   : [debug];
+
+/**
+ * Home Reducers
+ */
+export const getHomeState = createFeatureSelector<fromHome.State>('home');
+export const getNewBooks = createSelector(getHomeState, fromHome.getNewBooks);
+export const getNewPeriodicals = createSelector(
+  getHomeState,
+  fromHome.getNewPeriodicals
+);
+export const getNewPhotos = createSelector(getHomeState, fromHome.getNewPhotos);
+export const getNewNewspapers = createSelector(
+  getHomeState,
+  fromHome.getNewNewspapers
+);
+export const getNewOthers = createSelector(getHomeState, fromHome.getNewOthers);
 
 /**
  * Settings Reducers
