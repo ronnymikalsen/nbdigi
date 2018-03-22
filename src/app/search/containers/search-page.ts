@@ -1,3 +1,4 @@
+import { User } from './../../models/user.model';
 import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { getBooks } from './../../+state/reducers/index';
 import {
@@ -16,6 +17,8 @@ import * as sessionAction from './../../+state/actions/session.actions';
 import * as itemAction from './../../+state/actions/item.actions';
 import { Hint } from './../../core/typeahead-service/hints.model';
 import { SuperSearchResult } from '../../models/search-result.model';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { filter } from 'rxjs/operators';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,8 +87,30 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
-  constructor(private store: Store<fromRoot.State>) {}
-
+  constructor(
+    private afs: AngularFirestore,
+    private store: Store<fromRoot.State>
+  ) {
+    this.store
+      .select(fromRoot.currentUser)
+      .pipe(filter(user => user !== null))
+      .subscribe((user: User) => {
+        /*
+        this.items = afs
+          .collection('users')
+          .doc(user.uid)
+          .collection<Item>('search', ref =>
+            ref.orderBy('timestamp', 'desc').limit(20)
+          )
+          .valueChanges()
+          .map(i => {
+            return new MediaTypeResults({
+              items: i
+            });
+          });
+          */
+      });
+  }
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
   }
