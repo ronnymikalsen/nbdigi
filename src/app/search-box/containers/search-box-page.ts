@@ -44,7 +44,6 @@ export class SearchBoxPageComponent {
 
   onSearchSelected(query: string): void {
     this.store.dispatch(new searchAction.SetQuery(query));
-    this.store.dispatch(new searchAction.Search());
     this.searchSelected.emit(query);
   }
 
@@ -54,7 +53,9 @@ export class SearchBoxPageComponent {
   }
 
   addFilter(filter: Hint): void {
+    this.store.dispatch(new searchAction.SetQuery(null));
     this.store.dispatch(new searchAction.AddFilter(filter));
+    this.store.dispatch(new searchAction.Search());
   }
 
   onClearAll(): void {

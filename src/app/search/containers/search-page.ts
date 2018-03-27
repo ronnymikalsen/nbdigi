@@ -19,12 +19,14 @@ import { Hint } from './../../core/typeahead-service/hints.model';
 import { SuperSearchResult } from '../../models/search-result.model';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { filter } from 'rxjs/operators';
+import { Criteria } from '../../models/criteria';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-search
       [search]="search | async"
+      [criterias]="criterias | async"
       [currentMediaTypeCount]="currentMediaTypeCount | async"
       [pristine]="pristine | async"
       [books]="books | async"
@@ -47,7 +49,8 @@ import { filter } from 'rxjs/operators';
       (mediaTypeChanged)="mediaTypeChanged($event)"
       (sortChanged)="sortChanged($event)"
       (debugChanged)="debugChanged($event)"
-      (loadMore)="loadMore()">
+      (loadMore)="loadMore()"
+      (changeCriteria)="changeCriteria($event)">
     </app-search>
   `
 })
@@ -86,6 +89,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  criterias: Observable<Criteria[]>;
 
   constructor(
     private afs: AngularFirestore,
@@ -95,59 +99,72 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       .select(fromRoot.currentUser)
       .pipe(filter(user => user !== null))
       .subscribe((user: User) => {
-        /*
-        this.items = afs
+        this.criterias = afs
           .collection('users')
           .doc(user.uid)
-          .collection<Item>('search', ref =>
+          .collection<Criteria>('searchs', ref =>
             ref.orderBy('timestamp', 'desc').limit(20)
           )
           .valueChanges()
-          .map(i => {
-            return new MediaTypeResults({
-              items: i
-            });
+          .map(c => {
+            return c;
           });
-          */
       });
   }
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
   }
 
-  ngOnDestroy() {
-    this.store.dispatch(new searchAction.ClearAll());
-  }
+  ngOnDestroy() {}
 
   toggleFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.ToggleFilter(filter));
+    this.store.dispatch(new searchAction.Search());
   }
 
   removeFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.RemoveFilter(filter));
+    this.store.dispatch(new searchAction.Search());
   }
 
   addFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.AddFilter(filter));
+    this.store.dispatch(new searchAction.Search());
   }
 
-  searchSelected(query: string): void {}
+  searchSelected(query: string): void {
+    this.store.dispatch(new searchAction.Search());
+  }
 
   mediaTypeChanged(mediaType: string): void {
     this.store.dispatch(new searchAction.SetMediaType(mediaType));
+    this.store.dispatch(new searchAction.Search());
   }
 
   sortChanged(sort: string): void {
     this.store.dispatch(new searchAction.SetSort(sort));
+    this.store.dispatch(new searchAction.Search());
   }
 
   debugChanged(debug: boolean): void {
     debug
       ? this.store.dispatch(new sessionAction.DebugOn())
       : this.store.dispatch(new sessionAction.DebugOff());
+    this.store.dispatch(new searchAction.Search());
   }
 
   loadMore(): void {
     this.store.dispatch(new searchAction.LoadMore());
+  }
+
+  changeCriteria(criteria: Criteria): void {
+    this.store.dispatch(new searchAction.ClearAll());
+    this.store.dispatch(new searchAction.SetQuery(criteria.q));
+    this.store.dispatch(new searchAction.SetMediaType(criteria.mediaType));
+    this.store.dispatch(new searchAction.SetSort(criteria.sort));
+    criteria.filters.forEach(f =>
+      this.store.dispatch(new searchAction.AddFilter(f))
+    );
+    this.store.dispatch(new searchAction.Search());
   }
 }

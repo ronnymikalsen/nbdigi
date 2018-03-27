@@ -10,8 +10,14 @@ import {
   map,
   catchError,
   tap,
-  withLatestFrom
+  withLatestFrom,
+  filter
 } from 'rxjs/operators';
+import {
+  AngularFirestoreCollection,
+  AngularFirestore
+} from 'angularfire2/firestore';
+import * as firebase from 'firebase/app';
 
 import * as fromRoot from './../reducers';
 import * as search from '../actions/search.actions';
@@ -19,8 +25,8 @@ import { TypeaheadService } from './../../core/typeahead-service/typeahead.servi
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { SearchService } from './../../core/search-service/search.service';
-import { AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Criteria } from './../../models/criteria';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class SearchEffects {
@@ -28,20 +34,25 @@ export class SearchEffects {
 
   @Effect()
   search: Observable<Action> = this.actions
-    .ofType(
-      search.SearchActionTypes.Search,
-      search.SearchActionTypes.SetMediaType,
-      search.SearchActionTypes.AddFilter,
-      search.SearchActionTypes.RemoveFilter,
-      search.SearchActionTypes.ToggleFilter,
-      search.SearchActionTypes.SetSort
-    )
+    .ofType(search.SearchActionTypes.Search)
     .pipe(
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
         this.router.navigate(['/search', { q: storeState.search.criteria.q }]);
         const filters = this.addAllFilters(storeState);
+
+        const budgets = storeState.search.criteria.filters.map(obj => {
+          return Object.assign({}, obj);
+        });
+        const hint = {
+          ...storeState.search.criteria,
+          filters: budgets,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        this.criteriasRef
+          .doc(<string>storeState.search.criteria.hash)
+          .set(hint);
 
         if (storeState.search.criteria.mediaType) {
           return this.searchService
@@ -101,8 +112,7 @@ export class SearchEffects {
             }),
             catchError(err => Observable.of(new search.SearchAggsError(err)))
           );
-      }),
-      tap(() => {})
+      })
     );
 
   @Effect()
@@ -198,8 +208,19 @@ export class SearchEffects {
     private actions: Actions,
     private typeaheadService: TypeaheadService,
     private searchService: SearchService,
-    public snackBar: MatSnackBar
-  ) {}
+    public snackBar: MatSnackBar,
+    private afs: AngularFirestore
+  ) {
+    this.store
+      .select(fromRoot.currentUser)
+      .pipe(filter(user => user !== null))
+      .subscribe((user: User) => {
+        this.criteriasRef = afs
+          .collection('users')
+          .doc(user.uid)
+          .collection('searchs');
+      });
+  }
 
   private addAllFilters(storeState): string[] {
     let filters = [

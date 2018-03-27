@@ -72,10 +72,10 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SetQuery: {
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           q: action.payload
-        }
+        })
       };
     }
     case SearchActionTypes.Search: {
@@ -87,10 +87,10 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.SetMediaType: {
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           mediaType: action.payload
-        },
+        }),
         isLoading: true
       };
     }
@@ -100,20 +100,20 @@ export function reducer(state = initialState, action: SearchAction): State {
     case SearchActionTypes.AddFilter: {
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           filters: [...state.criteria.filters, action.payload]
-        },
+        }),
         isLoading: true
       };
     }
     case SearchActionTypes.RemoveFilter: {
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           filters: state.criteria.filters.filter(f => f !== action.payload)
-        },
+        }),
         isLoading: true
       };
     }
@@ -121,22 +121,22 @@ export function reducer(state = initialState, action: SearchAction): State {
       const index = state.criteria.filters.findIndex(f => f === action.payload);
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           filters: state.criteria.filters.map((f, i) => {
             return i !== index ? f : { ...f, enabled: !f.enabled };
           })
-        },
+        }),
         isLoading: true
       };
     }
     case SearchActionTypes.SetSort: {
       return {
         ...state,
-        criteria: {
+        criteria: new Criteria({
           ...state.criteria,
           sort: action.payload
-        },
+        }),
         isLoading: true
       };
     }

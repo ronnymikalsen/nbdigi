@@ -85,6 +85,7 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   onShowMorePeriodicals() {
@@ -92,6 +93,7 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   onShowMorePhotos() {
@@ -99,6 +101,7 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   onShowMoreNewspapers() {
@@ -106,7 +109,12 @@ export class HomePageComponent implements OnInit {
     this.store.dispatch(
       new searchAction.SetSort('firstDigitalContentTime,desc')
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
-  onSearchSelected() {}
+  onSearchSelected() {
+    this.store.dispatch(new searchAction.SetSort(null));
+    this.store.dispatch(new searchAction.SetMediaType(null));
+    this.store.dispatch(new searchAction.Search());
+  }
 }

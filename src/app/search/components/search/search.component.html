@@ -10,6 +10,20 @@
     <div *ngIf="!pristine && !search.isLoading && search.searchResult.totalElements === 0">
       Fant ingen resultater
     </div>
+    <div *ngIf="pristine">
+      <mat-toolbar>
+        <h3>Nylige søk</h3>
+      </mat-toolbar>
+      <mat-nav-list>
+        <mat-list-item *ngFor="let criteria of criterias" (click)="changeCriteria.emit(criteria)">
+          <div *ngIf="criteria.q" matLine>{{criteria.q}}</div>
+          <div *ngIf="criteria.mediaType" matLine>{{criteria.mediaType}}</div>
+          <div *ngIf="criteria.sort" matLine>{{criteria.sort}}</div>
+          <div matLine *ngFor="let hint of criteria.filters">{{hint.label}}</div>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts)" [mediaTypeResults]="books" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
