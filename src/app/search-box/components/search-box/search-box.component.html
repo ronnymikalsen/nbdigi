@@ -1,4 +1,4 @@
-<div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+<div id="searchbox-container" fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
   <div fxFlex="100" fxFlex.gt-sm="700px">
     <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()" novalidate>
       <mat-form-field fxFlex [floatLabel]="'never'" color="accent">
@@ -12,7 +12,7 @@
             <mat-icon class="input-icon" (click)="clear()" (dblclick)="onClearAll()">clear</mat-icon>
           </button>
         </div>
-        <input type="text" aria-label="Søk" matInput [formControl]="queryControl" [matAutocomplete]="auto">
+        <input type="text" aria-label="Søk" matInput [formControl]="queryControl" [matAutocomplete]="auto" tabindex="1">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="optionSelected($event)">
           <mat-option *ngFor="let hint of hints?.creators" [value]="hint">
             <div fxLayout="row" fxLayoutAlign="start center">
