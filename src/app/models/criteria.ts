@@ -2,12 +2,13 @@ import { filter } from 'rxjs/operators';
 import { Md5 } from 'ts-md5/dist/md5';
 
 import { Hint } from './../core/typeahead-service/hints.model';
+import { Sort, SortOptions } from './sort-options';
 
 export class Criteria {
   q? = '';
   mediaType?: string = null;
   filters?: Hint[] = [];
-  sort?: string = null;
+  sort?: Sort = new SortOptions().relevance;
   timestamp?: Date;
   hash?: string = null;
 
@@ -15,7 +16,7 @@ export class Criteria {
     q?: string;
     mediaType?: string;
     filters?: Hint[];
-    sort?: string;
+    sort?: Sort;
     timestamp?: Date;
     hash?: string;
   }) {
@@ -28,7 +29,7 @@ export class Criteria {
       this.timestamp = fields.timestamp || this.timestamp;
 
       this.hash = <string>Md5.hashStr(
-        this.q + this.sort + this.mediaType + this.filters.join()
+        this.q + this.sort.value + this.mediaType + this.filters.join()
       );
     }
   }

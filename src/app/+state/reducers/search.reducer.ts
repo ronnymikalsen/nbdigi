@@ -401,6 +401,7 @@ export const pristine = (state: State) => {
   return (
     state.criteria.q === initialState.criteria.q &&
     state.criteria.mediaType === initialState.criteria.mediaType &&
-    state.criteria.filters === initialState.criteria.filters
+    state.criteria.filters === initialState.criteria.filters &&
+    state.criteria.sort === initialState.criteria.sort
   );
 };

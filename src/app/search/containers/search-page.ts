@@ -20,6 +20,7 @@ import { SuperSearchResult } from '../../models/search-result.model';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { filter } from 'rxjs/operators';
 import { Criteria } from '../../models/criteria';
+import { Sort } from '../../models/sort-options';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -141,7 +142,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new searchAction.Search());
   }
 
-  sortChanged(sort: string): void {
+  sortChanged(sort: Sort): void {
     this.store.dispatch(new searchAction.SetSort(sort));
     this.store.dispatch(new searchAction.Search());
   }

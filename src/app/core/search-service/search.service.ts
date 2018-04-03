@@ -29,7 +29,7 @@ export class SearchService {
       .withDigitalAccessibleOnly(true)
       .withMediaTypeOrder('bøker,aviser,bilder,tidsskrift,other')
       .withMediaTypeSize(5)
-      .withSort(sc.sort);
+      .withSort(sc.sort.value);
 
     sc.filters.forEach(f => {
       builder = builder.addFilter(f);
@@ -98,7 +98,7 @@ export class SearchService {
       .addAggs('mediatype')
       .withDigitalAccessibleOnly(true)
       .withMediaType(sc.mediaType)
-      .withSort(sc.sort);
+      .withSort(sc.sort.value);
 
     sc.filters.forEach(f => {
       builder = builder.addFilter(f);

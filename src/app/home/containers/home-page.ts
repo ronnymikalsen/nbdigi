@@ -14,6 +14,7 @@ import * as homeAction from './../../+state/actions/home.actions';
 import { Item, MediaTypeResults } from './../../models/search-result.model';
 import { User } from './../../models/user.model';
 import { Router } from '@angular/router';
+import { SortOptions } from '../../models/sort-options';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,7 +84,7 @@ export class HomePageComponent implements OnInit {
   onShowMoreBooks() {
     this.store.dispatch(new searchAction.SetMediaType('bøker'));
     this.store.dispatch(
-      new searchAction.SetSort('firstDigitalContentTime,desc')
+      new searchAction.SetSort(new SortOptions().newArrivals)
     );
     this.store.dispatch(new searchAction.Search());
   }
@@ -91,7 +92,7 @@ export class HomePageComponent implements OnInit {
   onShowMorePeriodicals() {
     this.store.dispatch(new searchAction.SetMediaType('tidsskrift'));
     this.store.dispatch(
-      new searchAction.SetSort('firstDigitalContentTime,desc')
+      new searchAction.SetSort(new SortOptions().newArrivals)
     );
     this.store.dispatch(new searchAction.Search());
   }
@@ -99,7 +100,7 @@ export class HomePageComponent implements OnInit {
   onShowMorePhotos() {
     this.store.dispatch(new searchAction.SetMediaType('bilder'));
     this.store.dispatch(
-      new searchAction.SetSort('firstDigitalContentTime,desc')
+      new searchAction.SetSort(new SortOptions().newArrivals)
     );
     this.store.dispatch(new searchAction.Search());
   }
@@ -107,7 +108,7 @@ export class HomePageComponent implements OnInit {
   onShowMoreNewspapers() {
     this.store.dispatch(new searchAction.SetMediaType('aviser'));
     this.store.dispatch(
-      new searchAction.SetSort('firstDigitalContentTime,desc')
+      new searchAction.SetSort(new SortOptions().newArrivals)
     );
     this.store.dispatch(new searchAction.Search());
   }

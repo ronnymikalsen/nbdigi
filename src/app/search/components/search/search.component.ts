@@ -17,6 +17,7 @@ import { Hint } from './../../../core/typeahead-service/hints.model';
 import { SuperSearchResult, Item } from '../../../models/search-result.model';
 import { MediaTypeResults } from './../../../models/search-result.model';
 import { Criteria } from '../../../models/criteria';
+import { Sort } from '../../../models/sort-options';
 
 @Component({
   selector: 'app-search',
@@ -47,7 +48,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
-  @Output() sortChanged = new EventEmitter<string>();
+  @Output() sortChanged = new EventEmitter<Sort>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @Output() changeCriteria = new EventEmitter<Criteria>();

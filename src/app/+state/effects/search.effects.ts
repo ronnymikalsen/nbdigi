@@ -42,12 +42,15 @@ export class SearchEffects {
         this.router.navigate(['/search', { q: storeState.search.criteria.q }]);
         const filters = this.addAllFilters(storeState);
 
-        const budgets = storeState.search.criteria.filters.map(obj => {
-          return Object.assign({}, obj);
-        });
         const hint = {
           ...storeState.search.criteria,
-          filters: budgets,
+          filters: storeState.search.criteria.filters.map(obj => {
+            return Object.assign({}, obj);
+          }),
+          sort: {
+            value: storeState.search.criteria.sort.value,
+            viewValue: storeState.search.criteria.sort.viewValue
+          },
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
         };
         this.criteriasRef
@@ -230,7 +233,7 @@ export class SearchEffects {
     ];
 
     if (
-      storeState.session.user.uid !== 'Jt5igyIZHgR20G3bN2ortmMsH5G3' &&
+      storeState.session.user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
       storeState.session.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2'
     ) {
       filters = [
