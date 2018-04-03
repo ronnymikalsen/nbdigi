@@ -30,3 +30,21 @@ mat-chip {
   padding-top: 10px;
   overflow: auto;
 }
+
+::ng-deep mat-list-item .query {
+  font-size: 16px !important;
+}
+
+::ng-deep mat-list-item .mediaType,
+::ng-deep mat-list-item .sort {
+  font-size: 13px !important;
+  line-height: 16px !important;
+}
+
+::ng-deep mat-list-item mat-chip {
+  padding: 2px 7px !important;
+}
+
+::ng-deep mat-list-item .mediaType:first-letter {
+  text-transform: capitalize;
+}

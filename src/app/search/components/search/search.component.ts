@@ -16,6 +16,8 @@ import * as fromSearch from './../../../+state/reducers/search.reducer';
 import { Hint } from './../../../core/typeahead-service/hints.model';
 import { SuperSearchResult, Item } from '../../../models/search-result.model';
 import { MediaTypeResults } from './../../../models/search-result.model';
+import { Criteria } from '../../../models/criteria';
+import { Sort } from '../../../models/sort-options';
 
 @Component({
   selector: 'app-search',
@@ -25,6 +27,7 @@ import { MediaTypeResults } from './../../../models/search-result.model';
 })
 export class SearchComponent implements OnInit, OnChanges {
   @Input() search: fromSearch.State;
+  @Input() criterias: Criteria[];
   @Input() currentMediaTypeCount: number;
   @Input() pristine: boolean;
   @Input() books = new MediaTypeResults();
@@ -45,9 +48,10 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
-  @Output() sortChanged = new EventEmitter<string>();
+  @Output() sortChanged = new EventEmitter<Sort>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
+  @Output() changeCriteria = new EventEmitter<Criteria>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
 

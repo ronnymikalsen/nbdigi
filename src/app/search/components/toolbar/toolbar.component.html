@@ -2,9 +2,9 @@
   <mat-toolbar-row class="search-box-container">
     <app-search-box fxFlex="100" (searchSelected)="searchSelected.emit($event)"></app-search-box>
   </mat-toolbar-row>
-  <mat-toolbar-row *ngIf="search.filters?.length > 0" class="filters-container">
+  <mat-toolbar-row *ngIf="search.criteria.filters?.length > 0" class="filters-container">
     <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-chip-list *ngFor="let filter of search.filters">
+      <mat-chip-list *ngFor="let filter of search.criteria.filters">
         <mat-chip color="accent" [selected]="filter.enabled" (click)="toggleFilter.emit(filter)" (removed)="removeFilter.emit(filter)">
           <div fxLayout="row" fxLayoutAlign="start center">
             <mat-icon>{{filter.type}}</mat-icon>
@@ -65,8 +65,8 @@
     </div>
     <div class="sort-container">
       <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="sortOptions" [formControl]="sortControl" placeholder="Sortering" (selectionChange)="sortChanged.emit($event.value)">
-          <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption.value">
+        <mat-select panelClass="sortOptions" [compareWith]="compareFn" [formControl]="sortControl" placeholder="Sortering" (selectionChange)="sortChanged.emit($event.value)">
+          <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
             {{ sortOption.viewValue }}
           </mat-option>
         </mat-select>

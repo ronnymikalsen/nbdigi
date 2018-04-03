@@ -6,6 +6,7 @@ import {
 } from './../../models/search-result.model';
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
+import { Sort } from '../../models/sort-options';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -114,7 +115,7 @@ export class LoadMore implements Action {
 export class SetSort implements Action {
   readonly type = SearchActionTypes.SetSort;
 
-  constructor(public payload: string) {}
+  constructor(public payload: Sort) {}
 }
 
 export class ClearAll implements Action {

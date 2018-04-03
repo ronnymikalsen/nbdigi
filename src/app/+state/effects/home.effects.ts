@@ -15,6 +15,7 @@ import * as fromRoot from './../reducers';
 import * as home from '../actions/home.actions';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { SearchService } from './../../core/search-service/search.service';
+import { SortOptions } from '../../models/sort-options';
 
 @Injectable()
 export class HomeEffects {
@@ -30,7 +31,7 @@ export class HomeEffects {
             q: '-pleasecacheme',
             size: 20,
             filters: filters,
-            sort: 'firstDigitalContentTime,desc'
+            sort: new SortOptions().newArrivals
           })
           .pipe(
             map(searchResult => {
