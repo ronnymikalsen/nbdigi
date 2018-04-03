@@ -229,7 +229,10 @@ export class SearchEffects {
         .map(h => h.value)
     ];
 
-    if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
+    if (
+      storeState.session.user.uid !== 'Jt5igyIZHgR20G3bN2ortmMsH5G3' &&
+      storeState.session.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2'
+    ) {
       filters = [
         ...filters,
         'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'

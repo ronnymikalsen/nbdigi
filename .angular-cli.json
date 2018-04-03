@@ -7,7 +7,14 @@
     {
       "root": "src",
       "outDir": "dist",
-      "assets": ["assets", "favicon.ico", "pwa-manifest.json"],
+      "assets": [
+        "assets",
+        "favicon.ico",
+        "pwa-manifest.json",
+        "browserconfig.xml",
+        "apple-touch-icon.png",
+        "apple-touch-icon-precomposed.png"
+      ],
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
