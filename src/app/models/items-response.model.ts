@@ -45,6 +45,7 @@ export interface MetadataResponse {
   title: string;
   creators: string[];
   originInfo: OriginInfoResponse;
+  identifiers: IdentifiersResponse;
 }
 
 export interface OriginInfoResponse {
@@ -59,4 +60,10 @@ export interface AggregationResponse {
 export interface BucketResponse {
   key: string;
   count: number;
+}
+
+export interface IdentifiersResponse {
+  sesamId: string;
+  oaiId: string;
+  urn: string;
 }

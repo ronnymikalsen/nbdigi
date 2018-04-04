@@ -202,7 +202,9 @@ export class SearchService {
             .replace('{height}', '245')
         : null,
       manifestUri: i._links.presentation ? i._links.presentation.href : null,
-      selfLink: i._links.self ? i._links.self.href : null
+      selfLink: i._links.self ? i._links.self.href : null,
+      urn: i.metadata.identifiers ? i.metadata.identifiers.urn : null,
+      oaiId: i.metadata.identifiers ? i.metadata.identifiers.oaiId : null
     });
   }
 

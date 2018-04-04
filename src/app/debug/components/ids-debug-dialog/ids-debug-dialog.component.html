@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <div fxFill fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>Identifikatorer</h3>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+<div class="ids-container" fxLayout="column">
+  <app-id-copy-value [label]="'SesamId'" [value]="item.id"></app-id-copy-value>
+  <app-id-copy-value [label]="'Urn'" [value]="item.urn"></app-id-copy-value>
+  <app-id-copy-value [label]="'OaiId'" [value]="item.oaiId"></app-id-copy-value>
+</div>
