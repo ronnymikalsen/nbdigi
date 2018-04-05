@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { LazyLoadImagesModule } from 'ngx-lazy-load-images';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ClipboardModule } from 'ngx-clipboard';
 import { MimeModule } from '@nationallibraryofnorway/ngx-mime';
 import {
   MimeViewerIntl,
@@ -24,7 +25,8 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     LazyLoadImagesModule,
     InfiniteScrollModule,
     MimeModule,
-    DateFormatPipe
+    DateFormatPipe,
+    ClipboardModule
   ],
   providers: [{ provide: MimeViewerIntl, useClass: MimeViewerIntlNoNb }]
 })

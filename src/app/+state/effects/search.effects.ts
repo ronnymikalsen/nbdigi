@@ -234,7 +234,9 @@ export class SearchEffects {
 
     if (
       storeState.session.user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
-      storeState.session.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2'
+      storeState.session.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2' &&
+      storeState.session.user.uid !== 'iHr3SCdKewU6M3bNGLMUwqxvDu73' &&
+      storeState.session.user.uid !== 'V9q3474Py0PfJx8zKeQ3DHlmklR2'
     ) {
       filters = [
         ...filters,

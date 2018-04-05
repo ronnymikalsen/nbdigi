@@ -105,6 +105,8 @@ export class Item {
   public currentCanvasId = 0;
   public timestamp = new Date();
   public selfLink? = null;
+  public urn: string = null;
+  public oaiId: string = null;
 
   constructor(fields?: {
     id?: string;
@@ -116,6 +118,8 @@ export class Item {
     currentCanvasId?: number;
     timestamp?: Date;
     selfLink?: string;
+    urn?: string;
+    oaiId?: string;
   }) {
     if (fields) {
       this.id = fields.id || this.id;
@@ -127,6 +131,8 @@ export class Item {
       this.currentCanvasId = fields.currentCanvasId || this.currentCanvasId;
       this.timestamp = fields.timestamp || this.timestamp;
       this.selfLink = fields.selfLink || this.selfLink;
+      this.urn = fields.urn || this.urn;
+      this.oaiId = fields.oaiId || this.oaiId;
     }
   }
 }
