@@ -39,7 +39,10 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
-        this.router.navigate(['/search', { q: storeState.search.criteria.q }]);
+        this.router.navigate([
+          '/search',
+          { q: storeState.search.criteria.q.trim() }
+        ]);
         const filters = this.addAllFilters(storeState);
 
         const hint = {

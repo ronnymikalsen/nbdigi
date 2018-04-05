@@ -75,7 +75,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe((params: ParamMap) => {
         const q = params.get('q');
-        this.queryControl.patchValue(q ? q : '');
+        this.queryControl.patchValue(q ? q.trim() : '');
         this.cdr.detectChanges();
       });
   }
@@ -89,11 +89,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     let q: string = this.queryControl.value;
     if (q.toLocaleLowerCase().includes('debugon')) {
       q = q.replace(/debugon/gi, '');
-      this.queryControl.patchValue(q);
+      this.queryControl.patchValue(q.trim());
       this.debugChanged.emit(true);
     } else if (q.toLocaleLowerCase().includes('debugoff')) {
       q = q.replace(/debugoff/gi, '');
-      this.queryControl.patchValue(q);
+      this.queryControl.patchValue(q.trim());
       this.debugChanged.emit(false);
     }
     this.matAutocomplete.closePanel();
@@ -107,7 +107,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.timer = setTimeout(() => {
       if (!this.preventSimpleClick) {
         this.queryControl.patchValue('');
-        setTimeout(() => this.searchboxContainer.nativeElement.focus());
+        setTimeout(() => {
+          if (this.searchboxContainer) {
+            this.searchboxContainer.nativeElement.focus();
+          }
+        });
       }
     }, 200);
   }
