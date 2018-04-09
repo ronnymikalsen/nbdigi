@@ -103,6 +103,7 @@ export class HomePageComponent implements OnInit {
         q: q
       })
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   private showNewArrivals(mediaType: string) {
@@ -112,5 +113,6 @@ export class HomePageComponent implements OnInit {
         sort: new SortOptions().newArrivals
       })
     );
+    this.store.dispatch(new searchAction.Search());
   }
 }

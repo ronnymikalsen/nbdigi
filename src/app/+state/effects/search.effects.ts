@@ -39,12 +39,6 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
-        /*
-        this.router.navigate([
-          '/search',
-          { q: storeState.search.criteria.q.trim() }
-        ]);
-        */
         const filters = this.addAllFilters(storeState);
 
         const hint = {
@@ -62,7 +56,21 @@ export class SearchEffects {
           .doc(<string>storeState.search.criteria.hash)
           .set(hint);
 
-        if (storeState.search.criteria.mediaType !== 'alle') {
+        if (storeState.search.criteria.mediaType === 'alle') {
+          return this.searchService
+            .super({
+              size: 20,
+              q: storeState.search.criteria.q,
+              filters: filters,
+              sort: storeState.search.criteria.sort
+            })
+            .pipe(
+              map(searchResult => {
+                return new search.SearchSuccess(searchResult);
+              }),
+              catchError(err => Observable.of(new search.SearchError(err)))
+            );
+        } else {
           return this.searchService
             .search({
               size: 50,
@@ -77,22 +85,9 @@ export class SearchEffects {
               }),
               catchError(err => Observable.of(new search.SearchError(err)))
             );
-        } else {
-          return this.searchService
-            .super({
-              size: 20,
-              q: storeState.search.criteria.q,
-              filters: filters,
-              sort: storeState.search.criteria.sort
-            })
-            .pipe(
-              map(searchResult => {
-                return new search.SearchSuccess(searchResult);
-              }),
-              catchError(err => Observable.of(new search.SearchError(err)))
-            );
         }
-      })
+      }),
+      tap(() => this.router.navigate(['/search']))
     );
 
   @Effect()
@@ -169,21 +164,6 @@ export class SearchEffects {
               return Observable.of(new search.SearchError(err));
             })
           );
-      })
-    );
-
-  @Effect()
-  setCriteria: Observable<Action> = this.actions
-    .ofType(
-      search.SearchActionTypes.SetCriteria,
-      search.SearchActionTypes.UpdateCriteria
-    )
-    .pipe(
-      map((action: any) => action),
-      withLatestFrom(this.store),
-      switchMap(([action, storeState]) => {
-        this.router.navigate(['/search']);
-        return Observable.of(new search.Search());
       })
     );
 

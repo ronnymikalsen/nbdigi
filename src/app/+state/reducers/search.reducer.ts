@@ -105,28 +105,9 @@ export function reducer(state = initialState, action: SearchAction): State {
         })
       };
     }
-    case SearchActionTypes.SetQuery: {
-      return {
-        ...state,
-        criteria: new Criteria({
-          ...state.criteria,
-          q: action.payload
-        })
-      };
-    }
     case SearchActionTypes.Search: {
       return {
         ...state,
-        isLoading: true
-      };
-    }
-    case SearchActionTypes.SetMediaType: {
-      return {
-        ...state,
-        criteria: new Criteria({
-          ...state.criteria,
-          mediaType: action.payload
-        }),
         isLoading: true
       };
     }
@@ -162,16 +143,6 @@ export function reducer(state = initialState, action: SearchAction): State {
           filters: state.criteria.filters.map((f, i) => {
             return i !== index ? f : { ...f, enabled: !f.enabled };
           })
-        }),
-        isLoading: true
-      };
-    }
-    case SearchActionTypes.SetSort: {
-      return {
-        ...state,
-        criteria: new Criteria({
-          ...state.criteria,
-          sort: action.payload
         }),
         isLoading: true
       };

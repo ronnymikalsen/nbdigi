@@ -43,7 +43,6 @@ export class SearchBoxPageComponent {
   constructor(private router: Router, private store: Store<fromRoot.State>) {}
 
   onSearchSelected(query: string): void {
-    this.store.dispatch(new searchAction.SetQuery(query));
     this.searchSelected.emit(query);
   }
 
@@ -52,7 +51,11 @@ export class SearchBoxPageComponent {
   }
 
   addFilter(filter: Hint): void {
-    this.store.dispatch(new searchAction.SetQuery(null));
+    this.store.dispatch(
+      new searchAction.UpdateCriteria({
+        q: null
+      })
+    );
     this.store.dispatch(new searchAction.AddFilter(filter));
     this.store.dispatch(new searchAction.Search());
   }

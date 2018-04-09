@@ -126,18 +126,18 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.destroyed.complete();
   }
 
-  toggleFilter(filter: Hint): void {
-    this.store.dispatch(new searchAction.ToggleFilter(filter));
+  toggleFilter(hint: Hint): void {
+    this.store.dispatch(new searchAction.ToggleFilter(hint));
     this.store.dispatch(new searchAction.Search());
   }
 
-  removeFilter(filter: Hint): void {
-    this.store.dispatch(new searchAction.RemoveFilter(filter));
+  removeFilter(hint: Hint): void {
+    this.store.dispatch(new searchAction.RemoveFilter(hint));
     this.store.dispatch(new searchAction.Search());
   }
 
-  addFilter(filter: Hint): void {
-    this.store.dispatch(new searchAction.AddFilter(filter));
+  addFilter(hint: Hint): void {
+    this.store.dispatch(new searchAction.AddFilter(hint));
     this.store.dispatch(new searchAction.Search());
   }
 
@@ -147,6 +147,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         q: query
       })
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   mediaTypeChanged(mediaType: string): void {
@@ -155,6 +156,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         mediaType: mediaType
       })
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   sortChanged(sort: Sort): void {
@@ -163,6 +165,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         sort: sort
       })
     );
+    this.store.dispatch(new searchAction.Search());
   }
 
   debugChanged(debug: boolean): void {
@@ -178,5 +181,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   changeCriteria(criteria: Criteria): void {
     this.store.dispatch(new searchAction.SetCriteria(criteria));
+    this.store.dispatch(new searchAction.Search());
   }
 }

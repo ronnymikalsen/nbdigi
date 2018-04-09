@@ -72,21 +72,9 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
-    /*
-    this.route.paramMap
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((params: ParamMap) => {
-        const q = params.get('q');
-        this.queryControl.patchValue(q ? q.trim() : '');
-        this.cdr.detectChanges();
-        this.searchSelected.emit(q);
-        console.log('q', q);
-      });
-      */
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // changes.prop contains the old and the new value...
     if (changes['q']) {
       this.queryControl.patchValue(changes['q'].currentValue);
     }
