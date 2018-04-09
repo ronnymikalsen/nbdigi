@@ -39,10 +39,12 @@ export class SearchEffects {
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
+        /*
         this.router.navigate([
           '/search',
           { q: storeState.search.criteria.q.trim() }
         ]);
+        */
         const filters = this.addAllFilters(storeState);
 
         const hint = {
@@ -60,7 +62,7 @@ export class SearchEffects {
           .doc(<string>storeState.search.criteria.hash)
           .set(hint);
 
-        if (storeState.search.criteria.mediaType) {
+        if (storeState.search.criteria.mediaType !== 'alle') {
           return this.searchService
             .search({
               size: 50,
@@ -170,6 +172,21 @@ export class SearchEffects {
       })
     );
 
+  @Effect()
+  setCriteria: Observable<Action> = this.actions
+    .ofType(
+      search.SearchActionTypes.SetCriteria,
+      search.SearchActionTypes.UpdateCriteria
+    )
+    .pipe(
+      map((action: any) => action),
+      withLatestFrom(this.store),
+      switchMap(([action, storeState]) => {
+        this.router.navigate(['/search']);
+        return Observable.of(new search.Search());
+      })
+    );
+
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions
     .ofType(search.SearchActionTypes.SearchError)
@@ -186,6 +203,7 @@ export class SearchEffects {
   loadHints: Observable<Action> = this.actions
     .ofType(search.SearchActionTypes.LoadHints)
     .pipe(
+      map((action: any) => action),
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
@@ -193,7 +211,7 @@ export class SearchEffects {
         const sc = {
           size: 50,
           mediaType: storeState.search.criteria.mediaType,
-          q: storeState.search.criteria.q,
+          q: action.payload,
           filters: filters,
           sort: storeState.search.criteria.sort
         };

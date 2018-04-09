@@ -7,6 +7,7 @@ import {
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { Sort } from '../../models/sort-options';
+import { Criteria } from '../../models/criteria';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -25,7 +26,9 @@ export enum SearchActionTypes {
   LoadMore = '[Search] Load more',
   LoadMoreSuccess = '[Search] Load more success',
   ClearAll = '[Search] Clear all',
-  SetSort = '[Search] Set sort'
+  SetSort = '[Search] Set sort',
+  SetCriteria = '[Search] Set criteria',
+  UpdateCriteria = '[Search] Update criteria'
 }
 
 export class Search implements Action {
@@ -69,7 +72,7 @@ export class SetQuery implements Action {
 export class LoadHints implements Action {
   readonly type = SearchActionTypes.LoadHints;
 
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export class HintsLoaded implements Action {
@@ -122,6 +125,18 @@ export class ClearAll implements Action {
   readonly type = SearchActionTypes.ClearAll;
 }
 
+export class SetCriteria implements Action {
+  readonly type = SearchActionTypes.SetCriteria;
+
+  constructor(public payload: Criteria) {}
+}
+
+export class UpdateCriteria implements Action {
+  readonly type = SearchActionTypes.UpdateCriteria;
+
+  constructor(public payload: Criteria) {}
+}
+
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -139,4 +154,6 @@ export type SearchAction =
   | LoadMoreSuccess
   | LoadMore
   | SetSort
-  | ClearAll;
+  | ClearAll
+  | SetCriteria
+  | UpdateCriteria;

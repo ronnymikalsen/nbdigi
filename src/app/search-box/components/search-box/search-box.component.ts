@@ -13,7 +13,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
   MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger
@@ -37,7 +37,7 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() q: string;
   @Input() hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
@@ -56,7 +56,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
     this.createForm();
   }
@@ -71,13 +72,24 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
+    /*
     this.route.paramMap
       .pipe(takeUntil(this.destroyed))
       .subscribe((params: ParamMap) => {
         const q = params.get('q');
         this.queryControl.patchValue(q ? q.trim() : '');
         this.cdr.detectChanges();
+        this.searchSelected.emit(q);
+        console.log('q', q);
       });
+      */
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+    if (changes['q']) {
+      this.queryControl.patchValue(changes['q'].currentValue);
+    }
   }
 
   ngOnDestroy() {

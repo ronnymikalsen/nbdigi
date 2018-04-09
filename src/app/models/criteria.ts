@@ -6,7 +6,7 @@ import { Sort, SortOptions } from './sort-options';
 
 export class Criteria {
   q? = '';
-  mediaType?: string = null;
+  mediaType? = 'alle';
   filters?: Hint[] = [];
   sort?: Sort = new SortOptions().relevance;
   timestamp?: Date;

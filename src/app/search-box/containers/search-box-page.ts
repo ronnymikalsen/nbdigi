@@ -48,8 +48,7 @@ export class SearchBoxPageComponent {
   }
 
   query(query: string): void {
-    this.store.dispatch(new searchAction.SetQuery(query));
-    this.store.dispatch(new searchAction.LoadHints());
+    this.store.dispatch(new searchAction.LoadHints(query));
   }
 
   addFilter(filter: Hint): void {
@@ -60,6 +59,7 @@ export class SearchBoxPageComponent {
 
   onClearAll(): void {
     this.store.dispatch(new searchAction.ClearAll());
+    this.store.dispatch(new searchAction.SearchAggs());
     this.router.navigate(['/search']);
   }
 

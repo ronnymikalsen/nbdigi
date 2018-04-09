@@ -46,7 +46,7 @@ export class QueryBuilder {
   }
 
   withMediaType(value: string): QueryBuilder {
-    this.mediaType = value;
+    this.mediaType = value !== 'alle' ? value : undefined;
     return this;
   }
 

@@ -18,9 +18,11 @@ import * as itemAction from './../../+state/actions/item.actions';
 import { Hint } from './../../core/typeahead-service/hints.model';
 import { SuperSearchResult } from '../../models/search-result.model';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { Criteria } from '../../models/criteria';
-import { Sort } from '../../models/sort-options';
+import { Sort, SortOptions } from '../../models/sort-options';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -91,10 +93,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   criterias: Observable<Criteria[]>;
+  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.store
       .select(fromRoot.currentUser)
@@ -116,7 +121,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new searchAction.SearchAggs());
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
 
   toggleFilter(filter: Hint): void {
     this.store.dispatch(new searchAction.ToggleFilter(filter));
@@ -134,17 +142,27 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   searchSelected(query: string): void {
-    this.store.dispatch(new searchAction.Search());
+    this.store.dispatch(
+      new searchAction.UpdateCriteria({
+        q: query
+      })
+    );
   }
 
   mediaTypeChanged(mediaType: string): void {
-    this.store.dispatch(new searchAction.SetMediaType(mediaType));
-    this.store.dispatch(new searchAction.Search());
+    this.store.dispatch(
+      new searchAction.UpdateCriteria({
+        mediaType: mediaType
+      })
+    );
   }
 
   sortChanged(sort: Sort): void {
-    this.store.dispatch(new searchAction.SetSort(sort));
-    this.store.dispatch(new searchAction.Search());
+    this.store.dispatch(
+      new searchAction.UpdateCriteria({
+        sort: sort
+      })
+    );
   }
 
   debugChanged(debug: boolean): void {
@@ -159,13 +177,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   changeCriteria(criteria: Criteria): void {
-    this.store.dispatch(new searchAction.ClearAll());
-    this.store.dispatch(new searchAction.SetQuery(criteria.q));
-    this.store.dispatch(new searchAction.SetMediaType(criteria.mediaType));
-    this.store.dispatch(new searchAction.SetSort(criteria.sort));
-    criteria.filters.forEach(f =>
-      this.store.dispatch(new searchAction.AddFilter(f))
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.store.dispatch(new searchAction.SetCriteria(criteria));
   }
 }
