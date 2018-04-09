@@ -1,5 +1,5 @@
 <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
-  <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching()"
+  <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching($event)"
     (addFilter)="addFilter.emit($event)" (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
     (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (debugChanged)="debugChanged.emit($event)">
   </app-toolbar>

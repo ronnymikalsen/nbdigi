@@ -43,7 +43,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() others = new MediaTypeResults();
   @Input() moreUrl = null;
   @Input() isDebugOn: boolean;
-  @Output() searchSelected = new EventEmitter<void>();
+  @Output() searchSelected = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
   @Output() toggleFilter = new EventEmitter<Hint>();
@@ -74,8 +74,8 @@ export class SearchComponent implements OnInit, OnChanges {
     }
   }
 
-  searching() {
-    this.searchSelected.emit();
+  searching(q: string) {
+    this.searchSelected.emit(q);
     setTimeout(() => this.searchResultContainer.nativeElement.focus());
   }
 
