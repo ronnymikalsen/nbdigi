@@ -69,28 +69,45 @@ export function reducer(state = initialState, action: SearchAction): State {
         ...initialState
       };
     }
-    case SearchActionTypes.SetQuery: {
+    case SearchActionTypes.UpdateCriteria: {
+      const newCriteria = { ...state.criteria };
+      if (action.payload.q) {
+        newCriteria.q = action.payload.q;
+      }
+      if (action.payload.mediaType) {
+        newCriteria.mediaType = action.payload.mediaType;
+      }
+      if (action.payload.sort) {
+        newCriteria.sort = action.payload.sort;
+      }
+      if (action.payload.filters) {
+        newCriteria.filters = [...action.payload.filters];
+      }
+
       return {
         ...state,
         criteria: new Criteria({
-          ...state.criteria,
-          q: action.payload
+          q: newCriteria.q,
+          mediaType: newCriteria.mediaType,
+          sort: newCriteria.sort,
+          filters: newCriteria.filters
+        })
+      };
+    }
+    case SearchActionTypes.SetCriteria: {
+      return {
+        ...state,
+        criteria: new Criteria({
+          q: action.payload.q,
+          mediaType: action.payload.mediaType,
+          sort: action.payload.sort,
+          filters: action.payload.filters
         })
       };
     }
     case SearchActionTypes.Search: {
       return {
         ...state,
-        isLoading: true
-      };
-    }
-    case SearchActionTypes.SetMediaType: {
-      return {
-        ...state,
-        criteria: new Criteria({
-          ...state.criteria,
-          mediaType: action.payload
-        }),
         isLoading: true
       };
     }
@@ -126,16 +143,6 @@ export function reducer(state = initialState, action: SearchAction): State {
           filters: state.criteria.filters.map((f, i) => {
             return i !== index ? f : { ...f, enabled: !f.enabled };
           })
-        }),
-        isLoading: true
-      };
-    }
-    case SearchActionTypes.SetSort: {
-      return {
-        ...state,
-        criteria: new Criteria({
-          ...state.criteria,
-          sort: action.payload
         }),
         isLoading: true
       };
@@ -324,6 +331,7 @@ export function reducer(state = initialState, action: SearchAction): State {
 }
 
 export const getQ = (state: State) => state.criteria.q;
+export const getCriteria = (state: State) => state.criteria;
 export const getBooks = (state: State) => state.searchResult.books;
 export const getNewspapers = (state: State) => state.searchResult.newspapers;
 export const getPhotos = (state: State) => state.searchResult.photos;
@@ -370,7 +378,9 @@ export const getMoreUrl = (state: State) => {
 
 export const getCurrentMediaTypeCount = (state: State) => {
   let counts: number;
-  if (state.criteria.mediaType === 'bøker') {
+  if (state.criteria.mediaType === 'alle') {
+    counts = state.searchResult.totalElements;
+  } else if (state.criteria.mediaType === 'bøker') {
     counts = state.searchResult.books.counts;
   } else if (state.criteria.mediaType === 'bilder') {
     counts = state.searchResult.photos.counts;

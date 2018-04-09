@@ -7,6 +7,7 @@ import {
 import { Hints, Hint } from './../../core/typeahead-service/hints.model';
 import { SearchCriteria } from '../../models/search-criteria.model';
 import { Sort } from '../../models/sort-options';
+import { Criteria } from '../../models/criteria';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -15,17 +16,16 @@ export enum SearchActionTypes {
   SearchAggs = '[Search] Searching aggs',
   SearchAggsSuccess = '[Search] Search aggs success',
   SearchAggsError = '[Search] Search aggs error',
-  SetQuery = '[Search] Set query',
   LoadHints = '[Search] Load hints',
   HintsLoaded = '[Search] Hints Loaded',
   AddFilter = '[Search] Add filter',
   RemoveFilter = '[Search] Remove filter',
   ToggleFilter = '[Search] Toggle filter',
-  SetMediaType = '[Search] Set media type',
   LoadMore = '[Search] Load more',
   LoadMoreSuccess = '[Search] Load more success',
   ClearAll = '[Search] Clear all',
-  SetSort = '[Search] Set sort'
+  SetCriteria = '[Search] Set criteria',
+  UpdateCriteria = '[Search] Update criteria'
 }
 
 export class Search implements Action {
@@ -60,16 +60,10 @@ export class SearchAggsError implements Action {
   constructor(public payload: any) {}
 }
 
-export class SetQuery implements Action {
-  readonly type = SearchActionTypes.SetQuery;
-
-  constructor(public payload: string) {}
-}
-
 export class LoadHints implements Action {
   readonly type = SearchActionTypes.LoadHints;
 
-  constructor() {}
+  constructor(public payload: string) {}
 }
 
 export class HintsLoaded implements Action {
@@ -96,12 +90,6 @@ export class ToggleFilter implements Action {
   constructor(public payload: Hint) {}
 }
 
-export class SetMediaType implements Action {
-  readonly type = SearchActionTypes.SetMediaType;
-
-  constructor(public payload: string) {}
-}
-
 export class LoadMoreSuccess implements Action {
   readonly type = SearchActionTypes.LoadMoreSuccess;
 
@@ -112,14 +100,20 @@ export class LoadMore implements Action {
   readonly type = SearchActionTypes.LoadMore;
 }
 
-export class SetSort implements Action {
-  readonly type = SearchActionTypes.SetSort;
-
-  constructor(public payload: Sort) {}
-}
-
 export class ClearAll implements Action {
   readonly type = SearchActionTypes.ClearAll;
+}
+
+export class SetCriteria implements Action {
+  readonly type = SearchActionTypes.SetCriteria;
+
+  constructor(public payload: Criteria) {}
+}
+
+export class UpdateCriteria implements Action {
+  readonly type = SearchActionTypes.UpdateCriteria;
+
+  constructor(public payload: Criteria) {}
 }
 
 export type SearchAction =
@@ -129,14 +123,13 @@ export type SearchAction =
   | SearchAggs
   | SearchAggsSuccess
   | SearchAggsError
-  | SetQuery
   | LoadHints
   | HintsLoaded
   | AddFilter
   | RemoveFilter
   | ToggleFilter
-  | SetMediaType
   | LoadMoreSuccess
   | LoadMore
-  | SetSort
-  | ClearAll;
+  | ClearAll
+  | SetCriteria
+  | UpdateCriteria;

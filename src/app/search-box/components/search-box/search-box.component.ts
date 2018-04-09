@@ -13,7 +13,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
   MatAutocompleteSelectedEvent,
   MatAutocompleteTrigger
@@ -37,7 +37,7 @@ import { Hints, Hint } from './../../../core/typeahead-service/hints.model';
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchBoxComponent implements OnInit, OnDestroy {
+export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() q: string;
   @Input() hints: Hints;
   @Output() hintSelected = new EventEmitter<Hint>();
@@ -56,7 +56,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {
     this.createForm();
   }
@@ -71,13 +72,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
         debounceTime(300)
       )
       .subscribe(val => this.query.emit(val));
-    this.route.paramMap
-      .pipe(takeUntil(this.destroyed))
-      .subscribe((params: ParamMap) => {
-        const q = params.get('q');
-        this.queryControl.patchValue(q ? q : '');
-        this.cdr.detectChanges();
-      });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['q']) {
+      this.queryControl.patchValue(changes['q'].currentValue);
+    }
   }
 
   ngOnDestroy() {
@@ -89,11 +89,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     let q: string = this.queryControl.value;
     if (q.toLocaleLowerCase().includes('debugon')) {
       q = q.replace(/debugon/gi, '');
-      this.queryControl.patchValue(q);
+      this.queryControl.patchValue(q.trim());
       this.debugChanged.emit(true);
     } else if (q.toLocaleLowerCase().includes('debugoff')) {
       q = q.replace(/debugoff/gi, '');
-      this.queryControl.patchValue(q);
+      this.queryControl.patchValue(q.trim());
       this.debugChanged.emit(false);
     }
     this.matAutocomplete.closePanel();
@@ -107,7 +107,11 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     this.timer = setTimeout(() => {
       if (!this.preventSimpleClick) {
         this.queryControl.patchValue('');
-        setTimeout(() => this.searchboxContainer.nativeElement.focus());
+        setTimeout(() => {
+          if (this.searchboxContainer) {
+            this.searchboxContainer.nativeElement.focus();
+          }
+        });
       }
     }, 200);
   }

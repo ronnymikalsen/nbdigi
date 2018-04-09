@@ -27,7 +27,7 @@
           <mat-select-trigger>
             <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount}})</div>
           </mat-select-trigger>
-          <mat-option [value]="">
+          <mat-option [value]="'alle'">
             <app-media-type-option [mediaType]="'Alle'" [count]="search.searchResult.totalElements"></app-media-type-option>
           </mat-option>
           <mat-option [value]="search.searchResult.books.mediaType">

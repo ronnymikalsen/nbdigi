@@ -1,5 +1,5 @@
 <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
-  <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching()"
+  <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching($event)"
     (addFilter)="addFilter.emit($event)" (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
     (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (debugChanged)="debugChanged.emit($event)">
   </app-toolbar>
@@ -38,16 +38,16 @@
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts)" [mediaTypeResults]="books" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.criteria.mediaType === 'bøker'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [selected]="search.criteria.mediaType === 'bøker'" [showMoreButton]="search.criteria.mediaType == 'alle'" [showToolbar]="search.criteria.mediaType == 'alle'"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(newspapers?.mediaType, newspapers?.counts)" [mediaTypeResults]="newspapers" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.criteria.mediaType === 'aviser'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [selected]="search.criteria.mediaType === 'aviser'" [showMoreButton]="search.criteria.mediaType == 'alle'" [showToolbar]="search.criteria.mediaType == 'alle'"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(photos?.mediaType, photos?.counts)" [mediaTypeResults]="photos" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.criteria.mediaType === 'bilder'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [selected]="search.criteria.mediaType === 'bilder'" [showMoreButton]="search.criteria.mediaType == 'alle'" [showToolbar]="search.criteria.mediaType == 'alle'"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(periodicals?.mediaType, periodicals?.counts)" [mediaTypeResults]="periodicals" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
-        [selected]="search.criteria.mediaType === 'tidsskrift'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
+        [selected]="search.criteria.mediaType === 'tidsskrift'" [showMoreButton]="search.criteria.mediaType == 'alle'" [showToolbar]="search.criteria.mediaType == 'alle'"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
 
       <div *ngIf="!pristine && !search.criteria.mediaType && search.searchResult.totalElements > 0" class="others-mediatype-container"

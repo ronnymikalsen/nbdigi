@@ -43,23 +43,26 @@ export class SearchBoxPageComponent {
   constructor(private router: Router, private store: Store<fromRoot.State>) {}
 
   onSearchSelected(query: string): void {
-    this.store.dispatch(new searchAction.SetQuery(query));
     this.searchSelected.emit(query);
   }
 
   query(query: string): void {
-    this.store.dispatch(new searchAction.SetQuery(query));
-    this.store.dispatch(new searchAction.LoadHints());
+    this.store.dispatch(new searchAction.LoadHints(query));
   }
 
   addFilter(filter: Hint): void {
-    this.store.dispatch(new searchAction.SetQuery(null));
+    this.store.dispatch(
+      new searchAction.UpdateCriteria({
+        q: null
+      })
+    );
     this.store.dispatch(new searchAction.AddFilter(filter));
     this.store.dispatch(new searchAction.Search());
   }
 
   onClearAll(): void {
     this.store.dispatch(new searchAction.ClearAll());
+    this.store.dispatch(new searchAction.SearchAggs());
     this.router.navigate(['/search']);
   }
 

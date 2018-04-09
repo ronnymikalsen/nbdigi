@@ -1,3 +1,4 @@
+import { AngularFirestore } from 'angularfire2/firestore';
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -7,10 +8,16 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { User } from '../models/user.model';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(public afAuth: AngularFireAuth, private router: Router) {}
+  constructor(
+    public afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private router: Router
+  ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -20,7 +27,13 @@ export class AuthGuard implements CanActivate {
       this.afAuth.authState.subscribe(
         res => {
           if (res) {
-            observer.next(true);
+            const userRef = this.afs.doc<User>(`users/${res.uid}`);
+            userRef
+              .valueChanges()
+              .pipe(take(1))
+              .subscribe(u => {
+                observer.next(true);
+              });
           } else {
             observer.next(this.router.navigate(['/login']));
           }

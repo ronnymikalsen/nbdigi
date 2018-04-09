@@ -30,7 +30,7 @@ import { SortOptions } from '../../models/sort-options';
       (showMorePeriodicals)="onShowMorePeriodicals()"
       (showMorePhotos)="onShowMorePhotos()"
       (showMoreNewspapers)="onShowMoreNewspapers()"
-      (searchSelected)="onSearchSelected()"
+      (searchSelected)="onSearchSelected($event)"
       >
     </app-home>`
 })
@@ -82,40 +82,37 @@ export class HomePageComponent implements OnInit {
   }
 
   onShowMoreBooks() {
-    this.store.dispatch(new searchAction.SetMediaType('bøker'));
-    this.store.dispatch(
-      new searchAction.SetSort(new SortOptions().newArrivals)
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.showNewArrivals('bøker');
   }
 
   onShowMorePeriodicals() {
-    this.store.dispatch(new searchAction.SetMediaType('tidsskrift'));
-    this.store.dispatch(
-      new searchAction.SetSort(new SortOptions().newArrivals)
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.showNewArrivals('tidsskrift');
   }
 
   onShowMorePhotos() {
-    this.store.dispatch(new searchAction.SetMediaType('bilder'));
-    this.store.dispatch(
-      new searchAction.SetSort(new SortOptions().newArrivals)
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.showNewArrivals('bilder');
   }
 
   onShowMoreNewspapers() {
-    this.store.dispatch(new searchAction.SetMediaType('aviser'));
+    this.showNewArrivals('aviser');
+  }
+
+  onSearchSelected(q: string) {
     this.store.dispatch(
-      new searchAction.SetSort(new SortOptions().newArrivals)
+      new searchAction.SetCriteria({
+        q: q
+      })
     );
     this.store.dispatch(new searchAction.Search());
   }
 
-  onSearchSelected() {
-    this.store.dispatch(new searchAction.SetSort(null));
-    this.store.dispatch(new searchAction.SetMediaType(null));
+  private showNewArrivals(mediaType: string) {
+    this.store.dispatch(
+      new searchAction.SetCriteria({
+        mediaType: mediaType,
+        sort: new SortOptions().newArrivals
+      })
+    );
     this.store.dispatch(new searchAction.Search());
   }
 }
