@@ -14,26 +14,7 @@
       <mat-toolbar>
         <h3>Nylige søk</h3>
       </mat-toolbar>
-      <mat-nav-list>
-        <mat-list-item *ngFor="let criteria of criterias" (click)="changeCriteria.emit(criteria)">
-          <div class="query" *ngIf="criteria.q" matLine>{{criteria.q}}</div>
-          <div class="mediaType" *ngIf="criteria.mediaType" matLine>{{criteria.mediaType}}</div>
-          <div class="sort" matLine>{{criteria.sort?.viewValue}}</div>
-          <div matLine *ngFor="let hint of criteria.filters">
-            <mat-chip-list>
-              <mat-chip color="accent" [selected]="hint.enabled" disabled="true">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                  <mat-icon>{{hint.type}}</mat-icon>
-                  <div>
-                    {{hint.label}}
-                  </div>
-                </div>
-              </mat-chip>
-            </mat-chip-list>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </mat-nav-list>
+      <app-criteria-list [limit]="20"></app-criteria-list>
     </div>
     <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
       [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
