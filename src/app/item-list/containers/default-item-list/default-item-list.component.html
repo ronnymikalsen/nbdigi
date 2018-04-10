@@ -1,21 +1,23 @@
 <mat-list-item (click)="open(item)">
-  <div fxLayout="row">
-    <div fxFlex="100px" lazy-load-images>
-      <img class="thumbnail" [attr.data-src]="item.thumbnail">
-    </div>
-    <div fxFlex>
-      <div class="metadata-container" fxLayout="column">
-        <div class="title truncate" [matTooltip]="item.title">
-          {{item.title}}
-        </div>
-        <div class="truncate creator" [matTooltip]="item.creator">
-          {{item.creator}}
-        </div>
-        <div class="truncate issued" [matTooltip]="item.issued">
-          {{item.issued | dateFormat}}
-        </div>
+  <div matLine>
+    <div fxLayout="row">
+      <div fxFlex="100px" lazy-load-images>
+        <img class="thumbnail" [attr.data-src]="item.thumbnail">
       </div>
-      <app-debug [isDebugOn]="isDebugOn | async" [item]="item"></app-debug>
+      <div class="truncate">
+        <div class="metadata-container" fxLayout="column">
+          <div class="title truncate" [matTooltip]="item.title">
+            {{item.title}}
+          </div>
+          <div class="truncate creator" [matTooltip]="item.creator">
+            {{item.creator}}
+          </div>
+          <div class="truncate issued" [matTooltip]="item.issued">
+            {{item.issued | dateFormat}}
+          </div>
+        </div>
+        <app-debug [isDebugOn]="isDebugOn | async" [item]="item"></app-debug>
+      </div>
     </div>
   </div>
   <mat-divider></mat-divider>
