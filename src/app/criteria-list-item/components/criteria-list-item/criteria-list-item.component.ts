@@ -15,7 +15,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CriteriaListItemComponent implements OnInit {
-  @Input() criterias: Criteria[];
+  @Input() criteria: Criteria;
   @Output() changeCriteria = new EventEmitter<Criteria>();
 
   constructor() {}
