@@ -36,6 +36,7 @@ export class SearchEffects {
   search: Observable<Action> = this.actions
     .ofType(search.SearchActionTypes.Search)
     .pipe(
+      tap(() => this.router.navigate(['/search'])),
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
         const hints = new Hints();
@@ -86,8 +87,7 @@ export class SearchEffects {
               catchError(err => Observable.of(new search.SearchError(err)))
             );
         }
-      }),
-      tap(() => this.router.navigate(['/search']))
+      })
     );
 
   @Effect()
