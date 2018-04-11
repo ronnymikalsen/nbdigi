@@ -51,7 +51,6 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() sortChanged = new EventEmitter<Sort>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
-  @Output() changeCriteria = new EventEmitter<Criteria>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
 

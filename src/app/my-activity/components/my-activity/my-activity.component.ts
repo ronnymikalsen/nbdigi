@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Criteria } from './../../../models/criteria';
+import { Item } from './../../../models/search-result.model';
 
 @Component({
   selector: 'app-my-activity',
@@ -6,6 +9,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-activity.component.scss']
 })
 export class MyActivityComponent implements OnInit {
+  @Input() items: Item[];
+  @Input() criterias: Criteria;
+
   constructor() {}
 
   ngOnInit() {}

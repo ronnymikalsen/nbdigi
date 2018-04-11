@@ -1,4 +1,3 @@
-import { ItemsSectionModule } from './../items-section/items-section.module';
 import { NgModule } from '@angular/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
@@ -11,6 +10,8 @@ import { MediaTypeButtonComponent } from './components/media-type-button/media-t
 import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
 import { DebugModule } from './../debug/debug.module';
 import { SearchBoxModule } from '../search-box/search-box.module';
+import { ItemsSectionModule } from './../items-section/items-section.module';
+import { CriteriaListItemModule } from './../criteria-list-item/criteria-list-item.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SearchBoxModule } from '../search-box/search-box.module';
     SearchBoxModule,
     SearchRoutingModule,
     ItemsSectionModule,
-    DebugModule
+    DebugModule,
+    CriteriaListItemModule
   ],
   declarations: [
     SearchPageComponent,

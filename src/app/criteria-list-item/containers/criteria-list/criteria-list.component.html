@@ -1,0 +1,3 @@
+<mat-nav-list>
+  <app-criteria-list-item *ngFor="let criteria of criterias | async" [criteria]="criteria" (click)="changeCriteria(criteria)"></app-criteria-list-item>
+</mat-nav-list>
