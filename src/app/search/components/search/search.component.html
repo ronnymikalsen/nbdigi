@@ -31,7 +31,7 @@
         [selected]="search.criteria.mediaType === 'tidsskrift'" [showMoreButton]="search.criteria.mediaType == 'alle'" [showToolbar]="search.criteria.mediaType == 'alle'"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
 
-      <div *ngIf="!pristine && !search.criteria.mediaType && search.searchResult.totalElements > 0" class="others-mediatype-container"
+      <div *ngIf="!pristine && search.criteria.mediaType === 'alle' && search.searchResult.totalElements > 0" class="others-mediatype-container"
         fxLayout="row">
         <app-media-type-button [mediaType]="maps?.mediaType" [counts]="maps?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
         <app-media-type-button [mediaType]="musicBooks?.mediaType" [counts]="musicBooks?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>

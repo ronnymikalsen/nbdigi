@@ -152,6 +152,11 @@ export class SessionEffects {
       )
     );
 
+  @Effect({ dispatch: false })
+  signUpSuccess: Observable<Action> = this.actions
+    .ofType(AuthActionTypes.SignUpSuccess)
+    .pipe(tap(() => this.router.navigate(['/home'])));
+
   constructor(
     private actions: Actions,
     private router: Router,
