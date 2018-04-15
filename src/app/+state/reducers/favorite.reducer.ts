@@ -27,3 +27,5 @@ export function reducer(state = initialState, action: FavoriteAction): State {
     }
   }
 }
+
+export const getLists = (state: State) => state.lists;

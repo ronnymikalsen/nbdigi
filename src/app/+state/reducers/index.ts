@@ -15,6 +15,7 @@ import * as fromSession from './session.reducer';
 import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromItem from './item.reducer';
+import * as fromFavorite from './favorite.reducer';
 import { AuthActionTypes } from './../actions/session.actions';
 
 export interface State {
@@ -22,6 +23,7 @@ export interface State {
   home: fromHome.State;
   search: fromSearch.State;
   item: fromItem.State;
+  favorite: fromFavorite.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -30,6 +32,7 @@ export const reducers: ActionReducerMap<State> = {
   home: fromHome.reducer,
   search: fromSearch.reducer,
   item: fromItem.reducer,
+  favorite: fromFavorite.reducer,
   router: fromRouter.routerReducer
 };
 
@@ -132,4 +135,15 @@ export const getItemState = createFeatureSelector<fromItem.State>('item');
 export const getCurrentItem = createSelector(
   getItemState,
   fromItem.getCurrentItem
+);
+
+/**
+ * Favorite Reducers
+ */
+export const getFavoriteState = createFeatureSelector<fromFavorite.State>(
+  'favorite'
+);
+export const getFavoriteList = createSelector(
+  getFavoriteState,
+  fromFavorite.getLists
 );

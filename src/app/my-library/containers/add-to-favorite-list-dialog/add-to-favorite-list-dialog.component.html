@@ -1,5 +1,10 @@
 <div *ngIf="!showCreate" fxLayout="column">
   <h3>Legg til i liste</h3>
+  <mat-nav-list>
+    <mat-list-item *ngFor="let favorite of favoriteLists | async" (click)="addToList(favorite.name)">
+      {{favorite.name}}
+    </mat-list-item>
+  </mat-nav-list>
   <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
     <button mat-button mat-dialog-close>Avbryt</button>
     <button mat-button (click)="showCreate = true">Lag ny spilleliste</button>

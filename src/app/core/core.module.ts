@@ -17,6 +17,7 @@ import { ViewerService } from './viewer-service/viewer.service';
 import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
 import { SharedModule } from '../shared/shared.module';
+import { FavoriteService } from './favorite-service/favorite.service';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -31,6 +32,7 @@ export function httpFactory(handler: HttpHandler) {
     AuthService,
     SearchService,
     TypeaheadService,
+    FavoriteService,
     ViewerService,
     CheckForUpdateService,
     AngularFireDatabase

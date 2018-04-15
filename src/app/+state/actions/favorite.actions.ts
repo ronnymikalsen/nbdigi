@@ -4,15 +4,10 @@ import { Action } from '@ngrx/store';
 import { Item } from '../../models/search-result.model';
 
 export enum FavoriteActionTypes {
-  FetchLists = '[Favorite] Fetch lists',
   FetchListsSuccess = '[Favorite] Fetch lists success',
-  AddList = '[Favorite] Add list'
-}
-
-export class FetchLists implements Action {
-  readonly type = FavoriteActionTypes.FetchLists;
-
-  constructor() {}
+  AddList = '[Favorite] Add list',
+  AddToList = '[Favorite] Add to list',
+  AddToListSuccess = '[Favorite] Add to list success'
 }
 
 export class FetchListsSuccess implements Action {
@@ -27,4 +22,20 @@ export class AddList implements Action {
   constructor(public payload: string) {}
 }
 
-export type FavoriteAction = FetchLists | FetchListsSuccess | AddList;
+export class AddToList implements Action {
+  readonly type = FavoriteActionTypes.AddToList;
+
+  constructor(public payload: FavoriteList) {}
+}
+
+export class AddToListSuccess implements Action {
+  readonly type = FavoriteActionTypes.AddToListSuccess;
+
+  constructor() {}
+}
+
+export type FavoriteAction =
+  | FetchListsSuccess
+  | AddList
+  | AddToList
+  | AddToListSuccess;
