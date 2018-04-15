@@ -1,4 +1,3 @@
-import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
@@ -17,6 +16,7 @@ import {
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import 'hammerjs';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +32,7 @@ import { CustomSerializer } from './custom-serializer';
 import { HomeEffects } from './+state/effects/home.effects';
 import { ItemEffects } from './+state/effects/item.effects';
 import { ViewerModule } from './viewer/viewer.module';
+import { FavoriteEffects } from './+state/effects/favorite.effects';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { ViewerModule } from './viewer/viewer.module';
       SessionEffects,
       HomeEffects,
       SearchEffects,
-      ItemEffects
+      ItemEffects,
+      FavoriteEffects
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25

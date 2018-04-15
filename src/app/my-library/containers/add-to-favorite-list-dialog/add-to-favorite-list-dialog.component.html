@@ -1,0 +1,19 @@
+<div *ngIf="!showCreate" fxLayout="column">
+  <h3>Legg til i liste</h3>
+  <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-button mat-dialog-close>Avbryt</button>
+    <button mat-button (click)="showCreate = true">Lag ny spilleliste</button>
+  </div>
+</div>
+<div *ngIf="showCreate" fxLayout="column">
+  <h3>Lag ny liste</h3>
+  <form class="add-list-form" [formGroup]="listForm" (ngSubmit)="addList($event)" novalidate>
+    <mat-form-field>
+      <input matInput formControlName="listName" placeholder="Navn">
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+      <button mat-button (click)="cancle()">Avbryt</button>
+      <button mat-button type="submit">Lagre</button>
+    </div>
+  </form>
+</div>

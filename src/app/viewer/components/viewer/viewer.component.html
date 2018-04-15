@@ -1,12 +1,15 @@
 <mat-toolbar color="primary">
-  <div class="viewer-header-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <div class="viewer-header-container" fxFlex="100" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <div>
-      <button mat-icon-button mat-dialog-close>
+      <button mat-icon-button mat-dialog-close matTooltip="Lukk">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="truncate">
+    <div fxFlex class="truncate" [matTooltip]="item?.title">
       {{item?.title}}
+    </div>
+    <div>
+      <app-favorite-button></app-favorite-button>
     </div>
   </div>
 </mat-toolbar>
