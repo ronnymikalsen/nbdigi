@@ -9,7 +9,7 @@
         </div>
         <div matSuffix>
           <button type="button" mat-icon-button>
-            <mat-icon class="input-icon" (click)="clear()" (dblclick)="onClearAll()">clear</mat-icon>
+            <mat-icon class="input-icon" (click)="clear()" (dblclick)="onClearAll()" matTooltip="Dobbeltklikk for å nullstille hele søket">clear</mat-icon>
           </button>
         </div>
         <input type="text" aria-label="Søk" matInput [formControl]="queryControl" [matAutocomplete]="auto" tabindex="1">

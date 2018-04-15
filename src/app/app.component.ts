@@ -10,7 +10,7 @@ import { MatIconRegistry } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil, take, filter } from 'rxjs/operators';
 
 import * as fromRoot from './+state/reducers';
 import * as session from './+state/actions/session.actions';
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.createUserIfNotExists(user);
             this.userRef
               .valueChanges()
-              .pipe(takeUntil(this.destroyed))
+              .pipe(filter(u => u !== null), takeUntil(this.destroyed))
               .subscribe(u => {
                 this.store.dispatch(
                   new session.SignedIn({
