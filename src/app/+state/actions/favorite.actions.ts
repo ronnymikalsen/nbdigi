@@ -4,10 +4,19 @@ import { Action } from '@ngrx/store';
 import { Item } from '../../models/search-result.model';
 
 export enum FavoriteActionTypes {
+  OpenDialog = '[Favorite] Open dialog',
   FetchListsSuccess = '[Favorite] Fetch lists success',
   AddList = '[Favorite] Add list',
+  AddListSuccess = '[Favorite] Add list success',
   AddToList = '[Favorite] Add to list',
-  AddToListSuccess = '[Favorite] Add to list success'
+  AddToListSuccess = '[Favorite] Add to list success',
+  Error = '[Favorite] Error'
+}
+
+export class OpenDialog implements Action {
+  readonly type = FavoriteActionTypes.OpenDialog;
+
+  constructor(public payload: Item) {}
 }
 
 export class FetchListsSuccess implements Action {
@@ -22,6 +31,12 @@ export class AddList implements Action {
   constructor(public payload: string) {}
 }
 
+export class AddListSuccess implements Action {
+  readonly type = FavoriteActionTypes.AddListSuccess;
+
+  constructor() {}
+}
+
 export class AddToList implements Action {
   readonly type = FavoriteActionTypes.AddToList;
 
@@ -34,8 +49,17 @@ export class AddToListSuccess implements Action {
   constructor() {}
 }
 
+export class Error implements Action {
+  readonly type = FavoriteActionTypes.AddToListSuccess;
+
+  constructor() {}
+}
+
 export type FavoriteAction =
+  | OpenDialog
   | FetchListsSuccess
   | AddList
+  | AddListSuccess
   | AddToList
-  | AddToListSuccess;
+  | AddToListSuccess
+  | Error;

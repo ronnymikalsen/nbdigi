@@ -1,4 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ViewChild,
+  ElementRef
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -19,9 +25,7 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     fromRoot.getFavoriteList
   );
 
-  showCreate: false;
-  listForm: FormGroup;
-  listName: FormControl;
+  showCreate = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddToFavoriteListDialogComponent>,
@@ -29,28 +33,12 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     public snackBar: MatSnackBar,
     private fb: FormBuilder,
     private store: Store<fromRoot.State>
-  ) {
-    this.createForm();
-  }
+  ) {}
 
   ngOnInit() {}
 
-  createForm() {
-    this.listName = new FormControl();
-    this.listForm = this.fb.group({
-      listName: this.listName
-    });
-  }
-
-  cancle() {
-    this.showCreate = false;
-    this.listName.reset();
-  }
-
-  addList(event: MouseEvent) {
-    event.preventDefault();
-    this.showCreate = false;
-    this.store.dispatch(new favoriteAction.AddList(this.listName.value));
+  toggleCreate() {
+    this.showCreate = !this.showCreate;
   }
 
   addToList(name: string) {
@@ -61,8 +49,10 @@ export class AddToFavoriteListDialogComponent implements OnInit {
       })
     );
     this.dialogRef.close();
-    this.snackBar.open('Lagt til i din liste', null, {
-      duration: 3000
-    });
+  }
+
+  addList(listName: string) {
+    this.toggleCreate();
+    this.store.dispatch(new favoriteAction.AddList(listName));
   }
 }

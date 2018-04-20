@@ -47,7 +47,6 @@ export class FavoriteService {
   }
 
   public addToList(favoriteList: FavoriteList) {
-    /*
     favoriteList.items.forEach(i => {
       this.favoritesRef
         .doc(favoriteList.name)
@@ -55,6 +54,5 @@ export class FavoriteService {
         .doc(i.id)
         .set(i);
     });
-    */
   }
 }

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from './../../+state/reducers';
+import * as favoriteActions from './../../+state/actions/favorite.actions';
 import * as itemAction from './../../+state/actions/item.actions';
 import { getCurrentItem } from './../../+state/reducers/item.reducer';
 import { getItemState } from './../../+state/reducers/index';
@@ -14,7 +15,8 @@ import { Item } from '../../models/search-result.model';
   template: `
     <app-viewer
       [item]="item | async"
-      (change)="onChange($event)">
+      (change)="onChange($event)"
+      (addToFavorites)="addToFavorites($event)">
     </app-viewer>"
   `
 })
@@ -28,5 +30,9 @@ export class ViewerPageComponent {
 
   onChange(currentItem: Item) {
     this.store.dispatch(new itemAction.Change(currentItem));
+  }
+
+  addToFavorites(item: Item): void {
+    this.store.dispatch(new favoriteActions.OpenDialog(item));
   }
 }

@@ -7,6 +7,7 @@ import { MyLibraryComponent } from './components/my-library/my-library.component
 import { FavoriteButtonComponent } from './containers/favorite-button/favorite-button.component';
 import { AddToFavoriteListDialogComponent } from './containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component';
 import { MyLibraryPageComponent } from './containers/my-library-page';
+import { CreateFavoriteListComponent } from './components/create-favorite-list/create-favorite-list.component';
 
 @NgModule({
   imports: [SharedModule, MyLibraryRoutingModule, FormsModule],
@@ -14,7 +15,8 @@ import { MyLibraryPageComponent } from './containers/my-library-page';
     MyLibraryPageComponent,
     MyLibraryComponent,
     FavoriteButtonComponent,
-    AddToFavoriteListDialogComponent
+    AddToFavoriteListDialogComponent,
+    CreateFavoriteListComponent
   ],
   providers: [],
   entryComponents: [AddToFavoriteListDialogComponent],
