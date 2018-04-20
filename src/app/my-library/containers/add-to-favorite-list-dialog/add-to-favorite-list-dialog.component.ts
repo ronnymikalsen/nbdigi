@@ -41,10 +41,11 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     this.showCreate = !this.showCreate;
   }
 
-  addToList(name: string) {
+  addToList(list: FavoriteList) {
     this.store.dispatch(
       new favoriteAction.AddToList({
-        name: name,
+        id: list.id,
+        name: list.name,
         items: [{ ...this.data.item }]
       })
     );

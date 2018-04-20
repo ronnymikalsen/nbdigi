@@ -1,1 +1,3 @@
-<p>my-library works!</p>;
+<mat-nav-list>
+    <a mat-list-item *ngFor="let favorite of favoriteLists | async" [routerLink]="['./', favorite.id]"> {{favorite.name}} </a>
+</mat-nav-list>

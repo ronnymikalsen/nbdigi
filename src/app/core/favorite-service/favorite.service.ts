@@ -4,6 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
+import { Md5 } from 'ts-md5/dist/md5';
 import * as firebase from 'firebase/app';
 import { filter, take, map, tap } from 'rxjs/operators';
 
@@ -40,19 +41,27 @@ export class FavoriteService {
   }
 
   public addList(name: string) {
-    this.favoritesRef.doc(name).set({
+    const id = <string>Md5.hashStr(name);
+    this.favoritesRef.doc(id).set({
+      id: id,
       name: name,
       timestamp: firebase.firestore.FieldValue.serverTimestamp()
     });
   }
 
   public addToList(favoriteList: FavoriteList) {
+    console.log('addToList');
     favoriteList.items.forEach(i => {
+      console.log('adding item', i);
+      console.log('adding to list', favoriteList.id);
       this.favoritesRef
-        .doc(favoriteList.name)
+        .doc(favoriteList.id)
         .collection('items')
-        .doc(i.id)
-        .set(i);
+        .add(i);
     });
+  }
+
+  public getItems(id: string) {
+    return this.favoritesRef.doc(id).collection('items');
   }
 }

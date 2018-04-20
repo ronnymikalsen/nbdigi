@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { map, tap, catchError } from 'rxjs/operators';
 
 import {
+  OpenDialog,
   AddList,
   AddToList,
   FavoriteActionTypes
@@ -25,10 +26,10 @@ export class FavoriteEffects {
     .ofType(FavoriteActionTypes.OpenDialog)
     .pipe(
       map(action => action),
-      tap(item => {
+      tap((action: OpenDialog) => {
         const dialogRef = this.dialog.open(AddToFavoriteListDialogComponent, {
           data: {
-            item: item
+            item: action.payload
           }
         });
       })
