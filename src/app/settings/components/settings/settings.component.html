@@ -7,7 +7,12 @@
 </mat-toolbar>
 <section class="settings-container">
   <div *ngIf="session.user" fxLayout="column" fxLayoutAlign="center start">
-    <div>Logget inn som {{session.user.email}}</div>
-    <button mat-raised-button color="primary" (click)="signOut.emit()">Logg ut</button>
+    <div>
+      <div>Logget inn som {{session.user.email}}</div>
+      <button mat-raised-button color="primary" (click)="signOut.emit()">Logg ut</button>
+    </div>
+    <div>
+      <mat-slide-toggle (change)="theme($event)">Mørkt tema</mat-slide-toggle>
+    </div>
   </div>
 </section>

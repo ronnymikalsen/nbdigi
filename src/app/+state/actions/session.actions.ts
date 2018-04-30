@@ -20,7 +20,8 @@ export enum AuthActionTypes {
   SendPasswordResetEmail = '[Session] Send password reset email',
   SendPasswordResetEmaildSuccess = '[Session] Password reset email sendt',
   DebugOn = '[Session] Debug on',
-  DebugOff = '[Session] Debug off'
+  DebugOff = '[Session] Debug off',
+  SetTheme = '[Session] Set theme'
 }
 
 export class SignUpWithEmailAndPassword implements Action {
@@ -95,6 +96,12 @@ export class DebugOff implements Action {
   readonly type = AuthActionTypes.DebugOff;
 }
 
+export class SetTheme implements Action {
+  readonly type = AuthActionTypes.SetTheme;
+
+  constructor(public payload: string) {}
+}
+
 export type AuthAction =
   | SignInWithGoogle
   | SignInWithEmailAndPassword
@@ -109,4 +116,5 @@ export type AuthAction =
   | SendPasswordResetEmail
   | SendPasswordResetEmaildSuccess
   | DebugOn
-  | DebugOff;
+  | DebugOff
+  | SetTheme;

@@ -1,4 +1,4 @@
-<div fxFill fxLayout="column" fxLayoutAlign="start stretch">
+<div fxFill fxLayout="column" fxLayoutAlign="start stretch" [ngClass]="{'dark-theme': isDarkTheme | async}">
   <div class="main-content">
     <router-outlet></router-outlet>
   </div>

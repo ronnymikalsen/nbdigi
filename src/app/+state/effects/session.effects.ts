@@ -153,6 +153,18 @@ export class SessionEffects {
     );
 
   @Effect({ dispatch: false })
+  theme: Observable<Action> = this.actions
+    .ofType(AuthActionTypes.SetTheme)
+    .pipe(
+      map((action: any) => action.payload),
+      tap(theme => {
+        this.userRef.update({
+          theme: theme
+        });
+      })
+    );
+
+  @Effect({ dispatch: false })
   signUpSuccess: Observable<Action> = this.actions
     .ofType(AuthActionTypes.SignUpSuccess)
     .pipe(tap(() => this.router.navigate(['/home'])));
