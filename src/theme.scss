@@ -11,8 +11,6 @@
 // hue.
 $default-primary: mat-palette($mat-cyan);
 $default-accent: mat-palette($mat-light-green, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
 $default-warn: mat-palette($mat-deep-orange);
 
 // Create the theme object (a Sass map containing all of the palettes).
@@ -27,12 +25,11 @@ $default-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($default-theme);
 
+$dark-primary: mat-palette($mat-cyan, A200, A100, A400);
+$dark-accent: mat-palette($mat-light-green, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // Our dark theme
 .dark-theme {
-  $dark-primary: mat-palette($mat-yellow);
-  $dark-accent: mat-palette($mat-amber, A400, A100, A700);
-  $dark-warn: mat-palette($mat-red);
-  $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
-
   @include angular-material-theme($dark-theme);
 }

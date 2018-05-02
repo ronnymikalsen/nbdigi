@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <mat-toolbar-row>
     <div fxFlex>
       Innstillinger
@@ -12,7 +12,7 @@
       <button mat-raised-button color="primary" (click)="signOut.emit()">Logg ut</button>
     </div>
     <div>
-      <mat-slide-toggle (change)="theme($event)">Mørkt tema</mat-slide-toggle>
+      <mat-slide-toggle (change)="theme($event)" [checked]="session.user.theme === 'dark-theme'">Mørkt tema</mat-slide-toggle>
     </div>
   </div>
 </section>

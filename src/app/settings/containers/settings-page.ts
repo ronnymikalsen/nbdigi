@@ -30,7 +30,6 @@ export class SettingsPageComponent {
   }
 
   theme(theme: string) {
-    console.log(theme);
     this.store.dispatch(new sessionAction.SetTheme(theme));
   }
 }
