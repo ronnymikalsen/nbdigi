@@ -54,6 +54,12 @@ export class SessionService {
     });
   }
 
+  updateTheme(theme: string) {
+    this.userRef.update({
+      theme: theme
+    });
+  }
+
   private createUserIfNotExists(user: User) {
     return this.userRef.ref.get().then(u => {
       if (!u.exists) {
