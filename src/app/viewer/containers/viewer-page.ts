@@ -15,7 +15,7 @@ import { Item } from '../../models/search-result.model';
     <app-viewer
       [item]="item | async"
       (change)="onChange($event)">
-    </app-viewer>"
+    </app-viewer>
   `
 })
 export class ViewerPageComponent {

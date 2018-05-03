@@ -17,6 +17,7 @@ import { ViewerService } from './viewer-service/viewer.service';
 import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
 import { SharedModule } from '../shared/shared.module';
+import { SessionService } from './session-service/session.service';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -29,6 +30,7 @@ export function httpFactory(handler: HttpHandler) {
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthService,
+    SessionService,
     SearchService,
     TypeaheadService,
     ViewerService,

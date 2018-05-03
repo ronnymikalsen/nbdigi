@@ -32,6 +32,7 @@ import {
 import { AuthService } from './../../core/auth-service/auth.service';
 import { User } from '../../models/user.model';
 import * as fromRoot from './../reducers';
+import { SessionService } from '../../core/session-service/session.service';
 
 @Injectable()
 export class SessionEffects {
@@ -153,6 +154,17 @@ export class SessionEffects {
     );
 
   @Effect({ dispatch: false })
+  theme: Observable<Action> = this.actions
+    .ofType(AuthActionTypes.SetTheme)
+    .pipe(
+      map((action: any) => action.payload),
+      tap(theme => {
+        localStorage.setItem('currentTheme', theme);
+        this.sessionService.updateTheme(theme);
+      })
+    );
+
+  @Effect({ dispatch: false })
   signUpSuccess: Observable<Action> = this.actions
     .ofType(AuthActionTypes.SignUpSuccess)
     .pipe(tap(() => this.router.navigate(['/home'])));
@@ -161,6 +173,7 @@ export class SessionEffects {
     private actions: Actions,
     private router: Router,
     private authService: AuthService,
+    private sessionService: SessionService,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>
   ) {

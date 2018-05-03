@@ -3,4 +3,5 @@ export interface User {
   displayName?: string;
   email: string;
   isDebugOn?: boolean;
+  theme?: string;
 }

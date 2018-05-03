@@ -10,12 +10,14 @@ export interface State {
   user?: User;
   error?: AuthErrorModel;
   debug: boolean;
+  theme: string;
 }
 
 export const initialState: State = {
   user: null,
   error: null,
-  debug: false
+  debug: false,
+  theme: null
 };
 
 export function reducer(state = initialState, action: AuthAction): State {
@@ -60,3 +62,5 @@ export function reducer(state = initialState, action: AuthAction): State {
 export const currentUser = (state: State) => state.user;
 export const getError = (state: State) => state.error;
 export const isDebugOn = (state: State) => state.user.isDebugOn;
+export const getTheme = (state: State) =>
+  state.user ? state.user.theme : localStorage.getItem('currentTheme');

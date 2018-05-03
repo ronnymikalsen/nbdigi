@@ -1,29 +1,30 @@
-<div fxFill fxLayout="column" fxLayoutAlign="start stretch">
-  <div class="main-content">
-    <router-outlet></router-outlet>
-  </div>
-  <mat-toolbar color="primary">
-    <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutAlign.lt-lg="space-between center" fxLayoutGap="16px">
-      <button mat-icon-button routerLink="/home" routerLinkActive #rla1="routerLinkActive" [color]="rla1.isActive ? 'accent' : ''"
-        matTooltip="Hjem" aria-label="Hjem">
-        <mat-icon>home</mat-icon>
-      </button>
-      <button mat-icon-button routerLink="/explore" routerLinkActive #rla2="routerLinkActive" [color]="rla2.isActive ? 'accent' : ''"
-        matTooltip="Utforsk" aria-label="Utforsk">
-        <mat-icon>explore</mat-icon>
-      </button>
-      <button mat-icon-button routerLink="/search" routerLinkActive #rla3="routerLinkActive" [color]="rla3.isActive ? 'accent' : ''"
-        matTooltip="Søk" aria-label="Søk">
-        <mat-icon>search</mat-icon>
-      </button>
-      <button mat-icon-button routerLink="/mylibrary" routerLinkActive #rla4="routerLinkActive" [color]="rla4.isActive ? 'accent' : ''"
-        matTooltip="Mitt bibliotek" aria-label="Mitt bibliotek">
-        <mat-icon>favorite</mat-icon>
-      </button>
-      <button mat-icon-button routerLink="/myactivity" routerLinkActive #rla5="routerLinkActive" [color]="rla5.isActive ? 'accent' : ''"
-        matTooltip="Min aktivitet" aria-label="Min aktivitet">
-        <mat-icon>person</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
+<div [ngClass]="currentTheme" class="app-container">
+  <mat-sidenav-container class="main-container">
+    <mat-sidenav-content>
+      <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
+        <div class="main-content">
+          <router-outlet></router-outlet>
+        </div>
+        <mat-toolbar>
+          <div fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutAlign.lt-lg="space-between center" fxLayoutGap="16px">
+            <button color="primary" routerLinkActive="accent" mat-icon-button routerLink="/home" matTooltip="Hjem" aria-label="Hjem">
+              <mat-icon>home</mat-icon>
+            </button>
+            <button color="primary" routerLinkActive="accent" mat-icon-button routerLink="/explore" matTooltip="Utforsk" aria-label="Utforsk">
+              <mat-icon>explore</mat-icon>
+            </button>
+            <button color="primary" routerLinkActive="accent" mat-icon-button routerLink="/search" matTooltip="Søk" aria-label="Søk">
+              <mat-icon>search</mat-icon>
+            </button>
+            <button color="primary" routerLinkActive="accent" mat-icon-button routerLink="/mylibrary" matTooltip="Mitt bibliotek" aria-label="Mitt bibliotek">
+              <mat-icon>favorite</mat-icon>
+            </button>
+            <button color="primary" routerLinkActive="accent" mat-icon-button routerLink="/myactivity" matTooltip="Min aktivitet" aria-label="Min aktivitet">
+              <mat-icon>person</mat-icon>
+            </button>
+          </div>
+        </mat-toolbar>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

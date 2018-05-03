@@ -79,6 +79,10 @@ export const getAuthError = createSelector(
   fromSession.getError
 );
 export const isDebugOn = createSelector(getSessionState, fromSession.isDebugOn);
+export const currentTheme = createSelector(
+  getSessionState,
+  fromSession.getTheme
+);
 
 /**
  * Search Reducers
