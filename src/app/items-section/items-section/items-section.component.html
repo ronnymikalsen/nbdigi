@@ -5,7 +5,7 @@
         <app-debug [isDebugOn]="isDebugOn" [href]="mediaTypeResults?.selfLink"></app-debug>
         <h1>{{label}}</h1>
       </div>
-      <button *ngIf="showMoreButton" mat-raised-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)" color="primary">VIS FLERE</button>
+      <button *ngIf="showMoreButton" mat-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)" color="primary">VIS FLERE</button>
     </div>
   </mat-toolbar>
   <div fxLayout="rov wrap" *ngIf="selected">

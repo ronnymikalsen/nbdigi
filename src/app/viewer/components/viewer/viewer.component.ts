@@ -18,7 +18,8 @@ import { timer } from 'rxjs/observable/timer';
 export class ViewerComponent implements OnInit {
   @Input() item: Item;
   config = new MimeViewerConfig({
-    attributionDialogHideTimeout: 3
+    attributionDialogHideTimeout: 3,
+    navigationControlEnabled: false
   });
   @Output() change = new EventEmitter<Item>();
   @Output() addToFavorites = new EventEmitter<Item>();
