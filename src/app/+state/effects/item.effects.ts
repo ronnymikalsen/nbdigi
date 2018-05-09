@@ -6,7 +6,7 @@ import {
 } from 'angularfire2/firestore';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { tap, map, switchMap, filter } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 

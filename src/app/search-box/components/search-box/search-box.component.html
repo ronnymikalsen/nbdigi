@@ -1,7 +1,7 @@
 <div id="searchbox-container" fxFill fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
   <div fxFlex="100" fxFlex.gt-sm="700px">
     <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()" novalidate>
-      <mat-form-field fxFlex [floatLabel]="'never'" color="accent">
+      <mat-form-field [floatLabel]="'never'" color="accent">
         <div matPrefix>
           <button type="submit" mat-icon-button>
             <mat-icon class="input-icon">search</mat-icon>

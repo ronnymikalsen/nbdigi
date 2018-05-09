@@ -9,7 +9,7 @@ import {
   Output
 } from '@angular/core';
 import { ObservableMedia, MediaChange } from '@angular/flex-layout';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { SizeStrategyFactory } from './size-strategy.factory';

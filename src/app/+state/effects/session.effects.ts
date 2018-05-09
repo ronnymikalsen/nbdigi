@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
-import { switchMap, tap, map, filter } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { Observable, of } from 'rxjs';
+import { switchMap, tap, map, filter, catchError } from 'rxjs/operators';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
