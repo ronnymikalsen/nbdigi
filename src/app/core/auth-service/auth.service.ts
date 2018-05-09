@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
-import { catchError, map } from 'rxjs/operators';
-import { _throw } from 'rxjs/observable/throw';
 import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs';
 
 import { AuthError } from './../../models/auth-error.model';
 

@@ -1,14 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
-  MimeViewerConfig,
-  MimeManifest
+  MimeManifest,
+  MimeViewerConfig
 } from '@nationallibraryofnorway/ngx-mime';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { Item } from '../../../models/search-result.model';
-import { Observable } from 'rxjs/Observable';
-import { distinctUntilChanged, debounce, debounceTime } from 'rxjs/operators';
-import { timer } from 'rxjs/observable/timer';
 
 @Component({
   selector: 'app-viewer',

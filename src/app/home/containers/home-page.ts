@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import * as fromRoot from './../../+state/reducers';

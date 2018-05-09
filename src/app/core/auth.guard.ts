@@ -6,7 +6,7 @@ import {
   RouterStateSnapshot,
   Router
 } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { User } from '../models/user.model';
 import { take } from 'rxjs/operators';

@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs/operators';
 
 import { HomeAction, HomeActionTypes } from './../actions/home.actions';
 import { MediaTypeResults } from '../../models/search-result.model';

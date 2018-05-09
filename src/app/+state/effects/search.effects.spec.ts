@@ -5,7 +5,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { DataPersistence } from '@nrwl/nx';
 import { readAll, hot } from '@nrwl/nx/testing';
 import { Observable } from 'rxjs/Rx';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { SearchEffects } from './search.effects';
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
