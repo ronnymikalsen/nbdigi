@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import * as fromRoot from './../../+state/reducers';

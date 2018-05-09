@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import { takeUntil, filter } from 'rxjs/operators';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import { User } from './../../../models/user.model';
-import { Criteria } from './../../../models/criteria';
-import * as fromRoot from './../../../+state/reducers';
 import * as searchAction from './../../../+state/actions/search.actions';
+import * as fromRoot from './../../../+state/reducers';
+import { Criteria } from './../../../models/criteria';
+import { User } from './../../../models/user.model';
 
 @Component({
   selector: 'app-criteria-list',

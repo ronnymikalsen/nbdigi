@@ -1,4 +1,4 @@
-import { map } from 'rxjs/operators/map';
+import { map } from 'rxjs/operators';
 
 import { Criteria } from './../../models/criteria';
 import { MediaTypeCount } from './../../models/media-types-count';

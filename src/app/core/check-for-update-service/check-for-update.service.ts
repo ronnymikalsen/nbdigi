@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material';
-import { interval } from 'rxjs/observable/interval';
+import { interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
 import { SwUpdateMessageComponent } from '../sw-update-message/sw-update-message.component';

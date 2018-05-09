@@ -4,7 +4,7 @@ import {
   OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Item } from './../../../models/search-result.model';
 
