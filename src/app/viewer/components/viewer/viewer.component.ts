@@ -17,7 +17,8 @@ export class ViewerComponent implements OnInit {
   @Input() item: Item;
   config = new MimeViewerConfig({
     attributionDialogHideTimeout: 3,
-    navigationControlEnabled: false
+    navigationControlEnabled: false,
+    preserveZoomOnCanvasGroupChange: true
   });
   @Output() change = new EventEmitter<Item>();
   @Output() addToFavorites = new EventEmitter<Item>();
