@@ -42,7 +42,7 @@ export class ViewerComponent implements OnInit {
     this.itemSubject.next(this.item);
   }
 
-  onPageChange(canvasId: number) {
+  onCanvasChange(canvasId: number) {
     this.itemSubject.next({
       ...this.item,
       currentCanvasId: canvasId

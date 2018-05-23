@@ -5,8 +5,13 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html"],
-        "versionedFiles": ["/*.bundle.css", "/*.bundle.js", "/*.chunk.js"]
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.bundle.css",
+          "/*.bundle.js",
+          "/*.chunk.js"
+        ]
       }
     },
     {
@@ -25,7 +30,10 @@
   "dataGroups": [
     {
       "name": "api-performance",
-      "urls": ["https://api.nb.no/catalog/v1/search?q=-pleasecacheme**"],
+      "urls": [
+        "https://api.nb.no/catalog/v1/search?q=-pleasecacheme**",
+        "https://api.nb.no/catalog/v1/iiif/**"
+      ],
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 20,
