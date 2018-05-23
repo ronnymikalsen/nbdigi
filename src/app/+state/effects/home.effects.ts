@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   mergeMap,
   switchMap,
@@ -20,27 +20,26 @@ import { SortOptions } from '../../models/sort-options';
 @Injectable()
 export class HomeEffects {
   @Effect()
-  loadNewItems: Observable<Action> = this.actions
-    .ofType(home.HomeActionTypes.LoadNewItems)
-    .pipe(
-      withLatestFrom(this.store),
-      switchMap(([action, storeState]) => {
-        const filters = this.addAllFilters(storeState);
-        return this.searchService
-          .super({
-            q: '-pleasecacheme',
-            size: 20,
-            filters: filters,
-            sort: new SortOptions().newArrivals
-          })
-          .pipe(
-            map(searchResult => {
-              return new home.LoadNewItemsSuccess(searchResult);
-            }),
-            catchError(err => Observable.of(new home.LoadError(err)))
-          );
-      })
-    );
+  loadNewItems: Observable<Action> = this.actions.pipe(
+    ofType(home.HomeActionTypes.LoadNewItems),
+    withLatestFrom(this.store),
+    switchMap(([action, storeState]) => {
+      const filters = this.addAllFilters(storeState);
+      return this.searchService
+        .super({
+          q: '-pleasecacheme',
+          size: 20,
+          filters: filters,
+          sort: new SortOptions().newArrivals
+        })
+        .pipe(
+          map(searchResult => {
+            return new home.LoadNewItemsSuccess(searchResult);
+          }),
+          catchError(err => of(new home.LoadError(err)))
+        );
+    })
+  );
 
   constructor(
     private store: Store<fromRoot.State>,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 import { FavoriteService } from '../../../core/favorite-service/favorite.service';
 import { Item, MediaTypeResults } from '../../../models/search-result.model';
@@ -27,11 +28,13 @@ export class FavoriteListPageComponent implements OnInit {
       this.items = this.favoriteService
         .getItems(selectedId)
         .valueChanges()
-        .map((i: Item[]) => {
-          return new MediaTypeResults({
-            items: i
-          });
-        });
+        .pipe(
+          map((i: Item[]) => {
+            return new MediaTypeResults({
+              items: i
+            });
+          })
+        );
     });
   }
 }

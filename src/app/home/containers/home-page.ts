@@ -5,7 +5,7 @@ import {
 } from 'angularfire2/firestore';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import * as fromRoot from './../../+state/reducers';
 import * as itemAction from './../../+state/actions/item.actions';
@@ -69,11 +69,13 @@ export class HomePageComponent implements OnInit {
             ref.orderBy('timestamp', 'desc').limit(20)
           )
           .valueChanges()
-          .map(i => {
-            return new MediaTypeResults({
-              items: i
-            });
-          });
+          .pipe(
+            map(i => {
+              return new MediaTypeResults({
+                items: i
+              });
+            })
+          );
       });
   }
 

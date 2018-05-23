@@ -21,7 +21,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/pwa-manifest.json",
+              "src/manifest.json",
               "src/browserconfig.xml",
               "src/apple-touch-icon.png",
               "src/apple-touch-icon-precomposed.png"
@@ -78,7 +78,7 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": ["src/styles.scss"],
             "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets"]
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json"]
           }
         },
         "lint": {
