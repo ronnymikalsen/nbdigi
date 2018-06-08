@@ -1,18 +1,23 @@
-<mat-card (click)="open(item)">
+<mat-card>
   <mat-card-content>
     <div fxLayout="column">
-      <div lazy-load-images>
+      <div lazy-load-images (click)="open(item)">
         <img class="thumbnail" [attr.data-src]="item.thumbnail">
       </div>
-      <div class="metadata-container" fxLayout="column">
-        <div class="title truncate" [matTooltip]="item.title">
-          {{item.title}}
+      <div class="content-container" fxLayout="row">
+        <div class="metadata-container" fxLayout="column">
+          <div class="title truncate" [matTooltip]="item.title">
+            {{item.title}}
+          </div>
+          <div class="truncate creator" [matTooltip]="item.creator">
+            {{item.creator}}
+          </div>
+          <div class="truncate issued" [matTooltip]="item.issued">
+            {{item.issued | dateFormat}}
+          </div>
         </div>
-        <div class="truncate creator" [matTooltip]="item.creator">
-          {{item.creator}}
-        </div>
-        <div class="truncate issued" [matTooltip]="item.issued">
-          {{item.issued | dateFormat}}
+        <div>
+          <app-item-menu-button [listId]="listId" [item]="item"></app-item-menu-button>
         </div>
       </div>
       <div>

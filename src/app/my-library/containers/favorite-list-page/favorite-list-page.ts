@@ -14,6 +14,7 @@ import * as fromRoot from './../../../+state/reducers';
 })
 export class FavoriteListPageComponent implements OnInit {
   items: Observable<MediaTypeResults>;
+  listId: string;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
   constructor(
@@ -24,9 +25,9 @@ export class FavoriteListPageComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      const selectedId = params.get('id');
+      this.listId = params.get('id');
       this.items = this.favoriteService
-        .getItems(selectedId)
+        .getItems(this.listId)
         .valueChanges()
         .pipe(
           map((i: Item[]) => {

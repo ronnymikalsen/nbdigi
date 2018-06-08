@@ -9,15 +9,7 @@
       {{item?.title}}
     </div>
     <div>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item matTooltip="Legg til" (click)="addToFavorites.emit(item)">
-          <mat-icon>playlist_add</mat-icon>
-          <span>Legg til i liste</span>
-        </button>
-      </mat-menu>
+      <app-item-menu-button [item]="item"></app-item-menu-button>
     </div>
   </div>
 </mat-toolbar>

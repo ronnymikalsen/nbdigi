@@ -19,6 +19,7 @@ import { Item } from './../../../models/search-result.model';
 })
 export class DefaultItemCardComponent implements OnInit {
   @Input() item: Item;
+  @Input() listId: string;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
 
   constructor(private store: Store<fromRoot.State>) {}

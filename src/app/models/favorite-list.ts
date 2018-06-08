@@ -2,6 +2,6 @@ import { Item } from './search-result.model';
 
 export interface FavoriteList {
   id?: string;
-  name: string;
+  name?: string;
   items: Item[];
 }

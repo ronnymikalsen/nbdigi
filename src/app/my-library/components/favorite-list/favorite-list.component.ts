@@ -8,6 +8,7 @@ import { MediaTypeResults } from '../../../models/search-result.model';
 })
 export class FavoriteListComponent implements OnInit {
   @Input() items: MediaTypeResults;
+  @Input() listId: string;
   @Input() isDebugOn: boolean;
 
   constructor() {}

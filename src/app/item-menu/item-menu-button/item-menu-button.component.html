@@ -1,0 +1,13 @@
+<button mat-icon-button [matMenuTriggerFor]="menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item matTooltip="Legg til i liste" (click)="addToFavorites()">
+    <mat-icon>playlist_add</mat-icon>
+    <span>Legg til i liste</span>
+  </button>
+  <button *ngIf="listId" mat-menu-item matTooltip="Fjern" (click)="removeFromFavorites()">
+    <mat-icon>delete</mat-icon>
+    <span>Fjern fra listen</span>
+  </button>
+</mat-menu>

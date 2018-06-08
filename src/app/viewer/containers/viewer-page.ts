@@ -15,9 +15,8 @@ import { Item } from '../../models/search-result.model';
   template: `
     <app-viewer
       [item]="item | async"
-      (change)="onChange($event)"
-      (addToFavorites)="addToFavorites($event)">
-    </app-viewer>"
+      (change)="onChange($event)">
+    </app-viewer>
   `
 })
 export class ViewerPageComponent {
@@ -30,9 +29,5 @@ export class ViewerPageComponent {
 
   onChange(currentItem: Item) {
     this.store.dispatch(new itemAction.Change(currentItem));
-  }
-
-  addToFavorites(item: Item): void {
-    this.store.dispatch(new favoriteActions.OpenDialog(item));
   }
 }

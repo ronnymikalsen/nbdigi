@@ -10,6 +10,8 @@ export enum FavoriteActionTypes {
   AddListSuccess = '[Favorite] Add list success',
   AddToList = '[Favorite] Add to list',
   AddToListSuccess = '[Favorite] Add to list success',
+  RemoveFromList = '[Favorite] Remove from list',
+  RemoveFromListSuccess = '[Favorite] Remove from list success',
   Error = '[Favorite] Error'
 }
 
@@ -49,6 +51,18 @@ export class AddToListSuccess implements Action {
   constructor() {}
 }
 
+export class RemoveFromList implements Action {
+  readonly type = FavoriteActionTypes.RemoveFromList;
+
+  constructor(public payload: FavoriteList) {}
+}
+
+export class RemoveFromListSuccess implements Action {
+  readonly type = FavoriteActionTypes.RemoveFromListSuccess;
+
+  constructor() {}
+}
+
 export class Error implements Action {
   readonly type = FavoriteActionTypes.AddToListSuccess;
 
@@ -62,4 +76,6 @@ export type FavoriteAction =
   | AddListSuccess
   | AddToList
   | AddToListSuccess
+  | RemoveFromList
+  | RemoveFromListSuccess
   | Error;

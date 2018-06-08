@@ -30,6 +30,7 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() isDebugOn: boolean;
   @Input() rows = 2;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
+  @Input() listId: string;
   size = 4;
   private watcher: Subscription;
 

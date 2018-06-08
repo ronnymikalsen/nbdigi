@@ -52,12 +52,24 @@ export class FavoriteService {
   public addToList(favoriteList: FavoriteList) {
     console.log('addToList');
     favoriteList.items.forEach(i => {
-      console.log('adding item', i);
-      console.log('adding to list', favoriteList.id);
       this.favoritesRef
         .doc(favoriteList.id)
         .collection('items')
-        .add(i);
+        .doc(i.id)
+        .set(i);
+    });
+  }
+
+  public removeFromList(favoriteList: FavoriteList) {
+    console.log('removeFromList');
+    favoriteList.items.forEach(i => {
+      console.log('removing item', i);
+      console.log('removing from list', favoriteList.id);
+      this.favoritesRef
+        .doc(favoriteList.id)
+        .collection('items')
+        .doc(i.id)
+        .delete();
     });
   }
 

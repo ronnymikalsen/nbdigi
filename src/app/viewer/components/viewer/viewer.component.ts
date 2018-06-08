@@ -21,7 +21,6 @@ export class ViewerComponent implements OnInit {
     preserveZoomOnCanvasGroupChange: true
   });
   @Output() change = new EventEmitter<Item>();
-  @Output() addToFavorites = new EventEmitter<Item>();
   private itemSubject: Subject<Item> = new Subject();
 
   constructor() {}

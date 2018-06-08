@@ -12,7 +12,8 @@ import {
   AddList,
   AddToList,
   FavoriteActionTypes,
-  OpenDialog
+  OpenDialog,
+  RemoveFromList
 } from '../actions/favorite.actions';
 import { FavoriteService } from './../../core/favorite-service/favorite.service';
 import * as fromRoot from './../reducers';
@@ -70,6 +71,28 @@ export class FavoriteEffects {
     map(action => action),
     tap(() => {
       this.snackBar.open('Lagt til i din liste', null, {
+        duration: 2000
+      });
+    })
+  );
+
+  @Effect()
+  removeFromList: Observable<Action> = this.actions.pipe(
+    ofType(FavoriteActionTypes.RemoveFromList),
+    map(action => action),
+    map((action: RemoveFromList) => {
+      this.favoriteService.removeFromList(action.payload);
+      return new favoriteActions.RemoveFromListSuccess();
+    }),
+    catchError(err => of(new favoriteActions.Error()))
+  );
+
+  @Effect({ dispatch: false })
+  removeFromSuccess: Observable<Action> = this.actions.pipe(
+    ofType(FavoriteActionTypes.RemoveFromListSuccess),
+    map(action => action),
+    tap(() => {
+      this.snackBar.open('Fjernet fra din liste', null, {
         duration: 2000
       });
     })
