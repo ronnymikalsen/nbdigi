@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MediaTypeResults } from '../../../models/search-result.model';
+import { FavoriteList } from '../../../models/favorite-list';
 
 @Component({
   selector: 'app-favorite-list',
@@ -8,7 +9,7 @@ import { MediaTypeResults } from '../../../models/search-result.model';
 })
 export class FavoriteListComponent implements OnInit {
   @Input() items: MediaTypeResults;
-  @Input() listId: string;
+  @Input() list: FavoriteList;
   @Input() isDebugOn: boolean;
 
   constructor() {}

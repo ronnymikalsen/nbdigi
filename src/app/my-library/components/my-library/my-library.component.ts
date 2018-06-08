@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import * as favoriteActions from './../../../+state/actions/favorite.actions';
 import * as fromRoot from './../../../+state/reducers';
 import { FavoriteList } from './../../../models/favorite-list';
 
@@ -18,4 +19,8 @@ export class MyLibraryComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {}
+
+  openFavorite(list: FavoriteList) {
+    this.store.dispatch(new favoriteActions.OpenList(list.id));
+  }
 }

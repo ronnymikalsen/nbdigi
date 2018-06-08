@@ -13,10 +13,12 @@ import {
   AddToList,
   FavoriteActionTypes,
   OpenDialog,
-  RemoveFromList
+  RemoveFromList,
+  OpenList
 } from '../actions/favorite.actions';
 import { FavoriteService } from './../../core/favorite-service/favorite.service';
 import * as fromRoot from './../reducers';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class FavoriteEffects {
@@ -30,6 +32,15 @@ export class FavoriteEffects {
           item: action.payload
         }
       });
+    })
+  );
+
+  @Effect({ dispatch: false })
+  openList: Observable<Action> = this.actions.pipe(
+    ofType(FavoriteActionTypes.OpenList),
+    map(action => action),
+    tap((action: OpenList) => {
+      this.router.navigate(['/mylibrary', action.payload]);
     })
   );
 
@@ -112,9 +123,8 @@ export class FavoriteEffects {
   constructor(
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private router: Router,
     private actions: Actions,
-    private favoriteService: FavoriteService,
-    private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
+    private favoriteService: FavoriteService
   ) {}
 }

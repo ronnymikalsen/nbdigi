@@ -5,6 +5,8 @@ import { Item } from '../../models/search-result.model';
 
 export enum FavoriteActionTypes {
   OpenDialog = '[Favorite] Open dialog',
+  OpenList = '[Favorite] Open list',
+  SetList = '[Favorite] Set list',
   FetchListsSuccess = '[Favorite] Fetch lists success',
   AddList = '[Favorite] Add list',
   AddListSuccess = '[Favorite] Add list success',
@@ -19,6 +21,18 @@ export class OpenDialog implements Action {
   readonly type = FavoriteActionTypes.OpenDialog;
 
   constructor(public payload: Item) {}
+}
+
+export class OpenList implements Action {
+  readonly type = FavoriteActionTypes.OpenList;
+
+  constructor(public payload: string) {}
+}
+
+export class SetList implements Action {
+  readonly type = FavoriteActionTypes.SetList;
+
+  constructor(public payload: FavoriteList) {}
 }
 
 export class FetchListsSuccess implements Action {
@@ -71,6 +85,8 @@ export class Error implements Action {
 
 export type FavoriteAction =
   | OpenDialog
+  | OpenList
+  | SetList
   | FetchListsSuccess
   | AddList
   | AddListSuccess

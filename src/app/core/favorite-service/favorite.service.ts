@@ -12,6 +12,7 @@ import * as fromRoot from './../../+state/reducers';
 import * as favoriteAction from '../../+state/actions/favorite.actions';
 import { FavoriteList } from './../../models/favorite-list';
 import { User } from './../../models/user.model';
+import { Item } from '../../models/search-result.model';
 
 @Injectable()
 export class FavoriteService {
@@ -32,9 +33,23 @@ export class FavoriteService {
         this.favoritesRef
           .valueChanges()
           .pipe(
-            tap((lists: FavoriteList[]) =>
-              this.store.dispatch(new favoriteAction.FetchListsSuccess(lists))
-            )
+            tap((lists: FavoriteList[]) => {
+              for (const list of lists) {
+                this.favoritesRef
+                  .doc(list.id)
+                  .collection('items')
+                  .valueChanges()
+                  .subscribe((i: Item[]) => {
+                    this.store.dispatch(
+                      new favoriteAction.SetList({
+                        id: list.id,
+                        name: list.name,
+                        items: i
+                      })
+                    );
+                  });
+              }
+            })
           )
           .subscribe();
       });
@@ -50,7 +65,6 @@ export class FavoriteService {
   }
 
   public addToList(favoriteList: FavoriteList) {
-    console.log('addToList');
     favoriteList.items.forEach(i => {
       this.favoritesRef
         .doc(favoriteList.id)
@@ -61,10 +75,7 @@ export class FavoriteService {
   }
 
   public removeFromList(favoriteList: FavoriteList) {
-    console.log('removeFromList');
     favoriteList.items.forEach(i => {
-      console.log('removing item', i);
-      console.log('removing from list', favoriteList.id);
       this.favoritesRef
         .doc(favoriteList.id)
         .collection('items')

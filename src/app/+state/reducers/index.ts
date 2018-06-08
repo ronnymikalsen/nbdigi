@@ -151,3 +151,7 @@ export const getFavoriteList = createSelector(
   getFavoriteState,
   fromFavorite.getLists
 );
+export const getCurrentList = createSelector(
+  getFavoriteState,
+  fromFavorite.getSelectedList
+);

@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 
 import { MediaTypeResults, Item } from './../../models/search-result.model';
 import { SizeStrategyFactory } from './size-strategy.factory';
+import { FavoriteList } from '../../models/favorite-list';
 
 @Component({
   selector: 'app-items-section',
@@ -30,7 +31,7 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Input() isDebugOn: boolean;
   @Input() rows = 2;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
-  @Input() listId: string;
+  @Input() list: FavoriteList;
   size = 4;
   private watcher: Subscription;
 
