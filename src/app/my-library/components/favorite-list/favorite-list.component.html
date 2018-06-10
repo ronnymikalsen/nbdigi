@@ -1,1 +1,6 @@
-<app-items-section [label]="list?.name" [list]="list" [mediaTypeResults]="items" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+<mat-toolbar>
+    <button mat-icon-button [routerLink]="['../']">
+        <mat-icon>keyboard_backspace</mat-icon>
+    </button>{{list?.name}}
+</mat-toolbar>
+<app-items-section [showToolbar]="false" [list]="list" [mediaTypeResults]="items" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>

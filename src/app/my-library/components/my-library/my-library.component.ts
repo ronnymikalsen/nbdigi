@@ -23,4 +23,16 @@ export class MyLibraryComponent implements OnInit {
   openFavorite(list: FavoriteList) {
     this.store.dispatch(new favoriteActions.OpenList(list.id));
   }
+  renameFavorite(list: FavoriteList) {
+    this.store.dispatch(new favoriteActions.RenameList(list));
+  }
+  removeFavorite(list: FavoriteList) {
+    this.store.dispatch(new favoriteActions.RemoveList(list));
+  }
+
+  openMenu(event: MouseEvent) {
+    event.stopPropagation();
+    console.log('tester');
+    return false;
+  }
 }
