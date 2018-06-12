@@ -10,6 +10,7 @@ import { CreateFavoriteListComponent } from './components/create-favorite-list/c
 import { FavoriteListPageComponent } from './containers/favorite-list-page/favorite-list-page';
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 import { ItemsSectionModule } from '../items-section/items-section.module';
+import { RenameFavoriteDialogComponent } from './components/rename-favorite-dialog/rename-favorite-dialog.component';
 
 @NgModule({
   imports: [
@@ -24,10 +25,14 @@ import { ItemsSectionModule } from '../items-section/items-section.module';
     AddToFavoriteListDialogComponent,
     CreateFavoriteListComponent,
     FavoriteListPageComponent,
-    FavoriteListComponent
+    FavoriteListComponent,
+    RenameFavoriteDialogComponent
   ],
   providers: [],
-  entryComponents: [AddToFavoriteListDialogComponent],
+  entryComponents: [
+    AddToFavoriteListDialogComponent,
+    RenameFavoriteDialogComponent
+  ],
   exports: [AddToFavoriteListDialogComponent, CreateFavoriteListComponent]
 })
 export class MyLibraryModule {}

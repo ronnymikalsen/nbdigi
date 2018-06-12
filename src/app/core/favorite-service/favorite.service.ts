@@ -64,6 +64,15 @@ export class FavoriteService {
     });
   }
 
+  public renameList(
+    favoriteList: FavoriteList,
+    newName: string
+  ): Promise<void> {
+    return this.favoritesRef.doc(favoriteList.id).update({
+      name: newName
+    });
+  }
+
   public addToList(favoriteList: FavoriteList) {
     favoriteList.items.forEach(i => {
       this.favoritesRef

@@ -1,0 +1,11 @@
+<form class="add-list-form" [formGroup]="listForm" (ngSubmit)="renameList($event)" novalidate>
+  <h1 mat-dialog-title>Gi nytt navn</h1>
+  <mat-form-field>
+    <input #listname matInput formControlName="listName" placeholder="Navn" autocomplete="off">
+  </mat-form-field>
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="10px">
+    <button mat-button type="button" (click)="onNoClick()">Avbryt</button>
+    <button mat-button type="submit">Lagre</button>
+  </div>
+
+</form>

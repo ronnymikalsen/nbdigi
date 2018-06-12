@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { of, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-
+import { Action } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { RenameFavoriteDialogComponent } from '../../my-library/components/rename-favorite-dialog/rename-favorite-dialog.component';
 import { AddToFavoriteListDialogComponent } from '../../my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component';
 import * as favoriteActions from '../actions/favorite.actions';
 import {
@@ -13,12 +13,11 @@ import {
   AddToList,
   FavoriteActionTypes,
   OpenDialog,
+  OpenList,
   RemoveFromList,
-  OpenList
+  RenameList
 } from '../actions/favorite.actions';
 import { FavoriteService } from './../../core/favorite-service/favorite.service';
-import * as fromRoot from './../reducers';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class FavoriteEffects {
@@ -63,6 +62,29 @@ export class FavoriteEffects {
         duration: 2000
       });
     })
+  );
+
+  @Effect()
+  renameList: Observable<Action> = this.actions.pipe(
+    ofType(FavoriteActionTypes.RenameList),
+    map(action => action),
+    exhaustMap((action: RenameList) =>
+      this.dialog
+        .open(RenameFavoriteDialogComponent, { data: action.payload })
+        .afterClosed()
+        .pipe(
+          map(result => {
+            console.log(result);
+            if (result) {
+              this.favoriteService.renameList(action.payload, result.newName);
+              return new favoriteActions.RenameListSuccess();
+            } else {
+              return new favoriteActions.RenameListCancelled();
+            }
+          }),
+          catchError(error => of(new favoriteActions.Error()))
+        )
+    )
   );
 
   @Effect()

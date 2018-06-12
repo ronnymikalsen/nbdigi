@@ -32,7 +32,5 @@ export class MyLibraryComponent implements OnInit {
 
   openMenu(event: MouseEvent) {
     event.stopPropagation();
-    console.log('tester');
-    return false;
   }
 }
