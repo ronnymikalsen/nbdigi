@@ -73,6 +73,10 @@ export class FavoriteService {
     });
   }
 
+  public removeList(favoriteList: FavoriteList): Promise<void> {
+    return this.favoritesRef.doc(favoriteList.id).delete();
+  }
+
   public addToList(favoriteList: FavoriteList) {
     favoriteList.items.forEach(i => {
       this.favoritesRef

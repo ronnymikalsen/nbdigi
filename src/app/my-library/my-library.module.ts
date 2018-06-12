@@ -11,6 +11,7 @@ import { FavoriteListPageComponent } from './containers/favorite-list-page/favor
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';
 import { ItemsSectionModule } from '../items-section/items-section.module';
 import { RenameFavoriteDialogComponent } from './components/rename-favorite-dialog/rename-favorite-dialog.component';
+import { RemoveFavoriteDialogComponent } from './components/remove-favorite-dialog/remove-favorite-dialog.component';
 
 @NgModule({
   imports: [
@@ -26,12 +27,14 @@ import { RenameFavoriteDialogComponent } from './components/rename-favorite-dial
     CreateFavoriteListComponent,
     FavoriteListPageComponent,
     FavoriteListComponent,
-    RenameFavoriteDialogComponent
+    RenameFavoriteDialogComponent,
+    RemoveFavoriteDialogComponent
   ],
   providers: [],
   entryComponents: [
     AddToFavoriteListDialogComponent,
-    RenameFavoriteDialogComponent
+    RenameFavoriteDialogComponent,
+    RemoveFavoriteDialogComponent
   ],
   exports: [AddToFavoriteListDialogComponent, CreateFavoriteListComponent]
 })

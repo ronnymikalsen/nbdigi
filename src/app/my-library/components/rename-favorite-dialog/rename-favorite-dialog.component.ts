@@ -3,8 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromRoot from './../../../+state/reducers';
-import * as favoriteActions from './../../../+state/actions/favorite.actions';
-import { FavoriteList } from '../../../models/favorite-list';
 
 @Component({
   selector: 'app-rename-favorite-dialog',
