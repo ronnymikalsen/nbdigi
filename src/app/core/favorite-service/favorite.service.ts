@@ -117,7 +117,7 @@ export class FavoriteService {
     });
   }
 
-  public removeFromList(favoriteList: FavoriteList) {
+  public removeFromList(favoriteList: FavoriteList): Observable<void> {
     return Observable.create(observer => {
       const batch = this.afs.firestore.batch();
 

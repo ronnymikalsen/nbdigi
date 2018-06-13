@@ -10,6 +10,7 @@ export enum FavoriteActionTypes {
   FetchListsSuccess = '[Favorite] Fetch lists success',
   AddList = '[Favorite] Add list',
   AddListSuccess = '[Favorite] Add list success',
+  AddListCancelled = '[Favorite] Add list cancelled',
   RenameList = '[Favorite] Rename list',
   RenameListSuccess = '[Favorite] Rename list success',
   RenameListCancelled = '[Favorite] Rename list cancelled',
@@ -18,6 +19,7 @@ export enum FavoriteActionTypes {
   RemoveListCancelled = '[Favorite] Remove list cancelled',
   AddToList = '[Favorite] Add to list',
   AddToListSuccess = '[Favorite] Add to list success',
+  AddToListCancelled = '[Favorite] Add to list cancelled',
   RemoveFromList = '[Favorite] Remove from list',
   RemoveFromListSuccess = '[Favorite] Remove from list success',
   Error = '[Favorite] Error'
@@ -107,6 +109,12 @@ export class AddToListSuccess implements Action {
   constructor() {}
 }
 
+export class AddToListCancelled implements Action {
+  readonly type = FavoriteActionTypes.AddListCancelled;
+
+  constructor() {}
+}
+
 export class RemoveFromList implements Action {
   readonly type = FavoriteActionTypes.RemoveFromList;
 
@@ -140,6 +148,7 @@ export type FavoriteAction =
   | RemoveListCancelled
   | AddToList
   | AddToListSuccess
+  | AddToListCancelled
   | RemoveFromList
   | RemoveFromListSuccess
   | Error;

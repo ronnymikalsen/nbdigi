@@ -1,13 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
-import * as fromRoot from './../../../+state/reducers';
 
 @Component({
   selector: 'app-rename-favorite-dialog',
   templateUrl: './rename-favorite-dialog.component.html',
-  styleUrls: ['./rename-favorite-dialog.component.scss']
+  styleUrls: ['./rename-favorite-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RenameFavoriteDialogComponent implements OnInit {
   listForm: FormGroup;
@@ -16,8 +20,7 @@ export class RenameFavoriteDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<RenameFavoriteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private store: Store<fromRoot.State>
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit() {

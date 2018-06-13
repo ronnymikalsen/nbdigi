@@ -1,10 +1,16 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-remove-favorite-dialog',
   templateUrl: './remove-favorite-dialog.component.html',
-  styleUrls: ['./remove-favorite-dialog.component.scss']
+  styleUrls: ['./remove-favorite-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RemoveFavoriteDialogComponent implements OnInit {
   constructor(

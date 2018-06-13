@@ -1,19 +1,11 @@
-import {
-  Component,
-  OnInit,
-  Inject,
-  ViewChild,
-  ElementRef
-} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
-
 import * as favoriteAction from './../../../+state/actions/favorite.actions';
 import * as fromRoot from './../../../+state/reducers';
 import { FavoriteList } from './../../../models/favorite-list';
-import { Item } from '../../../models/search-result.model';
 
 @Component({
   selector: 'app-add-to-favorite-list-dialog',
@@ -31,7 +23,6 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddToFavoriteListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public snackBar: MatSnackBar,
-    private fb: FormBuilder,
     private store: Store<fromRoot.State>
   ) {}
 
@@ -42,14 +33,11 @@ export class AddToFavoriteListDialogComponent implements OnInit {
   }
 
   addToList(list: FavoriteList) {
-    this.store.dispatch(
-      new favoriteAction.AddToList({
-        id: list.id,
-        name: list.name,
-        items: [{ ...this.data.item }]
-      })
-    );
-    this.dialogRef.close();
+    this.dialogRef.close({
+      id: list.id,
+      name: list.name,
+      items: [{ ...this.data.item }]
+    });
   }
 
   addList(listName: string) {
