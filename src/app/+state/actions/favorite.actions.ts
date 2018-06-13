@@ -120,9 +120,9 @@ export class RemoveFromListSuccess implements Action {
 }
 
 export class Error implements Action {
-  readonly type = FavoriteActionTypes.AddToListSuccess;
+  readonly type = FavoriteActionTypes.Error;
 
-  constructor() {}
+  constructor(public payload: Error) {}
 }
 
 export type FavoriteAction =

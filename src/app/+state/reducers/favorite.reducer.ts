@@ -26,7 +26,8 @@ export function reducer(state = initialState, action: FavoriteAction): State {
     }
     case FavoriteActionTypes.RemoveListSuccess: {
       const index = state.lists.findIndex(l => l.id === action.payload.id);
-      const newList = [...initialState.lists].splice(index, 1);
+      const newList = [...state.lists];
+      newList.splice(index, 1);
       return {
         ...state,
         lists: newList

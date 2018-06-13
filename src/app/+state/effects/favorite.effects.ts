@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
-import { catchError, exhaustMap, map, tap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, tap, switchMap } from 'rxjs/operators';
 import { RemoveFavoriteDialogComponent } from '../../my-library/components/remove-favorite-dialog/remove-favorite-dialog.component';
 import { RenameFavoriteDialogComponent } from '../../my-library/components/rename-favorite-dialog/rename-favorite-dialog.component';
 import { AddToFavoriteListDialogComponent } from '../../my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component';
@@ -53,7 +53,7 @@ export class FavoriteEffects {
       this.favoriteService.addList(action.payload);
       return new favoriteActions.AddListSuccess();
     }),
-    catchError(err => of(new favoriteActions.Error()))
+    catchError(err => of(new favoriteActions.Error(err)))
   );
 
   @Effect({ dispatch: false })
@@ -75,15 +75,16 @@ export class FavoriteEffects {
         .open(RenameFavoriteDialogComponent, { data: action.payload })
         .afterClosed()
         .pipe(
-          map(result => {
+          exhaustMap(result => {
             if (result) {
-              this.favoriteService.renameList(action.payload, result.newName);
-              return new favoriteActions.RenameListSuccess();
+              return this.favoriteService
+                .renameList(action.payload, result.newName)
+                .pipe(map(() => new favoriteActions.RenameListSuccess()));
             } else {
-              return new favoriteActions.RenameListCancelled();
+              return of(new favoriteActions.RenameListCancelled());
             }
           }),
-          catchError(error => of(new favoriteActions.Error()))
+          catchError(err => of(new favoriteActions.Error(err)))
         )
     )
   );
@@ -108,15 +109,18 @@ export class FavoriteEffects {
         .open(RemoveFavoriteDialogComponent, { data: action.payload })
         .afterClosed()
         .pipe(
-          map(result => {
+          exhaustMap(result => {
             if (result) {
-              this.favoriteService.removeList(action.payload);
-              return new favoriteActions.RemoveListSuccess(action.payload);
+              return this.favoriteService.removeList(action.payload).pipe(
+                map(() => {
+                  return new favoriteActions.RemoveListSuccess(action.payload);
+                })
+              );
             } else {
-              return new favoriteActions.RemoveListCancelled();
+              return of(new favoriteActions.RemoveListCancelled());
             }
           }),
-          catchError(error => of(new favoriteActions.Error()))
+          catchError(err => of(new favoriteActions.Error(err)))
         )
     )
   );
@@ -140,7 +144,7 @@ export class FavoriteEffects {
       this.favoriteService.addToList(action.payload);
       return new favoriteActions.AddToListSuccess();
     }),
-    catchError(err => of(new favoriteActions.Error()))
+    catchError(err => of(new favoriteActions.Error(err)))
   );
 
   @Effect({ dispatch: false })
@@ -162,7 +166,7 @@ export class FavoriteEffects {
       this.favoriteService.removeFromList(action.payload);
       return new favoriteActions.RemoveFromListSuccess();
     }),
-    catchError(err => of(new favoriteActions.Error()))
+    catchError(err => of(new favoriteActions.Error(err)))
   );
 
   @Effect({ dispatch: false })
@@ -179,7 +183,9 @@ export class FavoriteEffects {
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.Error),
-    tap(() => {
+    map(action => action),
+    tap(err => {
+      console.error(err);
       this.snackBar.open('Det har oppstått en feil', null, {
         duration: 2000,
         panelClass: 'error'
