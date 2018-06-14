@@ -211,6 +211,7 @@ export class FavoriteEffects {
       this.snackBar.open('Listen er slettet', null, {
         duration: 2000
       });
+      this.router.navigate(['/mylibrary']);
     })
   );
 

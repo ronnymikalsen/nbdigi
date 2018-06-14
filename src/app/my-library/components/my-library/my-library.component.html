@@ -3,16 +3,7 @@
     <a mat-list-item *ngFor="let favorite of favoriteLists | async" (click)="openFavorite(favorite)">
         <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
             <div>{{favorite.name}}</div>
-            <div>
-                <mat-menu #appMenu="matMenu">
-                    <button mat-menu-item (click)="renameFavorite(favorite)">Gi nytt navn</button>
-                    <button mat-menu-item (click)="removeFavorite(favorite)">Slett</button>
-                </mat-menu>
-
-                <button mat-icon-button [matMenuTriggerFor]="appMenu" (click)="openMenu($event)">
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-            </div>
+            <app-favorite-list-menu-button [favorite]="favorite"></app-favorite-list-menu-button>
         </div>
     </a>
 </mat-nav-list>
