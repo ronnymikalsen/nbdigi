@@ -3,32 +3,19 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { Observable, of, EMPTY } from 'rxjs';
-import {
-  catchError,
-  exhaustMap,
-  map,
-  tap,
-  switchMap,
-  take
-} from 'rxjs/operators';
-import { RemoveFavoriteDialogComponent } from '../../my-library/components/remove-favorite-dialog/remove-favorite-dialog.component';
-import { RenameFavoriteDialogComponent } from '../../my-library/components/rename-favorite-dialog/rename-favorite-dialog.component';
+import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
+import { FavoriteList } from '../../models/favorite-list';
+import { RemoveWarningDialogComponent } from '../../my-library/components/remove-warning-dialog/remove-warning-dialog.component';
 import { AddToFavoriteListDialogComponent } from '../../my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component';
+import { RemoveFavoriteDialogComponent } from '../../my-library/shared/favorite-list-menu/favorite-list-menu-button/remove-favorite-dialog/remove-favorite-dialog.component';
+import { RenameFavoriteDialogComponent } from '../../my-library/shared/favorite-list-menu/favorite-list-menu-button/rename-favorite-dialog/rename-favorite-dialog.component';
 import * as favoriteActions from '../actions/favorite.actions';
 import {
-  AddList,
   FavoriteActionTypes,
-  OpenAddToListDialog,
-  OpenList,
-  RemoveFromList,
-  RemoveList,
-  RenameList,
-  RemoveListConfirmed
+  OpenAddToListDialog
 } from '../actions/favorite.actions';
 import { FavoriteService } from './../../core/favorite-service/favorite.service';
-import { FavoriteList } from '../../models/favorite-list';
-import { RemoveWarningDialogComponent } from '../../item-menu/remove-warning-dialog/remove-warning-dialog.component';
 
 @Injectable()
 export class FavoriteEffects {
@@ -85,15 +72,15 @@ export class FavoriteEffects {
 
   @Effect({ dispatch: false })
   openList: Observable<Action> = this.actions.pipe(
-    ofType<OpenList>(FavoriteActionTypes.OpenList),
-    tap((action: OpenList) =>
+    ofType<favoriteActions.OpenList>(FavoriteActionTypes.OpenList),
+    tap((action: favoriteActions.OpenList) =>
       this.router.navigate(['/mylibrary', action.payload])
     )
   );
 
   @Effect()
   addList: Observable<Action> = this.actions.pipe(
-    ofType<AddList>(FavoriteActionTypes.AddList),
+    ofType<favoriteActions.AddList>(FavoriteActionTypes.AddList),
     map(action => action.payload),
     exhaustMap((listName: string) =>
       this.favoriteService
@@ -164,7 +151,7 @@ export class FavoriteEffects {
   removeList: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.RemoveList),
     map(action => action),
-    exhaustMap((action: RemoveList) =>
+    exhaustMap((action: favoriteActions.RemoveList) =>
       this.dialog
         .open(RemoveFavoriteDialogComponent, { data: action.payload })
         .afterClosed()

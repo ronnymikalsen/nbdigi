@@ -6,11 +6,10 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
+import { FavoriteList } from '../../models/favorite-list';
 import { Item } from '../../models/search-result.model';
 import * as favoriteActions from './../../+state/actions/favorite.actions';
 import * as fromRoot from './../../+state/reducers';
-import { RemoveWarningDialogComponent } from '../remove-warning-dialog/remove-warning-dialog.component';
-import { FavoriteList } from '../../models/favorite-list';
 
 @Component({
   selector: 'app-item-menu-button',
