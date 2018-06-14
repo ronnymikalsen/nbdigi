@@ -40,3 +40,4 @@ Thumbs.db
 
 dist-server
 /package-lock.json
+/functions/node_modules/
