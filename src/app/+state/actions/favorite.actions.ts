@@ -4,29 +4,33 @@ import { Action } from '@ngrx/store';
 import { Item } from '../../models/search-result.model';
 
 export enum FavoriteActionTypes {
-  OpenDialog = '[Favorite] Open dialog',
+  OpenAddToListDialog = '[Favorite] Open dialog',
   OpenList = '[Favorite] Open list',
   SetList = '[Favorite] Set list',
   FetchListsSuccess = '[Favorite] Fetch lists success',
   AddList = '[Favorite] Add list',
   AddListSuccess = '[Favorite] Add list success',
   AddListCancelled = '[Favorite] Add list cancelled',
+  OpenRenameListDialog = '[Favorite] Open rename list dialog',
   RenameList = '[Favorite] Rename list',
   RenameListSuccess = '[Favorite] Rename list success',
   RenameListCancelled = '[Favorite] Rename list cancelled',
   RemoveList = '[Favorite] Remove list',
   RemoveListSuccess = '[Favorite] Remove list success',
+  RemoveListConfirmed = '[Favorite] Remove list confirmed',
   RemoveListCancelled = '[Favorite] Remove list cancelled',
   AddToList = '[Favorite] Add to list',
   AddToListSuccess = '[Favorite] Add to list success',
   AddToListCancelled = '[Favorite] Add to list cancelled',
   RemoveFromList = '[Favorite] Remove from list',
+  RemoveFromListConfirmed = '[Favorite] Remove from list confirmed',
   RemoveFromListSuccess = '[Favorite] Remove from list success',
+  RemoveFromListCancelled = '[Favorite] Remove from list cancelled',
   Error = '[Favorite] Error'
 }
 
-export class OpenDialog implements Action {
-  readonly type = FavoriteActionTypes.OpenDialog;
+export class OpenAddToListDialog implements Action {
+  readonly type = FavoriteActionTypes.OpenAddToListDialog;
 
   constructor(public payload: Item) {}
 }
@@ -61,6 +65,12 @@ export class AddListSuccess implements Action {
   constructor() {}
 }
 
+export class OpenRenameListDialog implements Action {
+  readonly type = FavoriteActionTypes.OpenRenameListDialog;
+
+  constructor(public payload: FavoriteList) {}
+}
+
 export class RenameListCancelled implements Action {
   readonly type = FavoriteActionTypes.RenameListCancelled;
 
@@ -70,7 +80,12 @@ export class RenameListCancelled implements Action {
 export class RenameList implements Action {
   readonly type = FavoriteActionTypes.RenameList;
 
-  constructor(public payload: FavoriteList) {}
+  constructor(
+    public payload: {
+      favoriteList: FavoriteList;
+      newName: string;
+    }
+  ) {}
 }
 
 export class RenameListSuccess implements Action {
@@ -81,6 +96,12 @@ export class RenameListSuccess implements Action {
 
 export class RemoveList implements Action {
   readonly type = FavoriteActionTypes.RemoveList;
+
+  constructor(public payload: FavoriteList) {}
+}
+
+export class RemoveListConfirmed implements Action {
+  readonly type = FavoriteActionTypes.RemoveListConfirmed;
 
   constructor(public payload: FavoriteList) {}
 }
@@ -121,8 +142,20 @@ export class RemoveFromList implements Action {
   constructor(public payload: FavoriteList) {}
 }
 
+export class RemoveFromListConfirmed implements Action {
+  readonly type = FavoriteActionTypes.RemoveFromListConfirmed;
+
+  constructor(public payload: FavoriteList) {}
+}
+
 export class RemoveFromListSuccess implements Action {
   readonly type = FavoriteActionTypes.RemoveFromListSuccess;
+
+  constructor() {}
+}
+
+export class RemoveFromListCancelled implements Action {
+  readonly type = FavoriteActionTypes.RemoveFromListCancelled;
 
   constructor() {}
 }
@@ -134,7 +167,7 @@ export class Error implements Action {
 }
 
 export type FavoriteAction =
-  | OpenDialog
+  | OpenAddToListDialog
   | OpenList
   | SetList
   | FetchListsSuccess
@@ -144,11 +177,14 @@ export type FavoriteAction =
   | RenameListSuccess
   | RenameListCancelled
   | RemoveList
+  | RemoveListConfirmed
   | RemoveListSuccess
   | RemoveListCancelled
   | AddToList
   | AddToListSuccess
   | AddToListCancelled
   | RemoveFromList
+  | RemoveFromListConfirmed
   | RemoveFromListSuccess
+  | RemoveFromListCancelled
   | Error;

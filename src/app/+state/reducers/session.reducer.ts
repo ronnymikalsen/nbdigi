@@ -61,6 +61,7 @@ export function reducer(state = initialState, action: AuthAction): State {
 
 export const currentUser = (state: State) => state.user;
 export const getError = (state: State) => state.error;
-export const isDebugOn = (state: State) => state.user.isDebugOn;
+export const isDebugOn = (state: State) =>
+  state.user ? state.user.isDebugOn : false;
 export const getTheme = (state: State) =>
   state.user ? state.user.theme : localStorage.getItem('currentTheme');

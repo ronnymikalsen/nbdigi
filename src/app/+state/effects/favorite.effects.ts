@@ -18,23 +18,25 @@ import { AddToFavoriteListDialogComponent } from '../../my-library/containers/ad
 import * as favoriteActions from '../actions/favorite.actions';
 import {
   AddList,
-  AddToList,
   FavoriteActionTypes,
-  OpenDialog,
+  OpenAddToListDialog,
   OpenList,
   RemoveFromList,
   RemoveList,
-  RenameList
+  RenameList,
+  RemoveListConfirmed
 } from '../actions/favorite.actions';
 import { FavoriteService } from './../../core/favorite-service/favorite.service';
+import { FavoriteList } from '../../models/favorite-list';
+import { RemoveWarningDialogComponent } from '../../item-menu/remove-warning-dialog/remove-warning-dialog.component';
 
 @Injectable()
 export class FavoriteEffects {
   @Effect()
-  addToList: Observable<Action> = this.actions.pipe(
-    ofType(FavoriteActionTypes.OpenDialog),
+  openAddToListDialog: Observable<Action> = this.actions.pipe(
+    ofType(FavoriteActionTypes.OpenAddToListDialog),
     map(action => action),
-    exhaustMap((action: OpenDialog) =>
+    exhaustMap((action: OpenAddToListDialog) =>
       this.dialog
         .open(AddToFavoriteListDialogComponent, {
           data: {
@@ -44,16 +46,11 @@ export class FavoriteEffects {
         .afterClosed()
         .pipe(
           take(1),
-          exhaustMap(result => {
+          map(result => {
             if (result) {
-              return this.favoriteService.addToList(result).pipe(
-                take(1),
-                map(() => {
-                  return new favoriteActions.AddToListSuccess();
-                })
-              );
+              return new favoriteActions.AddToList(result);
             } else {
-              return of(new favoriteActions.AddToListCancelled());
+              return new favoriteActions.AddToListCancelled();
             }
           })
         )
@@ -61,10 +58,24 @@ export class FavoriteEffects {
     catchError(err => of(new favoriteActions.Error(err)))
   );
 
+  @Effect()
+  addToList: Observable<Action> = this.actions.pipe(
+    ofType<favoriteActions.AddToList>(FavoriteActionTypes.AddToList),
+    map(action => action.payload),
+    exhaustMap((favoriteList: FavoriteList) =>
+      this.favoriteService.addToList(favoriteList).pipe(
+        take(1),
+        map(() => {
+          return new favoriteActions.AddToListSuccess();
+        })
+      )
+    ),
+    catchError(err => of(new favoriteActions.Error(err)))
+  );
+
   @Effect({ dispatch: false })
   addToListSuccess: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.AddToListSuccess),
-    map(action => action),
     tap(() => {
       this.snackBar.open('Lagt til i din liste', null, {
         duration: 2000
@@ -74,20 +85,19 @@ export class FavoriteEffects {
 
   @Effect({ dispatch: false })
   openList: Observable<Action> = this.actions.pipe(
-    ofType(FavoriteActionTypes.OpenList),
-    map(action => action),
-    tap((action: OpenList) => {
-      this.router.navigate(['/mylibrary', action.payload]);
-    })
+    ofType<OpenList>(FavoriteActionTypes.OpenList),
+    tap((action: OpenList) =>
+      this.router.navigate(['/mylibrary', action.payload])
+    )
   );
 
   @Effect()
   addList: Observable<Action> = this.actions.pipe(
-    ofType(FavoriteActionTypes.AddList),
-    map(action => action),
-    switchMap((action: AddList) =>
+    ofType<AddList>(FavoriteActionTypes.AddList),
+    map(action => action.payload),
+    exhaustMap((listName: string) =>
       this.favoriteService
-        .addList(action.payload)
+        .addList(listName)
         .pipe(map(() => new favoriteActions.AddListSuccess()))
     ),
     catchError(err => of(new favoriteActions.Error(err)))
@@ -104,35 +114,45 @@ export class FavoriteEffects {
   );
 
   @Effect()
-  renameList: Observable<Action> = this.actions.pipe(
-    ofType(FavoriteActionTypes.RenameList),
-    map(action => action),
-    exhaustMap((action: RenameList) =>
+  openRenameListDialog: Observable<Action> = this.actions.pipe(
+    ofType<favoriteActions.OpenRenameListDialog>(
+      FavoriteActionTypes.OpenRenameListDialog
+    ),
+    map(action => action.payload),
+    exhaustMap((favoriteList: FavoriteList) =>
       this.dialog
-        .open(RenameFavoriteDialogComponent, { data: action.payload })
+        .open(RenameFavoriteDialogComponent, {
+          data: favoriteList
+        })
         .afterClosed()
         .pipe(
-          exhaustMap(result => {
+          take(1),
+          map(result => {
             if (result) {
-              return this.favoriteService
-                .renameList(action.payload, result.newName)
-                .pipe(
-                  take(1),
-                  map(() => new favoriteActions.RenameListSuccess())
-                );
+              return new favoriteActions.RenameList(result);
             } else {
-              return of(new favoriteActions.RenameListCancelled());
+              return new favoriteActions.AddToListCancelled();
             }
-          }),
-          catchError(err => of(new favoriteActions.Error(err)))
+          })
         )
+    ),
+    catchError(err => of(new favoriteActions.Error(err)))
+  );
+
+  @Effect()
+  renameList: Observable<Action> = this.actions.pipe(
+    ofType<favoriteActions.RenameList>(FavoriteActionTypes.RenameList),
+    map(action => action.payload),
+    exhaustMap((result: any) =>
+      this.favoriteService
+        .renameList(result.favoriteList, result.newName)
+        .pipe(take(1), map(() => new favoriteActions.RenameListSuccess()))
     )
   );
 
   @Effect({ dispatch: false })
   renameListSuccess: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.RenameListSuccess),
-    map(action => action),
     tap(() => {
       this.snackBar.open('Listen har fått nytt navn', null, {
         duration: 2000
@@ -151,11 +171,8 @@ export class FavoriteEffects {
         .pipe(
           exhaustMap(result => {
             if (result) {
-              return this.favoriteService.removeList(action.payload).pipe(
-                take(1),
-                map(() => {
-                  return new favoriteActions.RemoveListSuccess(action.payload);
-                })
+              return of(
+                new favoriteActions.RemoveListConfirmed(action.payload)
               );
             } else {
               return of(new favoriteActions.RemoveListCancelled());
@@ -166,12 +183,32 @@ export class FavoriteEffects {
     )
   );
 
+  @Effect()
+  removeListConfirmed: Observable<Action> = this.actions.pipe(
+    ofType<favoriteActions.RemoveListConfirmed>(
+      FavoriteActionTypes.RemoveListConfirmed
+    ),
+    map(action => action.payload),
+    exhaustMap((favoriteList: FavoriteList) => {
+      if (favoriteList) {
+        return this.favoriteService.removeList(favoriteList).pipe(
+          take(1),
+          map(() => {
+            return new favoriteActions.RemoveListSuccess(favoriteList);
+          })
+        );
+      } else {
+        return of(new favoriteActions.RemoveListCancelled());
+      }
+    }),
+    catchError(err => of(new favoriteActions.Error(err)))
+  );
+
   @Effect({ dispatch: false })
   removeListSuccess: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.RemoveListSuccess),
-    map(action => action),
     tap(() => {
-      this.snackBar.open('Liste slettet', null, {
+      this.snackBar.open('Listen er slettet', null, {
         duration: 2000
       });
     })
@@ -179,20 +216,44 @@ export class FavoriteEffects {
 
   @Effect()
   removeFromList: Observable<Action> = this.actions.pipe(
-    ofType(FavoriteActionTypes.RemoveFromList),
-    map(action => action),
-    switchMap((action: RemoveFromList) =>
+    ofType<favoriteActions.RemoveFromList>(FavoriteActionTypes.RemoveFromList),
+    map(action => action.payload),
+    exhaustMap((favoriteList: FavoriteList) =>
+      this.dialog
+        .open(RemoveWarningDialogComponent, { data: favoriteList.items[0] })
+        .afterClosed()
+        .pipe(
+          exhaustMap(result => {
+            if (result) {
+              return of(
+                new favoriteActions.RemoveFromListConfirmed(favoriteList)
+              );
+            } else {
+              return of(new favoriteActions.RemoveFromListCancelled());
+            }
+          }),
+          catchError(err => of(new favoriteActions.Error(err)))
+        )
+    )
+  );
+
+  @Effect()
+  removeFromListConfirmed: Observable<Action> = this.actions.pipe(
+    ofType<favoriteActions.RemoveFromListConfirmed>(
+      FavoriteActionTypes.RemoveFromListConfirmed
+    ),
+    map(action => action.payload),
+    exhaustMap((favoriteList: FavoriteList) =>
       this.favoriteService
-        .removeFromList(action.payload)
+        .removeFromList(favoriteList)
         .pipe(map(() => new favoriteActions.RemoveFromListSuccess()))
     ),
     catchError(err => of(new favoriteActions.Error(err)))
   );
 
   @Effect({ dispatch: false })
-  removeFromSuccess: Observable<Action> = this.actions.pipe(
+  removeFromListSuccess: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.RemoveFromListSuccess),
-    map(action => action),
     tap(() => {
       this.snackBar.open('Fjernet fra din liste', null, {
         duration: 2000
@@ -203,7 +264,6 @@ export class FavoriteEffects {
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions.pipe(
     ofType(FavoriteActionTypes.Error),
-    map(action => action),
     tap(err => {
       console.error(err);
       this.snackBar.open('Det har oppstått en feil', null, {

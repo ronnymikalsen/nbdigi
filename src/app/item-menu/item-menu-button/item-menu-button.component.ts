@@ -27,23 +27,15 @@ export class ItemMenuButtonComponent implements OnInit {
   ngOnInit() {}
 
   addToFavorites(): void {
-    this.store.dispatch(new favoriteActions.OpenDialog(this.item));
+    this.store.dispatch(new favoriteActions.OpenAddToListDialog(this.item));
   }
 
   removeFromFavorites(): void {
-    const dialogRef = this.dialog.open(RemoveWarningDialogComponent, {
-      data: this.item
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(
-          new favoriteActions.RemoveFromList({
-            id: this.list.id,
-            items: [this.item]
-          })
-        );
-      }
-    });
+    this.store.dispatch(
+      new favoriteActions.RemoveFromList({
+        id: this.list.id,
+        items: [this.item]
+      })
+    );
   }
 }
