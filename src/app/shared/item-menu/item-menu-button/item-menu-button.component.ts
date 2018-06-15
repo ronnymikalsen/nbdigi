@@ -6,10 +6,11 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { FavoriteList } from '../../models/favorite-list';
-import { Item } from '../../models/search-result.model';
-import * as favoriteActions from './../../+state/actions/favorite.actions';
-import * as fromRoot from './../../+state/reducers';
+import { FavoriteList } from '../../../models/favorite-list';
+import { Item } from '../../../models/search-result.model';
+import * as favoriteActions from './../../../+state/actions/favorite.actions';
+import * as itemActions from './../../../+state/actions/item.actions';
+import * as fromRoot from './../../../+state/reducers';
 
 @Component({
   selector: 'app-item-menu-button',
@@ -24,6 +25,10 @@ export class ItemMenuButtonComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>, public dialog: MatDialog) {}
 
   ngOnInit() {}
+
+  open(): void {
+    this.store.dispatch(new itemActions.Open(this.item));
+  }
 
   addToFavorites(): void {
     this.store.dispatch(new favoriteActions.OpenAddToListDialog(this.item));

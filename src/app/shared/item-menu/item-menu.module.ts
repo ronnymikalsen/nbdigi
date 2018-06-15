@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RemoveWarningDialogComponent } from '../my-library/components/remove-warning-dialog/remove-warning-dialog.component';
-import { SharedModule } from '../shared/shared.module';
+import { RemoveWarningDialogComponent } from '../../my-library/components/remove-warning-dialog/remove-warning-dialog.component';
+import { SharedModule } from '../shared.module';
 import { ItemMenuButtonComponent } from './item-menu-button/item-menu-button.component';
 
 @NgModule({
