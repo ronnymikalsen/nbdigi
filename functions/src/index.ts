@@ -26,7 +26,8 @@ export const updateFavorite = functions.firestore
                   if (item.id === updatedItem.id) {
                     item.ref
                       .update({
-                        currentCanvasId: currentCanvasId
+                        currentCanvasId: currentCanvasId,
+                        timestamp: admin.firestore.FieldValue.serverTimestamp()
                       })
                       .catch(err => console.error(err));
                   }

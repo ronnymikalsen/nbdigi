@@ -26,28 +26,32 @@ export function reducer(state = initialState, action: FavoriteAction): State {
     }
     case FavoriteActionTypes.RemoveListSuccess: {
       const index = state.lists.findIndex(l => l.id === action.payload.id);
-      const newList = [...state.lists];
-      newList.splice(index, 1);
+      const newLists = [...state.lists];
+      newLists.splice(index, 1);
       return {
         ...state,
-        lists: newList
+        lists: newLists
       };
     }
     case FavoriteActionTypes.SetList: {
-      const newList = [...state.lists];
-      const foundIndex = newList.findIndex(
-        element => element.id === action.payload.id
+      const payload = { ...action.payload };
+      const items = [...payload.items];
+      items.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      payload.items = items;
+      const newLists = [...state.lists];
+      const foundIndex = newLists.findIndex(
+        element => element.id === payload.id
       );
       if (foundIndex !== -1) {
-        newList.splice(foundIndex, 1, action.payload);
+        newLists.splice(foundIndex, 1, payload);
       } else {
-        newList.push(action.payload);
+        newLists.push(payload);
       }
 
-      newList.sort((a, b) => a.name.localeCompare(b.name));
+      newLists.sort((a, b) => a.name.localeCompare(b.name));
       return {
         ...state,
-        lists: newList
+        lists: newLists
       };
     }
     default: {
