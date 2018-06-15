@@ -10,33 +10,31 @@ export const updateFavorite3 = functions.firestore
       snapshot: functions.Change<FirebaseFirestore.DocumentSnapshot>,
       context: functions.EventContext
     ) => {
-      console.log('start!');
-      context.auth.uid;
       const data = snapshot.after;
-      return admin
-        .firestore()
-        .collection('users/{userId}favorites')
-        .get()
-        .then((querySnapshot: FirebaseFirestore.QuerySnapshot) => {
-          console.log('querySnapshot', querySnapshot.docs.length);
-          console.log('data', data);
-          querySnapshot.docs.forEach(v => {
-            const doc = v.ref.collection('items').doc(data.id);
-            console.log('doc', doc);
+      const currentCanvasId = data.get('currentCanvasId');
 
-            if (doc) {
-              return doc
-                .update({
-                  currentCanvasId: 10
-                })
-                .catch(err => console.log(err));
-            } else {
-              return null;
-            }
+      return snapshot.after.ref.parent.parent
+        .collection('favorites')
+        .get()
+        .then(collections => {
+          collections.forEach(snap => {
+            snap.ref
+              .collection('items')
+              .get()
+              .then(i => {
+                i.forEach(hmm => {
+                  if (hmm.id === data.id) {
+                    hmm.ref
+                      .update({
+                        currentCanvasId: currentCanvasId
+                      })
+                      .catch(err => console.error(err));
+                  }
+                });
+              })
+              .catch(err => console.error(err));
           });
-          console.log('done!');
-          return null;
         })
-        .catch(err => console.log(err));
+        .catch(err => console.error(err));
     }
   );

@@ -6,31 +6,29 @@ admin.initializeApp(functions.config().firebase);
 exports.updateFavorite3 = functions.firestore
   .document('users/{userId}/items/{messageId}')
   .onWrite((snapshot, context) => {
-    console.log('start!');
-    context.auth.uid;
     const data = snapshot.after;
-    return admin
-      .firestore()
-      .collection('users/{userId}favorites')
+    const currentCanvasId = data.get('currentCanvasId');
+    return snapshot.after.ref.parent.parent
+      .collection('favorites')
       .get()
-      .then(querySnapshot => {
-        console.log('querySnapshot', querySnapshot.docs.length);
-        console.log('data', data);
-        querySnapshot.docs.forEach(v => {
-          const doc = v.ref.collection('items').doc(data.id);
-          console.log('doc', doc);
-          if (doc) {
-            return doc
-              .update({
-                currentCanvasId: 10
-              })
-              .catch(err => console.log(err));
-          } else {
-            return null;
-          }
+      .then(collections => {
+        collections.forEach(snap => {
+          snap.ref
+            .collection('items')
+            .get()
+            .then(i => {
+              i.forEach(hmm => {
+                if (hmm.id === data.id) {
+                  hmm.ref
+                    .update({
+                      currentCanvasId: currentCanvasId
+                    })
+                    .catch(err => console.log(err));
+                }
+              });
+            })
+            .catch(err => console.log(err));
         });
-        console.log('done!');
-        return null;
       })
       .catch(err => console.log(err));
   });
