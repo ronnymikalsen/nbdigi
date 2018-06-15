@@ -110,7 +110,10 @@ export class FavoriteService {
             .doc(favoriteList.id)
             .collection('items')
             .doc(i.id).ref,
-          i
+          {
+            ...i,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          }
         );
       });
       batch.commit().then(() => observer.next());

@@ -36,7 +36,11 @@ export function reducer(state = initialState, action: FavoriteAction): State {
     case FavoriteActionTypes.SetList: {
       const payload = { ...action.payload };
       const items = [...payload.items];
-      items.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      items.sort(
+        (a, b) =>
+          (b.timestamp ? b.timestamp.toMillis() : 0) -
+          (a.timestamp ? a.timestamp.toMillis() : 0)
+      );
       payload.items = items;
       const newLists = [...state.lists];
       const foundIndex = newLists.findIndex(

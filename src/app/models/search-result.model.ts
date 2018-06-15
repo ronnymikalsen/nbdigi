@@ -1,5 +1,4 @@
-import { LinkResponse } from './items-response.model';
-
+import * as firebase from 'firebase/app';
 export class SuperSearchResult {
   totalElements = 0;
   selfLink: string;
@@ -103,7 +102,7 @@ export class Item {
   public thumbnail: string = null;
   public manifestUri: string = null;
   public currentCanvasId = 0;
-  public timestamp = new Date();
+  public timestamp: firebase.firestore.Timestamp;
   public selfLink? = null;
   public urn: string = null;
   public oaiId: string = null;
@@ -116,7 +115,7 @@ export class Item {
     thumbnail?: string;
     manifestUri?: string;
     currentCanvasId?: number;
-    timestamp?: Date;
+    timestamp?: firebase.firestore.Timestamp;
     selfLink?: string;
     urn?: string;
     oaiId?: string;
