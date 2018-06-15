@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 
 admin.initializeApp(functions.config().firebase);
 
-export const updateFavorite3 = functions.firestore
+export const updateFavorite = functions.firestore
   .document('users/{userId}/items/{messageId}')
   .onWrite(
     (
