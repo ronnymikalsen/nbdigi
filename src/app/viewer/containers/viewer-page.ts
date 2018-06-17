@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromRoot from './../../+state/reducers';
+import * as favoriteActions from './../../+state/actions/favorite.actions';
 import * as itemAction from './../../+state/actions/item.actions';
 import { getCurrentItem } from './../../+state/reducers/item.reducer';
 import { getItemState } from './../../+state/reducers/index';

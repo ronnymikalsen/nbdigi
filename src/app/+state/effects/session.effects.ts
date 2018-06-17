@@ -2,7 +2,7 @@ import { isDebugOn } from './../reducers/index';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
-import { Effect, Actions } from '@ngrx/effects';
+import { Effect, Actions, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { switchMap, tap, map, filter, catchError } from 'rxjs/operators';
 import {
@@ -38,134 +38,127 @@ export class SessionEffects {
   private user: User;
 
   @Effect()
-  signUpWithEmailAndPassword: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignUpWithEmailAndPassword)
-    .pipe(
-      switchMap((action: SignUpWithEmailAndPassword) => {
-        return this.authService
-          .signUpWithEmailAndPassword(
-            action.payload.email,
-            action.payload.password
-          )
-          .pipe(
-            map(authState => new SignUpSuccess()),
-            catchError(err => of(new AuthError(err)))
-          );
-      })
-    );
+  signUpWithEmailAndPassword: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignUpWithEmailAndPassword),
+    switchMap((action: SignUpWithEmailAndPassword) => {
+      return this.authService
+        .signUpWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .pipe(
+          map(authState => new SignUpSuccess()),
+          catchError(err => of(new AuthError(err)))
+        );
+    })
+  );
 
   @Effect()
-  signInWithGoogle: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignInWithGoogle)
-    .pipe(
-      switchMap((action: SignInWithGoogle) => {
-        return this.authService
-          .signInWithGoogle()
-          .pipe(
-            map(authState => new SignInWithGoogleSuccess()),
-            tap(() => this.router.navigate(['/home'])),
-            catchError(err => of(new AuthError(err)))
-          );
-      })
-    );
+  signInWithGoogle: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignInWithGoogle),
+    switchMap((action: SignInWithGoogle) => {
+      return this.authService
+        .signInWithGoogle()
+        .pipe(
+          map(authState => new SignInWithGoogleSuccess()),
+          tap(() => this.router.navigate(['/home'])),
+          catchError(err => of(new AuthError(err)))
+        );
+    })
+  );
 
   @Effect()
-  signInWithEmailAndPassword: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignInWithEmailAndPassword)
-    .pipe(
-      switchMap((action: SignInWithEmailAndPassword) => {
-        return this.authService
-          .signInWithEmailAndPassword(
-            action.payload.email,
-            action.payload.password
-          )
-          .pipe(
-            map(authState => new SignInWithEmailAndPasswordSuccess()),
-            tap(() => this.router.navigate(['/home'])),
-            catchError(err => of(new AuthError(err)))
-          );
-      })
-    );
+  signInWithEmailAndPassword: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignInWithEmailAndPassword),
+    switchMap((action: SignInWithEmailAndPassword) => {
+      return this.authService
+        .signInWithEmailAndPassword(
+          action.payload.email,
+          action.payload.password
+        )
+        .pipe(
+          map(authState => new SignInWithEmailAndPasswordSuccess()),
+          tap(() => this.router.navigate(['/home'])),
+          catchError(err => of(new AuthError(err)))
+        );
+    })
+  );
 
   @Effect({ dispatch: false })
-  signedIn: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignedIn)
-    .pipe(
-      map((action: any) => action.payload),
-      tap(user => this.createUserIfNotExists(user))
-      //tap(() => this.router.navigate(['/home']))
-    );
+  signedIn: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignedIn),
+    map((action: any) => action.payload),
+    tap(user => this.createUserIfNotExists(user))
+  );
 
   @Effect()
-  sendPasswordResetEmail: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SendPasswordResetEmail)
-    .pipe(
-      switchMap((action: SendPasswordResetEmail) => {
-        return this.authService
-          .sendPasswordResetEmail(action.payload)
-          .pipe(
-            map(authState => new SendPasswordResetEmaildSuccess()),
-            catchError(err => of(new AuthError(err)))
-          );
-      })
-    );
+  sendPasswordResetEmail: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SendPasswordResetEmail),
+    switchMap((action: SendPasswordResetEmail) => {
+      return this.authService
+        .sendPasswordResetEmail(action.payload)
+        .pipe(
+          map(authState => new SendPasswordResetEmaildSuccess()),
+          catchError(err => of(new AuthError(err)))
+        );
+    })
+  );
 
   @Effect({ dispatch: false })
-  sendPasswordResetEmaildSuccess: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SendPasswordResetEmaildSuccess)
-    .pipe(tap(() => this.router.navigate(['/login'])));
+  sendPasswordResetEmaildSuccess: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SendPasswordResetEmaildSuccess),
+    tap(() => this.router.navigate(['/login']))
+  );
 
   @Effect()
-  signOut: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignOut)
-    .pipe(
-      switchMap((action: SignOut) => {
-        return this.authService.signOut().map(() => new SignedOut());
+  signOut: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignOut),
+    switchMap((action: SignOut) => {
+      return this.authService.signOut().pipe(map(() => new SignedOut()));
+    })
+  );
+
+  @Effect({ dispatch: false })
+  signedOut: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignedOut),
+    tap(() => this.router.navigate(['/login']))
+  );
+
+  @Effect({ dispatch: false })
+  debugOn: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.DebugOn),
+    tap(() =>
+      this.userRef.update({
+        isDebugOn: true
       })
-    );
+    )
+  );
 
   @Effect({ dispatch: false })
-  signedOut: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignedOut)
-    .pipe(tap(() => this.router.navigate(['/login'])));
-
-  @Effect({ dispatch: false })
-  debugOn: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.DebugOn)
-    .pipe(
-      tap(() =>
-        this.userRef.update({
-          isDebugOn: true
-        })
-      )
-    );
-
-  @Effect({ dispatch: false })
-  debugOff: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.DebugOff)
-    .pipe(
-      tap(() =>
-        this.userRef.update({
-          isDebugOn: false
-        })
-      )
-    );
-
-  @Effect({ dispatch: false })
-  theme: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SetTheme)
-    .pipe(
-      map((action: any) => action.payload),
-      tap(theme => {
-        localStorage.setItem('currentTheme', theme);
-        this.sessionService.updateTheme(theme);
+  debugOff: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.DebugOff),
+    tap(() =>
+      this.userRef.update({
+        isDebugOn: false
       })
-    );
+    )
+  );
 
   @Effect({ dispatch: false })
-  signUpSuccess: Observable<Action> = this.actions
-    .ofType(AuthActionTypes.SignUpSuccess)
-    .pipe(tap(() => this.router.navigate(['/home'])));
+  theme: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SetTheme),
+    map((action: any) => action.payload),
+    tap(theme => {
+      localStorage.setItem('currentTheme', theme);
+      this.sessionService.updateTheme(theme);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  signUpSuccess: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.SignUpSuccess),
+    tap(() => this.router.navigate(['/home']))
+  );
 
   constructor(
     private actions: Actions,

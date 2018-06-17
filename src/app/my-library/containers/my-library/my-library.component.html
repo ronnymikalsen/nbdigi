@@ -1,0 +1,9 @@
+<mat-toolbar>Mitt bibliotek</mat-toolbar>
+<mat-nav-list>
+    <a mat-list-item *ngFor="let favorite of favoriteLists | async" (click)="openFavorite(favorite)">
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <div>{{favorite.name}}</div>
+            <app-favorite-list-menu-button [favorite]="favorite"></app-favorite-list-menu-button>
+        </div>
+    </a>
+</mat-nav-list>

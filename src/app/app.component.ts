@@ -3,11 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-
 import * as fromRoot from './+state/reducers';
 import { CheckForUpdateService } from './core/check-for-update-service/check-for-update.service';
 import { SessionService } from './core/session-service/session.service';
-import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +14,6 @@ import { User } from './models/user.model';
 })
 export class AppComponent implements OnInit {
   currentTheme: string;
-  private user: User;
 
   constructor(
     private updates: CheckForUpdateService,

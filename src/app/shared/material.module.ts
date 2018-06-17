@@ -16,6 +16,7 @@ import {
   MatSelectModule,
   MatListModule,
   MatTabsModule,
+  MatMenuModule,
   MatSlideToggleModule,
   MatSidenavModule
 } from '@angular/material';
@@ -38,6 +39,7 @@ import {
     MatSelectModule,
     MatListModule,
     MatTabsModule,
+    MatMenuModule,
     MatSlideToggleModule,
     MatSidenavModule
   ]

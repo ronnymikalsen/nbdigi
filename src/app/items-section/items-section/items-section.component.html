@@ -10,13 +10,13 @@
   </mat-toolbar>
   <div fxLayout="rov wrap" *ngIf="selected">
     <ng-container *ngFor="let item of mediaTypeResults?.items">
-      <app-default-item-card [item]="item" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
+      <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
       </app-default-item-card>
     </ng-container>
   </div>
   <div fxLayout="rov wrap" *ngIf="!selected">
     <ng-container *ngFor="let item of mediaTypeResults?.items| slice:0:size">
-      <app-default-item-card [item]="item" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
+      <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
       </app-default-item-card>
     </ng-container>
   </div>

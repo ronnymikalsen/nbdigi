@@ -4,7 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, map, switchMap, filter } from 'rxjs/operators';
@@ -20,15 +20,15 @@ export class ItemEffects {
   private itemsRef: AngularFirestoreCollection<Item>;
 
   @Effect({ dispatch: false })
-  open: Observable<Action> = this.actions
-    .ofType(ItemActionTypes.Open)
-    .pipe(
-      map(action => action),
-      tap((action: Open) => this.viewerService.open(action.payload))
-    );
+  open: Observable<Action> = this.actions.pipe(
+    ofType(ItemActionTypes.Open),
+    map(action => action),
+    tap((action: Open) => this.viewerService.open(action.payload))
+  );
 
   @Effect({ dispatch: false })
-  change: Observable<Action> = this.actions.ofType(ItemActionTypes.Change).pipe(
+  change: Observable<Action> = this.actions.pipe(
+    ofType(ItemActionTypes.Change),
     map(action => action),
     tap((action: Change) =>
       this.itemsRef.doc(action.payload.id).set({

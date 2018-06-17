@@ -1,16 +1,19 @@
 <mat-toolbar>
-  <div class="viewer-header-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <div class="viewer-header-container" fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <div>
-      <button mat-icon-button mat-dialog-close>
+      <button mat-icon-button mat-dialog-close matTooltip="Lukk">
         <mat-icon>close</mat-icon>
       </button>
     </div>
-    <div class="truncate">
+    <div fxFlex class="truncate" [matTooltip]="item?.title">
       {{item?.title}}
+    </div>
+    <div>
+      <app-item-menu-button [item]="item"></app-item-menu-button>
     </div>
   </div>
 </mat-toolbar>
 <div *ngIf="item" class="viewer-container">
   <mime-viewer [manifestUri]="item.manifestUri" [canvasIndex]="item.currentCanvasId" [config]="config" (manifestChanged)="onManifestChange($event)"
-    (pageChanged)="onPageChange($event)"></mime-viewer>
+    (canvasChanged)="onCanvasChange($event)"></mime-viewer>
 </div>

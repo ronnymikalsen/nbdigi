@@ -17,7 +17,8 @@ export class ViewerComponent implements OnInit {
   @Input() item: Item;
   config = new MimeViewerConfig({
     attributionDialogHideTimeout: 3,
-    navigationControlEnabled: false
+    navigationControlEnabled: false,
+    preserveZoomOnCanvasGroupChange: true
   });
   @Output() change = new EventEmitter<Item>();
   private itemSubject: Subject<Item> = new Subject();
@@ -40,7 +41,7 @@ export class ViewerComponent implements OnInit {
     this.itemSubject.next(this.item);
   }
 
-  onPageChange(canvasId: number) {
+  onCanvasChange(canvasId: number) {
     this.itemSubject.next({
       ...this.item,
       currentCanvasId: canvasId
