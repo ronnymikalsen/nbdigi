@@ -2,6 +2,10 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
+  <button *ngIf="config.enableOpen" mat-menu-item (click)="open()">
+    <mat-icon>open_in_browser</mat-icon>
+    <span>Les</span>
+  </button>
   <button mat-menu-item (click)="addToFavorites()">
     <mat-icon>playlist_add</mat-icon>
     <span>Legg til i liste</span>

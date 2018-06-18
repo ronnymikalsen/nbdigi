@@ -1,18 +1,15 @@
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  OnInit,
+  Output,
+  ViewChild
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { Store } from '@ngrx/store';
-import * as favoriteAction from './../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../+state/reducers';
 
 @Component({
   selector: 'app-create-favorite-list',
@@ -27,11 +24,7 @@ export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
   listForm: FormGroup;
   listName: FormControl;
 
-  constructor(
-    public snackBar: MatSnackBar,
-    private fb: FormBuilder,
-    private store: Store<fromRoot.State>
-  ) {
+  constructor(public snackBar: MatSnackBar, private fb: FormBuilder) {
     this.createForm();
   }
 
@@ -47,7 +40,6 @@ export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
   addList(event: MouseEvent) {
     event.preventDefault();
     this.listNameSelected.emit(this.listName.value);
-    //    this.store.dispatch(new favoriteAction.AddList(this.listName.value));
   }
 
   ngAfterViewInit() {
