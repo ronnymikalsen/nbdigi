@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-
-import { ItemCardModule } from './../item-card/item-card.module';
 import { DebugModule } from './../debug/debug.module';
-import { ItemsSectionComponent } from './items-section/items-section.component';
 import { SharedModule } from './../shared/shared.module';
+import { ItemCardModule } from './items-section/item-card/item-card.module';
+import { ItemsSectionComponent } from './items-section/items-section.component';
 
 @NgModule({
   imports: [SharedModule, DebugModule, ItemCardModule],
