@@ -80,6 +80,9 @@ export function reducer(state = initialState, action: SearchAction): State {
       if (action.payload.sort) {
         newCriteria.sort = action.payload.sort;
       }
+      if (action.payload.genre) {
+        newCriteria.genre = action.payload.genre;
+      }
       if (action.payload.filters) {
         newCriteria.filters = [...action.payload.filters];
       }
@@ -90,6 +93,7 @@ export function reducer(state = initialState, action: SearchAction): State {
           q: newCriteria.q,
           mediaType: newCriteria.mediaType,
           sort: newCriteria.sort,
+          genre: newCriteria.genre,
           filters: newCriteria.filters
         })
       };
@@ -101,6 +105,7 @@ export function reducer(state = initialState, action: SearchAction): State {
           q: action.payload.q,
           mediaType: action.payload.mediaType,
           sort: action.payload.sort,
+          genre: action.payload.genre,
           filters: action.payload.filters
         })
       };
@@ -412,6 +417,7 @@ export const pristine = (state: State) => {
     state.criteria.q === initialState.criteria.q &&
     state.criteria.mediaType === initialState.criteria.mediaType &&
     state.criteria.filters === initialState.criteria.filters &&
+    state.criteria.genre === initialState.criteria.genre &&
     state.criteria.sort === initialState.criteria.sort
   );
 };

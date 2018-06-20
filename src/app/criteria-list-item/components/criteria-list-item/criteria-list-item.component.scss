@@ -3,7 +3,8 @@
 }
 
 ::ng-deep mat-list-item .mediaType,
-::ng-deep mat-list-item .sort {
+::ng-deep mat-list-item .sort,
+::ng-deep mat-list-item .genre {
   font-size: 13px !important;
   line-height: 16px !important;
 }

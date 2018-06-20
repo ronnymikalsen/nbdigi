@@ -3,11 +3,13 @@ import { Md5 } from 'ts-md5/dist/md5';
 
 import { Hint } from './../core/typeahead-service/hints.model';
 import { Sort, SortOptions } from './sort-options';
+import { Genre } from './genre-options.model';
 
 export class Criteria {
   q? = '';
   mediaType? = 'alle';
   filters?: Hint[] = [];
+  genre?: Genre;
   sort?: Sort = new SortOptions().relevance;
   timestamp?: Date;
   hash?: string = null;
@@ -16,6 +18,7 @@ export class Criteria {
     q?: string;
     mediaType?: string;
     filters?: Hint[];
+    genre?: Genre;
     sort?: Sort;
     timestamp?: Date;
     hash?: string;
@@ -25,6 +28,7 @@ export class Criteria {
       this.mediaType = fields.mediaType || this.mediaType;
       this.filters =
         fields.filters !== undefined ? fields.filters : this.filters;
+      this.genre = fields.genre || this.genre;
       this.sort = fields.sort || this.sort;
       this.timestamp = fields.timestamp || this.timestamp;
 

@@ -4,10 +4,9 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
-
+import { Genre } from '../../models/genre-options.model';
 import { Sort } from '../../models/sort-options';
 import * as searchAction from './../../+state/actions/search.actions';
 import * as sessionAction from './../../+state/actions/session.actions';
@@ -42,6 +41,7 @@ import { MediaTypeResults } from './../../models/search-result.model';
       (toggleFilter)="toggleFilter($event)"
       (mediaTypeChanged)="mediaTypeChanged($event)"
       (sortChanged)="sortChanged($event)"
+      (genreChanged)="genreChanged($event)"
       (debugChanged)="debugChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
@@ -84,11 +84,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   private destroyed: Subject<void> = new Subject();
 
-  constructor(
-    private store: Store<fromRoot.State>,
-    private route: ActivatedRoute,
-    private router: Router
-  ) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
@@ -138,6 +134,24 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         sort: sort
       })
     );
+    this.store.dispatch(new searchAction.Search());
+  }
+
+  genreChanged(genre: Genre): void {
+    if (genre) {
+      this.store.dispatch(
+        new searchAction.UpdateCriteria({
+          genre: genre,
+          mediaType: genre.mediaType
+        })
+      );
+    } else {
+      this.store.dispatch(
+        new searchAction.UpdateCriteria({
+          genre: new Genre()
+        })
+      );
+    }
     this.store.dispatch(new searchAction.Search());
   }
 

@@ -37,7 +37,6 @@ export class SearchEffects {
     tap(() => this.router.navigate(['/search'])),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
-      const hints = new Hints();
       const filters = this.addAllFilters(storeState);
 
       const hint = {
@@ -49,6 +48,12 @@ export class SearchEffects {
           value: storeState.search.criteria.sort.value,
           viewValue: storeState.search.criteria.sort.viewValue
         },
+        genre: storeState.search.criteria.genre
+          ? {
+              value: storeState.search.criteria.genre.value,
+              viewValue: storeState.search.criteria.genre.viewValue
+            }
+          : null,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       };
       this.criteriasRef.doc(<string>storeState.search.criteria.hash).set(hint);
@@ -236,6 +241,13 @@ export class SearchEffects {
     }
     filters = [...filters, 'digital:Ja'];
     filters = [...filters, 'contentClasses:jp2'];
+
+    if (
+      storeState.search.criteria.genre &&
+      storeState.search.criteria.genre.value
+    ) {
+      filters = [...filters, storeState.search.criteria.genre.value];
+    }
 
     return filters;
   }
