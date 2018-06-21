@@ -96,6 +96,7 @@ export class MediaTypeResults {
 
 export class Item {
   public id: string = null;
+  public mediaType: string = null;
   public title: string = null;
   public creator: string = null;
   public issued: string = null;
@@ -109,6 +110,7 @@ export class Item {
 
   constructor(fields?: {
     id?: string;
+    mediaType?: string;
     title?: string;
     creator?: string;
     issued?: string;
@@ -122,6 +124,7 @@ export class Item {
   }) {
     if (fields) {
       this.id = fields.id || this.id;
+      this.mediaType = fields.mediaType || this.mediaType;
       this.title = fields.title || this.title;
       this.creator = fields.creator || this.creator;
       this.issued = fields.issued || this.issued;

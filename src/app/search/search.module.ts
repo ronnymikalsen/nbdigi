@@ -8,10 +8,10 @@ import { SearchPageComponent } from './containers/search-page';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { MediaTypeButtonComponent } from './components/media-type-button/media-type-button.component';
 import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
-import { DebugModule } from './../debug/debug.module';
-import { SearchBoxModule } from '../search-box/search-box.module';
-import { ItemsSectionModule } from './../items-section/items-section.module';
-import { CriteriaListItemModule } from './../criteria-list-item/criteria-list-item.module';
+import { DebugModule } from './../shared/debug/debug.module';
+import { SearchBoxModule } from '../shared/search-box/search-box.module';
+import { ItemsSectionModule } from './../shared/items-section/items-section.module';
+import { CriteriaListItemModule } from './../shared/criteria-list-item/criteria-list-item.module';
 
 @NgModule({
   imports: [

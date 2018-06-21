@@ -42,8 +42,8 @@
         <app-media-type-button [mediaType]="programReports?.mediaType" [counts]="programReports?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
       </div>
 
-      <app-items-section [label]="'andre'" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'others'"
-        [showMoreButton]="false" tabindex="0"></app-items-section>
+      <app-items-section [label]="'andre'" asList="true" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
+        [selected]="search.criteria.mediaType === 'others'" [showMoreButton]="false" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(maps?.mediaType, maps?.counts)" [mediaTypeResults]="maps" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
         [selected]="search.criteria.mediaType === 'kart'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>

@@ -44,6 +44,7 @@ export interface LinkResponse {
 export interface MetadataResponse {
   title: string;
   creators: string[];
+  mediaTypes: string[];
   originInfo: OriginInfoResponse;
   identifiers: IdentifiersResponse;
 }

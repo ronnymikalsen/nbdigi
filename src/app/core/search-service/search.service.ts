@@ -193,6 +193,10 @@ export class SearchService {
   private extractItem(i: ItemResponse): Item {
     return new Item({
       id: i.id,
+      mediaType:
+        i.metadata.mediaTypes && i.metadata.mediaTypes.length > 0
+          ? i.metadata.mediaTypes[0]
+          : null,
       title: i.metadata.title,
       creator: i.metadata.creators ? i.metadata.creators[0] : null,
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,
