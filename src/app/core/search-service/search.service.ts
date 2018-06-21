@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from '../../../environments/environment';
+import {
+  BucketResponse,
+  ItemResponse,
+  ItemsResponse,
+  MediaTypeResponse
+} from './../../models/items-response.model';
 import { SearchCriteria } from './../../models/search-criteria.model';
 import {
-  ItemsResponse,
-  ItemResponse,
-  MediaTypeResponse,
-  BucketResponse
-} from './../../models/items-response.model';
-import {
-  SuperSearchResult,
   Item,
-  MediaTypeResults
+  MediaTypeResults,
+  SuperSearchResult
 } from './../../models/search-result.model';
-import { QueryBuilder } from './../../builders/query-builder';
+import { QueryBuilder } from './../builders/query-builder';
 
 @Injectable()
 export class SearchService {

@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { environment } from '../../../environments/environment';
+import { SearchCriteria } from '../../models/search-criteria.model';
+import { QueryBuilder } from './../builders/query-builder';
 import { Hint } from './hints.model';
 import { TypeaheadResponse } from './typeahead.response';
-import { environment } from '../../../environments/environment';
-import { QueryBuilder } from './../../builders/query-builder';
-import { SearchCriteria } from '../../models/search-criteria.model';
 
 @Injectable()
 export class TypeaheadService {
