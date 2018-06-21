@@ -7,3 +7,6 @@
         </div>
     </a>
 </mat-nav-list>
+<mat-toolbar>Nylig aktivitet</mat-toolbar>
+<app-items-section [showToolbar]="false" [list]="(recentActivity | async).items" [mediaTypeResults]="recentActivity | async"
+    [isDebugOn]="isDebugOn" rows="1" tabindex="0"></app-items-section>
