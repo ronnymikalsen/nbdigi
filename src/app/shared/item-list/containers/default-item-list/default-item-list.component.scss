@@ -31,3 +31,7 @@
   font-size: 13px;
   line-height: 16px;
 }
+
+.mediaType:first-letter {
+  text-transform: capitalize;
+}
