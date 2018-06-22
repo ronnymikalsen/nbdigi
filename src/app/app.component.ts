@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
       'google',
       sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg')
     );
-    console.log('const');
     this.store.select(fromRoot.currentTheme).subscribe(theme => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
