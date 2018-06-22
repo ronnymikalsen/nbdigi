@@ -4,8 +4,10 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
+import { DateOption } from '../../models/date-options';
 import { Genre } from '../../models/genre-options.model';
 import { Sort } from '../../models/sort-options';
 import * as searchAction from './../../+state/actions/search.actions';
@@ -43,6 +45,7 @@ import { MediaTypeResults } from './../../models/search-result.model';
       (sortChanged)="sortChanged($event)"
       (genreChanged)="genreChanged($event)"
       (debugChanged)="debugChanged($event)"
+      (dateChanged)="dateChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -84,7 +87,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   private destroyed: Subject<void> = new Subject();
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private store: Store<fromRoot.State>, public dialog: MatDialog) {}
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
@@ -160,6 +163,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
       ? this.store.dispatch(new sessionAction.DebugOn())
       : this.store.dispatch(new sessionAction.DebugOff());
     this.store.dispatch(new searchAction.Search());
+  }
+
+  dateChanged(dateOption: DateOption): void {
+    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
   }
 
   loadMore(): void {

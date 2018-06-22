@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -11,16 +11,20 @@ import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
+  exhaustMap,
   filter,
   map,
   mergeMap,
   switchMap,
+  take,
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-
+import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
+import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import * as search from '../actions/search.actions';
+import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
 import { SearchService } from './../../core/search-service/search.service';
 import { Hint, Hints } from './../../core/typeahead-service/hints.model';
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
@@ -48,6 +52,12 @@ export class SearchEffects {
           value: storeState.search.criteria.sort.value,
           viewValue: storeState.search.criteria.sort.viewValue
         },
+        date: storeState.search.criteria.date
+          ? {
+              value: storeState.search.criteria.date.value,
+              viewValue: storeState.search.criteria.date.viewValue
+            }
+          : null,
         genre: storeState.search.criteria.genre
           ? {
               value: storeState.search.criteria.genre.value,
@@ -56,7 +66,9 @@ export class SearchEffects {
           : null,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       };
-      this.criteriasRef.doc(<string>storeState.search.criteria.hash).set(hint);
+      const test = new Criteria(hint);
+      console.log('hash', hint.hash);
+      this.criteriasRef.doc(<string>test.hash).set(hint);
 
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
@@ -164,6 +176,50 @@ export class SearchEffects {
     })
   );
 
+  @Effect()
+  setCustomDate: Observable<Action> = this.actions.pipe(
+    ofType(SearchActionTypes.SetDateCriteria),
+    map(action => action),
+    exhaustMap((action: SetDateCriteria) => {
+      if (action.payload.value !== new DateOptions().customDate.value) {
+        return of(new search.SetDateCriteriaConfirmed(action.payload));
+      } else {
+        return this.dialog
+          .open(DatePickerDialogComponent, {
+            data: {
+              item: action.payload
+            }
+          })
+          .afterClosed()
+          .pipe(
+            take(1),
+            map(result => {
+              if (result) {
+                const date = new DateOption({
+                  value: 'date:[20000102 TO 20991231]',
+                  viewValue: 'tester'
+                });
+                return new search.SetDateCriteriaConfirmed(date);
+              } else {
+                return new search.SetDateCriteriaCancelled();
+              }
+            })
+          );
+      }
+    }),
+    catchError(err => of(new search.SearchError(err)))
+  );
+
+  @Effect()
+  setDateCriteriaConfirmed: Observable<Action> = this.actions.pipe(
+    ofType<search.SetDateCriteriaConfirmed>(
+      SearchActionTypes.SetDateCriteriaConfirmed
+    ),
+    map(action => action.payload),
+    map((date: DateOption) => new search.Search()),
+    catchError(err => of(new search.SearchError(err)))
+  );
+
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions.pipe(
     ofType(search.SearchActionTypes.SearchError),
@@ -203,6 +259,7 @@ export class SearchEffects {
 
   constructor(
     private router: Router,
+    public dialog: MatDialog,
     private store: Store<fromRoot.State>,
     private actions: Actions,
     private typeaheadService: TypeaheadService,
@@ -247,6 +304,13 @@ export class SearchEffects {
       storeState.search.criteria.genre.value
     ) {
       filters = [...filters, storeState.search.criteria.genre.value];
+    }
+
+    if (
+      storeState.search.criteria.date &&
+      storeState.search.criteria.date.value
+    ) {
+      filters = [...filters, storeState.search.criteria.date.value];
     }
 
     return filters;

@@ -7,11 +7,11 @@ import {
   OnChanges,
   OnInit,
   Output,
-  Renderer2,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { Criteria } from '../../../models/criteria';
+import { DateOption } from '../../../models/date-options';
 import { Genre } from '../../../models/genre-options.model';
 import { Sort } from '../../../models/sort-options';
 import * as fromSearch from './../../../+state/reducers/search.reducer';
@@ -51,10 +51,11 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() genreChanged = new EventEmitter<Genre>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
+  @Output() dateChanged = new EventEmitter<DateOption>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit() {}
 

@@ -17,6 +17,7 @@ import { SessionService } from './session-service/session.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
 import { TypeaheadService } from './typeahead-service/typeahead.service';
 import { ViewerService } from './viewer-service/viewer.service';
+import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -24,7 +25,7 @@ export function httpFactory(handler: HttpHandler) {
 
 @NgModule({
   imports: [HttpClientModule, SharedModule],
-  declarations: [SwUpdateMessageComponent],
+  declarations: [SwUpdateMessageComponent, DatePickerDialogComponent],
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -37,6 +38,6 @@ export function httpFactory(handler: HttpHandler) {
     CheckForUpdateService,
     AngularFireDatabase
   ],
-  entryComponents: [SwUpdateMessageComponent]
+  entryComponents: [SwUpdateMessageComponent, DatePickerDialogComponent]
 })
 export class CoreModule {}
