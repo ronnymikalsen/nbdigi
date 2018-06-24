@@ -195,6 +195,7 @@ export class SearchEffects {
             take(1),
             map(result => {
               if (result) {
+                console.log('custom date', result);
                 const date = new DateOption({
                   value: 'date:[20000102 TO 20991231]',
                   viewValue: '01.01.2000 - 31.12.2015'
