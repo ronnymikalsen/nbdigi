@@ -197,7 +197,7 @@ export class SearchEffects {
               if (result) {
                 const date = new DateOption({
                   value: 'date:[20000102 TO 20991231]',
-                  viewValue: 'tester'
+                  viewValue: '01.01.2000 - 31.12.2015'
                 });
                 return new search.SetDateCriteriaConfirmed(date);
               } else {

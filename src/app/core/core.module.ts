@@ -18,6 +18,15 @@ import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.
 import { TypeaheadService } from './typeahead-service/typeahead.service';
 import { ViewerService } from './viewer-service/viewer.service';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -29,6 +38,13 @@ export function httpFactory(handler: HttpHandler) {
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'nb-NO' },
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     AuthService,
     SessionService,
     SearchService,

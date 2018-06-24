@@ -75,7 +75,10 @@
     </div>
     <div class="date-container">
       <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="sortOptions" [compareWith]="dateCompareFn" placeholder="Datoområde" [formControl]="dateControl" (selectionChange)="dateChanged.emit($event.value)">
+        <mat-select panelClass="dateOptions" [compareWith]="dateCompareFn" placeholder="Datoområde" [formControl]="dateControl" (selectionChange)="dateChanged.emit($event.value)">
+          <mat-select-trigger>
+            {{dateControl.value.viewValue}}
+          </mat-select-trigger>
           <mat-option *ngFor="let dateOption of dateOptions" [value]="dateOption">
             {{ dateOption.viewValue }}
           </mat-option>

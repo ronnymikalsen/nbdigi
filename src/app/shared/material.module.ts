@@ -21,7 +21,6 @@ import {
   MatSidenavModule,
   MatDatepickerModule
 } from '@angular/material';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   exports: [
@@ -44,8 +43,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     MatMenuModule,
     MatSlideToggleModule,
     MatSidenavModule,
-    MatDatepickerModule,
-    MatMomentDateModule
+    MatDatepickerModule
   ]
 })
 export class MaterialModule {}
