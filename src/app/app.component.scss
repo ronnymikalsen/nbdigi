@@ -16,6 +16,11 @@
   }
 }
 
+.menu-toolbar {
+  border-style: solid;
+  border-color: mat-color($default-primary) transparent transparent transparent;
+}
+
 .accent {
   color: mat-color($default-accent) !important;
 }

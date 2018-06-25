@@ -5,12 +5,23 @@ import {
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthService } from './auth-service/auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
 import { CustomHttp } from './custom-http';
+import { DateAdapter as CustomDateAdapter } from './date-adapter';
 import { FavoriteService } from './favorite-service/favorite.service';
 import { SearchService } from './search-service/search.service';
 import { SessionService } from './session-service/session.service';
@@ -24,10 +35,17 @@ export function httpFactory(handler: HttpHandler) {
 
 @NgModule({
   imports: [HttpClientModule, SharedModule],
-  declarations: [SwUpdateMessageComponent],
+  declarations: [SwUpdateMessageComponent, DatePickerDialogComponent],
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'nb-NO' },
+    {
+      provide: DateAdapter,
+      useClass: CustomDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     AuthService,
     SessionService,
     SearchService,
@@ -37,6 +55,6 @@ export function httpFactory(handler: HttpHandler) {
     CheckForUpdateService,
     AngularFireDatabase
   ],
-  entryComponents: [SwUpdateMessageComponent]
+  entryComponents: [SwUpdateMessageComponent, DatePickerDialogComponent]
 })
 export class CoreModule {}

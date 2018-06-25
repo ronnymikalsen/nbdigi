@@ -1,23 +1,22 @@
 import {
-  Component,
-  OnInit,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
-  ViewChild,
+  Component,
   ElementRef,
-  Renderer2,
-  SimpleChanges
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
-
+import { Criteria } from '../../../models/criteria';
+import { DateOption } from '../../../models/date-options';
+import { Genre } from '../../../models/genre-options.model';
+import { Sort } from '../../../models/sort-options';
 import * as fromSearch from './../../../+state/reducers/search.reducer';
 import { Hint } from './../../../core/typeahead-service/hints.model';
-import { SuperSearchResult, Item } from '../../../models/search-result.model';
 import { MediaTypeResults } from './../../../models/search-result.model';
-import { Criteria } from '../../../models/criteria';
-import { Sort } from '../../../models/sort-options';
 
 @Component({
   selector: 'app-search',
@@ -49,12 +48,14 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() toggleFilter = new EventEmitter<Hint>();
   @Output() mediaTypeChanged = new EventEmitter<string>();
   @Output() sortChanged = new EventEmitter<Sort>();
+  @Output() genreChanged = new EventEmitter<Genre>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
+  @Output() dateChanged = new EventEmitter<DateOption>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit() {}
 

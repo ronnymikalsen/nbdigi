@@ -18,6 +18,19 @@ mat-chip {
   min-width: 250px;
 }
 
+.genre-container {
+  margin-left: 8px;
+}
+
 .sort-container {
   margin-left: 8px;
+}
+
+.search-options-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+::ng-deep .mat-select-panel {
+  overflow: initial !important;
 }

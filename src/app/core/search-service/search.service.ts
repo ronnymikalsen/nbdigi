@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { environment } from '../../../environments/environment';
+import {
+  BucketResponse,
+  ItemResponse,
+  ItemsResponse,
+  MediaTypeResponse
+} from './../../models/items-response.model';
 import { SearchCriteria } from './../../models/search-criteria.model';
 import {
-  ItemsResponse,
-  ItemResponse,
-  MediaTypeResponse,
-  BucketResponse
-} from './../../models/items-response.model';
-import {
-  SuperSearchResult,
   Item,
-  MediaTypeResults
+  MediaTypeResults,
+  SuperSearchResult
 } from './../../models/search-result.model';
-import { QueryBuilder } from './../../builders/query-builder';
+import { QueryBuilder } from './../builders/query-builder';
 
 @Injectable()
 export class SearchService {
@@ -193,6 +192,10 @@ export class SearchService {
   private extractItem(i: ItemResponse): Item {
     return new Item({
       id: i.id,
+      mediaType:
+        i.metadata.mediaTypes && i.metadata.mediaTypes.length > 0
+          ? i.metadata.mediaTypes[0]
+          : null,
       title: i.metadata.title,
       creator: i.metadata.creators ? i.metadata.creators[0] : null,
       issued: i.metadata.originInfo ? i.metadata.originInfo.issued : null,

@@ -1,18 +1,7 @@
-import { map } from 'rxjs/operators';
-
+import { MediaTypeResults } from '../../models/search-result.model';
+import { Hints } from './../../core/typeahead-service/hints.model';
 import { Criteria } from './../../models/criteria';
-import { MediaTypeCount } from './../../models/media-types-count';
-import { Hints, Hint } from './../../core/typeahead-service/hints.model';
-import {
-  SearchAction,
-  SearchActionTypes,
-  SearchError
-} from './../actions/search.actions';
-import {
-  SuperSearchResult,
-  MediaTypeResults
-} from '../../models/search-result.model';
-import { LinkResponse } from '../../models/items-response.model';
+import { SearchAction, SearchActionTypes } from './../actions/search.actions';
 
 export interface State {
   criteria: Criteria;
@@ -80,6 +69,12 @@ export function reducer(state = initialState, action: SearchAction): State {
       if (action.payload.sort) {
         newCriteria.sort = action.payload.sort;
       }
+      if (action.payload.genre) {
+        newCriteria.genre = action.payload.genre;
+      }
+      if (action.payload.date) {
+        newCriteria.date = action.payload.date;
+      }
       if (action.payload.filters) {
         newCriteria.filters = [...action.payload.filters];
       }
@@ -90,6 +85,8 @@ export function reducer(state = initialState, action: SearchAction): State {
           q: newCriteria.q,
           mediaType: newCriteria.mediaType,
           sort: newCriteria.sort,
+          genre: newCriteria.genre,
+          date: newCriteria.date,
           filters: newCriteria.filters
         })
       };
@@ -101,8 +98,19 @@ export function reducer(state = initialState, action: SearchAction): State {
           q: action.payload.q,
           mediaType: action.payload.mediaType,
           sort: action.payload.sort,
+          genre: action.payload.genre,
+          date: action.payload.date,
           filters: action.payload.filters
         })
+      };
+    }
+    case SearchActionTypes.SetDateCriteriaConfirmed: {
+      return {
+        ...state,
+        criteria: {
+          ...state.criteria,
+          date: action.payload
+        }
       };
     }
     case SearchActionTypes.Search: {
@@ -412,6 +420,8 @@ export const pristine = (state: State) => {
     state.criteria.q === initialState.criteria.q &&
     state.criteria.mediaType === initialState.criteria.mediaType &&
     state.criteria.filters === initialState.criteria.filters &&
+    state.criteria.genre === initialState.criteria.genre &&
+    state.criteria.date === initialState.criteria.date &&
     state.criteria.sort === initialState.criteria.sort
   );
 };

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ItemsSectionModule } from '../items-section/items-section.module';
+import { ItemsSectionModule } from '../shared/items-section/items-section.module';
 import { SharedModule } from '../shared/shared.module';
 import { CreateFavoriteListComponent } from './components/create-favorite-list/create-favorite-list.component';
 import { FavoriteListComponent } from './components/favorite-list/favorite-list.component';

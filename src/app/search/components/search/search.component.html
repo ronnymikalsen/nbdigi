@@ -1,7 +1,8 @@
 <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
   <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching($event)"
     (addFilter)="addFilter.emit($event)" (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
-    (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (debugChanged)="debugChanged.emit($event)">
+    (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (genreChanged)="genreChanged.emit($event)"
+    (debugChanged)="debugChanged.emit($event)" (dateChanged)="dateChanged.emit($event)">
   </app-toolbar>
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
@@ -41,8 +42,8 @@
         <app-media-type-button [mediaType]="programReports?.mediaType" [counts]="programReports?.counts" (selected)="mediaTypeChanged.emit($event)"></app-media-type-button>
       </div>
 
-      <app-items-section [label]="'andre'" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'others'"
-        [showMoreButton]="false" tabindex="0"></app-items-section>
+      <app-items-section [label]="'andre'" asList="true" [mediaTypeResults]="others" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
+        [selected]="search.criteria.mediaType === 'others'" [showMoreButton]="false" tabindex="0"></app-items-section>
       <app-items-section [label]="createLabel(maps?.mediaType, maps?.counts)" [mediaTypeResults]="maps" (mediaTypeChanged)="mediaTypeChanged.emit($event)"
         [selected]="search.criteria.mediaType === 'kart'" [showMoreButton]="!search.criteria.mediaType" [showToolbar]="!search.criteria.mediaType"
         [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>

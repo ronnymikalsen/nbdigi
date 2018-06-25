@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material';
+import { DateAdapter, MatDialog, MatSnackBar } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -11,16 +12,20 @@ import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
+  exhaustMap,
   filter,
   map,
   mergeMap,
   switchMap,
+  take,
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-
+import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
+import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import * as search from '../actions/search.actions';
+import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
 import { SearchService } from './../../core/search-service/search.service';
 import { Hint, Hints } from './../../core/typeahead-service/hints.model';
 import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
@@ -37,7 +42,6 @@ export class SearchEffects {
     tap(() => this.router.navigate(['/search'])),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
-      const hints = new Hints();
       const filters = this.addAllFilters(storeState);
 
       const hint = {
@@ -49,9 +53,22 @@ export class SearchEffects {
           value: storeState.search.criteria.sort.value,
           viewValue: storeState.search.criteria.sort.viewValue
         },
+        date: storeState.search.criteria.date
+          ? {
+              value: storeState.search.criteria.date.value,
+              viewValue: storeState.search.criteria.date.viewValue
+            }
+          : null,
+        genre: storeState.search.criteria.genre
+          ? {
+              value: storeState.search.criteria.genre.value,
+              viewValue: storeState.search.criteria.genre.viewValue
+            }
+          : null,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       };
-      this.criteriasRef.doc(<string>storeState.search.criteria.hash).set(hint);
+      const createHash = new Criteria(hint);
+      this.criteriasRef.doc(<string>createHash.hash).set(hint);
 
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
@@ -159,6 +176,75 @@ export class SearchEffects {
     })
   );
 
+  @Effect()
+  setCustomDate: Observable<Action> = this.actions.pipe(
+    ofType(SearchActionTypes.SetDateCriteria),
+    map(action => action),
+    withLatestFrom(this.store),
+    exhaustMap(([action, storeState]) => {
+      const payload = (<SetDateCriteria>action).payload;
+      if (payload.value !== new DateOptions().customDate.value) {
+        return of(new search.SetDateCriteriaConfirmed(payload));
+      } else {
+        return this.dialog
+          .open(DatePickerDialogComponent, {
+            data: {
+              item: storeState.search.criteria.date
+            }
+          })
+          .afterClosed()
+          .pipe(
+            take(1),
+            map(result => {
+              if (result) {
+                const viewFormat = 'll';
+                const searchApiFormat = 'YYYYMMDD';
+                const fromDate = result.fromDate
+                  ? result.fromDate
+                  : this.dateAdapter.createDate(1, 0, 1);
+                const toDate = result.toDate
+                  ? result.toDate
+                  : this.dateAdapter.today();
+                const fromDateSearchFormat = fromDate.format(searchApiFormat);
+                const toDateSearchFormat = toDate.format(searchApiFormat);
+                let dateViewLabel: string;
+                if (result.fromDate && result.toDate) {
+                  dateViewLabel = `${fromDate.format(
+                    viewFormat
+                  )} - ${toDate.format(viewFormat)}`;
+                } else if (result.fromDate) {
+                  dateViewLabel = `Etter ${fromDate.format(viewFormat)}`;
+                } else {
+                  dateViewLabel = `Før ${toDate.format(viewFormat)}`;
+                }
+                const date = new DateOption({
+                  type: 'custom',
+                  fromDate: fromDateSearchFormat,
+                  toDate: toDateSearchFormat,
+                  value: `date:[${fromDateSearchFormat} TO ${toDateSearchFormat}]`,
+                  viewValue: `${dateViewLabel}`
+                });
+                return new search.SetDateCriteriaConfirmed(date);
+              } else {
+                return new search.SetDateCriteriaCancelled();
+              }
+            })
+          );
+      }
+    }),
+    catchError(err => of(new search.SearchError(err)))
+  );
+
+  @Effect()
+  setDateCriteriaConfirmed: Observable<Action> = this.actions.pipe(
+    ofType<search.SetDateCriteriaConfirmed>(
+      SearchActionTypes.SetDateCriteriaConfirmed
+    ),
+    map(action => action.payload),
+    map((date: DateOption) => new search.Search()),
+    catchError(err => of(new search.SearchError(err)))
+  );
+
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions.pipe(
     ofType(search.SearchActionTypes.SearchError),
@@ -198,12 +284,14 @@ export class SearchEffects {
 
   constructor(
     private router: Router,
+    public dialog: MatDialog,
     private store: Store<fromRoot.State>,
     private actions: Actions,
     private typeaheadService: TypeaheadService,
     private searchService: SearchService,
     public snackBar: MatSnackBar,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private dateAdapter: DateAdapter<MomentDateAdapter>
   ) {
     this.store
       .select(fromRoot.currentUser)
@@ -236,6 +324,20 @@ export class SearchEffects {
     }
     filters = [...filters, 'digital:Ja'];
     filters = [...filters, 'contentClasses:jp2'];
+
+    if (
+      storeState.search.criteria.genre &&
+      storeState.search.criteria.genre.value
+    ) {
+      filters = [...filters, storeState.search.criteria.genre.value];
+    }
+
+    if (
+      storeState.search.criteria.date &&
+      storeState.search.criteria.date.value
+    ) {
+      filters = [...filters, storeState.search.criteria.date.value];
+    }
 
     return filters;
   }

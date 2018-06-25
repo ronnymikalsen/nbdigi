@@ -1,13 +1,8 @@
 import { Action } from '@ngrx/store';
-
-import {
-  SuperSearchResult,
-  MediaTypeResults
-} from './../../models/search-result.model';
-import { Hints, Hint } from './../../core/typeahead-service/hints.model';
-import { SearchCriteria } from '../../models/search-criteria.model';
-import { Sort } from '../../models/sort-options';
 import { Criteria } from '../../models/criteria';
+import { DateOption } from '../../models/date-options';
+import { Hint, Hints } from './../../core/typeahead-service/hints.model';
+import { SuperSearchResult } from './../../models/search-result.model';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -25,7 +20,11 @@ export enum SearchActionTypes {
   LoadMoreSuccess = '[Search] Load more success',
   ClearAll = '[Search] Clear all',
   SetCriteria = '[Search] Set criteria',
-  UpdateCriteria = '[Search] Update criteria'
+  UpdateCriteria = '[Search] Update criteria',
+  OpenDatePickerDialog = '[Search] Open date dialog',
+  SetDateCriteria = '[Search] Set date criteria',
+  SetDateCriteriaConfirmed = '[Search] Set date criteria confimred',
+  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled'
 }
 
 export class Search implements Action {
@@ -116,6 +115,30 @@ export class UpdateCriteria implements Action {
   constructor(public payload: Criteria) {}
 }
 
+export class OpenDatePickerDialog implements Action {
+  readonly type = SearchActionTypes.OpenDatePickerDialog;
+
+  constructor() {}
+}
+
+export class SetDateCriteria implements Action {
+  readonly type = SearchActionTypes.SetDateCriteria;
+
+  constructor(public payload: DateOption) {}
+}
+
+export class SetDateCriteriaConfirmed implements Action {
+  readonly type = SearchActionTypes.SetDateCriteriaConfirmed;
+
+  constructor(public payload: DateOption) {}
+}
+
+export class SetDateCriteriaCancelled implements Action {
+  readonly type = SearchActionTypes.SetDateCriteriaCancelled;
+
+  constructor() {}
+}
+
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -132,4 +155,8 @@ export type SearchAction =
   | LoadMore
   | ClearAll
   | SetCriteria
-  | UpdateCriteria;
+  | UpdateCriteria
+  | OpenDatePickerDialog
+  | SetDateCriteria
+  | SetDateCriteriaConfirmed
+  | SetDateCriteriaCancelled;

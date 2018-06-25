@@ -18,7 +18,8 @@ import {
   MatTabsModule,
   MatMenuModule,
   MatSlideToggleModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatDatepickerModule
 } from '@angular/material';
 
 @NgModule({
@@ -41,7 +42,8 @@ import {
     MatTabsModule,
     MatMenuModule,
     MatSlideToggleModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDatepickerModule
   ]
 })
 export class MaterialModule {}

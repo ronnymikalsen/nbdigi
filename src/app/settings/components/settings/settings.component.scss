@@ -2,3 +2,13 @@
   height: calc(100% - 64px);
   overflow: auto;
 }
+
+.person,
+.theme,
+.logout {
+  margin: 8px 16px;
+}
+
+mat-icon {
+  margin-right: 8px;
+}

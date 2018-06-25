@@ -1,11 +1,10 @@
-import { ItemsSectionModule } from './../items-section/items-section.module';
 import { NgModule } from '@angular/core';
-
+import { SearchBoxModule } from '../shared/search-box/search-box.module';
 import { SharedModule } from '../shared/shared.module';
-import { HomeRoutingModule } from './home-routing.module';
-import { HomePageComponent } from './containers/home-page';
+import { ItemsSectionModule } from './../shared/items-section/items-section.module';
 import { HomeComponent } from './components/home/home.component';
-import { SearchBoxModule } from '../search-box/search-box.module';
+import { HomePageComponent } from './containers/home-page';
+import { HomeRoutingModule } from './home-routing.module';
 
 @NgModule({
   imports: [

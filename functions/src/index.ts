@@ -5,7 +5,7 @@ admin.initializeApp(functions.config().firebase);
 
 export const updateFavorite = functions.firestore
   .document('users/{userId}/items/{messageId}')
-  .onWrite(
+  .onUpdate(
     (
       snapshot: functions.Change<FirebaseFirestore.DocumentSnapshot>,
       context: functions.EventContext

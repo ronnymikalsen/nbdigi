@@ -19,7 +19,7 @@
   </mat-toolbar-row>
 </mat-toolbar>
 <mat-toolbar>
-  <div fxLayout="row" fxLayoutAlign="start center">
+  <div class="search-options-container" fxLayout="row" fxLayoutAlign="start center">
     <app-debug [isDebugOn]="isDebugOn" [href]="search.searchResult.selfLink"></app-debug>
     <div>
       <mat-form-field class="mediaTypeSelect" [floatLabel]="'never'">
@@ -63,10 +63,33 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="sort-container">
+    <div class="genre-container">
       <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="sortOptions" [compareWith]="compareFn" [formControl]="sortControl" placeholder="Sortering" (selectionChange)="sortChanged.emit($event.value)">
-          <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
+        <mat-select panelClass="genreOptions" [compareWith]="genreCompareFn" [formControl]="genreControl" placeholder="Sjangre" (selectionChange)="genreChanged.emit($event.value)">
+          <mat-option>Ingen</mat-option>
+          <mat-option *ngFor="let genreOption of genreOptions" [value]="genreOption">
+            {{ genreOption.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="date-container">
+      <mat-form-field [floatLabel]="'never'">
+        <mat-select panelClass="dateOptions" [compareWith]="dateCompareFn" placeholder="Datoområde" [formControl]="dateControl">
+          <mat-select-trigger>
+            {{dateControl.value.viewValue}}
+          </mat-select-trigger>
+          <mat-option *ngFor="let dateOption of dateOptions" [value]="dateOption" (click)="dateChanged.emit(dateOption)">
+            {{ dateOption.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="sort-container ">
+      <mat-form-field [floatLabel]=" 'never' ">
+        <mat-select panelClass="sortOptions " [compareWith]="sortCompareFn " [formControl]="sortControl " placeholder="Sortering"
+          (selectionChange)="sortChanged.emit($event.value) ">
+          <mat-option *ngFor="let sortOption of sortOptions " [value]="sortOption ">
             {{ sortOption.viewValue }}
           </mat-option>
         </mat-select>

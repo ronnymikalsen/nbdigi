@@ -14,4 +14,4 @@
   (mediaTypeChanged)="showMorePeriodicals.emit()" tabindex="0"></app-items-section>
 <app-items-section [label]="'Nye bilder'" [mediaTypeResults]="newPhotos" [showMoreButton]="true" [isDebugOn]="isDebugOn"
   (mediaTypeChanged)="showMorePhotos.emit()" tabindex="0"></app-items-section>
-<app-items-section [label]="'Andre nyheter'" [mediaTypeResults]="newOthers" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+<app-items-section [label]="'Andre nyheter'" asList="true" [mediaTypeResults]="newOthers" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
