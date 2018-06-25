@@ -13,7 +13,7 @@ export class DateFormatPipe implements PipeTransform {
   transform(
     date: string,
     fromFormat: string = 'YYYYMMDD',
-    toFormat: string = 'D. MMM YYYY'
+    toFormat: string = 'll'
   ): string {
     if (date && date.length === 8) {
       return moment(date, fromFormat).format(toFormat);

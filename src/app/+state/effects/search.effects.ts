@@ -197,7 +197,7 @@ export class SearchEffects {
             take(1),
             map(result => {
               if (result) {
-                const viewFormat = 'D.MMM YYYY';
+                const viewFormat = 'll';
                 const searchApiFormat = 'YYYYMMDD';
                 const fromDate = result.fromDate
                   ? result.fromDate
