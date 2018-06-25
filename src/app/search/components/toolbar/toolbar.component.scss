@@ -30,3 +30,7 @@ mat-chip {
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+::ng-deep .mat-select-panel {
+  overflow: initial !important;
+}

@@ -5,28 +5,29 @@ import {
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthService } from './auth-service/auth.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
 import { CustomHttp } from './custom-http';
+import { DateAdapter as CustomDateAdapter } from './date-adapter';
 import { FavoriteService } from './favorite-service/favorite.service';
 import { SearchService } from './search-service/search.service';
 import { SessionService } from './session-service/session.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
 import { TypeaheadService } from './typeahead-service/typeahead.service';
 import { ViewerService } from './viewer-service/viewer.service';
-import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter
-} from '@angular/material-moment-adapter';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);
@@ -41,7 +42,7 @@ export function httpFactory(handler: HttpHandler) {
     { provide: MAT_DATE_LOCALE, useValue: 'nb-NO' },
     {
       provide: DateAdapter,
-      useClass: MomentDateAdapter,
+      useClass: CustomDateAdapter,
       deps: [MAT_DATE_LOCALE]
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },

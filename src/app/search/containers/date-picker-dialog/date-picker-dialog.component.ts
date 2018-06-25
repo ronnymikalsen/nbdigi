@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef, DateAdapter } from '@angular/material';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  DateAdapter,
+  MatDatepickerInputEvent
+} from '@angular/material';
 import { DateOptions } from '../../../models/date-options';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
@@ -61,5 +66,25 @@ export class DatePickerDialogComponent implements OnInit {
       fromDate: this.fromDate,
       toDate: this.toDate
     });
+  }
+
+  fromDateParser(event: MatDatepickerInputEvent<Date>) {
+    const value = (<HTMLInputElement>event.targetElement).value;
+    const reg = new RegExp(/^\d{4}$/);
+    if (reg.test(value)) {
+      this.fromDate.patchValue(
+        this.dateAdapter.createDate(parseInt(value, 10), 0, 1)
+      );
+    }
+  }
+
+  toDateParser(event: MatDatepickerInputEvent<Date>) {
+    const value = (<HTMLInputElement>event.targetElement).value;
+    const reg = new RegExp(/^\d{4}$/);
+    if (reg.test(value)) {
+      this.toDate.patchValue(
+        this.dateAdapter.createDate(parseInt(value, 10), 11, 31)
+      );
+    }
   }
 }

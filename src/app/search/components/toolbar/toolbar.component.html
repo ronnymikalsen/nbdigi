@@ -87,8 +87,8 @@
     </div>
     <div class="sort-container ">
       <mat-form-field [floatLabel]=" 'never' ">
-        <mat-select panelClass="sortOptions " [compareWith]="sortCompareFn " [formControl]="sortControl " placeholder="Sortering
-            " (selectionChange)="sortChanged.emit($event.value) ">
+        <mat-select panelClass="sortOptions " [compareWith]="sortCompareFn " [formControl]="sortControl " placeholder="Sortering"
+          (selectionChange)="sortChanged.emit($event.value) ">
           <mat-option *ngFor="let sortOption of sortOptions " [value]="sortOption ">
             {{ sortOption.viewValue }}
           </mat-option>
