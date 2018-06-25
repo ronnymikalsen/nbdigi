@@ -92,7 +92,6 @@ export class QueryBuilder {
     if (this.sort) {
       params.push(`sort=${this.sort}`);
     }
-    params.push(`sort=date,desc`);
 
     const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);
     params.push(...aggsParams);
