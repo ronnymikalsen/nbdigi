@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { DateAdapter, MatDialog, MatSnackBar } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -66,9 +67,8 @@ export class SearchEffects {
           : null,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       };
-      const test = new Criteria(hint);
-      console.log('hash', hint.hash);
-      this.criteriasRef.doc(<string>test.hash).set(hint);
+      const createHash = new Criteria(hint);
+      this.criteriasRef.doc(<string>createHash.hash).set(hint);
 
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
@@ -180,14 +180,16 @@ export class SearchEffects {
   setCustomDate: Observable<Action> = this.actions.pipe(
     ofType(SearchActionTypes.SetDateCriteria),
     map(action => action),
-    exhaustMap((action: SetDateCriteria) => {
-      if (action.payload.value !== new DateOptions().customDate.value) {
-        return of(new search.SetDateCriteriaConfirmed(action.payload));
+    withLatestFrom(this.store),
+    exhaustMap(([action, storeState]) => {
+      const payload = (<SetDateCriteria>action).payload;
+      if (payload.value !== new DateOptions().customDate.value) {
+        return of(new search.SetDateCriteriaConfirmed(payload));
       } else {
         return this.dialog
           .open(DatePickerDialogComponent, {
             data: {
-              item: action.payload
+              item: storeState.search.criteria.date
             }
           })
           .afterClosed()
@@ -195,10 +197,32 @@ export class SearchEffects {
             take(1),
             map(result => {
               if (result) {
-                console.log('custom date', result);
+                const viewFormat = 'D.MMM YYYY';
+                const searchApiFormat = 'YYYYMMDD';
+                const fromDate = result.fromDate
+                  ? result.fromDate
+                  : this.dateAdapter.createDate(1, 0, 1);
+                const toDate = result.toDate
+                  ? result.toDate
+                  : this.dateAdapter.today();
+                const fromDateSearchFormat = fromDate.format(searchApiFormat);
+                const toDateSearchFormat = toDate.format(searchApiFormat);
+                let dateViewLabel: string;
+                if (result.fromDate && result.toDate) {
+                  dateViewLabel = `${fromDate.format(
+                    viewFormat
+                  )} - ${toDate.format(viewFormat)}`;
+                } else if (result.fromDate) {
+                  dateViewLabel = `Etter ${fromDate.format(viewFormat)}`;
+                } else {
+                  dateViewLabel = `Før ${toDate.format(viewFormat)}`;
+                }
                 const date = new DateOption({
-                  value: 'date:[20000102 TO 20991231]',
-                  viewValue: '01.01.2000 - 31.12.2015'
+                  type: 'custom',
+                  fromDate: fromDateSearchFormat,
+                  toDate: toDateSearchFormat,
+                  value: `date:[${fromDateSearchFormat} TO ${toDateSearchFormat}]`,
+                  viewValue: `${dateViewLabel}`
                 });
                 return new search.SetDateCriteriaConfirmed(date);
               } else {
@@ -266,7 +290,8 @@ export class SearchEffects {
     private typeaheadService: TypeaheadService,
     private searchService: SearchService,
     public snackBar: MatSnackBar,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private dateAdapter: DateAdapter<MomentDateAdapter>
   ) {
     this.store
       .select(fromRoot.currentUser)

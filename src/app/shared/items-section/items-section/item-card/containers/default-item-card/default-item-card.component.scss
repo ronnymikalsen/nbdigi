@@ -12,7 +12,7 @@
 .metadata-container {
   font-family: 'Roboto Condensed';
   min-height: 60px;
-  padding: 7px 10px 0;
+  padding: 7px 0px 10px 7px;
   overflow: hidden;
 }
 
@@ -22,11 +22,11 @@
 }
 
 .title {
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .creator,
 .issued {
-  font-size: 13px;
+  font-size: 10px;
   line-height: 16px;
 }

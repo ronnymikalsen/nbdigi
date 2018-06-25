@@ -75,20 +75,21 @@
     </div>
     <div class="date-container">
       <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="dateOptions" [compareWith]="dateCompareFn" placeholder="Datoområde" [formControl]="dateControl" (selectionChange)="dateChanged.emit($event.value)">
+        <mat-select panelClass="dateOptions" [compareWith]="dateCompareFn" placeholder="Datoområde" [formControl]="dateControl">
           <mat-select-trigger>
             {{dateControl.value.viewValue}}
           </mat-select-trigger>
-          <mat-option *ngFor="let dateOption of dateOptions" [value]="dateOption">
+          <mat-option *ngFor="let dateOption of dateOptions" [value]="dateOption" (click)="dateChanged.emit(dateOption)">
             {{ dateOption.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="sort-container">
-      <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="sortOptions" [compareWith]="sortCompareFn" [formControl]="sortControl" placeholder="Sortering" (selectionChange)="sortChanged.emit($event.value)">
-          <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
+    <div class="sort-container ">
+      <mat-form-field [floatLabel]=" 'never' ">
+        <mat-select panelClass="sortOptions " [compareWith]="sortCompareFn " [formControl]="sortControl " placeholder="Sortering
+            " (selectionChange)="sortChanged.emit($event.value) ">
+          <mat-option *ngFor="let sortOption of sortOptions " [value]="sortOption ">
             {{ sortOption.viewValue }}
           </mat-option>
         </mat-select>
