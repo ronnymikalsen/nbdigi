@@ -1,5 +1,6 @@
+import { MediaMatcher } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
@@ -12,8 +13,10 @@ import { SessionService } from './core/session-service/session.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   currentTheme: string;
+  mobileQuery: MediaQueryList;
+  private mobileQueryListener: () => void;
 
   constructor(
     private updates: CheckForUpdateService,
@@ -21,7 +24,9 @@ export class AppComponent implements OnInit {
     private iconRegistry: MatIconRegistry,
     private sanitizer: DomSanitizer,
     private store: Store<fromRoot.State>,
-    private overlayContainer: OverlayContainer
+    private overlayContainer: OverlayContainer,
+    media: MediaMatcher,
+    changeDetectorRef: ChangeDetectorRef
   ) {
     iconRegistry.addSvgIcon(
       'logo',
@@ -31,6 +36,9 @@ export class AppComponent implements OnInit {
       'google',
       sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg')
     );
+    this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
+    this.mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this.mobileQueryListener);
     this.store.select(fromRoot.currentTheme).subscribe(theme => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
@@ -46,5 +54,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.updates.init();
     this.sessionService.init();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeListener(this.mobileQueryListener);
   }
 }
