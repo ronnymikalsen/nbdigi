@@ -25,7 +25,7 @@
       <mat-form-field class="mediaTypeSelect" [floatLabel]="'never'">
         <mat-select panelClass="mediaTypeOptions" [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediaTypeChanged.emit($event.value)">
           <mat-select-trigger>
-            <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount}})</div>
+            <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount | number:'':'nb_NO'}})</div>
           </mat-select-trigger>
           <mat-option [value]="'alle'">
             <app-media-type-option [mediaType]="'Alle'" [count]="search.searchResult.totalElements"></app-media-type-option>
