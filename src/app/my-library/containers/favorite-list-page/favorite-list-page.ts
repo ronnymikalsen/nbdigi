@@ -6,8 +6,8 @@ import { map, filter } from 'rxjs/operators';
 
 import { FavoriteService } from '../../../core/favorite-service/favorite.service';
 import { Item, MediaTypeResults } from '../../../models/search-result.model';
-import * as favoriteActions from './../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../+state/reducers';
+import * as favoriteActions from '../../../+state/actions/favorite.actions';
+import * as fromRoot from '../../../+state/reducers';
 import { FavoriteList } from '../../../models/favorite-list';
 
 @Component({

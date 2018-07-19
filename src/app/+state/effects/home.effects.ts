@@ -11,10 +11,10 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 import * as home from '../actions/home.actions';
 import { SearchCriteria } from '../../models/search-criteria.model';
-import { SearchService } from './../../core/search-service/search.service';
+import { SearchService } from '../../core/search-service/search.service';
 import { SortOptions } from '../../models/sort-options';
 
 @Injectable()

@@ -2,9 +2,9 @@ import {
   AuthAction,
   AuthActionTypes,
   AuthError
-} from './../actions/session.actions';
-import { User } from './../../models/user.model';
-import { AuthError as AuthErrorModel } from './../../models/auth-error.model';
+} from '../actions/session.actions';
+import { User } from '../../models/user.model';
+import { AuthError as AuthErrorModel } from '../../models/auth-error.model';
 
 export interface State {
   user?: User;

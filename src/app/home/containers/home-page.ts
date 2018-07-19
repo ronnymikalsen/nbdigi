@@ -7,12 +7,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import * as fromRoot from './../../+state/reducers';
-import * as itemAction from './../../+state/actions/item.actions';
-import * as searchAction from './../../+state/actions/search.actions';
-import * as homeAction from './../../+state/actions/home.actions';
-import { Item, MediaTypeResults } from './../../models/search-result.model';
-import { User } from './../../models/user.model';
+import * as fromRoot from '../../+state/reducers';
+import * as itemAction from '../../+state/actions/item.actions';
+import * as searchAction from '../../+state/actions/search.actions';
+import * as homeAction from '../../+state/actions/home.actions';
+import { Item, MediaTypeResults } from '../../models/search-result.model';
+import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { SortOptions } from '../../models/sort-options';
 

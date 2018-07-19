@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Criteria } from './../../../models/criteria';
+import { Criteria } from '../../../models/criteria';
 
 @Component({
   selector: 'app-search-activity',

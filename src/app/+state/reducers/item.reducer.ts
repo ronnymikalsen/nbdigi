@@ -1,5 +1,5 @@
 import { Item } from '../../models/search-result.model';
-import { ItemAction, ItemActionTypes } from './../actions/item.actions';
+import { ItemAction, ItemActionTypes } from '../actions/item.actions';
 
 export interface State {
   currentItem?: Item;

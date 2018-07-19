@@ -11,7 +11,7 @@ import {
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { Subscription } from 'rxjs';
 import { FavoriteList } from '../../../models/favorite-list';
-import { MediaTypeResults } from './../../../models/search-result.model';
+import { MediaTypeResults } from '../../../models/search-result.model';
 import { SizeStrategyFactory } from './size-strategy.factory';
 
 @Component({

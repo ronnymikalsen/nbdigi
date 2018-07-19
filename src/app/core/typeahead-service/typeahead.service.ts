@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { SearchCriteria } from '../../models/search-criteria.model';
-import { QueryBuilder } from './../builders/query-builder';
+import { QueryBuilder } from '../builders/query-builder';
 import { Hint } from './hints.model';
 import { TypeaheadResponse } from './typeahead.response';
 

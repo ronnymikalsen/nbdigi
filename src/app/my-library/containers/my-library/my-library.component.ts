@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { Item, MediaTypeResults } from '../../../models/search-result.model';
-import * as favoriteActions from './../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../+state/reducers';
-import { FavoriteList } from './../../../models/favorite-list';
+import * as favoriteActions from '../../../+state/actions/favorite.actions';
+import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList } from '../../../models/favorite-list';
 
 @Component({
   selector: 'app-my-library',

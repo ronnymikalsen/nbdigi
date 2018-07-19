@@ -2,11 +2,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromRoot from './../../+state/reducers';
-import * as fromSession from './../../+state/reducers/session.reducer';
-import * as sessionAction from './../../+state/actions/session.actions';
-import * as session from './../../+state/actions/session.actions';
-import { Hint } from './../../core/typeahead-service/hints.model';
+import * as fromRoot from '../../+state/reducers';
+import * as fromSession from '../../+state/reducers/session.reducer';
+import * as sessionAction from '../../+state/actions/session.actions';
+import * as session from '../../+state/actions/session.actions';
+import { Hint } from '../../core/typeahead-service/hints.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

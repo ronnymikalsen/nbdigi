@@ -1,10 +1,10 @@
-import { FavoriteList } from './../../models/favorite-list';
+import { FavoriteList } from '../../models/favorite-list';
 import {
   FavoriteAction,
   FavoriteActionTypes
-} from './../actions/favorite.actions';
-import { User } from './../../models/user.model';
-import { AuthError as AuthErrorModel } from './../../models/auth-error.model';
+} from '../actions/favorite.actions';
+import { User } from '../../models/user.model';
+import { AuthError as AuthErrorModel } from '../../models/auth-error.model';
 
 export interface State {
   selected: string;

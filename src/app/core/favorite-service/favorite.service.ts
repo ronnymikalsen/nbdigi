@@ -4,14 +4,14 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
-import { Md5 } from 'ts-md5/dist/md5';
-import * as firebase from 'firebase/app';
+import { Md5 } from 'ts-md5';
+import * as firebase from 'firebase';
 import { filter, take, map, tap } from 'rxjs/operators';
 
-import * as fromRoot from './../../+state/reducers';
+import * as fromRoot from '../../+state/reducers';
 import * as favoriteAction from '../../+state/actions/favorite.actions';
-import { FavoriteList } from './../../models/favorite-list';
-import { User } from './../../models/user.model';
+import { FavoriteList } from '../../models/favorite-list';
+import { User } from '../../models/user.model';
 import { Item } from '../../models/search-result.model';
 import { Observable } from 'rxjs';
 

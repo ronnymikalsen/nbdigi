@@ -8,7 +8,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { User } from '../../models/user.model';
 import * as session from '../../+state/actions/session.actions';
 import { Store } from '@ngrx/store';
-import * as fromRoot from './../../+state/reducers';
+import * as fromRoot from '../../+state/reducers';
 
 @Injectable()
 export class SessionService {

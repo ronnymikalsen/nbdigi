@@ -1,6 +1,6 @@
-import * as firebase from 'firebase/app';
-import { Md5 } from 'ts-md5/dist/md5';
-import { Hint } from './../core/typeahead-service/hints.model';
+import * as firebase from 'firebase';
+import { Md5 } from 'ts-md5';
+import { Hint } from '../core/typeahead-service/hints.model';
 import { DateOption, DateOptions } from './date-options';
 import { Genre } from './genre-options.model';
 import { Sort, SortOptions } from './sort-options';

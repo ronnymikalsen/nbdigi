@@ -1,4 +1,4 @@
-import { isDebugOn } from './../reducers/index';
+import { isDebugOn } from '../reducers';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import {
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
 
-import * as fromAuth from './../reducers/session.reducer';
+import * as fromAuth from '../reducers/session.reducer';
 import {
   AuthActionTypes,
   SignUpWithEmailAndPassword,
@@ -26,10 +26,10 @@ import {
   SignInWithEmailAndPasswordSuccess,
   SendPasswordResetEmail,
   SendPasswordResetEmaildSuccess
-} from './../actions/session.actions';
-import { AuthService } from './../../core/auth-service/auth.service';
+} from '../actions/session.actions';
+import { AuthService } from '../../core/auth-service/auth.service';
 import { User } from '../../models/user.model';
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 import { SessionService } from '../../core/session-service/session.service';
 
 @Injectable()

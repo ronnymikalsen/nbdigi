@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import { Item, MediaTypeResults } from './../../../models/search-result.model';
+import { Item, MediaTypeResults } from '../../../models/search-result.model';
 
 @Component({
   selector: 'app-home',

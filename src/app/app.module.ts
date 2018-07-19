@@ -11,6 +11,7 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -58,6 +59,7 @@ registerLocaleData(localeNo);
       enabled: environment.production
     }),
     InfiniteScrollModule,
+    NgxChartsModule,
     SharedModule,
     ViewerModule
   ],

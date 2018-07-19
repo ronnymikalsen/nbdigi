@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Criteria } from './../../../models/criteria';
-import { Item } from './../../../models/search-result.model';
+import { Criteria } from '../../../models/criteria';
+import { Item } from '../../../models/search-result.model';
 
 @Component({
   selector: 'app-my-activity',

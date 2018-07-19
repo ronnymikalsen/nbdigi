@@ -13,10 +13,11 @@ import {
 
 import { MaterialModule } from './material.module';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [DateFormatPipe],
-  imports: [MaterialModule, LazyLoadImagesModule],
+  imports: [MaterialModule, LazyLoadImagesModule, NgxChartsModule],
   exports: [
     CommonModule,
     ReactiveFormsModule,
@@ -26,7 +27,8 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     InfiniteScrollModule,
     MimeModule,
     DateFormatPipe,
-    ClipboardModule
+    ClipboardModule,
+    NgxChartsModule
   ],
   providers: [{ provide: MimeViewerIntl, useClass: MimeViewerIntlNoNb }]
 })

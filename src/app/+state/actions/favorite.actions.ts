@@ -1,4 +1,4 @@
-import { FavoriteList } from './../../models/favorite-list';
+import { FavoriteList } from '../../models/favorite-list';
 import { Action } from '@ngrx/store';
 
 import { Item } from '../../models/search-result.model';

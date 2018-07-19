@@ -8,9 +8,9 @@ import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { FavoriteList } from '../../../models/favorite-list';
 import { Item } from '../../../models/search-result.model';
-import * as favoriteActions from './../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../+state/reducers';
-import * as itemActions from './../../../+state/actions/item.actions';
+import * as favoriteActions from '../../../+state/actions/favorite.actions';
+import * as fromRoot from '../../../+state/reducers';
+import * as itemActions from '../../../+state/actions/item.actions';
 
 @Component({
   selector: 'app-item-menu-button',

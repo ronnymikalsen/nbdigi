@@ -1,5 +1,5 @@
 import { FormControl } from '@angular/forms';
-import { Hint } from './../../../core/typeahead-service/hints.model';
+import { Hint } from '../../../core/typeahead-service/hints.model';
 import {
   Component,
   Input,
@@ -11,8 +11,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 
-import * as fromSearch from './../../../+state/reducers/search.reducer';
-import { SortOptions, Sort } from './../../../models/sort-options';
+import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { SortOptions, Sort } from '../../../models/sort-options';
 import { Genre, GenreOptions } from '../../../models/genre-options.model';
 import { DateOptions, DateOption } from '../../../models/date-options';
 

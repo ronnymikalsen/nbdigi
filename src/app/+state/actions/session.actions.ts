@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 
-import { Authenticate } from './../../models/auth.model';
-import { User } from './../../models/user.model';
-import { AuthError as AuthErrorModel } from './../../models/auth-error.model';
-import { ResetPassword } from './../../models/password-reset.model';
+import { Authenticate } from '../../models/auth.model';
+import { User } from '../../models/user.model';
+import { AuthError as AuthErrorModel } from '../../models/auth-error.model';
+import { ResetPassword } from '../../models/password-reset.model';
 
 export enum AuthActionTypes {
   SignUpWithEmailAndPassword = '[Session] Sign up with email and password',

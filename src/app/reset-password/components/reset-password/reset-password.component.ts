@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
-import { AuthError } from './../../../models/auth-error.model';
+import { AuthError } from '../../../models/auth-error.model';
 
 @Component({
   selector: 'app-reset-password',

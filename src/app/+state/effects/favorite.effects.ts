@@ -15,7 +15,7 @@ import {
   FavoriteActionTypes,
   OpenAddToListDialog
 } from '../actions/favorite.actions';
-import { FavoriteService } from './../../core/favorite-service/favorite.service';
+import { FavoriteService } from '../../core/favorite-service/favorite.service';
 
 @Injectable()
 export class FavoriteEffects {

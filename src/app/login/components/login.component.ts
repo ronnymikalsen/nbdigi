@@ -10,8 +10,8 @@ import {
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { Authenticate } from './../../models/auth.model';
-import { AuthError } from './../../models/auth-error.model';
+import { Authenticate } from '../../models/auth.model';
+import { AuthError } from '../../models/auth-error.model';
 
 @Component({
   selector: 'app-login',

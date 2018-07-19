@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from './../shared.module';
+import { SharedModule } from '../shared.module';
 import { CriteriaListItemComponent } from './components/criteria-list-item/criteria-list-item.component';
 import { CriteriaListComponent } from './containers/criteria-list/criteria-list.component';
 

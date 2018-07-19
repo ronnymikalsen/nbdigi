@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
+import { Hint, Hints } from '../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../models/char-option';
 import { Criteria } from '../../models/criteria';
 import { DateOption } from '../../models/date-options';
-import { Hint, Hints } from './../../core/typeahead-service/hints.model';
-import { SuperSearchResult } from './../../models/search-result.model';
+import { SuperSearchResult } from '../../models/search-result.model';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -24,7 +25,13 @@ export enum SearchActionTypes {
   OpenDatePickerDialog = '[Search] Open date dialog',
   SetDateCriteria = '[Search] Set date criteria',
   SetDateCriteriaConfirmed = '[Search] Set date criteria confimred',
-  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled'
+  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled',
+  SetChartRange = '[Search] Set chartRange',
+  SetCenturyChartRange = '[Search] Set century chart range',
+  SetYearChartRange = '[Search] Set year chart range',
+  SetMonthChartRange = '[Search] Set month chart range',
+  SetDayChartRange = '[Search] Set day chart range',
+  PreviousChartRange = '[Search] Previous chart range'
 }
 
 export class Search implements Action {
@@ -139,6 +146,39 @@ export class SetDateCriteriaCancelled implements Action {
   constructor() {}
 }
 
+export class SetCenturyChartRange implements Action {
+  readonly type = SearchActionTypes.SetCenturyChartRange;
+
+  constructor(public payload: ChartOption) {}
+}
+export class SetYearChartRange implements Action {
+  readonly type = SearchActionTypes.SetYearChartRange;
+
+  constructor(public payload: ChartOption) {}
+}
+export class SetMonthChartRange implements Action {
+  readonly type = SearchActionTypes.SetMonthChartRange;
+
+  constructor(public payload: ChartOption) {}
+}
+
+export class SetDayChartRange implements Action {
+  readonly type = SearchActionTypes.SetDayChartRange;
+
+  constructor(public payload: ChartOption) {}
+}
+export class SetChartRange implements Action {
+  readonly type = SearchActionTypes.SetChartRange;
+
+  constructor(public payload: ChartOption) {}
+}
+
+export class PreviousChartRange implements Action {
+  readonly type = SearchActionTypes.PreviousChartRange;
+
+  constructor() {}
+}
+
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -159,4 +199,10 @@ export type SearchAction =
   | OpenDatePickerDialog
   | SetDateCriteria
   | SetDateCriteriaConfirmed
+  | SetCenturyChartRange
+  | SetYearChartRange
+  | SetMonthChartRange
+  | SetDayChartRange
+  | PreviousChartRange
+  | SetChartRange
   | SetDateCriteriaCancelled;

@@ -26,7 +26,7 @@ import {
   skipWhile,
   takeUntil
 } from 'rxjs/operators';
-import { Hint, Hints } from './../../../../core/typeahead-service/hints.model';
+import { Hint, Hints } from '../../../../core/typeahead-service/hints.model';
 
 @Component({
   selector: 'app-search-box-container',

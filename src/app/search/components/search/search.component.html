@@ -4,6 +4,8 @@
     (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (genreChanged)="genreChanged.emit($event)"
     (debugChanged)="debugChanged.emit($event)" (dateChanged)="dateChanged.emit($event)">
   </app-toolbar>
+  <app-search-result-chart fxShow="false" fxShow.gt-lg="true" [years]="years" [chartRange]="chartRange" (chartRangeChanged)="chartRangeChanged.emit($event)"
+    (previousChartRange)="previousChartRange.emit($event)" (dateChanged)="dateChanged.emit($event)"></app-search-result-chart>
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
   </div>

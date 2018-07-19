@@ -8,7 +8,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -21,16 +21,16 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
+import { SearchService } from '../../core/search-service/search.service';
+import { Hint, Hints } from '../../core/typeahead-service/hints.model';
+import { TypeaheadService } from '../../core/typeahead-service/typeahead.service';
+import { Criteria } from '../../models/criteria';
 import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import * as search from '../actions/search.actions';
 import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
-import { SearchService } from './../../core/search-service/search.service';
-import { Hint, Hints } from './../../core/typeahead-service/hints.model';
-import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
-import { Criteria } from './../../models/criteria';
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 
 @Injectable()
 export class SearchEffects {
@@ -70,14 +70,22 @@ export class SearchEffects {
       const createHash = new Criteria(hint);
       this.criteriasRef.doc(<string>createHash.hash).set(hint);
 
+      const chartAggs =
+        storeState.search.chartRange.selection === 'month'
+          ? 'month:100'
+          : 'year:500';
+
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
-          .super({
-            size: 20,
-            q: storeState.search.criteria.q,
-            filters: filters,
-            sort: storeState.search.criteria.sort
-          })
+          .super(
+            {
+              size: 20,
+              q: storeState.search.criteria.q,
+              filters: filters,
+              sort: storeState.search.criteria.sort
+            },
+            [chartAggs]
+          )
           .pipe(
             map(searchResult => {
               return new search.SearchSuccess(searchResult);
@@ -86,13 +94,16 @@ export class SearchEffects {
           );
       } else {
         return this.searchService
-          .search({
-            size: 50,
-            mediaType: storeState.search.criteria.mediaType,
-            q: storeState.search.criteria.q,
-            filters: filters,
-            sort: storeState.search.criteria.sort
-          })
+          .search(
+            {
+              size: 50,
+              mediaType: storeState.search.criteria.mediaType,
+              q: storeState.search.criteria.q,
+              filters: filters,
+              sort: storeState.search.criteria.sort
+            },
+            [chartAggs]
+          )
           .pipe(
             map(searchResult => {
               return new search.SearchSuccess(searchResult);
@@ -111,21 +122,32 @@ export class SearchEffects {
     ),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
-      const hints = new Hints();
       const filters = this.addAllFilters(storeState);
 
+      const chartAggs = [];
+      if (storeState.search.criteria.mediaType === 'alle') {
+        chartAggs.push(
+          storeState.search.chartRange.selection === 'month'
+            ? 'month:100'
+            : 'year:500'
+        );
+      }
+
       return this.searchService
-        .search({
-          size: 1,
-          q: storeState.search.criteria.q,
-          filters: filters,
-          sort: storeState.search.criteria.sort
-        })
+        .search(
+          {
+            size: 1,
+            q: storeState.search.criteria.q,
+            filters: filters,
+            sort: storeState.search.criteria.sort
+          },
+          chartAggs
+        )
         .pipe(
           map(searchResult => {
             return new search.SearchAggsSuccess(searchResult);
           }),
-          catchError(err => of(new search.SearchAggsError(err)))
+          catchError(err => of(new search.SearchError(err)))
         );
     })
   );
@@ -174,6 +196,31 @@ export class SearchEffects {
           })
         );
     })
+  );
+
+  @Effect()
+  previousChartRange: Observable<Action> = this.actions.pipe(
+    ofType(SearchActionTypes.PreviousChartRange),
+    map(action => action),
+    withLatestFrom(this.store),
+    map(([action, storeState]) => {
+      let chartOption;
+
+      if (storeState.search.chartRange.selection === 'year') {
+        chartOption = storeState.search.chartRanges.year;
+      } else if (storeState.search.chartRange.selection === 'century') {
+        chartOption = storeState.search.chartRanges.century;
+      } else if (storeState.search.chartRange.selection === 'month') {
+        chartOption = storeState.search.chartRanges.month;
+      } else if (storeState.search.chartRange.selection === 'day') {
+        chartOption = storeState.search.chartRanges.day;
+      }
+      return new search.SetDateCriteria({
+        value: chartOption.value,
+        viewValue: chartOption.viewValue
+      });
+    }),
+    catchError(err => of(new search.SearchError(err)))
   );
 
   @Effect()

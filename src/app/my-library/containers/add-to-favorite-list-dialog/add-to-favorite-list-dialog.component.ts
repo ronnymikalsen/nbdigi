@@ -3,9 +3,9 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as favoriteAction from './../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../+state/reducers';
-import { FavoriteList } from './../../../models/favorite-list';
+import * as favoriteAction from '../../../+state/actions/favorite.actions';
+import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList } from '../../../models/favorite-list';
 
 @Component({
   selector: 'app-add-to-favorite-list-dialog',

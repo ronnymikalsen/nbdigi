@@ -10,13 +10,16 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
+import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { Hint } from '../../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../../models/char-option';
 import { Criteria } from '../../../models/criteria';
 import { DateOption } from '../../../models/date-options';
 import { Genre } from '../../../models/genre-options.model';
+import { MediaTypeResults } from '../../../models/search-result.model';
 import { Sort } from '../../../models/sort-options';
-import * as fromSearch from './../../../+state/reducers/search.reducer';
-import { Hint } from './../../../core/typeahead-service/hints.model';
-import { MediaTypeResults } from './../../../models/search-result.model';
+import { YearCount } from '../../../models/year-count';
 
 @Component({
   selector: 'app-search',
@@ -40,8 +43,10 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() privateArchives = new MediaTypeResults();
   @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
+  @Input() years: YearCount[] = [];
   @Input() moreUrl = null;
   @Input() isDebugOn: boolean;
+  @Input() chartRange: ChartOption;
   @Output() searchSelected = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
@@ -52,10 +57,10 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @Output() dateChanged = new EventEmitter<DateOption>();
+  @Output() chartRangeChanged = new EventEmitter<ChartOption>();
+  @Output() previousChartRange = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
-
-  constructor() {}
 
   ngOnInit() {}
 

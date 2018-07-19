@@ -8,20 +8,22 @@ import {
   ItemResponse,
   ItemsResponse,
   MediaTypeResponse
-} from './../../models/items-response.model';
-import { SearchCriteria } from './../../models/search-criteria.model';
+} from '../../models/items-response.model';
+import { MediaTypeCount } from '../../models/media-types-count';
+import { SearchCriteria } from '../../models/search-criteria.model';
 import {
   Item,
   MediaTypeResults,
   SuperSearchResult
-} from './../../models/search-result.model';
-import { QueryBuilder } from './../builders/query-builder';
+} from '../../models/search-result.model';
+import { YearCount } from '../../models/year-count';
+import { QueryBuilder } from '../builders/query-builder';
 
 @Injectable()
 export class SearchService {
   constructor(private http: HttpClient) {}
 
-  super(sc: SearchCriteria): Observable<SuperSearchResult> {
+  super(sc: SearchCriteria, aggs?: string[]): Observable<SuperSearchResult> {
     let builder = new QueryBuilder()
       .withQ(sc.q)
       .withSize(sc.size)
@@ -29,6 +31,12 @@ export class SearchService {
       .withMediaTypeOrder('bøker,aviser,bilder,tidsskrift,other')
       .withMediaTypeSize(5)
       .withSort(sc.sort.value);
+
+    if (aggs) {
+      aggs.forEach(a => {
+        builder = builder.addAggs(a);
+      });
+    }
 
     sc.filters.forEach(f => {
       builder = builder.addFilter(f);
@@ -90,7 +98,7 @@ export class SearchService {
       );
   }
 
-  search(sc: SearchCriteria): Observable<SuperSearchResult> {
+  search(sc: SearchCriteria, aggs?: string[]): Observable<SuperSearchResult> {
     let builder = new QueryBuilder()
       .withQ(sc.q)
       .withSize(sc.size)
@@ -98,6 +106,12 @@ export class SearchService {
       .withDigitalAccessibleOnly(true)
       .withMediaType(sc.mediaType)
       .withSort(sc.sort.value);
+
+    if (aggs) {
+      aggs.forEach(a => {
+        builder = builder.addAggs(a);
+      });
+    }
 
     sc.filters.forEach(f => {
       builder = builder.addFilter(f);
@@ -218,48 +232,61 @@ export class SearchService {
       return;
     }
 
-    const mediatypeBuckets = aggregations.find(a => a.name === 'mediatype')
-      .buckets;
-    searchResult.books.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.books.mediaType
-    );
-    searchResult.newspapers.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.newspapers.mediaType
-    );
-    searchResult.photos.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.photos.mediaType
-    );
-    searchResult.periodicals.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.periodicals.mediaType
-    );
-    searchResult.maps.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.maps.mediaType
-    );
-    searchResult.musicBooks.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.musicBooks.mediaType
-    );
-    searchResult.musicManuscripts.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.musicManuscripts.mediaType
-    );
-    searchResult.posters.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.posters.mediaType
-    );
-    searchResult.privateArchives.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.privateArchives.mediaType
-    );
-    searchResult.programReports.counts = this.extractCount(
-      mediatypeBuckets,
-      searchResult.programReports.mediaType
-    );
+    const mediatypes = aggregations.find(a => a.name === 'mediatype');
+    if (mediatypes) {
+      const mediatypeBuckets = mediatypes.buckets;
+      searchResult.books.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.books.mediaType
+      );
+      searchResult.newspapers.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.newspapers.mediaType
+      );
+      searchResult.photos.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.photos.mediaType
+      );
+      searchResult.periodicals.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.periodicals.mediaType
+      );
+      searchResult.maps.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.maps.mediaType
+      );
+      searchResult.musicBooks.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.musicBooks.mediaType
+      );
+      searchResult.musicManuscripts.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.musicManuscripts.mediaType
+      );
+      searchResult.posters.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.posters.mediaType
+      );
+      searchResult.privateArchives.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.privateArchives.mediaType
+      );
+      searchResult.programReports.counts = this.extractCount(
+        mediatypeBuckets,
+        searchResult.programReports.mediaType
+      );
+    }
+
+    if (aggregations) {
+      const yearBuckets = aggregations.find(a => a.name === 'year');
+      if (yearBuckets) {
+        searchResult.years = this.extractYears(yearBuckets.buckets);
+      }
+      const monthBuckets = aggregations.find(a => a.name === 'month');
+      if (monthBuckets) {
+        searchResult.years = this.extractYears(monthBuckets.buckets);
+      }
+    }
   }
 
   private extractCount(buckets: BucketResponse[], mediaType: string): number {
@@ -269,5 +296,26 @@ export class SearchService {
 
     const bucket = buckets.find(b => b.key === mediaType);
     return bucket ? bucket.count : 0;
+  }
+
+  private extractYears(years: BucketResponse[]): YearCount[] {
+    if (!years) {
+      return [];
+    }
+
+    const bucket = [];
+    years.forEach(year => {
+      bucket.push(
+        new YearCount({
+          year: year.key,
+          count: year.count
+        })
+      );
+    });
+
+    const sortedArray: YearCount[] = bucket.sort(
+      (n1, n2) => Number(n1.year) - Number(n2.year)
+    );
+    return sortedArray;
   }
 }

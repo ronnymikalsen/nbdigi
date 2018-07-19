@@ -1,5 +1,5 @@
 import { Hints } from './../../../../../libs/typeahead/src/hints.model';
-import { HintsLoaded } from './../actions/search.actions';
+import { HintsLoaded } from '../actions/search.actions';
 import { reducer } from './search.reducer';
 import * as fromSearch from './search.reducer';
 

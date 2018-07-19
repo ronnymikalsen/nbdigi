@@ -1,4 +1,5 @@
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
+import { YearCount } from './year-count';
 export class SuperSearchResult {
   totalElements = 0;
   selfLink: string;
@@ -36,6 +37,8 @@ export class SuperSearchResult {
     mediaType: 'andre'
   });
 
+  public years: YearCount[] = [];
+
   constructor(fields?: {
     selfLink?: string;
     books?: MediaTypeResults;
@@ -49,6 +52,7 @@ export class SuperSearchResult {
     privateArchives?: MediaTypeResults;
     programReports?: MediaTypeResults;
     others?: MediaTypeResults;
+    years?: YearCount[];
   }) {
     if (fields) {
       this.selfLink = fields.selfLink || this.selfLink;
@@ -63,6 +67,7 @@ export class SuperSearchResult {
       this.privateArchives = fields.privateArchives || this.privateArchives;
       this.programReports = fields.programReports || this.programReports;
       this.others = fields.others || this.others;
+      this.years = fields.years || this.years;
     }
   }
 }

@@ -1,11 +1,20 @@
+import { Hints } from '../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../models/char-option';
+import { Criteria } from '../../models/criteria';
 import { MediaTypeResults } from '../../models/search-result.model';
-import { Hints } from './../../core/typeahead-service/hints.model';
-import { Criteria } from './../../models/criteria';
-import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import { YearCount } from '../../models/year-count';
+import { SearchAction, SearchActionTypes } from '../actions/search.actions';
 
 export interface State {
   criteria: Criteria;
   hints: Hints;
+  chartRange: ChartOption;
+  chartRanges: {
+    century: ChartOption;
+    year: ChartOption;
+    month: ChartOption;
+    day: ChartOption;
+  };
   searchResult: {
     selfLink: string;
     totalElements: number;
@@ -20,6 +29,7 @@ export interface State {
     privateArchives: MediaTypeResults;
     programReports: MediaTypeResults;
     others: MediaTypeResults;
+    years: YearCount[];
   };
   isLoading: boolean;
   isLoadingMore: boolean;
@@ -29,6 +39,17 @@ export interface State {
 export const initialState: State = {
   criteria: new Criteria(),
   hints: null,
+  chartRange: new ChartOption({ selection: 'responsive' }),
+  chartRanges: {
+    century: new ChartOption({
+      selection: 'century',
+      value: `date:[00010101 TO 99991231]`,
+      viewValue: 'Når som helst'
+    }),
+    year: new ChartOption({ selection: 'year' }),
+    month: new ChartOption({ selection: 'month' }),
+    day: new ChartOption({ selection: 'day' })
+  },
   searchResult: {
     selfLink: null,
     totalElements: 0,
@@ -44,7 +65,8 @@ export const initialState: State = {
       mediaType: 'privatarkivmateriale'
     }),
     programReports: new MediaTypeResults({ mediaType: 'programrapporter' }),
-    others: new MediaTypeResults()
+    others: new MediaTypeResults(),
+    years: []
   },
   isLoading: false,
   isLoadingMore: false,
@@ -171,7 +193,8 @@ export function reducer(state = initialState, action: SearchAction): State {
           posters: action.payload.posters,
           privateArchives: action.payload.privateArchives,
           programReports: action.payload.programReports,
-          others: action.payload.others
+          others: action.payload.others,
+          years: action.payload.years
         },
         hasError: false,
         isLoading: false
@@ -187,6 +210,10 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.SearchAggsSuccess: {
+      const years =
+        state.criteria.mediaType === 'alle'
+          ? [...action.payload.years]
+          : [...state.searchResult.years];
       return {
         ...state,
         searchResult: {
@@ -232,7 +259,8 @@ export function reducer(state = initialState, action: SearchAction): State {
             ...state.searchResult.programReports,
             counts: action.payload.programReports.counts
           },
-          others: { ...state.searchResult.others }
+          others: { ...state.searchResult.others },
+          years: years
         }
       };
     }
@@ -254,6 +282,7 @@ export function reducer(state = initialState, action: SearchAction): State {
       const privateArchives = { ...state.searchResult.privateArchives };
       const programReports = { ...state.searchResult.programReports };
       const others = { ...state.searchResult.others };
+      const years = [...state.searchResult.years];
       if (state.criteria.mediaType === 'bøker') {
         const items = [...books.items, ...action.payload.books.items];
         books.items = items;
@@ -326,12 +355,80 @@ export function reducer(state = initialState, action: SearchAction): State {
           posters: posters,
           privateArchives: privateArchives,
           programReports: programReports,
-          others: others
+          others: others,
+          years: years
         },
         isLoadingMore: false,
         hasError: false
       };
     }
+    case SearchActionTypes.SetChartRange: {
+      return {
+        ...state,
+        chartRange: action.payload
+      };
+    }
+    case SearchActionTypes.SetCenturyChartRange: {
+      return {
+        ...state,
+        chartRange: action.payload,
+        chartRanges: {
+          ...state.chartRanges,
+          century: action.payload
+        }
+      };
+    }
+    case SearchActionTypes.SetYearChartRange: {
+      return {
+        ...state,
+        chartRange: action.payload,
+        chartRanges: {
+          ...state.chartRanges,
+          year: action.payload
+        }
+      };
+    }
+    case SearchActionTypes.SetMonthChartRange: {
+      return {
+        ...state,
+        chartRange: action.payload,
+        chartRanges: {
+          ...state.chartRanges,
+          month: action.payload
+        }
+      };
+    }
+    case SearchActionTypes.SetDayChartRange: {
+      return {
+        ...state,
+        chartRange: action.payload,
+        chartRanges: {
+          ...state.chartRanges,
+          day: action.payload
+        }
+      };
+    }
+    case SearchActionTypes.PreviousChartRange: {
+      let option: ChartOption;
+      if (state.chartRange.selection === 'year') {
+        option = {
+          ...state.chartRanges.century
+        };
+      } else if (state.chartRange.selection === 'month') {
+        option = {
+          ...state.chartRanges.year
+        };
+      } else if (state.chartRange.selection === 'day') {
+        option = {
+          ...state.chartRanges.month
+        };
+      }
+      return {
+        ...state,
+        chartRange: option
+      };
+    }
+
     default: {
       return state;
     }
@@ -413,6 +510,14 @@ export const getCurrentMediaTypeCount = (state: State) => {
   }
 
   return counts;
+};
+
+export const getYears = (state: State) => {
+  return state.searchResult.years;
+};
+
+export const getChartRange = (state: State) => {
+  return state.chartRange;
 };
 
 export const pristine = (state: State) => {

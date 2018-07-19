@@ -16,7 +16,7 @@ import * as fromHome from './home.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromItem from './item.reducer';
 import * as fromFavorite from './favorite.reducer';
-import { AuthActionTypes } from './../actions/session.actions';
+import { AuthActionTypes } from '../actions/session.actions';
 
 export interface State {
   session: fromSession.State;
@@ -130,6 +130,11 @@ export const getMoreUrl = createSelector(getSearchState, fromSearch.getMoreUrl);
 export const getCurrentMediaTypeCount = createSelector(
   getSearchState,
   fromSearch.getCurrentMediaTypeCount
+);
+export const getYears = createSelector(getSearchState, fromSearch.getYears);
+export const getChartRange = createSelector(
+  getSearchState,
+  fromSearch.getChartRange
 );
 
 /**
