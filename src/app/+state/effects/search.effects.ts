@@ -214,48 +214,6 @@ export class SearchEffects {
     })
   );
 
-  // @Effect()
-  // previousChartRange: Observable<Action> = this.actions.pipe(
-  //   ofType(SearchActionTypes.PreviousChartRange),
-  //   map(action => action),
-  //   withLatestFrom(this.store),
-  //   map(([action, storeState]) => {
-
-  //     // let chartOption;
-
-  //     // if (storeState.search.chartRange.selection === 'year') {
-  //     //   chartOption = storeState.search.chartRanges.year;
-  //     //   if (!chartOption.value) {
-  //     //     const start = storeState.search.chartRanges.month.year;
-  //     //     const value = `date:[${start}0101 TO ${start}1231]`;
-  //     //     chartOption = {
-  //     //       ...chartOption,
-  //     //       value: value
-  //     //     };
-  //     //   }
-  //     // } else if (storeState.search.chartRange.selection === 'century') {
-  //     //   chartOption = storeState.search.chartRanges.century;
-  //     // } else if (storeState.search.chartRange.selection === 'month') {
-  //     //   chartOption = storeState.search.chartRanges.month;
-  //     // } else if (storeState.search.chartRange.selection === 'day') {
-  //     //   chartOption = storeState.search.chartRanges.day;
-  //     // }
-  //     // // console.log(chartOption);
-  //     // const fromDate = chartOption.value.substring(6, 14);
-  //     // const toDate = chartOption.value.substring(18, 26);
-  //     // // console.log(fromDate);
-  //     // // console.log(toDate);
-  //     // return new search.SetDateCriteria({
-  //     //   fromDate: fromDate,
-  //     //   toDate: toDate,
-  //     //   value: chartOption.value,
-  //     //   viewValue: chartOption.viewValue
-  //     // });
-  //     return new search.SetDateCriteria(action.payload)
-  //   }),
-  //   catchError(err => of(new search.SearchError(err)))
-  // );
-
   @Effect()
   setCustomDate: Observable<Action> = this.actions.pipe(
     ofType(SearchActionTypes.SetDateCriteria),

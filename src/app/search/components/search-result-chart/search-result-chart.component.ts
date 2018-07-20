@@ -82,7 +82,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
         const last = this.years[this.years.length - 1].year
           .padStart(4, '0')
           .substring(0, 2);
-        console.log(first + '=' + last);
         if (first === last) {
           r = this.createYearChart(this.years);
           this.backDateOption = new DateOptions().anytime;
@@ -196,7 +195,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     const start = min;
     const end = max;
     const length = end - start + 1;
-    // console.log(years[0]);
     for (let i = 0; i < length; i++) {
       const y = start + i;
       const name = this.monthIndexToName(Number(years[0].year), y);
@@ -236,7 +234,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
 
     const start = min;
     const end = max;
-    // console.log(years[0]);
     for (let i = 0; i < newResult.length; i++) {
       const v = newResult[i];
       const x = Number(v.name);
@@ -258,7 +255,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   private monthNameToIndex(name: string) {
-    // console.log(name);
     switch (name) {
       case 'januar':
         return 1;
@@ -288,9 +284,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   onSelect(event) {
-    console.log('onSelect', event);
-    // console.log(this.chartRange);
-
     if (event.name.length === 0) {
       return;
     }
@@ -335,116 +328,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
         })
       );
     }
-
-    // if (
-    //   this.chartRange.selection === 'century' ||
-    //   this.chartRange.selection === 'responsive'
-    // ) {
-    //   let value = 'select';
-    //   let selection = 'year';
-    //   let fromDate: string;
-    //   let toDate: string;
-    //   let viewValue = event.name;
-    //   if (event.name.indexOf(' - ') !== -1) {
-    //     const range = event.name.split('-');
-    //     const start = range[0].trim().padStart(4, '0');
-    //     const end: string = `${Number(range[1].trim()) - 1}`.padStart(4, '0');
-    //     fromDate = `${start}0101`;
-    //     toDate = `${end}1231`;
-    //     value = `date:[${fromDate} TO ${toDate}]`;
-    //   } else {
-    //     const start = event.name.padStart(4, '0');
-    //     const prev = Number(this.criteria.date.viewValue);
-    //     viewValue = '' + prev;
-    //     if (isNaN(start)) {
-    //       // console.log('111');
-    //       const monthIndex = this.monthNameToIndex(event.name);
-    //       const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
-    //       const lastDay = (
-    //         '' + new Date(prev, monthIndex + 1, 0).getDay()
-    //       ).padStart(2, '0');
-    //       fromDate = `${prev}${monthIndexPadded}01`;
-    //       toDate = `${prev}${monthIndexPadded}${lastDay}`;
-    //       value = `date:[${fromDate} TO ${toDate}]`;
-    //       selection = 'month';
-    //     } else {
-    //       fromDate = `${start}0101`;
-    //       toDate = `${start}1231`;
-    //       value = `date:[${fromDate} TO ${toDate}]`;
-    //       selection = 'month';
-    //     }
-    //   }
-    //   this.chartRangeChanged.emit(
-    //     new ChartOption({
-    //       selection: selection,
-    //       value: value,
-    //       year: viewValue,
-    //       viewValue: viewValue
-    //     })
-    //   );
-    //   this.chartDateChanged.emit(
-    //     new DateOption({
-    //       fromDate: fromDate,
-    //       toDate: toDate,
-    //       type: 'custom',
-    //       value: value,
-    //       viewValue: viewValue
-    //     })
-    //   );
-    // } else if (this.chartRange.selection === 'year') {
-    //   const start = event.name.padStart(4, '0');
-    //   let value = 'select';
-    //   const fromDate = `${start}0101`;
-    //   const toDate = `${start}1231`;
-    //   value = `date:[${fromDate} TO ${toDate}]`;
-
-    //   this.chartRangeChanged.emit(
-    //     new ChartOption({
-    //       selection: 'month',
-    //       value: value,
-    //       year: event.name,
-    //       viewValue: event.name
-    //     })
-    //   );
-    //   this.chartDateChanged.emit(
-    //     new DateOption({
-    //       fromDate: fromDate,
-    //       toDate: toDate,
-    //       type: 'custom',
-    //       value: value,
-    //       viewValue: event.name
-    //     })
-    //   );
-    // } else if (this.chartRange.selection === 'month') {
-    //   // console.log(this.chartRange);
-    //   const prev = Number(this.chartRange.year);
-    //   const monthIndex = this.monthNameToIndex(event.name);
-    //   const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
-    //   const lastDay = (
-    //     '' + new Date(prev, monthIndex + 1, 0).getDay()
-    //   ).padStart(2, '0');
-    //   let value = 'select';
-    //   const fromDate = `${prev}${monthIndexPadded}01`;
-    //   const toDate = `${prev}${monthIndexPadded}${lastDay}`;
-    //   value = `date:[${fromDate} TO ${toDate}]`;
-    //   this.chartRangeChanged.emit(
-    //     new ChartOption({
-    //       selection: 'day',
-    //       value: value,
-    //       year: event.name,
-    //       viewValue: event.name
-    //     })
-    //   );
-    //   this.chartDateChanged.emit(
-    //     new DateOption({
-    //       fromDate: fromDate,
-    //       toDate: toDate,
-    //       type: 'custom',
-    //       value: value,
-    //       viewValue: event.name
-    //     })
-    //   );
-    // }
   }
 
   back() {

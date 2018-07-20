@@ -204,7 +204,6 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.SearchError: {
-      console.log(action.payload);
       return {
         ...state,
         hasError: true,
@@ -420,7 +419,6 @@ export function reducer(state = initialState, action: SearchAction): State {
     }
     case SearchActionTypes.PreviousChartRange: {
       let option: ChartOption;
-      console.log(state.chartRange);
       if (state.chartRange.selection === 'year') {
         option = {
           ...state.chartRanges.century
