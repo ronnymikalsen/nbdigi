@@ -38,6 +38,7 @@ import { YearCount } from '../../models/year-count';
       [programReports]="programReports | async"
       [others]="others | async"
       [years]="years | async"
+      [months]="months | async"
       [moreUrl]="moreUrl | async"
       [chartRange]="chartRange | async"
       [isDebugOn]="isDebugOn | async"
@@ -50,8 +51,9 @@ import { YearCount } from '../../models/year-count';
       (genreChanged)="genreChanged($event)"
       (debugChanged)="debugChanged($event)"
       (dateChanged)="dateChanged($event)"
+      (chartDateChanged)="chartDateChanged($event)"
       (chartRangeChanged)="chartRangeChanged($event)"
-      (previousChartRange)="previousChartRange()"
+      (previousChartRange)="previousChartRange($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -89,6 +91,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   );
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
   years: Observable<YearCount[]> = this.store.select(fromRoot.getYears);
+  months: Observable<YearCount[]> = this.store.select(fromRoot.getMonths);
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
@@ -179,6 +182,10 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
   }
 
+  chartDateChanged(dateOption: DateOption): void {
+    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+  }
+
   chartRangeChanged(chartRangeChanged: ChartOption): void {
     if (chartRangeChanged.selection === 'year') {
       this.store.dispatch(
@@ -197,8 +204,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  previousChartRange() {
-    this.store.dispatch(new searchAction.PreviousChartRange());
+  previousChartRange(dateOption: DateOption) {
+    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
   }
 
   loadMore(): void {

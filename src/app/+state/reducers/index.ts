@@ -132,6 +132,7 @@ export const getCurrentMediaTypeCount = createSelector(
   fromSearch.getCurrentMediaTypeCount
 );
 export const getYears = createSelector(getSearchState, fromSearch.getYears);
+export const getMonths = createSelector(getSearchState, fromSearch.getMonths);
 export const getChartRange = createSelector(
   getSearchState,
   fromSearch.getChartRange

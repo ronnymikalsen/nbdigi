@@ -56,7 +56,9 @@ export class SearchEffects {
         date: storeState.search.criteria.date
           ? {
               value: storeState.search.criteria.date.value,
-              viewValue: storeState.search.criteria.date.viewValue
+              viewValue: storeState.search.criteria.date.viewValue,
+              fromDate: storeState.search.criteria.date.fromDate,
+              toDate: storeState.search.criteria.date.toDate
             }
           : null,
         genre: storeState.search.criteria.genre
@@ -70,8 +72,15 @@ export class SearchEffects {
       const createHash = new Criteria(hint);
       this.criteriasRef.doc(<string>createHash.hash).set(hint);
 
+      const isyearsearch =
+        storeState.search.criteria.date &&
+        storeState.search.criteria.date.fromDate &&
+        storeState.search.criteria.date.toDate &&
+        storeState.search.criteria.date.fromDate.substring(0, 4) ===
+          storeState.search.criteria.date.toDate.substring(0, 4);
+
       const chartAggs =
-        storeState.search.chartRange.selection === 'month'
+        storeState.search.chartRange.selection === 'month' || isyearsearch
           ? 'month:100'
           : 'year:500';
 
@@ -126,8 +135,15 @@ export class SearchEffects {
 
       const chartAggs = [];
       if (storeState.search.criteria.mediaType === 'alle') {
+        const isyearsearch =
+          storeState.search.criteria.date &&
+          storeState.search.criteria.date.fromDate &&
+          storeState.search.criteria.date.toDate &&
+          storeState.search.criteria.date.fromDate.substring(0, 4) ===
+            storeState.search.criteria.date.toDate.substring(0, 4);
+
         chartAggs.push(
-          storeState.search.chartRange.selection === 'month'
+          storeState.search.chartRange.selection === 'month' || isyearsearch
             ? 'month:100'
             : 'year:500'
         );
@@ -198,30 +214,47 @@ export class SearchEffects {
     })
   );
 
-  @Effect()
-  previousChartRange: Observable<Action> = this.actions.pipe(
-    ofType(SearchActionTypes.PreviousChartRange),
-    map(action => action),
-    withLatestFrom(this.store),
-    map(([action, storeState]) => {
-      let chartOption;
+  // @Effect()
+  // previousChartRange: Observable<Action> = this.actions.pipe(
+  //   ofType(SearchActionTypes.PreviousChartRange),
+  //   map(action => action),
+  //   withLatestFrom(this.store),
+  //   map(([action, storeState]) => {
 
-      if (storeState.search.chartRange.selection === 'year') {
-        chartOption = storeState.search.chartRanges.year;
-      } else if (storeState.search.chartRange.selection === 'century') {
-        chartOption = storeState.search.chartRanges.century;
-      } else if (storeState.search.chartRange.selection === 'month') {
-        chartOption = storeState.search.chartRanges.month;
-      } else if (storeState.search.chartRange.selection === 'day') {
-        chartOption = storeState.search.chartRanges.day;
-      }
-      return new search.SetDateCriteria({
-        value: chartOption.value,
-        viewValue: chartOption.viewValue
-      });
-    }),
-    catchError(err => of(new search.SearchError(err)))
-  );
+  //     // let chartOption;
+
+  //     // if (storeState.search.chartRange.selection === 'year') {
+  //     //   chartOption = storeState.search.chartRanges.year;
+  //     //   if (!chartOption.value) {
+  //     //     const start = storeState.search.chartRanges.month.year;
+  //     //     const value = `date:[${start}0101 TO ${start}1231]`;
+  //     //     chartOption = {
+  //     //       ...chartOption,
+  //     //       value: value
+  //     //     };
+  //     //   }
+  //     // } else if (storeState.search.chartRange.selection === 'century') {
+  //     //   chartOption = storeState.search.chartRanges.century;
+  //     // } else if (storeState.search.chartRange.selection === 'month') {
+  //     //   chartOption = storeState.search.chartRanges.month;
+  //     // } else if (storeState.search.chartRange.selection === 'day') {
+  //     //   chartOption = storeState.search.chartRanges.day;
+  //     // }
+  //     // // console.log(chartOption);
+  //     // const fromDate = chartOption.value.substring(6, 14);
+  //     // const toDate = chartOption.value.substring(18, 26);
+  //     // // console.log(fromDate);
+  //     // // console.log(toDate);
+  //     // return new search.SetDateCriteria({
+  //     //   fromDate: fromDate,
+  //     //   toDate: toDate,
+  //     //   value: chartOption.value,
+  //     //   viewValue: chartOption.viewValue
+  //     // });
+  //     return new search.SetDateCriteria(action.payload)
+  //   }),
+  //   catchError(err => of(new search.SearchError(err)))
+  // );
 
   @Effect()
   setCustomDate: Observable<Action> = this.actions.pipe(

@@ -44,6 +44,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
   @Input() years: YearCount[] = [];
+  @Input() months: YearCount[] = [];
   @Input() moreUrl = null;
   @Input() isDebugOn: boolean;
   @Input() chartRange: ChartOption;
@@ -57,6 +58,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @Output() dateChanged = new EventEmitter<DateOption>();
+  @Output() chartDateChanged = new EventEmitter<DateOption>();
   @Output() chartRangeChanged = new EventEmitter<ChartOption>();
   @Output() previousChartRange = new EventEmitter<void>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
@@ -91,6 +93,6 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   createLabel(mediaType: string, counts: number): string {
-    return mediaType ? `${mediaType} (${counts} treff)` : '';
+    return mediaType ? `${mediaType} (${counts})` : '';
   }
 }

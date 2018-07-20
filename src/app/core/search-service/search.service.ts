@@ -284,7 +284,7 @@ export class SearchService {
       }
       const monthBuckets = aggregations.find(a => a.name === 'month');
       if (monthBuckets) {
-        searchResult.years = this.extractYears(monthBuckets.buckets);
+        searchResult.months = this.extractYears(monthBuckets.buckets);
       }
     }
   }

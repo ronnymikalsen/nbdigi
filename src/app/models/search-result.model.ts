@@ -38,6 +38,7 @@ export class SuperSearchResult {
   });
 
   public years: YearCount[] = [];
+  public months: YearCount[] = [];
 
   constructor(fields?: {
     selfLink?: string;
@@ -53,6 +54,7 @@ export class SuperSearchResult {
     programReports?: MediaTypeResults;
     others?: MediaTypeResults;
     years?: YearCount[];
+    months?: YearCount[];
   }) {
     if (fields) {
       this.selfLink = fields.selfLink || this.selfLink;
@@ -68,6 +70,7 @@ export class SuperSearchResult {
       this.programReports = fields.programReports || this.programReports;
       this.others = fields.others || this.others;
       this.years = fields.years || this.years;
+      this.months = fields.months || this.months;
     }
   }
 }

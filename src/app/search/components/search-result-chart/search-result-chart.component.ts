@@ -10,7 +10,8 @@ import {
 } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { ChartOption } from '../../../models/char-option';
-import { DateOption } from '../../../models/date-options';
+import { Criteria } from '../../../models/criteria';
+import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
 @Component({
   selector: 'app-search-result-chart',
@@ -19,13 +20,16 @@ import { YearCount } from '../../../models/year-count';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchResultChartComponent implements OnInit, OnChanges {
+  @Input() criteria: Criteria;
   @Input() chartRange: ChartOption;
   @Input() years: YearCount[];
+  @Input() months: YearCount[];
   @Output() chartRangeChanged = new EventEmitter<ChartOption>();
-  @Output() previousChartRange = new EventEmitter<void>();
-  @Output() dateChanged = new EventEmitter<DateOption>();
+  @Output() previousChartRange = new EventEmitter<DateOption>();
+  @Output() chartDateChanged = new EventEmitter<DateOption>();
 
-  view: any[] = [700, 400];
+  backDateOption: DateOption;
+  view: any[] = [700, 600];
   showYAxis = true;
   showXAxis = true;
   gradient = false;
@@ -35,7 +39,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   showYAxisLabel = false;
   yAxisLabel = 'Population';
   mqAlias: string;
-
   single = [];
 
   constructor(public media: ObservableMedia) {
@@ -47,21 +50,51 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['years']) {
-      let r = [];
+    let r = [];
+    if (changes['months'] || changes['years']) {
+      if (
+        this.criteria.date.fromDate.substring(0, 6) ===
+        this.criteria.date.toDate.substring(0, 6)
+      ) {
+        r = this.createDayChart(this.months);
+        const currentYear = this.criteria.date.fromDate.substring(0, 4);
+        this.backDateOption = new DateOption({
+          fromDate: `${currentYear}0101`,
+          toDate: `${currentYear}1231`,
+          value: `date:[${currentYear}0101 TO ${currentYear}1231]`,
+          viewValue: `${currentYear}`
+        });
+      } else if (
+        this.criteria.date.fromDate.substring(0, 4) ===
+        this.criteria.date.toDate.substring(0, 4)
+      ) {
+        const currentYear = this.criteria.date.fromDate.substring(0, 2);
+        r = this.createMonthChart(this.months);
+        this.backDateOption = new DateOption({
+          fromDate: `${currentYear}010101`,
+          toDate: `${currentYear}991231`,
+          value: `date:[${currentYear}000101 TO ${currentYear}991231]`,
+          viewValue: `${currentYear}00-${Number(currentYear) + 1}00`
+        });
+      }
       if (this.years.length > 0) {
-        if (this.chartRange.selection === 'year') {
+        const first = this.years[0].year.padStart(4, '0').substring(0, 2);
+        const last = this.years[this.years.length - 1].year
+          .padStart(4, '0')
+          .substring(0, 2);
+        console.log(first + '=' + last);
+        if (first === last) {
           r = this.createYearChart(this.years);
-        } else if (this.chartRange.selection === 'month') {
-          r = this.createMonthChart(this.years);
-        } else if (this.chartRange.selection === 'day') {
-          r = this.createDayChart(this.years);
-        } else {
+          this.backDateOption = new DateOptions().anytime;
+        }
+
+        if (first !== last) {
           r = this.createCenturyChart(this.years);
+          this.backDateOption = undefined;
         }
       }
-      this.single = r;
     }
+    this.single = r;
   }
 
   private createCenturyChart(years: YearCount[]) {
@@ -145,6 +178,9 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   private createMonthChart(years: YearCount[]) {
+    if (!years || years.length === 0) {
+      return [];
+    }
     const newResult = [];
     const r = [];
     years.forEach(y => {
@@ -160,7 +196,7 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     const start = min;
     const end = max;
     const length = end - start + 1;
-    console.log(years[0]);
+    // console.log(years[0]);
     for (let i = 0; i < length; i++) {
       const y = start + i;
       const name = this.monthIndexToName(Number(years[0].year), y);
@@ -200,7 +236,7 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
 
     const start = min;
     const end = max;
-    console.log(years[0]);
+    // console.log(years[0]);
     for (let i = 0; i < newResult.length; i++) {
       const v = newResult[i];
       const x = Number(v.name);
@@ -222,7 +258,7 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   private monthNameToIndex(name: string) {
-    console.log(name);
+    // console.log(name);
     switch (name) {
       case 'januar':
         return 1;
@@ -252,81 +288,174 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   onSelect(event) {
-    if (
-      this.chartRange.selection === 'century' ||
-      this.chartRange.selection === 'responsive'
-    ) {
-      let value = 'select';
-      if (event.name.indexOf(' - ') !== -1) {
-        const range = event.name.split('-');
-        const start = range[0].trim().padStart(4, '0');
-        const end: string = `${Number(range[1].trim()) - 1}`.padStart(4, '0');
-        value = `date:[${start}0101 TO ${end}1231]`;
-      }
-      this.chartRangeChanged.emit(
-        new ChartOption({
-          selection: 'year',
-          value: value,
-          year: event.name,
-          viewValue: event.name
-        })
-      );
-      this.dateChanged.emit(
-        new DateOption({
-          type: 'custom',
-          value: value,
-          viewValue: event.name
-        })
-      );
-    } else if (this.chartRange.selection === 'year') {
-      const start = event.name.padStart(4, '0');
-      let value = 'select';
-      value = `date:[${start}0101 TO ${start}1231]`;
+    console.log('onSelect', event);
+    // console.log(this.chartRange);
 
-      this.chartRangeChanged.emit(
-        new ChartOption({
-          selection: 'month',
-          value: value,
-          year: event.name,
-          viewValue: event.name
-        })
-      );
-      this.dateChanged.emit(
+    if (event.name.length === 0) {
+      return;
+    }
+    if (event.name.indexOf('-') !== -1) {
+      const fromYear = event.name.substring(0, 4);
+      const toYear = Number(event.name.substring(7)) - 1;
+      this.chartDateChanged.emit(
         new DateOption({
-          type: 'custom',
-          value: value,
-          viewValue: event.name
+          fromDate: `${fromYear}0101`,
+          toDate: `${toYear}1231`,
+          value: `date:[${fromYear}0101 TO ${toYear}1231]`,
+          viewValue: `${event.name}`
         })
       );
-    } else if (this.chartRange.selection === 'month') {
-      console.log(this.chartRange);
-      const prev = Number(this.chartRange.year);
-      const monthIndex = this.monthNameToIndex(event.name);
+    } else if (!isNaN(event.name)) {
+      this.chartDateChanged.emit(
+        new DateOption({
+          fromDate: `${event.name}0101`,
+          toDate: `${event.name}1231`,
+          value: `date:[${event.name}0101 TO ${event.name}1231]`,
+          viewValue: `${event.name}`
+        })
+      );
+    } else {
+      const currentYear = Number(this.criteria.date.fromDate.substring(0, 4));
+      const monthIndex = Number(this.monthNameToIndex(event.name));
       const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
-      const lastDay = (
-        '' + new Date(prev, monthIndex + 1, 0).getDay()
-      ).padStart(2, '0');
-      let value = 'select';
-      value = `date:[${prev}${monthIndexPadded}01 TO ${prev}${monthIndexPadded}${lastDay}]`;
-      this.chartRangeChanged.emit(
-        new ChartOption({
-          selection: 'day',
-          value: value,
-          year: event.name,
-          viewValue: event.name
-        })
+      const daysInMonth = this.daysInMonth(monthIndex, currentYear);
+      const lastDay = ('' + daysInMonth).padStart(2, '0');
+      const fromDate = `${currentYear}${monthIndexPadded}01`;
+      const toDate = `${currentYear}${monthIndexPadded}${lastDay}`;
+      const value = `date:[${fromDate} TO ${toDate}]`;
+      const viewValue = this.capitalizeFirstLetter(
+        `${event.name} ${currentYear}`
       );
-      this.dateChanged.emit(
+      this.chartDateChanged.emit(
         new DateOption({
-          type: 'custom',
-          value: value,
-          viewValue: event.name
+          fromDate: `${fromDate}`,
+          toDate: `${toDate}`,
+          value: `${value}`,
+          viewValue: `${viewValue}`
         })
       );
     }
+
+    // if (
+    //   this.chartRange.selection === 'century' ||
+    //   this.chartRange.selection === 'responsive'
+    // ) {
+    //   let value = 'select';
+    //   let selection = 'year';
+    //   let fromDate: string;
+    //   let toDate: string;
+    //   let viewValue = event.name;
+    //   if (event.name.indexOf(' - ') !== -1) {
+    //     const range = event.name.split('-');
+    //     const start = range[0].trim().padStart(4, '0');
+    //     const end: string = `${Number(range[1].trim()) - 1}`.padStart(4, '0');
+    //     fromDate = `${start}0101`;
+    //     toDate = `${end}1231`;
+    //     value = `date:[${fromDate} TO ${toDate}]`;
+    //   } else {
+    //     const start = event.name.padStart(4, '0');
+    //     const prev = Number(this.criteria.date.viewValue);
+    //     viewValue = '' + prev;
+    //     if (isNaN(start)) {
+    //       // console.log('111');
+    //       const monthIndex = this.monthNameToIndex(event.name);
+    //       const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
+    //       const lastDay = (
+    //         '' + new Date(prev, monthIndex + 1, 0).getDay()
+    //       ).padStart(2, '0');
+    //       fromDate = `${prev}${monthIndexPadded}01`;
+    //       toDate = `${prev}${monthIndexPadded}${lastDay}`;
+    //       value = `date:[${fromDate} TO ${toDate}]`;
+    //       selection = 'month';
+    //     } else {
+    //       fromDate = `${start}0101`;
+    //       toDate = `${start}1231`;
+    //       value = `date:[${fromDate} TO ${toDate}]`;
+    //       selection = 'month';
+    //     }
+    //   }
+    //   this.chartRangeChanged.emit(
+    //     new ChartOption({
+    //       selection: selection,
+    //       value: value,
+    //       year: viewValue,
+    //       viewValue: viewValue
+    //     })
+    //   );
+    //   this.chartDateChanged.emit(
+    //     new DateOption({
+    //       fromDate: fromDate,
+    //       toDate: toDate,
+    //       type: 'custom',
+    //       value: value,
+    //       viewValue: viewValue
+    //     })
+    //   );
+    // } else if (this.chartRange.selection === 'year') {
+    //   const start = event.name.padStart(4, '0');
+    //   let value = 'select';
+    //   const fromDate = `${start}0101`;
+    //   const toDate = `${start}1231`;
+    //   value = `date:[${fromDate} TO ${toDate}]`;
+
+    //   this.chartRangeChanged.emit(
+    //     new ChartOption({
+    //       selection: 'month',
+    //       value: value,
+    //       year: event.name,
+    //       viewValue: event.name
+    //     })
+    //   );
+    //   this.chartDateChanged.emit(
+    //     new DateOption({
+    //       fromDate: fromDate,
+    //       toDate: toDate,
+    //       type: 'custom',
+    //       value: value,
+    //       viewValue: event.name
+    //     })
+    //   );
+    // } else if (this.chartRange.selection === 'month') {
+    //   // console.log(this.chartRange);
+    //   const prev = Number(this.chartRange.year);
+    //   const monthIndex = this.monthNameToIndex(event.name);
+    //   const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
+    //   const lastDay = (
+    //     '' + new Date(prev, monthIndex + 1, 0).getDay()
+    //   ).padStart(2, '0');
+    //   let value = 'select';
+    //   const fromDate = `${prev}${monthIndexPadded}01`;
+    //   const toDate = `${prev}${monthIndexPadded}${lastDay}`;
+    //   value = `date:[${fromDate} TO ${toDate}]`;
+    //   this.chartRangeChanged.emit(
+    //     new ChartOption({
+    //       selection: 'day',
+    //       value: value,
+    //       year: event.name,
+    //       viewValue: event.name
+    //     })
+    //   );
+    //   this.chartDateChanged.emit(
+    //     new DateOption({
+    //       fromDate: fromDate,
+    //       toDate: toDate,
+    //       type: 'custom',
+    //       value: value,
+    //       viewValue: event.name
+    //     })
+    //   );
+    // }
   }
 
   back() {
-    this.previousChartRange.emit();
+    this.previousChartRange.emit(this.backDateOption);
+  }
+
+  private capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  private daysInMonth(month: number, year: number): number {
+    return new Date(year, month, 0).getDate();
   }
 }

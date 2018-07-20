@@ -176,7 +176,7 @@ export class SetChartRange implements Action {
 export class PreviousChartRange implements Action {
   readonly type = SearchActionTypes.PreviousChartRange;
 
-  constructor() {}
+  constructor(public payload: DateOption) {}
 }
 
 export type SearchAction =
