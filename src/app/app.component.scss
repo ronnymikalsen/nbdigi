@@ -14,6 +14,9 @@
   @media (min-width: 601px) {
     height: calc(100% - 64px);
   }
+  @media (min-width: 1279px) {
+    height: calc(100%);
+  }
 }
 
 .menu-toolbar {
@@ -21,6 +24,18 @@
   border-color: mat-color($default-primary) transparent transparent transparent;
 }
 
-.accent {
-  color: mat-color($default-accent) !important;
+.inactive {
+  opacity: 0.87;
+}
+
+.active {
+  color: #18ffff !important;
+  opacity: 1 !important;
+}
+
+.logo {
+  margin-top: 0px !important;
+  height: 24px !important;
+  width: 20px !important;
+  margin-right: 4px;
 }
