@@ -15,7 +15,8 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger
+  MatAutocompleteTrigger,
+  MatCheckboxChange
 } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -37,11 +38,13 @@ import { Hint, Hints } from '../../../../core/typeahead-service/hints.model';
 export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() q: string;
   @Input() hints: Hints;
+  @Input() showDateGraph: boolean;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<string>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() clearAll = new EventEmitter<boolean>();
+  @Output() dateGraphChanged = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
   @ViewChild('searchbox-container') searchboxContainer: ElementRef;
   public searchForm: FormGroup;

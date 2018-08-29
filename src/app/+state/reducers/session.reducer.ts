@@ -11,13 +11,15 @@ export interface State {
   error?: AuthErrorModel;
   debug: boolean;
   theme: string;
+  showDateGraph: boolean;
 }
 
 export const initialState: State = {
   user: null,
   error: null,
   debug: false,
-  theme: null
+  theme: null,
+  showDateGraph: true
 };
 
 export function reducer(state = initialState, action: AuthAction): State {
@@ -53,6 +55,18 @@ export function reducer(state = initialState, action: AuthAction): State {
         debug: false
       };
     }
+    case AuthActionTypes.ShowDateGraph: {
+      return {
+        ...state,
+        showDateGraph: true
+      };
+    }
+    case AuthActionTypes.HideDateGraph: {
+      return {
+        ...state,
+        showDateGraph: false
+      };
+    }
     default: {
       return state;
     }
@@ -65,3 +79,4 @@ export const isDebugOn = (state: State) =>
   state.user ? state.user.isDebugOn : false;
 export const getTheme = (state: State) =>
   state.user ? state.user.theme : localStorage.getItem('currentTheme');
+export const showDateGraph = (state: State) => state.showDateGraph;

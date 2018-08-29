@@ -47,6 +47,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() months: YearCount[] = [];
   @Input() moreUrl = null;
   @Input() isDebugOn: boolean;
+  @Input() showDateGraph: boolean;
   @Input() chartRange: ChartOption;
   @Output() searchSelected = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();

@@ -82,6 +82,10 @@ export const getAuthError = createSelector(
   fromSession.getError
 );
 export const isDebugOn = createSelector(getSessionState, fromSession.isDebugOn);
+export const showDateGraph = createSelector(
+  getSessionState,
+  fromSession.showDateGraph
+);
 export const currentTheme = createSelector(
   getSessionState,
   fromSession.getTheme

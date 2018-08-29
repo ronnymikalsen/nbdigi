@@ -21,7 +21,9 @@ export enum AuthActionTypes {
   SendPasswordResetEmaildSuccess = '[Session] Password reset email sendt',
   DebugOn = '[Session] Debug on',
   DebugOff = '[Session] Debug off',
-  SetTheme = '[Session] Set theme'
+  SetTheme = '[Session] Set theme',
+  ShowDateGraph = '[Session] Show date graph',
+  HideDateGraph = '[Session] Hide date graph'
 }
 
 export class SignUpWithEmailAndPassword implements Action {
@@ -102,6 +104,14 @@ export class SetTheme implements Action {
   constructor(public payload: string) {}
 }
 
+export class ShowDateGraph implements Action {
+  readonly type = AuthActionTypes.ShowDateGraph;
+}
+
+export class HideDateGraph implements Action {
+  readonly type = AuthActionTypes.HideDateGraph;
+}
+
 export type AuthAction =
   | SignInWithGoogle
   | SignInWithEmailAndPassword
@@ -117,4 +127,6 @@ export type AuthAction =
   | SendPasswordResetEmaildSuccess
   | DebugOn
   | DebugOff
-  | SetTheme;
+  | SetTheme
+  | ShowDateGraph
+  | HideDateGraph;

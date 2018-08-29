@@ -25,7 +25,9 @@ import {
   SignInWithGoogleSuccess,
   SignInWithEmailAndPasswordSuccess,
   SendPasswordResetEmail,
-  SendPasswordResetEmaildSuccess
+  SendPasswordResetEmaildSuccess,
+  ShowDateGraph,
+  HideDateGraph
 } from '../actions/session.actions';
 import { AuthService } from '../../core/auth-service/auth.service';
 import { User } from '../../models/user.model';
@@ -158,6 +160,24 @@ export class SessionEffects {
   signUpSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignUpSuccess),
     tap(() => this.router.navigate(['/home']))
+  );
+
+  @Effect({ dispatch: false })
+  showDateGraph: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.ShowDateGraph),
+    map((action: any) => action.payload),
+    tap(() => {
+      localStorage.setItem('showDateGraph', '' + true);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  hideDateGraph: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.HideDateGraph),
+    map((action: any) => action.payload),
+    tap(() => {
+      localStorage.setItem('showDateGraph', '' + false);
+    })
   );
 
   constructor(

@@ -14,11 +14,13 @@ import { Hint } from '../../../core/typeahead-service/hints.model';
     <app-search-box-container 
       [q]="q | async"
       [hints]="(search | async).hints"
+      [showDateGraph]="showDateGraph | async"
       (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
       (clearAll)="onClearAll()"
       (debugChanged)="debugChanged($event)"
+      (dateGraphChanged)="dateGraphChanged($event)"
       >
     </app-search-box-container>
   `
@@ -29,6 +31,9 @@ export class SearchBoxPageComponent {
     fromRoot.getSearchState
   );
   q: Observable<string> = this.store.select(fromRoot.getQ);
+  showDateGraph: Observable<boolean> = this.store.select(
+    fromRoot.showDateGraph
+  );
 
   constructor(private router: Router, private store: Store<fromRoot.State>) {}
 
@@ -60,5 +65,11 @@ export class SearchBoxPageComponent {
     debug
       ? this.store.dispatch(new sessionAction.DebugOn())
       : this.store.dispatch(new sessionAction.DebugOff());
+  }
+
+  dateGraphChanged(value: boolean): void {
+    value
+      ? this.store.dispatch(new sessionAction.ShowDateGraph())
+      : this.store.dispatch(new sessionAction.HideDateGraph());
   }
 }
