@@ -40,6 +40,9 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   yAxisLabel = 'Population';
   mqAlias: string;
   single = [];
+  colorScheme = {
+    domain: ['#00bcd4', '#00bcd4', '#00bcd4', '#00bcd4']
+  };
 
   constructor(public media: ObservableMedia) {
     this.media.subscribe(m => {
