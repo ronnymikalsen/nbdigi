@@ -5,7 +5,7 @@
     </button>
   </div>
   <ng-container *ngIf="years.length > 0 || months.length > 0">
-    <div fxFlex="grow">
+    <div fxFlex="1 1 calc(20em-60px)">
       <ngx-charts-bar-vertical [results]="single" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
         [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
         (select)="onSelect($event)">

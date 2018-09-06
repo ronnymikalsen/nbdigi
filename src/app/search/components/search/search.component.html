@@ -1,10 +1,11 @@
-<div fxFill fxLayout="column" fxLayoutAlign="start stretch">
+<div fxFill fxLayout="column" fxLayoutAlign="start stretch" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
+[fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
   <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching($event)"
     (addFilter)="addFilter.emit($event)" (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
     (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (genreChanged)="genreChanged.emit($event)"
-    (debugChanged)="debugChanged.emit($event)" (dateChanged)="dateChanged.emit($event)">
+    (debugChanged)="debugChanged.emit($event)" (dateChanged)="dateChanged.emit($event)" (dateGraphChanged)="dateGraphChanged.emit($event)" [showDateGraph]="showDateGraph">
   </app-toolbar>
-  <app-search-result-chart *ngIf="showDateGraph" fxShow="false" fxShow.gt-lg="true" [criteria]="search?.criteria" [years]="years" [months]="months"
+  <app-search-result-chart *ngIf="showDateGraph" [criteria]="search?.criteria" [years]="years" [months]="months"
     [chartRange]="chartRange" (chartRangeChanged)="chartRangeChanged.emit($event)" (previousChartRange)="previousChartRange.emit($event)"
     (chartDateChanged)="chartDateChanged.emit($event)"></app-search-result-chart>
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
@@ -20,8 +21,7 @@
       </mat-toolbar>
       <app-criteria-list [limit]="20"></app-criteria-list>
     </div>
-    <div *ngIf="!search.isLoading" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
-      [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
+    <div *ngIf="!search.isLoading">
       <app-items-section [label]="createLabel(books?.mediaType, books?.counts | number:'':'nb_NO')" [mediaTypeResults]="books"
         (mediaTypeChanged)="mediaTypeChanged.emit($event)" [selected]="search.criteria.mediaType === 'bøker'" [showMoreButton]="search.criteria.mediaType == 'alle'"
         [showToolbar]="search.criteria.mediaType == 'alle'" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>

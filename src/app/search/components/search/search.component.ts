@@ -59,6 +59,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @Output() dateChanged = new EventEmitter<DateOption>();
+  @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() chartDateChanged = new EventEmitter<DateOption>();
   @Output() chartRangeChanged = new EventEmitter<ChartOption>();
   @Output() previousChartRange = new EventEmitter<void>();

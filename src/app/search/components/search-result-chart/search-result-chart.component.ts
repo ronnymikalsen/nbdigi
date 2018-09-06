@@ -68,13 +68,13 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
         this.criteria.date.fromDate.substring(0, 4) ===
         this.criteria.date.toDate.substring(0, 4)
       ) {
-        const currentYear = this.criteria.date.fromDate.substring(0, 2);
         r = this.createMonthChart(this.months);
+        const currentYear = this.criteria.date.fromDate.substring(0, 3);
         this.backDateOption = new DateOption({
-          fromDate: `${currentYear}010101`,
-          toDate: `${currentYear}991231`,
-          value: `date:[${currentYear}000101 TO ${currentYear}991231]`,
-          viewValue: `${currentYear}00-${Number(currentYear) + 1}00`
+          fromDate: `${currentYear}10101`,
+          toDate: `${currentYear}91231`,
+          value: `date:[${currentYear}00101 TO ${currentYear}91231]`,
+          viewValue: `${currentYear}0-${Number(currentYear) + 1}0`
         });
       }
       if (this.years.length > 0) {
@@ -82,12 +82,23 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
         const last = this.years[this.years.length - 1].year
           .padStart(4, '0')
           .substring(0, 2);
-        if (first === last) {
-          r = this.createYearChart(this.years);
+        if (
+          first === last &&
+          Number(this.years[this.years.length - 1].year) -
+            Number(this.years[0].year) >
+            9
+        ) {
+          r = this.createDecadeChart(this.years);
           this.backDateOption = new DateOptions().anytime;
-        }
-
-        if (first !== last) {
+        } else if (first === last) {
+          r = this.createYearChart(this.years);
+          this.backDateOption = new DateOption({
+            fromDate: `${first}010101`,
+            toDate: `${first}991231`,
+            value: `date:[${first}000101 TO ${first}991231]`,
+            viewValue: `${first}00-${Number(first) + 1}00`
+          });
+        } else if (first !== last) {
           r = this.createCenturyChart(this.years);
           this.backDateOption = undefined;
         }
@@ -107,7 +118,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     });
     const min = Number(years[0].year);
     const max = Number(years[years.length - 1].year);
-    const range = max - min;
 
     const start = Math.floor(min / 100);
     const end = Math.floor(max / 100);
@@ -136,6 +146,57 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     return r;
   }
 
+  private createDecadeChart(years: YearCount[]) {
+    const newResult = [];
+    const r = [];
+    years.forEach(y => {
+      const first = Math.floor(Number(y.year) / 10) + '0';
+      newResult.push({
+        first: first,
+        name: y.year,
+        value: y.count
+      });
+    });
+    const min = Number(years[0].year.substring(0, 3) + '0');
+    const max = Number(years[years.length - 1].year);
+
+    const start = min;
+    const end = max;
+    const length =
+      Math.floor(Number(end) / 10) - Math.floor(Number(start) / 10) + 1;
+    for (let i = 0; i < length; i++) {
+      const year = start + i * 10;
+      const yearEnd = (year + 9).toString().substring(2);
+      const name = `${year} - ${yearEnd}`;
+      r[i] = {
+        first: year,
+        name: name,
+        value: 0
+      };
+    }
+    for (let i = 0; i < newResult.length; i++) {
+      const v = newResult[i];
+      const x = Number(v.name);
+      const y = x;
+      const first = Math.floor(Number(x) / 10) + '0';
+
+      const index = r.findIndex(va => Number(va.first) === Number(first));
+      if (index === -1) {
+        console.log('r', r);
+        console.log('first', first);
+      }
+      try {
+        r[index] = {
+          ...r[index],
+          value: Number(r[index].value) + Number(v.value)
+        };
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    return r;
+  }
+
   private createYearChart(years: YearCount[]) {
     const newResult = [];
     const r = [];
@@ -147,7 +208,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     });
     const min = Number(years[0].year);
     const max = Number(years[years.length - 1].year);
-    const range = max - min;
 
     const start = min;
     const end = max;
@@ -190,7 +250,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     });
     const min = Number(years[0].year);
     const max = Number(years[years.length - 1].year);
-    const range = max - min;
 
     const start = min;
     const end = max;
@@ -230,10 +289,8 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     });
     const min = Number(years[0].year);
     const max = Number(years[years.length - 1].year);
-    const range = max - min;
 
     const start = min;
-    const end = max;
     for (let i = 0; i < newResult.length; i++) {
       const v = newResult[i];
       const x = Number(v.name);
@@ -287,9 +344,22 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     if (event.name.length === 0) {
       return;
     }
-    if (event.name.indexOf('-') !== -1) {
+    if (event.name.indexOf('-') !== -1 && event.name.length === 11) {
       const fromYear = event.name.substring(0, 4);
       const toYear = Number(event.name.substring(7)) - 1;
+      this.chartDateChanged.emit(
+        new DateOption({
+          fromDate: `${fromYear}0101`,
+          toDate: `${toYear}1231`,
+          value: `date:[${fromYear}0101 TO ${toYear}1231]`,
+          viewValue: `${event.name}`
+        })
+      );
+    } else if (event.name.indexOf('-') !== -1 && event.name.length === 9) {
+      const fromYear = event.name.substring(0, 4);
+      const toYear = Number(
+        event.name.substring(0, 2) + event.name.substring(7)
+      );
       this.chartDateChanged.emit(
         new DateOption({
           fromDate: `${fromYear}0101`,
@@ -340,5 +410,16 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
 
   private daysInMonth(month: number, year: number): number {
     return new Date(year, month, 0).getDate();
+  }
+
+  private groupBy(ary, keyFunc) {
+    const r = {};
+    ary.forEach(function(x) {
+      const y = keyFunc(x);
+      r[y] = (r[y] || []).concat(x);
+    });
+    return Object.keys(r).map(function(y) {
+      return r[y];
+    });
   }
 }

@@ -30,16 +30,4 @@
       </mat-form-field>
     </form>
   </div>
-  <div>
-
-    <mat-menu #appMenu="matMenu">
-      <button mat-menu-item>
-        <mat-checkbox (click)="$event.stopPropagation()" (change)="dateGraphChanged.emit($event.checked)" [checked]="showDateGraph">Vis datograf</mat-checkbox>
-      </button>
-    </mat-menu>
-    
-    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </div>
 </div>

@@ -34,3 +34,16 @@ mat-chip {
 ::ng-deep .mat-select-panel {
   overflow: initial !important;
 }
+
+::ng-deep .search-options-container .mat-form-field-underline {
+  visibility: hidden;
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  visibility: hidden;
+}
+
+.settings-container .mat-button {
+  font-size: 20px;
+  font-weight: 400;
+}

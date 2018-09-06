@@ -52,6 +52,7 @@ import { YearCount } from '../../models/year-count';
       (genreChanged)="genreChanged($event)"
       (debugChanged)="debugChanged($event)"
       (dateChanged)="dateChanged($event)"
+      (dateGraphChanged)="dateGraphChanged($event)"
       (chartDateChanged)="chartDateChanged($event)"
       (chartRangeChanged)="chartRangeChanged($event)"
       (previousChartRange)="previousChartRange($event)"
@@ -184,6 +185,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   dateChanged(dateOption: DateOption): void {
     this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+  }
+
+  dateGraphChanged(value: boolean): void {
+    value
+      ? this.store.dispatch(new sessionAction.ShowDateGraph())
+      : this.store.dispatch(new sessionAction.HideDateGraph());
   }
 
   chartDateChanged(dateOption: DateOption): void {
