@@ -41,7 +41,6 @@ import { YearCount } from '../../models/year-count';
       [months]="months | async"
       [moreUrl]="moreUrl | async"
       [showDateGraph]="showDateGraph | async"
-      [chartRange]="chartRange | async"
       [isDebugOn]="isDebugOn | async"
       (searchSelected)="searchSelected($event)"
       (addFilter)="addFilter($event)"
@@ -99,9 +98,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   showDateGraph: Observable<boolean> = this.store.select(
     fromRoot.showDateGraph
-  );
-  chartRange: Observable<ChartOption> = this.store.select(
-    fromRoot.getChartRange
   );
   private destroyed: Subject<void> = new Subject();
 
