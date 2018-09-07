@@ -97,18 +97,16 @@
       </mat-form-field>
     </div>
     <div class="settings-container">
-      <mat-menu #appMenu="matMenu">
-          <button mat-menu-item *ngIf="!showDateGraph" (click)="dateGraphChanged.emit(true)">
+      <mat-form-field [floatLabel]=" 'never' ">
+        <mat-select panelClass="settingsOptions " placeholder="Innstillinger">
+          <mat-option *ngIf="!showDateGraph" (click)="dateGraphChanged.emit(true)">
             Vis datograf
-          </button>
-          <button mat-menu-item *ngIf="showDateGraph" (click)="dateGraphChanged.emit(false)">
+          </mat-option>
+          <mat-option *ngIf="showDateGraph" (click)="dateGraphChanged.emit(false)">
             Skjul datograf
-          </button>
-        </mat-menu>
-          
-        <button mat-button [matMenuTriggerFor]="appMenu">
-          Innstillinger
-        </button>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 </mat-toolbar>
