@@ -125,10 +125,7 @@ export class SearchEffects {
 
   @Effect()
   searchAggregator: Observable<Action> = this.actions.pipe(
-    ofType(
-      search.SearchActionTypes.SearchSuccess,
-      search.SearchActionTypes.SearchAggs
-    ),
+    ofType(search.SearchActionTypes.SearchAggs),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
