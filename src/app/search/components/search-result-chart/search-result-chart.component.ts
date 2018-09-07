@@ -26,23 +26,11 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   @Output() chartRangeChanged = new EventEmitter<ChartOption>();
   @Output() previousChartRange = new EventEmitter<DateOption>();
   @Output() chartDateChanged = new EventEmitter<DateOption>();
-
   backDateOption: DateOption;
-  view: any[] = [700, 600];
-  showYAxis = true;
-  showXAxis = true;
-  gradient = false;
-  showLegend = false;
-  showXAxisLabel = false;
-  xAxisLabel = 'Country';
-  showYAxisLabel = false;
-  yAxisLabel = 'Population';
-  mqAlias: string;
   data = [];
   colorScheme = {
     domain: ['#00bcd4']
   };
-
   private chartStrategy: ChartStrategy;
 
   ngOnInit() {}
@@ -63,10 +51,6 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   onSelect(event) {
-    if (event.name.length === 0) {
-      return;
-    }
-
     this.chartDateChanged.emit(this.chartStrategy.createQuery(event.name));
   }
 

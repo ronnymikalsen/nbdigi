@@ -6,8 +6,7 @@
   </div>
   <ng-container *ngIf="years.length > 0 || months.length > 0">
     <div fxFlex="1 1 calc(20em-60px)">
-      <ngx-charts-bar-vertical [results]="data" [scheme]="colorScheme" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
-        [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+      <ngx-charts-bar-vertical [results]="data" [scheme]="colorScheme" [xAxis]="true" [yAxis]="true"
         (select)="onSelect($event)">
       </ngx-charts-bar-vertical>
     </div>
