@@ -52,4 +52,13 @@ export class YearChartStrategy implements ChartStrategy {
       viewValue: `${first}00-${Number(first) + 1}00`
     });
   }
+
+  createQuery(selection: string): DateOption {
+    return new DateOption({
+      fromDate: `${selection}0101`,
+      toDate: `${selection}1231`,
+      value: `date:[${selection}0101 TO ${selection}1231]`,
+      viewValue: `${selection}`
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import { Criteria } from '../../../models/criteria';
+import { DateOption } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
 import { ChartStrategy } from './chart-strategy-factory';
-import { DateOption } from '../../../models/date-options';
 
 export class DayChartStrategy implements ChartStrategy {
   constructor(private criteria: Criteria, private aggs: YearCount[]) {}
@@ -42,5 +42,9 @@ export class DayChartStrategy implements ChartStrategy {
       value: `date:[${currentYear}0101 TO ${currentYear}1231]`,
       viewValue: `${currentYear}`
     });
+  }
+
+  createQuery(selection: string): DateOption {
+    return null;
   }
 }

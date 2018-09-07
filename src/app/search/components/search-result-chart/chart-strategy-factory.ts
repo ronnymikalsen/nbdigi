@@ -46,4 +46,5 @@ export class ChartStrategyFactory {
 export interface ChartStrategy {
   createChart(): any[];
   createBack(): DateOption;
+  createQuery(selection: string): DateOption;
 }

@@ -58,8 +58,63 @@ export class MonthChartStrategy implements ChartStrategy {
     });
   }
 
+  createQuery(selection: string): DateOption {
+    const currentYear = Number(this.criteria.date.fromDate.substring(0, 4));
+    const monthIndex = Number(this.monthNameToIndex(selection));
+    const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
+    const daysInMonth = this.daysInMonth(monthIndex, currentYear);
+    const lastDay = ('' + daysInMonth).padStart(2, '0');
+    const fromDate = `${currentYear}${monthIndexPadded}01`;
+    const toDate = `${currentYear}${monthIndexPadded}${lastDay}`;
+    const value = `date:[${fromDate} TO ${toDate}]`;
+    const viewValue = this.capitalizeFirstLetter(`${selection} ${currentYear}`);
+    return new DateOption({
+      fromDate: `${fromDate}`,
+      toDate: `${toDate}`,
+      value: `${value}`,
+      viewValue: `${viewValue}`
+    });
+  }
+
   private monthIndexToName(year: number, index: number) {
     const date = new Date(year, index - 1, 1);
     return date.toLocaleString('nb-us', { month: 'long' });
+  }
+
+  private monthNameToIndex(name: string) {
+    switch (name) {
+      case 'januar':
+        return 1;
+      case 'februar':
+        return 2;
+      case 'mars':
+        return 3;
+      case 'april':
+        return 4;
+      case 'mai':
+        return 5;
+      case 'juni':
+        return 6;
+      case 'juli':
+        return 7;
+      case 'august':
+        return 8;
+      case 'september':
+        return 9;
+      case 'oktober':
+        return 10;
+      case 'november':
+        return 11;
+      case 'desember':
+        return 12;
+    }
+  }
+
+  private capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  private daysInMonth(month: number, year: number): number {
+    return new Date(year, month, 0).getDate();
   }
 }

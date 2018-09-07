@@ -1,7 +1,7 @@
 import { Criteria } from '../../../models/criteria';
+import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
 import { ChartStrategy } from './chart-strategy-factory';
-import { DateOptions } from '../../../models/date-options';
 
 export class DecadeChartStrategy implements ChartStrategy {
   constructor(private criteria: Criteria, private aggs: YearCount[]) {}
@@ -57,5 +57,16 @@ export class DecadeChartStrategy implements ChartStrategy {
   }
   createBack() {
     return new DateOptions().anytime;
+  }
+
+  createQuery(selection: string): DateOption {
+    const fromYear = selection.substring(0, 4);
+    const toYear = Number(selection.substring(0, 2) + selection.substring(7));
+    return new DateOption({
+      fromDate: `${fromYear}0101`,
+      toDate: `${toYear}1231`,
+      value: `date:[${fromYear}0101 TO ${toYear}1231]`,
+      viewValue: `${selection}`
+    });
   }
 }

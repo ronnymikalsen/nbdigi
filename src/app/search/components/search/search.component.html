@@ -6,7 +6,7 @@
     (debugChanged)="debugChanged.emit($event)" (dateChanged)="dateChanged.emit($event)" (dateGraphChanged)="dateGraphChanged.emit($event)" [showDateGraph]="showDateGraph">
   </app-toolbar>
   <app-search-result-chart *ngIf="showDateGraph" [criteria]="search?.criteria" [years]="years" [months]="months"
-    [chartRange]="chartRange" (chartRangeChanged)="chartRangeChanged.emit($event)" (previousChartRange)="previousChartRange.emit($event)"
+    (chartRangeChanged)="chartRangeChanged.emit($event)" (previousChartRange)="previousChartRange.emit($event)"
     (chartDateChanged)="chartDateChanged.emit($event)"></app-search-result-chart>
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>

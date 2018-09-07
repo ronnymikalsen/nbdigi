@@ -47,4 +47,15 @@ export class CenturyChartStrategy implements ChartStrategy {
   createBack(): DateOption {
     return undefined;
   }
+
+  createQuery(selection: string): DateOption {
+    const fromYear = selection.substring(0, 4);
+    const toYear = Number(selection.substring(7)) - 1;
+    return new DateOption({
+      fromDate: `${fromYear}0101`,
+      toDate: `${toYear}1231`,
+      value: `date:[${fromYear}0101 TO ${toYear}1231]`,
+      viewValue: `${selection}`
+    });
+  }
 }
