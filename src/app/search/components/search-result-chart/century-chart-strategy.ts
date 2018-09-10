@@ -1,5 +1,5 @@
 import { Criteria } from '../../../models/criteria';
-import { DateOption } from '../../../models/date-options';
+import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
 import { ChartStrategy } from './chart-strategy-factory';
 
@@ -23,7 +23,7 @@ export class CenturyChartStrategy implements ChartStrategy {
     const length = end - start;
     for (let i = 0; i < length; i++) {
       const year = start + i;
-      const name = `${year * 100} - ${year * 100 + 100}`;
+      const name = `${year * 100} - ${year * 100 + 99}`;
       r[i] = {
         name: name,
         value: 0
@@ -34,7 +34,7 @@ export class CenturyChartStrategy implements ChartStrategy {
       const v = newResult[i];
       const x = Number(v.name);
       const y = Math.floor(x / 100);
-      const name = `${y * 100} - ${y * 100 + 100}`;
+      const name = `${y * 100} - ${y * 100 + 99}`;
       const value =
         r[y - start] !== undefined ? r[y - start].value + v.value : 1;
       r[y - start] = {
@@ -45,7 +45,7 @@ export class CenturyChartStrategy implements ChartStrategy {
     return r;
   }
   createBack(): DateOption {
-    return undefined;
+    return new DateOptions().anytime;
   }
 
   createQuery(selection: string): DateOption {

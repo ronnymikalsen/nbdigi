@@ -6,6 +6,7 @@ import { DecadeChartStrategy } from './decade-chart-strategy';
 import { YearChartStrategy } from './year-chart-strategy.';
 import { CenturyChartStrategy } from './century-chart-strategy';
 import { DateOption } from '../../../models/date-options';
+import { MillenniumChartStrategy } from './millennium-chart-strategy';
 
 export class ChartStrategyFactory {
   public static create(
@@ -29,6 +30,11 @@ export class ChartStrategyFactory {
         .padStart(4, '0')
         .substring(0, 2);
       if (
+        Number(yearAggs[yearAggs.length - 1].year) - Number(yearAggs[0].year) >
+        1000
+      ) {
+        return new MillenniumChartStrategy(criteria, yearAggs);
+      } else if (
         first === last &&
         Number(yearAggs[yearAggs.length - 1].year) - Number(yearAggs[0].year) >
           9
