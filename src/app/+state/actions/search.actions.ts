@@ -25,13 +25,7 @@ export enum SearchActionTypes {
   OpenDatePickerDialog = '[Search] Open date dialog',
   SetDateCriteria = '[Search] Set date criteria',
   SetDateCriteriaConfirmed = '[Search] Set date criteria confimred',
-  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled',
-  SetChartRange = '[Search] Set chartRange',
-  SetCenturyChartRange = '[Search] Set century chart range',
-  SetYearChartRange = '[Search] Set year chart range',
-  SetMonthChartRange = '[Search] Set month chart range',
-  SetDayChartRange = '[Search] Set day chart range',
-  PreviousChartRange = '[Search] Previous chart range'
+  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled'
 }
 
 export class Search implements Action {
@@ -146,39 +140,6 @@ export class SetDateCriteriaCancelled implements Action {
   constructor() {}
 }
 
-export class SetCenturyChartRange implements Action {
-  readonly type = SearchActionTypes.SetCenturyChartRange;
-
-  constructor(public payload: ChartOption) {}
-}
-export class SetYearChartRange implements Action {
-  readonly type = SearchActionTypes.SetYearChartRange;
-
-  constructor(public payload: ChartOption) {}
-}
-export class SetMonthChartRange implements Action {
-  readonly type = SearchActionTypes.SetMonthChartRange;
-
-  constructor(public payload: ChartOption) {}
-}
-
-export class SetDayChartRange implements Action {
-  readonly type = SearchActionTypes.SetDayChartRange;
-
-  constructor(public payload: ChartOption) {}
-}
-export class SetChartRange implements Action {
-  readonly type = SearchActionTypes.SetChartRange;
-
-  constructor(public payload: ChartOption) {}
-}
-
-export class PreviousChartRange implements Action {
-  readonly type = SearchActionTypes.PreviousChartRange;
-
-  constructor(public payload: DateOption) {}
-}
-
 export type SearchAction =
   | Search
   | SearchSuccess
@@ -199,10 +160,4 @@ export type SearchAction =
   | OpenDatePickerDialog
   | SetDateCriteria
   | SetDateCriteriaConfirmed
-  | SetCenturyChartRange
-  | SetYearChartRange
-  | SetMonthChartRange
-  | SetDayChartRange
-  | PreviousChartRange
-  | SetChartRange
   | SetDateCriteriaCancelled;

@@ -3,8 +3,8 @@ import * as moment from 'moment';
 export class DateOptions {
   public all: DateOption[];
   public anytime = new DateOption({
-    fromDate: '00010101',
-    toDate: '20991231',
+    fromDate: '00000101',
+    toDate: '49991231',
     value: null,
     viewValue: 'Når som helst'
   });

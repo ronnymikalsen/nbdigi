@@ -8,13 +8,6 @@ import { SearchAction, SearchActionTypes } from '../actions/search.actions';
 export interface State {
   criteria: Criteria;
   hints: Hints;
-  chartRange: ChartOption;
-  chartRanges: {
-    century: ChartOption;
-    year: ChartOption;
-    month: ChartOption;
-    day: ChartOption;
-  };
   searchResult: {
     selfLink: string;
     totalElements: number;
@@ -40,17 +33,6 @@ export interface State {
 export const initialState: State = {
   criteria: new Criteria(),
   hints: null,
-  chartRange: new ChartOption({ selection: 'responsive' }),
-  chartRanges: {
-    century: new ChartOption({
-      selection: 'century',
-      value: `date:[00010101 TO 99991231]`,
-      viewValue: 'Når som helst'
-    }),
-    year: new ChartOption({ selection: 'year' }),
-    month: new ChartOption({ selection: 'month' }),
-    day: new ChartOption({ selection: 'day' })
-  },
   searchResult: {
     selfLink: null,
     totalElements: 0,
@@ -371,73 +353,6 @@ export function reducer(state = initialState, action: SearchAction): State {
         hasError: false
       };
     }
-    case SearchActionTypes.SetChartRange: {
-      return {
-        ...state,
-        chartRange: action.payload
-      };
-    }
-    case SearchActionTypes.SetCenturyChartRange: {
-      return {
-        ...state,
-        chartRange: action.payload,
-        chartRanges: {
-          ...state.chartRanges,
-          century: action.payload
-        }
-      };
-    }
-    case SearchActionTypes.SetYearChartRange: {
-      return {
-        ...state,
-        chartRange: action.payload,
-        chartRanges: {
-          ...state.chartRanges,
-          year: action.payload
-        }
-      };
-    }
-    case SearchActionTypes.SetMonthChartRange: {
-      return {
-        ...state,
-        chartRange: action.payload,
-        chartRanges: {
-          ...state.chartRanges,
-          month: action.payload
-        }
-      };
-    }
-    case SearchActionTypes.SetDayChartRange: {
-      return {
-        ...state,
-        chartRange: action.payload,
-        chartRanges: {
-          ...state.chartRanges,
-          day: action.payload
-        }
-      };
-    }
-    case SearchActionTypes.PreviousChartRange: {
-      let option: ChartOption;
-      if (state.chartRange.selection === 'year') {
-        option = {
-          ...state.chartRanges.century
-        };
-      } else if (state.chartRange.selection === 'month') {
-        option = {
-          ...state.chartRanges.year
-        };
-      } else if (state.chartRange.selection === 'day') {
-        option = {
-          ...state.chartRanges.month
-        };
-      }
-      return {
-        ...state,
-        chartRange: option
-      };
-    }
-
     default: {
       return state;
     }
@@ -526,10 +441,6 @@ export const getYears = (state: State) => {
 };
 export const getMonths = (state: State) => {
   return state.searchResult.months;
-};
-
-export const getChartRange = (state: State) => {
-  return state.chartRange;
 };
 
 export const pristine = (state: State) => {

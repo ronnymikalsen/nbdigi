@@ -46,7 +46,7 @@ export class YearChartStrategy implements ChartStrategy {
   createBack() {
     const first = this.aggs[0].year.padStart(4, '0').substring(0, 2);
     return new DateOption({
-      fromDate: `${first}010101`,
+      fromDate: `${first}000101`,
       toDate: `${first}991231`,
       value: `date:[${first}000101 TO ${first}991231]`,
       viewValue: `${first}00-${Number(first) + 1}00`

@@ -79,10 +79,7 @@ export class SearchEffects {
         storeState.search.criteria.date.fromDate.substring(0, 4) ===
           storeState.search.criteria.date.toDate.substring(0, 4);
 
-      const chartAggs =
-        storeState.search.chartRange.selection === 'month' || isyearsearch
-          ? 'month:100'
-          : 'year:500';
+      const chartAggs = isyearsearch ? 'month:100' : 'year:500';
 
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
@@ -139,11 +136,7 @@ export class SearchEffects {
           storeState.search.criteria.date.fromDate.substring(0, 4) ===
             storeState.search.criteria.date.toDate.substring(0, 4);
 
-        chartAggs.push(
-          storeState.search.chartRange.selection === 'month' || isyearsearch
-            ? 'month:100'
-            : 'year:500'
-        );
+        chartAggs.push(isyearsearch ? 'month:100' : 'year:500');
       }
 
       return this.searchService

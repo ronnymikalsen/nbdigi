@@ -1,12 +1,12 @@
 import { Criteria } from '../../../models/criteria';
-import { YearCount } from '../../../models/year-count';
-import { DayChartStrategy } from './day-char-strategy';
-import { MonthChartStrategy } from './month-chart-strategy';
-import { DecadeChartStrategy } from './decade-chart-strategy';
-import { YearChartStrategy } from './year-chart-strategy.';
-import { CenturyChartStrategy } from './century-chart-strategy';
 import { DateOption } from '../../../models/date-options';
+import { YearCount } from '../../../models/year-count';
+import { CenturyChartStrategy } from './century-chart-strategy';
+import { DayChartStrategy } from './day-char-strategy';
+import { DecadeChartStrategy } from './decade-chart-strategy';
 import { MillenniumChartStrategy } from './millennium-chart-strategy';
+import { MonthChartStrategy } from './month-chart-strategy';
+import { YearChartStrategy } from './year-chart-strategy.';
 
 export class ChartStrategyFactory {
   public static create(

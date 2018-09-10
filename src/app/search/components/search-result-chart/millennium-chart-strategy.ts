@@ -54,12 +54,16 @@ export class MillenniumChartStrategy implements ChartStrategy {
   }
 
   createQuery(selection: string): DateOption {
-    const fromYear = selection.substring(0, 4);
-    const toYear = Number(selection.substring(7));
+    console.log(selection);
+    const fromYear = selection
+      .substring(0, selection.indexOf('-'))
+      .trim()
+      .padStart(4, '0');
+    const toYear = fromYear.substring(0, 1);
     return new DateOption({
-      fromDate: `${fromYear}0101`,
-      toDate: `${toYear}1231`,
-      value: `date:[${fromYear}0101 TO ${toYear}1231]`,
+      fromDate: `${fromYear}0000101`,
+      toDate: `${toYear}9991231`,
+      value: `date:[${fromYear}0101 TO ${toYear}9991231]`,
       viewValue: `${selection}`
     });
   }

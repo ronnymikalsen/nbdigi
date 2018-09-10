@@ -53,7 +53,6 @@ import { YearCount } from '../../models/year-count';
       (dateChanged)="dateChanged($event)"
       (dateGraphChanged)="dateGraphChanged($event)"
       (chartDateChanged)="chartDateChanged($event)"
-      (chartRangeChanged)="chartRangeChanged($event)"
       (previousChartRange)="previousChartRange($event)"
       (loadMore)="loadMore()">
     </app-search>
@@ -191,24 +190,6 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   chartDateChanged(dateOption: DateOption): void {
     this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
-  }
-
-  chartRangeChanged(chartRangeChanged: ChartOption): void {
-    if (chartRangeChanged.selection === 'year') {
-      this.store.dispatch(
-        new searchAction.SetYearChartRange(chartRangeChanged)
-      );
-    } else if (chartRangeChanged.selection === 'month') {
-      this.store.dispatch(
-        new searchAction.SetMonthChartRange(chartRangeChanged)
-      );
-    } else if (chartRangeChanged.selection === 'century') {
-      this.store.dispatch(
-        new searchAction.SetCenturyChartRange(chartRangeChanged)
-      );
-    } else if (chartRangeChanged.selection === 'day') {
-      this.store.dispatch(new searchAction.SetDayChartRange(chartRangeChanged));
-    }
   }
 
   previousChartRange(dateOption: DateOption) {
