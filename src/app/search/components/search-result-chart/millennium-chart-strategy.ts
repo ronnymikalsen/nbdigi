@@ -17,11 +17,11 @@ export class MillenniumChartStrategy implements ChartStrategy {
       });
     });
 
-    const min = Number(newResult[0].first) / 1000;
+    const min = Math.floor(Number(newResult[0].first) / 1000);
     const max = Number(newResult[newResult.length - 1].first) / 1000;
     const length = max - min;
     for (let i = 0; i <= length; i++) {
-      const year = min + i * 1000;
+      const year = (min + i) * 1000;
       const millennium = year < 1000 ? '' : year.toString().substring(0, 1);
       const yearEnd = millennium + '999';
       const name = `${year} - ${yearEnd}`;
@@ -54,7 +54,6 @@ export class MillenniumChartStrategy implements ChartStrategy {
   }
 
   createQuery(selection: string): DateOption {
-    console.log(selection);
     const fromYear = selection
       .substring(0, selection.indexOf('-'))
       .trim()
