@@ -1,13 +1,23 @@
 import { Criteria } from '../../../models/criteria';
-import { DateOption, DateOptions } from '../../../models/date-options';
+import { DateOption } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartStrategy } from './chart-strategy-factory';
+import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class DecadeChartStrategy implements ChartStrategy {
   constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+
+  getName() {
+    return 'DecadeChart';
+  }
+
+  getNext() {
+    return 'YearChart';
+  }
+
   createChart(): any[] {
     const newResult = [];
     const r = [];
+    console.log(this.aggs);
     this.aggs.forEach(y => {
       const first = Math.floor(Number(y.year) / 10) + '0';
       newResult.push({
@@ -16,54 +26,78 @@ export class DecadeChartStrategy implements ChartStrategy {
         value: y.count
       });
     });
-    const min = Number(this.aggs[0].year.substring(0, 3) + '0');
-    const max = Number(this.aggs[this.aggs.length - 1].year);
+    if (this.aggs.length > 0) {
+      const min = Number(
+        this.aggs[0].year.padStart(4, '0').substring(0, 3) + '0'
+      );
+      const max = Number(this.aggs[this.aggs.length - 1].year);
 
-    const start = min;
-    const end = max;
-    const length =
-      Math.floor(Number(end) / 10) - Math.floor(Number(start) / 10) + 1;
-    for (let i = 0; i < length; i++) {
-      const year = start + i * 10;
-      const yearEnd = (year + 9).toString().substring(2);
-      const name = `${year} - ${yearEnd}`;
-      r[i] = {
-        first: year,
-        name: name,
-        value: 0
-      };
-    }
-    for (let i = 0; i < newResult.length; i++) {
-      const v = newResult[i];
-      const x = Number(v.name);
-      const y = x;
-      const first = Math.floor(Number(x) / 10) + '0';
-
-      const index = r.findIndex(va => Number(va.first) === Number(first));
-      try {
-        r[index] = {
-          ...r[index],
-          value: Number(r[index].value) + Number(v.value)
+      const start = min;
+      const end = max;
+      console.log('start', start);
+      console.log('end', end);
+      const length =
+        Math.floor(Number(end) / 10) - Math.floor(Number(start) / 10) + 1;
+      for (let i = 0; i < length; i++) {
+        const year = start + i * 10;
+        const yearEnd = (year + 9).toString().padStart(4, '0');
+        const name = `${year} - ${Number(yearEnd)}`;
+        r[i] = {
+          first: year,
+          name: name,
+          value: 0
         };
-      } catch (e) {
-        console.error(e);
+      }
+      for (let i = 0; i < newResult.length; i++) {
+        const v = newResult[i];
+        const x = Number(v.name);
+        const y = x;
+        const first = Math.floor(Number(x) / 10) + '0';
+
+        const index = r.findIndex(va => Number(va.first) === Number(first));
+        try {
+          r[index] = {
+            ...r[index],
+            value: Number(r[index].value) + Number(v.value)
+          };
+        } catch (e) {
+          console.log('r', r);
+          console.log('index', index);
+          console.log('r[index]', r[index]);
+          console.log('v', v);
+          console.error(e);
+        }
       }
     }
     return r;
   }
-  createBack() {
+
+  createBack(): ChartRangeToOption {
     const first = this.aggs[0].year.padStart(4, '0').substring(0, 1);
-    return new DateOption({
-      fromDate: `${first}0000101`,
-      toDate: `${first}9991231`,
-      value: `date:[${first}0000101 TO ${first}9991231]`,
-      viewValue: `${first}000-${first}999`
-    });
+    const startYearLabel = Number(`${first}000`);
+    const endYearLabel = Number(`${first}999`);
+    return {
+      to: 'CenturyChart',
+      date: new DateOption({
+        fromDate: `${first}0000101`,
+        toDate: `${first}9991231`,
+        value: `date:[${first}0000101 TO ${first}9991231]`,
+        viewValue: `${startYearLabel}-${endYearLabel}`
+      })
+    };
   }
 
   createQuery(selection: string): DateOption {
-    const fromYear = selection.substring(0, 4);
-    const toYear = Number(selection.substring(0, 2) + selection.substring(7));
+    const fromYear = selection
+      .substring(0, selection.indexOf('-'))
+      .trim()
+      .padStart(4, '0')
+      .substring(0, 4);
+    const toYear = selection
+      .substring(selection.indexOf('-') + 1)
+      .trim()
+      .padStart(4, '0')
+      .substring(0, 4);
     return new DateOption({
       fromDate: `${fromYear}0101`,
       toDate: `${toYear}1231`,

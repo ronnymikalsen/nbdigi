@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="start center" class="chart-container">
   <div fxFlex="60px">
-    <button [disabled]="backDateOption === undefined" mat-icon-button [matTooltip]="'Tilbake til ' +  backDateOption?.viewValue.toLowerCase()" (click)="back()">
+    <button [disabled]="backDateOption?.to === undefined" mat-icon-button [matTooltip]="'Tilbake til ' +  backDateOption?.date?.viewValue?.toLowerCase()" (click)="back()">
       <mat-icon>arrow_back</mat-icon>
     </button>
   </div>

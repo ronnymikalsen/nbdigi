@@ -18,6 +18,7 @@ import { Genre } from '../../models/genre-options.model';
 import { MediaTypeResults } from '../../models/search-result.model';
 import { Sort } from '../../models/sort-options';
 import { YearCount } from '../../models/year-count';
+import { ChartRangeToOption } from '../components/search-result-chart/chart-strategy-factory';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,6 +55,7 @@ import { YearCount } from '../../models/year-count';
       (dateGraphChanged)="dateGraphChanged($event)"
       (chartDateChanged)="chartDateChanged($event)"
       (previousChartRange)="previousChartRange($event)"
+      (currentChartChanged)="currentChartChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -192,8 +194,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
   }
 
-  previousChartRange(dateOption: DateOption) {
-    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+  currentChartChanged(name: string) {
+    this.store.dispatch(new searchAction.SetCurrentChartName(name));
+  }
+
+  previousChartRange(chartBackOption: ChartRangeToOption) {
+    this.store.dispatch(new searchAction.ToChartRange(chartBackOption));
   }
 
   loadMore(): void {

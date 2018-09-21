@@ -27,6 +27,7 @@ import { TypeaheadService } from '../../core/typeahead-service/typeahead.service
 import { Criteria } from '../../models/criteria';
 import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
+import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import * as search from '../actions/search.actions';
 import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
@@ -202,6 +203,17 @@ export class SearchEffects {
           })
         );
     })
+  );
+
+  @Effect()
+  backToPreviousChartRange: Observable<Action> = this.actions.pipe(
+    ofType<search.ToChartRange>(SearchActionTypes.ToChartRange),
+    map(action => action.payload),
+    map(
+      (date: ChartRangeToOption) =>
+        new search.SetDateCriteriaConfirmed(date.date)
+    ),
+    catchError(err => of(new search.SearchError(err)))
   );
 
   @Effect()

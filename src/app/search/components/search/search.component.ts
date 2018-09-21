@@ -10,7 +10,6 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
 import * as fromSearch from '../../../+state/reducers/search.reducer';
 import { Hint } from '../../../core/typeahead-service/hints.model';
 import { ChartOption } from '../../../models/char-option';
@@ -20,6 +19,7 @@ import { Genre } from '../../../models/genre-options.model';
 import { MediaTypeResults } from '../../../models/search-result.model';
 import { Sort } from '../../../models/sort-options';
 import { YearCount } from '../../../models/year-count';
+import { ChartRangeToOption } from '../search-result-chart/chart-strategy-factory';
 
 @Component({
   selector: 'app-search',
@@ -61,8 +61,8 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() dateChanged = new EventEmitter<DateOption>();
   @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() chartDateChanged = new EventEmitter<DateOption>();
-  @Output() chartRangeChanged = new EventEmitter<ChartOption>();
-  @Output() previousChartRange = new EventEmitter<void>();
+  @Output() previousChartRange = new EventEmitter<ChartOption>();
+  @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
 

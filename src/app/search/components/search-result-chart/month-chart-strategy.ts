@@ -1,10 +1,18 @@
 import { Criteria } from '../../../models/criteria';
 import { DateOption } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartStrategy } from './chart-strategy-factory';
+import { ChartStrategy, ChartRangeToOption } from './chart-strategy-factory';
 
 export class MonthChartStrategy implements ChartStrategy {
-  constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(protected criteria: Criteria, private aggs: YearCount[]) {}
+
+  getName() {
+    return 'MonthChart';
+  }
+
+  getNext() {
+    return 'DayChart';
+  }
 
   createChart(): any[] {
     if (!this.aggs || this.aggs.length === 0) {
@@ -48,14 +56,19 @@ export class MonthChartStrategy implements ChartStrategy {
     return r;
   }
 
-  createBack() {
+  createBack(): ChartRangeToOption {
     const currentYear = this.criteria.date.fromDate.substring(0, 3);
-    return new DateOption({
-      fromDate: `${currentYear}10101`,
-      toDate: `${currentYear}91231`,
-      value: `date:[${currentYear}00101 TO ${currentYear}91231]`,
-      viewValue: `${currentYear}0-${Number(currentYear) + 1}0`
-    });
+    const startYearLabel = Number(`${currentYear}0`);
+    const endYearLabel = Number(`${currentYear}9`);
+    return {
+      to: 'YearChart',
+      date: new DateOption({
+        fromDate: `${currentYear}10101`,
+        toDate: `${currentYear}91231`,
+        value: `date:[${currentYear}00101 TO ${currentYear}91231]`,
+        viewValue: `${startYearLabel}-${endYearLabel}`
+      })
+    };
   }
 
   createQuery(selection: string): DateOption {

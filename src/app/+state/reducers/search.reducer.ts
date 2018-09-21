@@ -28,6 +28,7 @@ export interface State {
   isLoading: boolean;
   isLoadingMore: boolean;
   hasError: boolean;
+  currentChartRange: string;
 }
 
 export const initialState: State = {
@@ -54,7 +55,8 @@ export const initialState: State = {
   },
   isLoading: false,
   isLoadingMore: false,
-  hasError: false
+  hasError: false,
+  currentChartRange: null
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -257,6 +259,18 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         isLoadingMore: true
+      };
+    }
+    case SearchActionTypes.ToChartRange: {
+      return {
+        ...state,
+        currentChartRange: action.payload.to
+      };
+    }
+    case SearchActionTypes.SetCurrentChartRange: {
+      return {
+        ...state,
+        currentChartRange: action.payload
       };
     }
     case SearchActionTypes.LoadMoreSuccess: {

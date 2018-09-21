@@ -1,10 +1,19 @@
 import { Criteria } from '../../../models/criteria';
 import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartStrategy } from './chart-strategy-factory';
+import { ChartStrategy, ChartRangeToOption } from './chart-strategy-factory';
 
 export class MillenniumChartStrategy implements ChartStrategy {
   constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+
+  getName() {
+    return 'MillenniumChart';
+  }
+
+  getNext() {
+    return 'CenturyChart';
+  }
+
   createChart(): any[] {
     const newResult = [];
     const r = [];
@@ -49,20 +58,26 @@ export class MillenniumChartStrategy implements ChartStrategy {
     }
     return r;
   }
-  createBack() {
-    return undefined;
+
+  createBack(): ChartRangeToOption {
+    return {};
   }
 
   createQuery(selection: string): DateOption {
     const fromYear = selection
       .substring(0, selection.indexOf('-'))
       .trim()
-      .padStart(4, '0');
-    const toYear = fromYear.substring(0, 1);
+      .padStart(4, '0')
+      .substring(0, 4);
+    const toYear = selection
+      .substring(selection.indexOf('-') + 1)
+      .trim()
+      .padStart(4, '0')
+      .substring(0, 4);
     return new DateOption({
-      fromDate: `${fromYear}0000101`,
-      toDate: `${toYear}9991231`,
-      value: `date:[${fromYear}0101 TO ${toYear}9991231]`,
+      fromDate: `${fromYear}0101`,
+      toDate: `${toYear}1231`,
+      value: `date:[${fromYear}0101 TO ${toYear}1231]`,
       viewValue: `${selection}`
     });
   }
