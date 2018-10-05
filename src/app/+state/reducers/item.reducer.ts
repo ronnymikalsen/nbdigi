@@ -3,10 +3,12 @@ import { ItemAction, ItemActionTypes } from '../actions/item.actions';
 
 export interface State {
   currentItem?: Item;
+  showItemDetails: boolean;
 }
 
 export const initialState: State = {
-  currentItem: null
+  currentItem: null,
+  showItemDetails: false
 };
 
 export function reducer(state = initialState, action: ItemAction): State {
@@ -17,6 +19,18 @@ export function reducer(state = initialState, action: ItemAction): State {
         currentItem: action.payload
       };
     }
+    case ItemActionTypes.OpenItemDetails: {
+      return {
+        ...state,
+        showItemDetails: true
+      };
+    }
+    case ItemActionTypes.CloseItemDetails: {
+      return {
+        ...state,
+        showItemDetails: false
+      };
+    }
     default: {
       return state;
     }
@@ -24,3 +38,4 @@ export function reducer(state = initialState, action: ItemAction): State {
 }
 
 export const getCurrentItem = (state: State) => state.currentItem;
+export const showItemDetails = (state: State) => state.showItemDetails;

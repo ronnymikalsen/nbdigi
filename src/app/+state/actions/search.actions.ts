@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Hint, Hints } from '../../core/typeahead-service/hints.model';
 import { Criteria } from '../../models/criteria';
 import { DateOption } from '../../models/date-options';
-import { SuperSearchResult } from '../../models/search-result.model';
+import { SuperSearchResult, Item } from '../../models/search-result.model';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 
 export enum SearchActionTypes {

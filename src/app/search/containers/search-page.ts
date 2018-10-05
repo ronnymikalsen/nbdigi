@@ -42,6 +42,7 @@ import { ChartRangeToOption } from '../components/search-result-chart/chart-stra
       [months]="months | async"
       [moreUrl]="moreUrl | async"
       [showDateGraph]="showDateGraph | async"
+      [showItemDetails]="showItemDetails | async"
       [isDebugOn]="isDebugOn | async"
       (searchSelected)="searchSelected($event)"
       (addFilter)="addFilter($event)"
@@ -99,6 +100,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   showDateGraph: Observable<boolean> = this.store.select(
     fromRoot.showDateGraph
+  );
+  showItemDetails: Observable<boolean> = this.store.select(
+    fromRoot.showItemDetails
   );
   private destroyed: Subject<void> = new Subject();
 

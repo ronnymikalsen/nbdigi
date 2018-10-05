@@ -7,7 +7,7 @@ import { Action, Store } from '@ngrx/store';
 import {
   AngularFirestore,
   AngularFirestoreCollection
-} from 'angularfire2/firestore';
+} from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
 import {

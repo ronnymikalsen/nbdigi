@@ -14,7 +14,6 @@ import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter
 } from '@angular/material-moment-adapter';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthService } from './auth-service/auth.service';
@@ -52,8 +51,7 @@ export function httpFactory(handler: HttpHandler) {
     TypeaheadService,
     FavoriteService,
     ViewerService,
-    CheckForUpdateService,
-    AngularFireDatabase
+    CheckForUpdateService
   ],
   entryComponents: [SwUpdateMessageComponent, DatePickerDialogComponent]
 })

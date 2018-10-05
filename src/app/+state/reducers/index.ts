@@ -146,6 +146,10 @@ export const getCurrentItem = createSelector(
   getItemState,
   fromItem.getCurrentItem
 );
+export const showItemDetails = createSelector(
+  getItemState,
+  fromItem.showItemDetails
+);
 
 /**
  * Favorite Reducers

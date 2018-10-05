@@ -10,7 +10,7 @@ import { FavoriteList } from '../../../models/favorite-list';
 import { Item } from '../../../models/search-result.model';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
-import * as itemActions from '../../../+state/actions/item.actions';
+import { ItemActions } from '../../../+state/actions';
 
 @Component({
   selector: 'app-item-menu-button',
@@ -28,7 +28,11 @@ export class ItemMenuButtonComponent implements OnInit {
   ngOnInit() {}
 
   open(): void {
-    this.store.dispatch(new itemActions.Open(this.item));
+    this.store.dispatch(new ItemActions.Open(this.item));
+  }
+
+  openItemDetails(): void {
+    this.store.dispatch(new ItemActions.OpenItemDetails(this.item));
   }
 
   addToFavorites(): void {
@@ -47,11 +51,17 @@ export class ItemMenuButtonComponent implements OnInit {
 
 export class ItemMenuButtonComponentConfig {
   enableOpen = true;
+  enableShowDetails = true;
 
-  constructor(fields?: { enableOpen?: boolean }) {
+  constructor(fields?: { enableOpen?: boolean; enableShowDetails?: boolean }) {
     if (fields) {
+      console.log(fields.enableOpen);
       this.enableOpen =
         fields.enableOpen !== undefined ? fields.enableOpen : this.enableOpen;
+      this.enableShowDetails =
+        fields.enableShowDetails !== undefined
+          ? fields.enableShowDetails
+          : this.enableShowDetails;
     }
   }
 }
