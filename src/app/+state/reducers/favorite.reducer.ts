@@ -1,6 +1,6 @@
 import { FavoriteList } from '../../models/favorite-list';
 import {
-  FavoriteAction,
+  FavoriteActionUnion,
   FavoriteActionTypes
 } from '../actions/favorite.actions';
 import { User } from '../../models/user.model';
@@ -16,7 +16,10 @@ export const initialState: State = {
   lists: []
 };
 
-export function reducer(state = initialState, action: FavoriteAction): State {
+export function reducer(
+  state = initialState,
+  action: FavoriteActionUnion
+): State {
   switch (action.type) {
     case FavoriteActionTypes.OpenList: {
       return {

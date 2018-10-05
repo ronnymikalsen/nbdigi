@@ -166,7 +166,7 @@ export class Error implements Action {
   constructor(public payload: Error) {}
 }
 
-export type FavoriteAction =
+export type FavoriteActionUnion =
   | OpenAddToListDialog
   | OpenList
   | SetList
