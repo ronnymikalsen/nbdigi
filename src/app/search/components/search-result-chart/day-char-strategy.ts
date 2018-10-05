@@ -1,6 +1,4 @@
-import { Criteria } from '../../../models/criteria';
-import { DateOption } from '../../../models/date-options';
-import { YearCount } from '../../../models/year-count';
+import { DateOption, DateOptions } from '../../../models/date-options';
 import { ChartStrategy } from './chart-strategy-factory';
 import { MonthChartStrategy } from './month-chart-strategy';
 
@@ -23,6 +21,7 @@ export class DayChartStrategy extends MonthChartStrategy
       date: new DateOption({
         fromDate: `${currentYear}0101`,
         toDate: `${currentYear}1231`,
+        type: new DateOptions().customDate.type,
         value: `date:[${currentYear}0101 TO ${currentYear}1231]`,
         viewValue: `${currentYear}`
       })

@@ -1,7 +1,7 @@
 import { Criteria } from '../../../models/criteria';
-import { DateOption } from '../../../models/date-options';
+import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartStrategy, ChartRangeToOption } from './chart-strategy-factory';
+import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class MonthChartStrategy implements ChartStrategy {
   constructor(protected criteria: Criteria, private aggs: YearCount[]) {}
@@ -84,6 +84,7 @@ export class MonthChartStrategy implements ChartStrategy {
     return new DateOption({
       fromDate: `${fromDate}`,
       toDate: `${toDate}`,
+      type: new DateOptions().customDate.type,
       value: `${value}`,
       viewValue: `${viewValue}`
     });

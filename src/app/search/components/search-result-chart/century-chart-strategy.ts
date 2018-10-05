@@ -1,7 +1,7 @@
 import { Criteria } from '../../../models/criteria';
 import { DateOption, DateOptions } from '../../../models/date-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartStrategy, ChartRangeToOption } from './chart-strategy-factory';
+import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class CenturyChartStrategy implements ChartStrategy {
   constructor(private criteria: Criteria, private aggs: YearCount[]) {}
@@ -81,6 +81,7 @@ export class CenturyChartStrategy implements ChartStrategy {
     return new DateOption({
       fromDate: `${fromYear}0101`,
       toDate: `${toYear}1231`,
+      type: new DateOptions().customDate.type,
       value: `date:[${fromYear}0101 TO ${toYear}1231]`,
       viewValue: `${selection}`
     });
