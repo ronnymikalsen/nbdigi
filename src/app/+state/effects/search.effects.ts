@@ -80,7 +80,7 @@ export class SearchEffects {
         storeState.search.criteria.date.fromDate.substring(0, 4) ===
           storeState.search.criteria.date.toDate.substring(0, 4);
 
-      const chartAggs = isyearsearch ? 'month:100' : 'year:500';
+      const chartAggs = isyearsearch ? 'month:100' : 'year:999';
 
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
@@ -123,7 +123,10 @@ export class SearchEffects {
 
   @Effect()
   searchAggregator: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.SearchAggs),
+    ofType(
+      search.SearchActionTypes.SearchAggs,
+      search.SearchActionTypes.SearchSuccess
+    ),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
@@ -137,15 +140,14 @@ export class SearchEffects {
           storeState.search.criteria.date.fromDate.substring(0, 4) ===
             storeState.search.criteria.date.toDate.substring(0, 4);
 
-        chartAggs.push(isyearsearch ? 'month:100' : 'year:500');
+        chartAggs.push(isyearsearch ? 'month:100' : 'year:999');
       }
-
       return this.searchService
         .search(
           {
             size: 1,
             q: storeState.search.criteria.q,
-            filters: filters,
+            filters: filters.filter(f => !f.startsWith('mediatype')),
             sort: storeState.search.criteria.sort
           },
           chartAggs

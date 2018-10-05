@@ -17,7 +17,6 @@ export class DecadeChartStrategy implements ChartStrategy {
   createChart(): any[] {
     const newResult = [];
     const r = [];
-    console.log(this.aggs);
     this.aggs.forEach(y => {
       const first = Math.floor(Number(y.year) / 10) + '0';
       newResult.push({
@@ -34,8 +33,6 @@ export class DecadeChartStrategy implements ChartStrategy {
 
       const start = min;
       const end = max;
-      console.log('start', start);
-      console.log('end', end);
       const length =
         Math.floor(Number(end) / 10) - Math.floor(Number(start) / 10) + 1;
       for (let i = 0; i < length; i++) {
@@ -61,10 +58,6 @@ export class DecadeChartStrategy implements ChartStrategy {
             value: Number(r[index].value) + Number(v.value)
           };
         } catch (e) {
-          console.log('r', r);
-          console.log('index', index);
-          console.log('r[index]', r[index]);
-          console.log('v', v);
           console.error(e);
         }
       }

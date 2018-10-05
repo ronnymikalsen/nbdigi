@@ -58,7 +58,7 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   }
 
   onSelect(event) {
-    this.force = this.chartStrategy.getNext();
+    this.force = null;
     this.chartDateChanged.emit(this.chartStrategy.createQuery(event.name));
   }
 

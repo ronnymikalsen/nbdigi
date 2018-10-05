@@ -55,7 +55,6 @@ export class SessionService {
     const showDateGraph: boolean = Boolean(
       localStorage.getItem('showDateGraph')
     );
-    console.log(localStorage.getItem('showDateGraph'));
     showDateGraph
       ? this.store.dispatch(new session.ShowDateGraph())
       : this.store.dispatch(new session.HideDateGraph());

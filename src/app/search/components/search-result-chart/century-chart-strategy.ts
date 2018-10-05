@@ -41,8 +41,6 @@ export class CenturyChartStrategy implements ChartStrategy {
       };
     }
 
-    console.log('r', r);
-    console.log('newResult', newResult);
     for (let i = 0; i < newResult.length; i++) {
       const v = newResult[i];
       const x = Number(v.name);
