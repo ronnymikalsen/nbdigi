@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Genre } from '../../models/genre-options.model';
-import * as searchAction from './../../+state/actions/search.actions';
-import * as fromRoot from './../../+state/reducers';
+import * as searchAction from '../../+state/actions/search.actions';
+import * as fromRoot from '../../+state/reducers';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

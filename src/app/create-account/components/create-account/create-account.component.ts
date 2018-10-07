@@ -1,4 +1,4 @@
-import { AuthError } from './../../../models/auth-error.model';
+import { AuthError } from '../../../models/auth-error.model';
 import {
   Component,
   OnInit,
@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 
 import { PasswordValidation } from './password.validation';
-import { Authenticate } from './../../../models/auth.model';
+import { Authenticate } from '../../../models/auth.model';
 
 @Component({
   selector: 'app-create-account',

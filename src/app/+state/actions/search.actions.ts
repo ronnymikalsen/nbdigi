@@ -1,8 +1,9 @@
 import { Action } from '@ngrx/store';
+import { Hint, Hints } from '../../core/typeahead-service/hints.model';
 import { Criteria } from '../../models/criteria';
 import { DateOption } from '../../models/date-options';
-import { Hint, Hints } from './../../core/typeahead-service/hints.model';
-import { SuperSearchResult } from './../../models/search-result.model';
+import { SuperSearchResult } from '../../models/search-result.model';
+import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 
 export enum SearchActionTypes {
   Search = '[Search] Searching',
@@ -24,7 +25,9 @@ export enum SearchActionTypes {
   OpenDatePickerDialog = '[Search] Open date dialog',
   SetDateCriteria = '[Search] Set date criteria',
   SetDateCriteriaConfirmed = '[Search] Set date criteria confimred',
-  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled'
+  SetDateCriteriaCancelled = '[Search] Set date criteria cancelled',
+  ToChartRange = '[Search] Go back to previous chart range',
+  SetCurrentChartRange = '[Search] Set current chart range'
 }
 
 export class Search implements Action {
@@ -138,6 +141,17 @@ export class SetDateCriteriaCancelled implements Action {
 
   constructor() {}
 }
+export class ToChartRange implements Action {
+  readonly type = SearchActionTypes.ToChartRange;
+
+  constructor(public payload: ChartRangeToOption) {}
+}
+
+export class SetCurrentChartName implements Action {
+  readonly type = SearchActionTypes.SetCurrentChartRange;
+
+  constructor(public payload: string) {}
+}
 
 export type SearchAction =
   | Search
@@ -159,4 +173,6 @@ export type SearchAction =
   | OpenDatePickerDialog
   | SetDateCriteria
   | SetDateCriteriaConfirmed
-  | SetDateCriteriaCancelled;
+  | SetDateCriteriaCancelled
+  | ToChartRange
+  | SetCurrentChartName;

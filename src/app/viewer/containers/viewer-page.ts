@@ -3,11 +3,11 @@ import { MatDialogRef } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromRoot from './../../+state/reducers';
-import * as favoriteActions from './../../+state/actions/favorite.actions';
-import * as itemAction from './../../+state/actions/item.actions';
-import { getCurrentItem } from './../../+state/reducers/item.reducer';
-import { getItemState } from './../../+state/reducers/index';
+import * as fromRoot from '../../+state/reducers';
+import * as favoriteActions from '../../+state/actions/favorite.actions';
+import * as itemAction from '../../+state/actions/item.actions';
+import { getCurrentItem } from '../../+state/reducers/item.reducer';
+import { getItemState } from '../../+state/reducers';
 import { Item } from '../../models/search-result.model';
 
 @Component({

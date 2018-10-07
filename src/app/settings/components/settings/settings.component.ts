@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromRoot from '../../../+state/reducers';
-import * as fromSession from './../../../+state/reducers/session.reducer';
+import * as fromSession from '../../../+state/reducers/session.reducer';
 import { MatSlideToggleChange } from '@angular/material';
 @Component({
   selector: 'app-settings',

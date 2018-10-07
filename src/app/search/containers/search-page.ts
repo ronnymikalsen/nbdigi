@@ -7,15 +7,18 @@ import {
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
+import * as searchAction from '../../+state/actions/search.actions';
+import * as sessionAction from '../../+state/actions/session.actions';
+import * as fromRoot from '../../+state/reducers';
+import * as fromSearch from '../../+state/reducers/search.reducer';
+import { Hint } from '../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../models/char-option';
 import { DateOption } from '../../models/date-options';
 import { Genre } from '../../models/genre-options.model';
+import { MediaTypeResults } from '../../models/search-result.model';
 import { Sort } from '../../models/sort-options';
-import * as searchAction from './../../+state/actions/search.actions';
-import * as sessionAction from './../../+state/actions/session.actions';
-import * as fromRoot from './../../+state/reducers';
-import * as fromSearch from './../../+state/reducers/search.reducer';
-import { Hint } from './../../core/typeahead-service/hints.model';
-import { MediaTypeResults } from './../../models/search-result.model';
+import { YearCount } from '../../models/year-count';
+import { ChartRangeToOption } from '../components/search-result-chart/chart-strategy-factory';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,7 +38,10 @@ import { MediaTypeResults } from './../../models/search-result.model';
       [privateArchives]="privateArchives | async"
       [programReports]="programReports | async"
       [others]="others | async"
+      [years]="years | async"
+      [months]="months | async"
       [moreUrl]="moreUrl | async"
+      [showDateGraph]="showDateGraph | async"
       [isDebugOn]="isDebugOn | async"
       (searchSelected)="searchSelected($event)"
       (addFilter)="addFilter($event)"
@@ -46,6 +52,10 @@ import { MediaTypeResults } from './../../models/search-result.model';
       (genreChanged)="genreChanged($event)"
       (debugChanged)="debugChanged($event)"
       (dateChanged)="dateChanged($event)"
+      (dateGraphChanged)="dateGraphChanged($event)"
+      (chartDateChanged)="chartDateChanged($event)"
+      (previousChartRange)="previousChartRange($event)"
+      (currentChartChanged)="currentChartChanged($event)"
       (loadMore)="loadMore()">
     </app-search>
   `
@@ -82,9 +92,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     fromRoot.getProgramReports
   );
   others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
+  years: Observable<YearCount[]> = this.store.select(fromRoot.getYears);
+  months: Observable<YearCount[]> = this.store.select(fromRoot.getMonths);
   moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
   pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  showDateGraph: Observable<boolean> = this.store.select(
+    fromRoot.showDateGraph
+  );
   private destroyed: Subject<void> = new Subject();
 
   constructor(private store: Store<fromRoot.State>, public dialog: MatDialog) {}
@@ -167,6 +182,24 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   dateChanged(dateOption: DateOption): void {
     this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+  }
+
+  dateGraphChanged(value: boolean): void {
+    value
+      ? this.store.dispatch(new sessionAction.ShowDateGraph())
+      : this.store.dispatch(new sessionAction.HideDateGraph());
+  }
+
+  chartDateChanged(dateOption: DateOption): void {
+    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+  }
+
+  currentChartChanged(name: string) {
+    this.store.dispatch(new searchAction.SetCurrentChartName(name));
+  }
+
+  previousChartRange(chartBackOption: ChartRangeToOption) {
+    this.store.dispatch(new searchAction.ToChartRange(chartBackOption));
   }
 
   loadMore(): void {

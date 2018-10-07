@@ -8,8 +8,8 @@ import { Observable } from 'rxjs/Rx';
 import { of } from 'rxjs';
 
 import { SearchEffects } from './search.effects';
-import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
-import { Hint } from './../../core/typeahead-service/hints.model';
+import { TypeaheadService } from '../../core/typeahead-service/typeahead.service';
+import { Hint } from '../../core/typeahead-service/hints.model';
 
 describe('SearchpEffects', () => {
   let actions;

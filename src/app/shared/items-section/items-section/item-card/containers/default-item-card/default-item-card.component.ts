@@ -7,9 +7,9 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { FavoriteList } from '../../../../../../models/favorite-list';
-import * as itemAction from './../../../../../../+state/actions/item.actions';
-import * as fromRoot from './../../../../../../+state/reducers';
-import { Item } from './../../../../../../models/search-result.model';
+import * as itemAction from '../../../../../../+state/actions/item.actions';
+import * as fromRoot from '../../../../../../+state/reducers';
+import { Item } from '../../../../../../models/search-result.model';
 
 @Component({
   selector: 'app-default-item-card',

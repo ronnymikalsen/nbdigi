@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FavoriteList } from '../../../../models/favorite-list';
-import * as favoriteActions from './../../../../+state/actions/favorite.actions';
-import * as fromRoot from './../../../../+state/reducers';
+import * as favoriteActions from '../../../../+state/actions/favorite.actions';
+import * as fromRoot from '../../../../+state/reducers';
 
 @Component({
   selector: 'app-favorite-list-menu-button',

@@ -1,14 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {
-  AngularFirestoreDocument,
-  AngularFirestore
+  AngularFirestore,
+  AngularFirestoreDocument
 } from 'angularfire2/firestore';
-import { filter, takeUntil } from 'rxjs/operators';
-import { User } from '../../models/user.model';
+import { filter } from 'rxjs/operators';
 import * as session from '../../+state/actions/session.actions';
-import { Store } from '@ngrx/store';
-import * as fromRoot from './../../+state/reducers';
+import * as fromRoot from '../../+state/reducers';
+import { User } from '../../models/user.model';
 
 @Injectable()
 export class SessionService {
@@ -52,6 +52,12 @@ export class SessionService {
         err => console.log('errr', err)
       );
     });
+    const showDateGraph: boolean = Boolean(
+      localStorage.getItem('showDateGraph')
+    );
+    showDateGraph
+      ? this.store.dispatch(new session.ShowDateGraph())
+      : this.store.dispatch(new session.HideDateGraph());
   }
 
   updateTheme(theme: string) {

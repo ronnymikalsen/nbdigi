@@ -8,7 +8,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -21,16 +21,17 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
+import { SearchService } from '../../core/search-service/search.service';
+import { Hint, Hints } from '../../core/typeahead-service/hints.model';
+import { TypeaheadService } from '../../core/typeahead-service/typeahead.service';
+import { Criteria } from '../../models/criteria';
 import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
+import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import * as search from '../actions/search.actions';
 import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
-import { SearchService } from './../../core/search-service/search.service';
-import { Hint, Hints } from './../../core/typeahead-service/hints.model';
-import { TypeaheadService } from './../../core/typeahead-service/typeahead.service';
-import { Criteria } from './../../models/criteria';
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 
 @Injectable()
 export class SearchEffects {
@@ -56,7 +57,9 @@ export class SearchEffects {
         date: storeState.search.criteria.date
           ? {
               value: storeState.search.criteria.date.value,
-              viewValue: storeState.search.criteria.date.viewValue
+              viewValue: storeState.search.criteria.date.viewValue,
+              fromDate: storeState.search.criteria.date.fromDate,
+              toDate: storeState.search.criteria.date.toDate
             }
           : null,
         genre: storeState.search.criteria.genre
@@ -70,14 +73,26 @@ export class SearchEffects {
       const createHash = new Criteria(hint);
       this.criteriasRef.doc(<string>createHash.hash).set(hint);
 
+      const isyearsearch =
+        storeState.search.criteria.date &&
+        storeState.search.criteria.date.fromDate &&
+        storeState.search.criteria.date.toDate &&
+        storeState.search.criteria.date.fromDate.substring(0, 4) ===
+          storeState.search.criteria.date.toDate.substring(0, 4);
+
+      const chartAggs = isyearsearch ? 'month:100' : 'year:999';
+
       if (storeState.search.criteria.mediaType === 'alle') {
         return this.searchService
-          .super({
-            size: 20,
-            q: storeState.search.criteria.q,
-            filters: filters,
-            sort: storeState.search.criteria.sort
-          })
+          .super(
+            {
+              size: 20,
+              q: storeState.search.criteria.q,
+              filters: filters,
+              sort: storeState.search.criteria.sort
+            },
+            [chartAggs]
+          )
           .pipe(
             map(searchResult => {
               return new search.SearchSuccess(searchResult);
@@ -86,13 +101,16 @@ export class SearchEffects {
           );
       } else {
         return this.searchService
-          .search({
-            size: 50,
-            mediaType: storeState.search.criteria.mediaType,
-            q: storeState.search.criteria.q,
-            filters: filters,
-            sort: storeState.search.criteria.sort
-          })
+          .search(
+            {
+              size: 50,
+              mediaType: storeState.search.criteria.mediaType,
+              q: storeState.search.criteria.q,
+              filters: filters,
+              sort: storeState.search.criteria.sort
+            },
+            [chartAggs]
+          )
           .pipe(
             map(searchResult => {
               return new search.SearchSuccess(searchResult);
@@ -106,26 +124,39 @@ export class SearchEffects {
   @Effect()
   searchAggregator: Observable<Action> = this.actions.pipe(
     ofType(
-      search.SearchActionTypes.SearchSuccess,
-      search.SearchActionTypes.SearchAggs
+      search.SearchActionTypes.SearchAggs,
+      search.SearchActionTypes.SearchSuccess
     ),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
-      const hints = new Hints();
       const filters = this.addAllFilters(storeState);
 
+      const chartAggs = [];
+      if (storeState.search.criteria.mediaType === 'alle') {
+        const isyearsearch =
+          storeState.search.criteria.date &&
+          storeState.search.criteria.date.fromDate &&
+          storeState.search.criteria.date.toDate &&
+          storeState.search.criteria.date.fromDate.substring(0, 4) ===
+            storeState.search.criteria.date.toDate.substring(0, 4);
+
+        chartAggs.push(isyearsearch ? 'month:100' : 'year:999');
+      }
       return this.searchService
-        .search({
-          size: 1,
-          q: storeState.search.criteria.q,
-          filters: filters,
-          sort: storeState.search.criteria.sort
-        })
+        .search(
+          {
+            size: 1,
+            q: storeState.search.criteria.q,
+            filters: filters.filter(f => !f.startsWith('mediatype')),
+            sort: storeState.search.criteria.sort
+          },
+          chartAggs
+        )
         .pipe(
           map(searchResult => {
             return new search.SearchAggsSuccess(searchResult);
           }),
-          catchError(err => of(new search.SearchAggsError(err)))
+          catchError(err => of(new search.SearchError(err)))
         );
     })
   );
@@ -174,6 +205,17 @@ export class SearchEffects {
           })
         );
     })
+  );
+
+  @Effect()
+  backToPreviousChartRange: Observable<Action> = this.actions.pipe(
+    ofType<search.ToChartRange>(SearchActionTypes.ToChartRange),
+    map(action => action.payload),
+    map(
+      (date: ChartRangeToOption) =>
+        new search.SetDateCriteriaConfirmed(date.date)
+    ),
+    catchError(err => of(new search.SearchError(err)))
   );
 
   @Effect()

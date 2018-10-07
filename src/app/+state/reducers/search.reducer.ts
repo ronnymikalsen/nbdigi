@@ -1,7 +1,9 @@
+import { Hints } from '../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../models/char-option';
+import { Criteria } from '../../models/criteria';
 import { MediaTypeResults } from '../../models/search-result.model';
-import { Hints } from './../../core/typeahead-service/hints.model';
-import { Criteria } from './../../models/criteria';
-import { SearchAction, SearchActionTypes } from './../actions/search.actions';
+import { YearCount } from '../../models/year-count';
+import { SearchAction, SearchActionTypes } from '../actions/search.actions';
 
 export interface State {
   criteria: Criteria;
@@ -20,10 +22,13 @@ export interface State {
     privateArchives: MediaTypeResults;
     programReports: MediaTypeResults;
     others: MediaTypeResults;
+    years: YearCount[];
+    months: YearCount[];
   };
   isLoading: boolean;
   isLoadingMore: boolean;
   hasError: boolean;
+  currentChartRange: string;
 }
 
 export const initialState: State = {
@@ -44,11 +49,14 @@ export const initialState: State = {
       mediaType: 'privatarkivmateriale'
     }),
     programReports: new MediaTypeResults({ mediaType: 'programrapporter' }),
-    others: new MediaTypeResults()
+    others: new MediaTypeResults(),
+    years: [],
+    months: []
   },
   isLoading: false,
   isLoadingMore: false,
-  hasError: false
+  hasError: false,
+  currentChartRange: null
 };
 
 export function reducer(state = initialState, action: SearchAction): State {
@@ -171,14 +179,15 @@ export function reducer(state = initialState, action: SearchAction): State {
           posters: action.payload.posters,
           privateArchives: action.payload.privateArchives,
           programReports: action.payload.programReports,
-          others: action.payload.others
+          others: action.payload.others,
+          years: action.payload.years,
+          months: action.payload.months
         },
         hasError: false,
         isLoading: false
       };
     }
     case SearchActionTypes.SearchError: {
-      console.log(action.payload);
       return {
         ...state,
         hasError: true,
@@ -187,6 +196,14 @@ export function reducer(state = initialState, action: SearchAction): State {
       };
     }
     case SearchActionTypes.SearchAggsSuccess: {
+      const years =
+        state.criteria.mediaType === 'alle'
+          ? [...action.payload.years]
+          : [...state.searchResult.years];
+      const months =
+        state.criteria.mediaType === 'alle'
+          ? [...action.payload.months]
+          : [...state.searchResult.months];
       return {
         ...state,
         searchResult: {
@@ -232,7 +249,9 @@ export function reducer(state = initialState, action: SearchAction): State {
             ...state.searchResult.programReports,
             counts: action.payload.programReports.counts
           },
-          others: { ...state.searchResult.others }
+          others: { ...state.searchResult.others },
+          years: years,
+          months: months
         }
       };
     }
@@ -240,6 +259,18 @@ export function reducer(state = initialState, action: SearchAction): State {
       return {
         ...state,
         isLoadingMore: true
+      };
+    }
+    case SearchActionTypes.ToChartRange: {
+      return {
+        ...state,
+        currentChartRange: action.payload.to
+      };
+    }
+    case SearchActionTypes.SetCurrentChartRange: {
+      return {
+        ...state,
+        currentChartRange: action.payload
       };
     }
     case SearchActionTypes.LoadMoreSuccess: {
@@ -254,6 +285,8 @@ export function reducer(state = initialState, action: SearchAction): State {
       const privateArchives = { ...state.searchResult.privateArchives };
       const programReports = { ...state.searchResult.programReports };
       const others = { ...state.searchResult.others };
+      const years = [...state.searchResult.years];
+      const months = [...state.searchResult.months];
       if (state.criteria.mediaType === 'bøker') {
         const items = [...books.items, ...action.payload.books.items];
         books.items = items;
@@ -326,7 +359,9 @@ export function reducer(state = initialState, action: SearchAction): State {
           posters: posters,
           privateArchives: privateArchives,
           programReports: programReports,
-          others: others
+          others: others,
+          years: years,
+          months: months
         },
         isLoadingMore: false,
         hasError: false
@@ -413,6 +448,13 @@ export const getCurrentMediaTypeCount = (state: State) => {
   }
 
   return counts;
+};
+
+export const getYears = (state: State) => {
+  return state.searchResult.years;
+};
+export const getMonths = (state: State) => {
+  return state.searchResult.months;
 };
 
 export const pristine = (state: State) => {

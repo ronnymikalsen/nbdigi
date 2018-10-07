@@ -1,4 +1,4 @@
-import { User } from './../../models/user.model';
+import { User } from '../../models/user.model';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
@@ -8,9 +8,9 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, map, switchMap, filter } from 'rxjs/operators';
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 import { Item } from '../../models/search-result.model';
 import { ItemActionTypes, Open, Change } from '../actions/item.actions';
 import { ViewerService } from '../../core/viewer-service/viewer.service';

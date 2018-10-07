@@ -10,13 +10,16 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { Hint } from '../../../core/typeahead-service/hints.model';
+import { ChartOption } from '../../../models/char-option';
 import { Criteria } from '../../../models/criteria';
 import { DateOption } from '../../../models/date-options';
 import { Genre } from '../../../models/genre-options.model';
+import { MediaTypeResults } from '../../../models/search-result.model';
 import { Sort } from '../../../models/sort-options';
-import * as fromSearch from './../../../+state/reducers/search.reducer';
-import { Hint } from './../../../core/typeahead-service/hints.model';
-import { MediaTypeResults } from './../../../models/search-result.model';
+import { YearCount } from '../../../models/year-count';
+import { ChartRangeToOption } from '../search-result-chart/chart-strategy-factory';
 
 @Component({
   selector: 'app-search',
@@ -40,8 +43,12 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() privateArchives = new MediaTypeResults();
   @Input() programReports = new MediaTypeResults();
   @Input() others = new MediaTypeResults();
+  @Input() years: YearCount[] = [];
+  @Input() months: YearCount[] = [];
   @Input() moreUrl = null;
   @Input() isDebugOn: boolean;
+  @Input() showDateGraph: boolean;
+  @Input() chartRange: ChartOption;
   @Output() searchSelected = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
@@ -52,10 +59,12 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() loadMore = new EventEmitter<void>();
   @Output() dateChanged = new EventEmitter<DateOption>();
+  @Output() dateGraphChanged = new EventEmitter<boolean>();
+  @Output() chartDateChanged = new EventEmitter<DateOption>();
+  @Output() previousChartRange = new EventEmitter<ChartOption>();
+  @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   selector = '.search-result-container';
-
-  constructor() {}
 
   ngOnInit() {}
 
@@ -86,6 +95,6 @@ export class SearchComponent implements OnInit, OnChanges {
   }
 
   createLabel(mediaType: string, counts: number): string {
-    return mediaType ? `${mediaType} (${counts} treff)` : '';
+    return mediaType ? `${mediaType} (${counts})` : '';
   }
 }

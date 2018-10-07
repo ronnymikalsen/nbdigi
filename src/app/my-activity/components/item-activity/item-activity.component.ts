@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Item } from './../../../models/search-result.model';
+import { Item } from '../../../models/search-result.model';
 
 @Component({
   selector: 'app-item-activity',

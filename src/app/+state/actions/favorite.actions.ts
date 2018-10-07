@@ -1,4 +1,4 @@
-import { FavoriteList } from './../../models/favorite-list';
+import { FavoriteList } from '../../models/favorite-list';
 import { Action } from '@ngrx/store';
 
 import { Item } from '../../models/search-result.model';
@@ -166,7 +166,7 @@ export class Error implements Action {
   constructor(public payload: Error) {}
 }
 
-export type FavoriteAction =
+export type FavoriteActionUnion =
   | OpenAddToListDialog
   | OpenList
   | SetList

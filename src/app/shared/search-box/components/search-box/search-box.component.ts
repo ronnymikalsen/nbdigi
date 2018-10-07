@@ -15,7 +15,8 @@ import {
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger
+  MatAutocompleteTrigger,
+  MatCheckboxChange
 } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -26,7 +27,7 @@ import {
   skipWhile,
   takeUntil
 } from 'rxjs/operators';
-import { Hint, Hints } from './../../../../core/typeahead-service/hints.model';
+import { Hint, Hints } from '../../../../core/typeahead-service/hints.model';
 
 @Component({
   selector: 'app-search-box-container',

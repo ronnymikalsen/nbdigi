@@ -1,4 +1,4 @@
-import { isDebugOn } from './../reducers/index';
+import { isDebugOn } from '../reducers';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Store } from '@ngrx/store';
@@ -11,7 +11,7 @@ import {
   AngularFirestoreDocument
 } from 'angularfire2/firestore';
 
-import * as fromAuth from './../reducers/session.reducer';
+import * as fromAuth from '../reducers/session.reducer';
 import {
   AuthActionTypes,
   SignUpWithEmailAndPassword,
@@ -25,11 +25,13 @@ import {
   SignInWithGoogleSuccess,
   SignInWithEmailAndPasswordSuccess,
   SendPasswordResetEmail,
-  SendPasswordResetEmaildSuccess
-} from './../actions/session.actions';
-import { AuthService } from './../../core/auth-service/auth.service';
+  SendPasswordResetEmaildSuccess,
+  ShowDateGraph,
+  HideDateGraph
+} from '../actions/session.actions';
+import { AuthService } from '../../core/auth-service/auth.service';
 import { User } from '../../models/user.model';
-import * as fromRoot from './../reducers';
+import * as fromRoot from '../reducers';
 import { SessionService } from '../../core/session-service/session.service';
 
 @Injectable()
@@ -158,6 +160,24 @@ export class SessionEffects {
   signUpSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignUpSuccess),
     tap(() => this.router.navigate(['/home']))
+  );
+
+  @Effect({ dispatch: false })
+  showDateGraph: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.ShowDateGraph),
+    map((action: any) => action.payload),
+    tap(() => {
+      localStorage.setItem('showDateGraph', '' + true);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  hideDateGraph: Observable<Action> = this.actions.pipe(
+    ofType(AuthActionTypes.HideDateGraph),
+    map((action: any) => action.payload),
+    tap(() => {
+      localStorage.setItem('showDateGraph', '' + false);
+    })
   );
 
   constructor(

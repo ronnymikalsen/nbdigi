@@ -2,11 +2,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as searchAction from './../../../+state/actions/search.actions';
-import * as sessionAction from './../../../+state/actions/session.actions';
-import * as fromRoot from './../../../+state/reducers';
-import * as fromSearch from './../../../+state/reducers/search.reducer';
-import { Hint } from './../../../core/typeahead-service/hints.model';
+import * as searchAction from '../../../+state/actions/search.actions';
+import * as sessionAction from '../../../+state/actions/session.actions';
+import * as fromRoot from '../../../+state/reducers';
+import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { Hint } from '../../../core/typeahead-service/hints.model';
 
 @Component({
   selector: 'app-search-box',

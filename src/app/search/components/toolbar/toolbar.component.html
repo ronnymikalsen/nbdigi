@@ -18,6 +18,7 @@
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
+<mat-divider></mat-divider>
 <mat-toolbar>
   <div class="search-options-container" fxLayout="row" fxLayoutAlign="start center">
     <app-debug [isDebugOn]="isDebugOn" [href]="search.searchResult.selfLink"></app-debug>
@@ -25,7 +26,7 @@
       <mat-form-field class="mediaTypeSelect" [floatLabel]="'never'">
         <mat-select panelClass="mediaTypeOptions" [formControl]="mediaType" placeholder="Mediatyper" (selectionChange)="mediaTypeChanged.emit($event.value)">
           <mat-select-trigger>
-            <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount}})</div>
+            <div class="mediaType">{{mediaType.value}} ({{currentMediaTypeCount | number:'':'nb_NO'}})</div>
           </mat-select-trigger>
           <mat-option [value]="'alle'">
             <app-media-type-option [mediaType]="'Alle'" [count]="search.searchResult.totalElements"></app-media-type-option>
@@ -95,5 +96,18 @@
         </mat-select>
       </mat-form-field>
     </div>
+    <div class="settings-container">
+      <mat-form-field [floatLabel]=" 'never' ">
+        <mat-select panelClass="settingsOptions " placeholder="Innstillinger">
+          <mat-option *ngIf="!showDateGraph" (click)="dateGraphChanged.emit(true)">
+            Vis datograf
+          </mat-option>
+          <mat-option *ngIf="showDateGraph" (click)="dateGraphChanged.emit(false)">
+            Skjul datograf
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
 </mat-toolbar>
+<mat-divider></mat-divider>

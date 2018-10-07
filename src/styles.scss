@@ -44,3 +44,9 @@ snack-bar-container.error {
   background-color: #303030 !important;
   color: white !important;
 }
+
+.dark-theme .ngx-charts {
+  text {
+    fill: #fff !important;
+  }
+}

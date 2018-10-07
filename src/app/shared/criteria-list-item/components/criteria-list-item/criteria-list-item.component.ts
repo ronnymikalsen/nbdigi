@@ -6,7 +6,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Criteria } from './../../../../models/criteria';
+import { Criteria } from '../../../../models/criteria';
 
 @Component({
   selector: 'app-criteria-list-item',

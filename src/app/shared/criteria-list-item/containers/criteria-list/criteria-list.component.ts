@@ -4,10 +4,10 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import * as searchAction from './../../../../+state/actions/search.actions';
-import * as fromRoot from './../../../../+state/reducers';
-import { Criteria } from './../../../../models/criteria';
-import { User } from './../../../../models/user.model';
+import * as searchAction from '../../../../+state/actions/search.actions';
+import * as fromRoot from '../../../../+state/reducers';
+import { Criteria } from '../../../../models/criteria';
+import { User } from '../../../../models/user.model';
 
 @Component({
   selector: 'app-criteria-list',

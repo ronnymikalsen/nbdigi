@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import localeNo from '@angular/common/locales/nb';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +11,7 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
@@ -28,6 +31,8 @@ import { CoreModule } from './core/core.module';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
+
+registerLocaleData(localeNo);
 
 @NgModule({
   imports: [
@@ -54,6 +59,7 @@ import { ViewerModule } from './viewer/viewer.module';
       enabled: environment.production
     }),
     InfiniteScrollModule,
+    NgxChartsModule,
     SharedModule,
     ViewerModule
   ],

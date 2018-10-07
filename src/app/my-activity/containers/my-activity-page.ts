@@ -9,9 +9,9 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import * as fromRoot from './../../+state/reducers';
-import { Item } from './../../models/search-result.model';
-import { User } from './../../models/user.model';
+import * as fromRoot from '../../+state/reducers';
+import { Item } from '../../models/search-result.model';
+import { User } from '../../models/user.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
