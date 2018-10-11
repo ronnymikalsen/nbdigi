@@ -1,0 +1,42 @@
+import { Injectable } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { Store } from '@ngrx/store';
+import * as fromRoot from '../../+state/reducers';
+import { ItemDetailsComponent } from './../../shared/item-details/item-details/item-details.component';
+import { ObservableMedia, MediaChange } from '@angular/flex-layout';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemDetailsService {
+  private dialogRef: MatDialogRef<ItemDetailsComponent>;
+
+  constructor(
+    private store: Store<fromRoot.State>,
+    public dialog: MatDialog,
+    private media: ObservableMedia
+  ) {}
+
+  init() {
+    this.media.subscribe((change: MediaChange) => {
+      if (change.mqAlias === 'xs') {
+        console.log('ismobile');
+      }
+    });
+
+    this.store.select(fromRoot.showItemDetails).subscribe(show => {
+      if (show) {
+        this.dialogRef = this.dialog.open(ItemDetailsComponent, {
+          width: '100%',
+          height: '100%',
+          data: null,
+          panelClass: ['viewer-panel']
+        });
+      } else {
+        if (this.dialogRef) {
+          this.dialogRef.close();
+        }
+      }
+    });
+  }
+}
