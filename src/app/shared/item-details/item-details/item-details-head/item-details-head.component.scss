@@ -1,0 +1,25 @@
+.item-details-head-container {
+  margin: 20px;
+}
+.thumbnail-container {
+  width: 125px;
+}
+
+.thumbnail {
+  max-width: 125px;
+  max-height: 250px;
+}
+
+.metadata-container {
+  max-width: 160px;
+  margin-top: 20px;
+}
+
+label {
+  display: block;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  line-height: 1.5em;
+}

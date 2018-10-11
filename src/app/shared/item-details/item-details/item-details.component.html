@@ -1,0 +1,12 @@
+<div class="item-details-container">
+  <ng-container *ngIf="!(loading$ | async)">
+    <ng-container *ngIf="item$ | async as item">
+      <div class="head">
+        <app-item-details-head [item]="item"></app-item-details-head>
+      </div>
+      <div class="metadata">
+        <app-item-details-metadata [manifest]="manifest$ | async"></app-item-details-metadata>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

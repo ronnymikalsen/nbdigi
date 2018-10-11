@@ -1,0 +1,13 @@
+<div *ngIf="item" class="item-details-head-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+  <div class="thumbnail-container">
+    <img *ngIf="item?.thumbnail" nbLazyLoad class="thumbnail" [alt]="item.title" [src]="item?.thumbnail">
+  </div>
+  <div class="metadata-container">
+    <label class="title bold-xtra" [matTooltip]="item.title">{{ item.title }}</label>
+    <label class="subtitle">
+      <span>{{ item.creator }}</span>
+    </label>
+    <label class="subtitle issuedDate">{{item.mediaType === 'aviser' ? (item.issued | dateFormat) :
+      item.issued}}</label>
+  </div>
+</div>
