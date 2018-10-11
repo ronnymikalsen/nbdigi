@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -19,7 +20,6 @@ import { Genre } from '../../../models/genre-options.model';
 import { MediaTypeResults } from '../../../models/search-result.model';
 import { Sort } from '../../../models/sort-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartRangeToOption } from '../search-result-chart/chart-strategy-factory';
 
 @Component({
   selector: 'app-search',
@@ -65,9 +65,23 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() previousChartRange = new EventEmitter<ChartOption>();
   @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
-  selector = '.search-result-container';
+  fixTop: boolean;
 
-  ngOnInit() {}
+  constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    const mainEl = document.querySelector('.main-content');
+    mainEl.addEventListener('scroll', () => {
+      const prevFixTop = this.fixTop;
+      const newFixTop =
+        mainEl.scrollTop > 289 ? (this.fixTop = true) : (this.fixTop = false);
+
+      if (prevFixTop !== newFixTop) {
+        this.fixTop = newFixTop;
+        this.cdr.markForCheck();
+      }
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
@@ -76,8 +90,7 @@ export class SearchComponent implements OnInit, OnChanges {
         !this.search.isLoading &&
         !this.search.isLoadingMore &&
         this.search.criteria.mediaType &&
-        this.searchResultContainer.nativeElement.clientHeight ===
-          this.searchResultContainer.nativeElement.scrollHeight
+        document.body.clientHeight > document.body.scrollHeight
       ) {
         this.loadMore.emit();
       }

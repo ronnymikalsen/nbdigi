@@ -10,10 +10,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE
 } from '@angular/material';
-import {
-  MAT_MOMENT_DATE_FORMATS,
-  MomentDateAdapter
-} from '@angular/material-moment-adapter';
+import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { SharedModule } from '../shared/shared.module';
 import { AuthService } from './auth-service/auth.service';
@@ -22,6 +19,7 @@ import { CheckForUpdateService } from './check-for-update-service/check-for-upda
 import { CustomHttp } from './custom-http';
 import { DateAdapter as CustomDateAdapter } from './date-adapter';
 import { FavoriteService } from './favorite-service/favorite.service';
+import { PresentationService } from './presentation-service/presentation.service';
 import { SearchService } from './search-service/search.service';
 import { SessionService } from './session-service/session.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
@@ -51,7 +49,8 @@ export function httpFactory(handler: HttpHandler) {
     TypeaheadService,
     FavoriteService,
     ViewerService,
-    CheckForUpdateService
+    CheckForUpdateService,
+    PresentationService
   ],
   entryComponents: [SwUpdateMessageComponent, DatePickerDialogComponent]
 })

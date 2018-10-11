@@ -30,4 +30,8 @@ export class CloseItemDetails implements Action {
   constructor() {}
 }
 
-export type ItemAction = Open | Change | OpenItemDetails | CloseItemDetails;
+export type ItemActionsUnion =
+  | Open
+  | Change
+  | OpenItemDetails
+  | CloseItemDetails;

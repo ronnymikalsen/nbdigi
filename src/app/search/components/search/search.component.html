@@ -1,5 +1,5 @@
-<div fxFill fxLayout="column" fxLayoutAlign="start stretch" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" [infiniteScrollContainer]="selector"
-[fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
+<div fxFill fxLayout="column" fxLayoutAlign="start stretch" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="50" infiniteScrollContainer=".main-content"
+  [fromRoot]="true" (scrolled)="onScroll()" [infiniteScrollDisabled]="!moreUrl">
   <app-toolbar [search]="search" [currentMediaTypeCount]="currentMediaTypeCount" [isDebugOn]="isDebugOn" (searchSelected)="searching($event)"
     (addFilter)="addFilter.emit($event)" (removeFilter)="removeFilter.emit($event)" (toggleFilter)="toggleFilter.emit($event)"
     (mediaTypeChanged)="mediaTypeChanged.emit($event)" (sortChanged)="sortChanged.emit($event)" (genreChanged)="genreChanged.emit($event)"
@@ -14,6 +14,10 @@
   </div>
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
       <mat-drawer-container class="example-container">
+        <mat-drawer mode="side" position="end" [opened]="showItemDetails" [class.fix-top]="fixTop">
+          <div style="width: 375px">tester</div>
+          <app-item-details></app-item-details>
+        </mat-drawer>
         <mat-drawer-content>
           <div *ngIf="!pristine && !search.isLoading && search.searchResult.totalElements === 0">
               Fant ingen resultater
@@ -70,7 +74,6 @@
                 [showToolbar]="!search.criteria.mediaType" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
             </div>
         </mat-drawer-content>
-        <mat-drawer mode="side" position="end" [opened]="showItemDetails">Drawer content</mat-drawer>
       </mat-drawer-container>
   </section>
 </div>

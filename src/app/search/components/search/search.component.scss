@@ -1,3 +1,8 @@
+mat-drawer-container {
+  overflow: inherit;
+  margin-top: 5px;
+}
+
 .progress-bar {
   padding: 4px;
 }
@@ -26,4 +31,9 @@ mat-chip {
 
 .chart {
   max-height: 200px;
+}
+
+.fix-top {
+  position: fixed !important;
+  right: 20px !important;
 }
