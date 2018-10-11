@@ -1,9 +1,13 @@
 <div class="item-details-container">
   <ng-container *ngIf="!(loading$ | async)">
     <ng-container *ngIf="item$ | async as item">
+      <div class="close"><button mat-icon-button (click)="close()">
+          <mat-icon>close</mat-icon>
+        </button></div>
       <div class="head">
         <app-item-details-head [item]="item"></app-item-details-head>
       </div>
+      <mat-divider></mat-divider>
       <div class="metadata">
         <app-item-details-metadata [manifest]="manifest$ | async"></app-item-details-metadata>
       </div>

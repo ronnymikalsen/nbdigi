@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import * as fromRoot from '../../../+state/reducers';
 import { Manifest } from '../../../core/presentation-service/manifest';
 import { Item } from 'src/app/models/search-result.model';
+import { ItemActions } from 'src/app/+state/actions';
 
 @Component({
   selector: 'app-item-details',
@@ -21,5 +22,9 @@ export class ItemDetailsComponent implements OnInit {
     this.item$ = this.store.select(fromRoot.getCurrentItem);
     this.manifest$ = this.store.select(fromRoot.getItemCurrentManifest);
     this.loading$ = this.store.select(fromRoot.getItemLoading);
+  }
+
+  close() {
+    this.store.dispatch(new ItemActions.CloseItemDetails());
   }
 }

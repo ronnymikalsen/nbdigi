@@ -5,19 +5,21 @@
         <app-debug [isDebugOn]="isDebugOn" [href]="mediaTypeResults?.selfLink"></app-debug>
         <h1>{{label}}</h1>
       </div>
-      <button *ngIf="showMoreButton" mat-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)" color="primary">VIS FLERE</button>
+      <button *ngIf="showMoreButton" mat-button (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)" color="primary">VIS
+        FLERE</button>
     </div>
   </mat-toolbar>
   <ng-container *ngIf="!asList">
     <div fxLayout="rov wrap" *ngIf="selected">
       <ng-container *ngFor="let item of mediaTypeResults?.items">
-        <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
+        <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="20" fxFlex.lg="12.5">
         </app-default-item-card>
       </ng-container>
     </div>
     <div fxLayout="rov wrap" *ngIf="!selected">
       <ng-container *ngFor="let item of mediaTypeResults?.items| slice:0:size">
-        <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="12.5" fxFlex.lg="10" fxFlex.xl="10">
+        <app-default-item-card [item]="item" [list]="list" fxFlex.xs="33.3" fxFlex.sm="20" fxFlex.md="20" fxFlex.lg="12.5"
+          fxFlex.xl="10">
         </app-default-item-card>
       </ng-container>
     </div>

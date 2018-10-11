@@ -1,7 +1,11 @@
 .item-details-container {
+  position: relative;
   max-width: 325px;
+  top: -40px;
 }
 
-.metadata {
-  //margin: 20px;
+.close {
+  position: relative;
+  top: 35px;
+  text-align: right;
 }

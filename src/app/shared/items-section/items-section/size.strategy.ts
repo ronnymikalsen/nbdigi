@@ -16,13 +16,13 @@ export class SmSizeStrategy implements SizeStrategy {
 
 export class MdSizeStrategy implements SizeStrategy {
   getSize(rows: number) {
-    return 16 * rows / 2;
+    return 10 * rows / 2;
   }
 }
 
 export class LgSizeStrategy implements SizeStrategy {
   getSize(rows: number) {
-    return 20 * rows / 2;
+    return 16 * rows / 2;
   }
 }
 

@@ -1,6 +1,8 @@
 mat-drawer-container {
   overflow: inherit;
-  margin-top: 5px;
+  mat-drawer {
+    top: 5px;
+  }
 }
 
 .progress-bar {
