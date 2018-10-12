@@ -77,22 +77,33 @@ export class SearchComponent implements OnInit, OnChanges {
   ngOnInit() {
     const mainEl = document.querySelector('.main-content');
     mainEl.addEventListener('scroll', () => {
-      const drawerEl = this.elementRef.nativeElement.querySelector(
-        '.search-result-container'
-      );
-      const top = drawerEl.getBoundingClientRect().top;
-      console.log(top);
-      const prevFixTop = this.fixTop;
-      const newFixTop = top < 0 ? (this.fixTop = true) : (this.fixTop = false);
-
-      if (prevFixTop !== newFixTop) {
-        this.fixTop = newFixTop;
-        this.cdr.markForCheck();
-      }
+      this.updatePosition();
     });
   }
 
+  private updatePosition() {
+    const drawerEl = this.elementRef.nativeElement.querySelector(
+      '.search-result-container'
+    );
+    const top = drawerEl.getBoundingClientRect().top;
+    console.log(top);
+    const prevFixTop = this.fixTop;
+    const newFixTop =
+      this.showItemDetails && this.media.isActive('gt-sm') && top < 0
+        ? (this.fixTop = true)
+        : (this.fixTop = false);
+
+    if (prevFixTop !== newFixTop) {
+      this.fixTop = newFixTop;
+      this.cdr.detectChanges();
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['showItemDetails']) {
+      this.updatePosition();
+    }
+
     if (changes['search']) {
       if (
         this.moreUrl &&

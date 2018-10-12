@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ItemActions } from 'src/app/+state/actions';
+import { Item } from 'src/app/models/search-result.model';
 import * as fromRoot from '../../../+state/reducers';
 import { Manifest } from '../../../core/presentation-service/manifest';
-import { Item } from 'src/app/models/search-result.model';
-import { ItemActions } from 'src/app/+state/actions';
 
 @Component({
   selector: 'app-item-details',
