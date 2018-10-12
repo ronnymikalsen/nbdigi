@@ -91,7 +91,7 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
           'absolute'
         );
       }
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     }
   }
 }
