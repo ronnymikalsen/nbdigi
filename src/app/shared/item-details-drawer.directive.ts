@@ -3,14 +3,14 @@ import {
   Directive,
   ElementRef,
   HostBinding,
-  Renderer2,
+  OnDestroy,
   OnInit,
-  OnDestroy
+  Renderer2
 } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import * as fromRoot from '../+state/reducers';
 import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
+import * as fromRoot from '../+state/reducers';
 
 @Directive({
   selector: '[appItemDetailsDrawer]'
@@ -47,8 +47,9 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   }
 
   private updatePosition() {
-    const drawerEl = document.querySelector('.search-result-container');
+    const drawerEl = document.querySelector('.drawer-container');
     const top = drawerEl.getBoundingClientRect().top;
+    console.log('top', top);
     const prevFixTop = this.currentFixTop;
     const newFixTop =
       this.showItemDetails && this.media.isActive('gt-sm') && top < 0
@@ -58,6 +59,8 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
     if (prevFixTop !== newFixTop) {
       this.currentFixTop = newFixTop;
       if (this.currentFixTop) {
+        this.renderer.removeClass(this.elementRef.nativeElement, 'not-sticky');
+        this.renderer.addClass(this.elementRef.nativeElement, 'fix-sticky');
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'position',
@@ -81,6 +84,8 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
           'visible'
         );
       } else {
+        this.renderer.addClass(this.elementRef.nativeElement, 'not-sticky');
+        this.renderer.removeClass(this.elementRef.nativeElement, 'fix-sticky');
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'position',

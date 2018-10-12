@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -66,13 +65,8 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() previousChartRange = new EventEmitter<ChartOption>();
   @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
-  fixTop: boolean;
 
-  constructor(
-    private cdr: ChangeDetectorRef,
-    private elementRef: ElementRef,
-    public media: ObservableMedia
-  ) {}
+  constructor(public media: ObservableMedia) {}
 
   ngOnInit() {}
 

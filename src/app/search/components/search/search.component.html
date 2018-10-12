@@ -13,9 +13,9 @@
   <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
   </div>
-  <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
+  <section #searchResultContainer class="search-result-container drawer-container" fxLayout="column" tabindex="0">
     <mat-drawer-container>
-      <mat-drawer appItemDetailsDrawer autosize="true" mode="side" position="end" [opened]="showItemDetails && media.isActive('gt-sm')">
+      <mat-drawer appItemDetailsDrawer autosize="true" mode="side" position="end" [opened]="!pristine && showItemDetails && media.isActive('gt-sm')">
          <app-item-details></app-item-details>
       </mat-drawer>
       <mat-drawer-content>

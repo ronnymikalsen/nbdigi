@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from '@angular/fire/firestore';
 import { DateAdapter, MatDialog, MatSnackBar } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection
-} from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { Observable, of } from 'rxjs';
 import {
@@ -29,6 +29,7 @@ import { DateOption, DateOptions } from '../../models/date-options';
 import { User } from '../../models/user.model';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
+import { ItemActions } from '../actions';
 import * as search from '../actions/search.actions';
 import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
 import * as fromRoot from '../reducers';
@@ -322,6 +323,12 @@ export class SearchEffects {
         })
       );
     })
+  );
+
+  @Effect()
+  clearAll: Observable<Action> = this.actions.pipe(
+    ofType(search.SearchActionTypes.ClearAll),
+    map(() => new ItemActions.CloseItemDetails())
   );
 
   constructor(

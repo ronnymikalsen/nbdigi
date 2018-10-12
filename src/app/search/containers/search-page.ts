@@ -17,6 +17,7 @@ import { MediaTypeResults } from '../../models/search-result.model';
 import { Sort } from '../../models/sort-options';
 import { YearCount } from '../../models/year-count';
 import { ChartRangeToOption } from '../components/search-result-chart/chart-strategy-factory';
+import { ItemActions } from 'src/app/+state/actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -109,7 +110,9 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new searchAction.SearchAggs());
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.store.dispatch(new ItemActions.CloseItemDetails());
+  }
 
   toggleFilter(hint: Hint): void {
     this.store.dispatch(new searchAction.ToggleFilter(hint));

@@ -1,1 +1,15 @@
+mat-drawer-container {
+  overflow: inherit;
+  mat-drawer {
+    overflow: inherit;
+    background: transparent !important;
+  }
+}
 
+.fix-sticky {
+  top: 0px;
+}
+
+.not-sticky {
+  top: 5px;
+}

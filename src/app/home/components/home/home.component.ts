@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
 import { Item, MediaTypeResults } from '../../../models/search-result.model';
 
 @Component({
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   @Input() newPhotos: MediaTypeResults;
   @Input() newNewspapers: MediaTypeResults;
   @Input() newOthers: MediaTypeResults;
+  @Input() showItemDetails: boolean;
   @Input() isDebugOn: boolean;
   @Output() searchSelected = new EventEmitter<void>();
   @Output() showMoreBooks = new EventEmitter<void>();
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
   @Output() showMorePhotos = new EventEmitter<void>();
   @Output() showMoreNewspapers = new EventEmitter<void>();
 
-  constructor() {}
+  constructor(public media: ObservableMedia) {}
 
   ngOnInit() {}
 }

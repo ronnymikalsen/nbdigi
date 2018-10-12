@@ -1,18 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { Item, MediaTypeResults } from '../../../models/search-result.model';
+import { ItemActions } from 'src/app/+state/actions';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
 import { FavoriteList } from '../../../models/favorite-list';
+import { MediaTypeResults } from '../../../models/search-result.model';
 
 @Component({
   selector: 'app-my-library',
   templateUrl: './my-library.component.html',
   styleUrls: ['./my-library.component.scss']
 })
-export class MyLibraryComponent implements OnInit {
+export class MyLibraryComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   favoriteLists: Observable<FavoriteList[]> = this.store.select(
     fromRoot.getFavoriteList
@@ -34,9 +36,20 @@ export class MyLibraryComponent implements OnInit {
       })
     );
 
-  constructor(private store: Store<fromRoot.State>) {}
+  showItemDetails: Observable<boolean> = this.store.select(
+    fromRoot.showItemDetails
+  );
+
+  constructor(
+    private store: Store<fromRoot.State>,
+    public media: ObservableMedia
+  ) {}
 
   ngOnInit() {}
+
+  ngOnDestroy() {
+    this.store.dispatch(new ItemActions.CloseItemDetails());
+  }
 
   openFavorite(list: FavoriteList) {
     this.store.dispatch(new favoriteActions.OpenList(list.id));
