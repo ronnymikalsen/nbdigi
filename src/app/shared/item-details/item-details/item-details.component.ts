@@ -19,7 +19,7 @@ export class ItemDetailsComponent implements OnInit {
   constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
-    this.item$ = this.store.select(fromRoot.getCurrentItem);
+    this.item$ = this.store.select(fromRoot.getCurrentItemDetails);
     this.manifest$ = this.store.select(fromRoot.getItemCurrentManifest);
     this.loading$ = this.store.select(fromRoot.getItemLoading);
   }

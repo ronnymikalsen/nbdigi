@@ -5,14 +5,16 @@ import { ItemActionTypes } from '../actions/item.actions';
 
 export interface State {
   currentItem?: Item;
-  currentManifest: Manifest;
+  currentItemDetails?: Item;
+  currentItemDetailsManifest: Manifest;
   loading: boolean;
   showItemDetails: boolean;
 }
 
 export const initialState: State = {
   currentItem: null,
-  currentManifest: null,
+  currentItemDetails: null,
+  currentItemDetailsManifest: null,
   loading: false,
   showItemDetails: false
 };
@@ -34,27 +36,28 @@ export function reducer(
       return {
         ...state,
         showItemDetails: true,
-        currentItem: action.payload
+        currentItemDetails: action.payload
       };
     }
     case ItemActionTypes.CloseItemDetails: {
       return {
         ...state,
-        showItemDetails: false
+        showItemDetails: false,
+        currentItemDetails: null
       };
     }
     case PresentationApiActions.PresentationApiActionTypes.LoadSuccess: {
       return {
         ...state,
         loading: false,
-        currentManifest: action.payload
+        currentItemDetailsManifest: action.payload
       };
     }
     case PresentationApiActions.PresentationApiActionTypes.LoadFailure: {
       return {
         ...state,
         loading: false,
-        currentManifest: null
+        currentItemDetailsManifest: null
       };
     }
     default: {
@@ -64,6 +67,8 @@ export function reducer(
 }
 
 export const getCurrentItem = (state: State) => state.currentItem;
-export const getCurrentManifest = (state: State) => state.currentManifest;
+export const getCurrentItemDetails = (state: State) => state.currentItemDetails;
+export const getCurrentItemDetailsManifest = (state: State) =>
+  state.currentItemDetailsManifest;
 export const getLoading = (state: State) => state.loading;
 export const showItemDetails = (state: State) => state.showItemDetails;

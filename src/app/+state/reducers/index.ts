@@ -144,9 +144,13 @@ export const getCurrentItem = createSelector(
   getItemState,
   fromItem.getCurrentItem
 );
+export const getCurrentItemDetails = createSelector(
+  getItemState,
+  fromItem.getCurrentItemDetails
+);
 export const getItemCurrentManifest = createSelector(
   getItemState,
-  fromItem.getCurrentManifest
+  fromItem.getCurrentItemDetailsManifest
 );
 export const getItemLoading = createSelector(getItemState, fromItem.getLoading);
 export const showItemDetails = createSelector(
