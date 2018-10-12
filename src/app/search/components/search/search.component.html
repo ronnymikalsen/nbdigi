@@ -15,10 +15,8 @@
   </div>
   <section #searchResultContainer class="search-result-container" fxLayout="column" tabindex="0">
     <mat-drawer-container>
-      <mat-drawer autosize="true" mode="side" position="end" [opened]="showItemDetails && media.isActive('gt-sm')" [class.fix-top]="fixTop">
-        <div style="width: 325px">
-          <app-item-details></app-item-details>
-        </div>
+      <mat-drawer appItemDetailsDrawer autosize="true" mode="side" position="end" [opened]="showItemDetails && media.isActive('gt-sm')">
+         <app-item-details></app-item-details>
       </mat-drawer>
       <mat-drawer-content>
         <div *ngIf="!pristine && !search.isLoading && search.searchResult.totalElements === 0">

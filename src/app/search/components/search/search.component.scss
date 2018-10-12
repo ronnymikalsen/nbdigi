@@ -36,13 +36,3 @@ mat-chip {
 .chart {
   max-height: 200px;
 }
-
-.fix-top {
-  position: sticky !important;
-  //right: 20px !important;
-  float: right;
-  width: 325px;
-  height: calc(100vh - 5px);
-  overflow-x: hidden !important;
-  overflow-y: visible !important;
-}

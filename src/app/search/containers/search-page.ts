@@ -4,15 +4,13 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import * as searchAction from '../../+state/actions/search.actions';
 import * as sessionAction from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
 import * as fromSearch from '../../+state/reducers/search.reducer';
 import { Hint } from '../../core/typeahead-service/hints.model';
-import { ChartOption } from '../../models/char-option';
 import { DateOption } from '../../models/date-options';
 import { Genre } from '../../models/genre-options.model';
 import { MediaTypeResults } from '../../models/search-result.model';
@@ -104,18 +102,14 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   showItemDetails: Observable<boolean> = this.store.select(
     fromRoot.showItemDetails
   );
-  private destroyed: Subject<void> = new Subject();
 
-  constructor(private store: Store<fromRoot.State>, public dialog: MatDialog) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.store.dispatch(new searchAction.SearchAggs());
   }
 
-  ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
-  }
+  ngOnDestroy() {}
 
   toggleFilter(hint: Hint): void {
     this.store.dispatch(new searchAction.ToggleFilter(hint));

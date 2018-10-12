@@ -14,9 +14,10 @@ import {
 import { MaterialModule } from './material.module';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ItemDetailsDrawerDirective } from './item-details-drawer.directive';
 
 @NgModule({
-  declarations: [DateFormatPipe],
+  declarations: [DateFormatPipe, ItemDetailsDrawerDirective],
   imports: [MaterialModule, LazyLoadImagesModule, NgxChartsModule],
   exports: [
     CommonModule,
@@ -27,6 +28,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     InfiniteScrollModule,
     MimeModule,
     DateFormatPipe,
+    ItemDetailsDrawerDirective,
     ClipboardModule,
     NgxChartsModule
   ],
