@@ -1,5 +1,5 @@
 <div *ngIf="item" class="item-details-head-container" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-  <div class="thumbnail-container">
+  <div class="thumbnail-container" (click)="open(item)">
     <img *ngIf="item?.thumbnail" nbLazyLoad class="thumbnail" [alt]="item.title" [src]="item?.thumbnail">
   </div>
   <div class="metadata-container">

@@ -49,7 +49,6 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   private updatePosition() {
     const drawerEl = document.querySelector('.drawer-container');
     const top = drawerEl.getBoundingClientRect().top;
-    console.log('top', top);
     const prevFixTop = this.currentFixTop;
     const newFixTop =
       this.showItemDetails && this.media.isActive('gt-sm') && top < 0

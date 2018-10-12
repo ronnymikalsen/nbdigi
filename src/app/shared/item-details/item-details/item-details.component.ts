@@ -5,6 +5,7 @@ import { ItemActions } from 'src/app/+state/actions';
 import { Item } from 'src/app/models/search-result.model';
 import * as fromRoot from '../../../+state/reducers';
 import { Manifest } from '../../../core/presentation-service/manifest';
+import { ItemMenuButtonComponentConfig } from '../../item-menu/item-menu-button/item-menu-button.component';
 
 @Component({
   selector: 'app-item-details',
@@ -15,6 +16,10 @@ export class ItemDetailsComponent implements OnInit {
   item$: Observable<Item>;
   manifest$: Observable<Manifest>;
   loading$: Observable<boolean>;
+  config = new ItemMenuButtonComponentConfig({
+    direction: 'horiz',
+    enableShowDetails: false
+  });
 
   constructor(private store: Store<fromRoot.State>) {}
 

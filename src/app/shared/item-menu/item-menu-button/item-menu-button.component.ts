@@ -50,12 +50,18 @@ export class ItemMenuButtonComponent implements OnInit {
 }
 
 export class ItemMenuButtonComponentConfig {
+  direction = 'vert';
   enableOpen = true;
   enableShowDetails = true;
 
-  constructor(fields?: { enableOpen?: boolean; enableShowDetails?: boolean }) {
+  constructor(fields?: {
+    direction?: string;
+    enableOpen?: boolean;
+    enableShowDetails?: boolean;
+  }) {
     if (fields) {
-      console.log(fields.enableOpen);
+      this.direction =
+        fields.direction !== undefined ? fields.direction : this.direction;
       this.enableOpen =
         fields.enableOpen !== undefined ? fields.enableOpen : this.enableOpen;
       this.enableShowDetails =

@@ -1,6 +1,6 @@
 <div [ngClass]="currentTheme" class="app-container">
   <mat-sidenav-container class="main-container">
-    <mat-sidenav *ngIf="!mobileQuery.matches" mode="side" opened>
+    <mat-sidenav *ngIf="!mobileQuery.matches" mode="side" opened [disableClose]="true">
       <mat-nav-list>
         <a mat-list-item routerLink="/home">
           <mat-icon class="logo mat-icon material-icons" svgIcon="logo"></mat-icon>NBDigi</a>

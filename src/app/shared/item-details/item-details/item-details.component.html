@@ -3,9 +3,11 @@
     <ng-container *ngIf="item$ | async as item">
       <mat-card>
         <mat-card-content>
-          <div class="close"><button mat-icon-button (click)="close()">
-              <mat-icon>close</mat-icon>
-            </button></div>
+          <div class="close">
+              <app-item-menu-button [item]="item" [config]="config"></app-item-menu-button>
+              <button mat-icon-button (click)="close()">
+                <mat-icon>close</mat-icon>
+              </button></div>
           <div class="head">
             <app-item-details-head [item]="item"></app-item-details-head>
           </div>
