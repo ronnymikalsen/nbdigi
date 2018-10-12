@@ -42,6 +42,7 @@ mat-chip {
   //right: 20px !important;
   float: right;
   width: 325px;
-  height: calc(100%);
-  overflow: visible;
+  height: calc(100vh - 5px);
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
 }
