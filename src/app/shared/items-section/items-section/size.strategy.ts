@@ -22,7 +22,7 @@ export class MdSizeStrategy implements SizeStrategy {
 
 export class LgSizeStrategy implements SizeStrategy {
   getSize(rows: number) {
-    return 16 * rows / 2;
+    return 12 * rows / 2;
   }
 }
 
