@@ -10,6 +10,7 @@ import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 })
 export class ItemDetailsService {
   private dialogRef: MatDialogRef<ItemDetailsComponent>;
+  private showItemDetails: boolean;
 
   constructor(
     private store: Store<fromRoot.State>,
@@ -19,24 +20,30 @@ export class ItemDetailsService {
 
   init() {
     this.media.subscribe((change: MediaChange) => {
-      if (change.mqAlias === 'xs') {
-        console.log('ismobile');
-      }
+      this.update();
     });
 
     this.store.select(fromRoot.showItemDetails).subscribe(show => {
-      if (show) {
+      this.showItemDetails = show;
+      this.update();
+    });
+  }
+
+  private update() {
+    if (this.showItemDetails && this.media.isActive('lt-md')) {
+      if (!this.dialogRef) {
         this.dialogRef = this.dialog.open(ItemDetailsComponent, {
           width: '100%',
           height: '100%',
           data: null,
           panelClass: ['viewer-panel']
         });
-      } else {
-        if (this.dialogRef) {
-          this.dialogRef.close();
-        }
       }
-    });
+    } else {
+      if (this.dialogRef) {
+        this.dialogRef.close();
+        this.dialogRef = undefined;
+      }
+    }
   }
 }

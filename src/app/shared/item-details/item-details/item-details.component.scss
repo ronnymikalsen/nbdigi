@@ -1,11 +1,24 @@
+:host {
+  overflow: visible;
+}
+
 .item-details-container {
   position: relative;
-  max-width: 325px;
-  top: -40px;
 }
 
 .close {
   position: relative;
-  top: 35px;
+  top: 45px;
+  right: 5px;
   text-align: right;
+}
+
+mat-card {
+  padding: 0px !important;
+  box-shadow: none !important;
+}
+
+mat-card-content {
+  top: -40px;
+  position: relative;
 }

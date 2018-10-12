@@ -11,6 +11,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
 import * as fromSearch from '../../../+state/reducers/search.reducer';
 import { Hint } from '../../../core/typeahead-service/hints.model';
 import { ChartOption } from '../../../models/char-option';
@@ -67,14 +68,22 @@ export class SearchComponent implements OnInit, OnChanges {
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
   fixTop: boolean;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private elementRef: ElementRef,
+    public media: ObservableMedia
+  ) {}
 
   ngOnInit() {
     const mainEl = document.querySelector('.main-content');
     mainEl.addEventListener('scroll', () => {
+      const drawerEl = this.elementRef.nativeElement.querySelector(
+        '.search-result-container'
+      );
+      const top = drawerEl.getBoundingClientRect().top;
+      console.log(top);
       const prevFixTop = this.fixTop;
-      const newFixTop =
-        mainEl.scrollTop > 289 ? (this.fixTop = true) : (this.fixTop = false);
+      const newFixTop = top < 0 ? (this.fixTop = true) : (this.fixTop = false);
 
       if (prevFixTop !== newFixTop) {
         this.fixTop = newFixTop;
