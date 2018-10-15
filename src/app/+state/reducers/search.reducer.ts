@@ -1,5 +1,4 @@
 import { Hints } from '../../core/typeahead-service/hints.model';
-import { ChartOption } from '../../models/char-option';
 import { Criteria } from '../../models/criteria';
 import { MediaTypeResults } from '../../models/search-result.model';
 import { YearCount } from '../../models/year-count';

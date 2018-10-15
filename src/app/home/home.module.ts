@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
+import { ItemDetailsModule } from '../shared/item-details/item-details.module';
+import { ItemsSectionModule } from '../shared/items-section/items-section.module';
 import { SearchBoxModule } from '../shared/search-box/search-box.module';
 import { SharedModule } from '../shared/shared.module';
-import { ItemsSectionModule } from '../shared/items-section/items-section.module';
 import { HomeComponent } from './components/home/home.component';
 import { HomePageComponent } from './containers/home-page';
 import { HomeRoutingModule } from './home-routing.module';
@@ -11,7 +12,8 @@ import { HomeRoutingModule } from './home-routing.module';
     SharedModule,
     HomeRoutingModule,
     SearchBoxModule,
-    ItemsSectionModule
+    ItemsSectionModule,
+    ItemDetailsModule
   ],
   declarations: [HomePageComponent, HomeComponent],
   providers: []

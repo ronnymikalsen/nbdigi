@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
-
 import { Item } from '../../models/search-result.model';
 
 export enum ItemActionTypes {
   Open = '[Viewer] Open',
-  Change = '[Viewer] Change'
+  Change = '[Viewer] Change',
+  OpenItemDetails = '[Search] open item details',
+  CloseItemDetails = '[Search] close item details'
 }
 
 export class Open implements Action {
@@ -19,4 +20,18 @@ export class Change implements Action {
   constructor(public payload: Item) {}
 }
 
-export type ItemAction = Open | Change;
+export class OpenItemDetails implements Action {
+  readonly type = ItemActionTypes.OpenItemDetails;
+  constructor(public payload: Item) {}
+}
+
+export class CloseItemDetails implements Action {
+  readonly type = ItemActionTypes.CloseItemDetails;
+  constructor() {}
+}
+
+export type ItemActionsUnion =
+  | Open
+  | Change
+  | OpenItemDetails
+  | CloseItemDetails;

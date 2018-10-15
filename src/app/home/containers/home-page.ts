@@ -1,8 +1,13 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
-} from 'angularfire2/firestore';
+} from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -15,6 +20,7 @@ import { Item, MediaTypeResults } from '../../models/search-result.model';
 import { User } from '../../models/user.model';
 import { Router } from '@angular/router';
 import { SortOptions } from '../../models/sort-options';
+import { ItemActions } from 'src/app/+state/actions';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -25,6 +31,7 @@ import { SortOptions } from '../../models/sort-options';
       [newPhotos]="newPhotos | async"
       [newNewspapers]="newNewspapers | async"
       [newOthers]="newOthers | async"
+      [showItemDetails]="showItemDetails | async"
       [isDebugOn]="isDebugOn | async"
       (showMoreBooks)="onShowMoreBooks()"
       (showMorePeriodicals)="onShowMorePeriodicals()"
@@ -34,7 +41,7 @@ import { SortOptions } from '../../models/sort-options';
       >
     </app-home>`
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, OnDestroy {
   items: Observable<MediaTypeResults>;
   newBooks: Observable<MediaTypeResults> = this.store.select(
     fromRoot.getNewBooks
@@ -52,6 +59,9 @@ export class HomePageComponent implements OnInit {
     fromRoot.getNewOthers
   );
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  showItemDetails: Observable<boolean> = this.store.select(
+    fromRoot.showItemDetails
+  );
 
   constructor(
     private router: Router,
@@ -81,6 +91,10 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new homeAction.LoadNewItems());
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new ItemActions.CloseItemDetails());
   }
 
   onShowMoreBooks() {

@@ -1,4 +1,4 @@
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import {
   CanActivate,
@@ -7,7 +7,7 @@ import {
   Router
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../models/user.model';
 import { take } from 'rxjs/operators';
 

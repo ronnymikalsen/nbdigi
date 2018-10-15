@@ -1,3 +1,4 @@
+import { ItemDetailsService } from './core/item-details-service/item-details.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
@@ -21,8 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private updates: CheckForUpdateService,
     private sessionService: SessionService,
-    private iconRegistry: MatIconRegistry,
-    private sanitizer: DomSanitizer,
+    private itemDetailsService: ItemDetailsService,
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer,
     private store: Store<fromRoot.State>,
     private overlayContainer: OverlayContainer,
     media: MediaMatcher,
@@ -54,6 +56,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updates.init();
     this.sessionService.init();
+    this.itemDetailsService.init();
   }
 
   ngOnDestroy(): void {

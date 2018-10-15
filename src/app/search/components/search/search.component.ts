@@ -10,6 +10,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import { ObservableMedia } from '@angular/flex-layout';
 import * as fromSearch from '../../../+state/reducers/search.reducer';
 import { Hint } from '../../../core/typeahead-service/hints.model';
 import { ChartOption } from '../../../models/char-option';
@@ -19,7 +20,6 @@ import { Genre } from '../../../models/genre-options.model';
 import { MediaTypeResults } from '../../../models/search-result.model';
 import { Sort } from '../../../models/sort-options';
 import { YearCount } from '../../../models/year-count';
-import { ChartRangeToOption } from '../search-result-chart/chart-strategy-factory';
 
 @Component({
   selector: 'app-search',
@@ -49,6 +49,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Input() isDebugOn: boolean;
   @Input() showDateGraph: boolean;
   @Input() chartRange: ChartOption;
+  @Input() showItemDetails: boolean;
   @Output() searchSelected = new EventEmitter<string>();
   @Output() addFilter = new EventEmitter<Hint>();
   @Output() removeFilter = new EventEmitter<Hint>();
@@ -64,7 +65,8 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() previousChartRange = new EventEmitter<ChartOption>();
   @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
-  selector = '.search-result-container';
+
+  constructor(public media: ObservableMedia) {}
 
   ngOnInit() {}
 
@@ -75,8 +77,7 @@ export class SearchComponent implements OnInit, OnChanges {
         !this.search.isLoading &&
         !this.search.isLoadingMore &&
         this.search.criteria.mediaType &&
-        this.searchResultContainer.nativeElement.clientHeight ===
-          this.searchResultContainer.nativeElement.scrollHeight
+        document.body.clientHeight > document.body.scrollHeight
       ) {
         this.loadMore.emit();
       }

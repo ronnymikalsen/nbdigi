@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { map, filter } from 'rxjs/operators';
-
-import { FavoriteService } from '../../../core/favorite-service/favorite.service';
-import { Item, MediaTypeResults } from '../../../models/search-result.model';
+import { filter, map } from 'rxjs/operators';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
+import { FavoriteService } from '../../../core/favorite-service/favorite.service';
 import { FavoriteList } from '../../../models/favorite-list';
+import { MediaTypeResults } from '../../../models/search-result.model';
+import { ItemActions } from 'src/app/+state/actions';
 
 @Component({
   templateUrl: './favorite-list-page.html',
   styleUrls: ['./favorite-list-page.scss']
 })
-export class FavoriteListPageComponent implements OnInit {
+export class FavoriteListPageComponent implements OnInit, OnDestroy {
   items: Observable<MediaTypeResults>;
   listId: string;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
@@ -40,5 +40,9 @@ export class FavoriteListPageComponent implements OnInit {
         filter(l => l !== undefined),
         map((l: FavoriteList) => new MediaTypeResults({ items: l.items }))
       );
+  }
+
+  ngOnDestroy() {
+    this.store.dispatch(new ItemActions.CloseItemDetails());
   }
 }

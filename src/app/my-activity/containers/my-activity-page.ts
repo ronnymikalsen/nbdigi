@@ -5,7 +5,7 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 

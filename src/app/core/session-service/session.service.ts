@@ -1,10 +1,10 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument
-} from 'angularfire2/firestore';
+} from '@angular/fire/firestore';
 import { filter } from 'rxjs/operators';
 import * as session from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';

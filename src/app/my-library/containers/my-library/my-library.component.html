@@ -8,5 +8,15 @@
     </a>
 </mat-nav-list>
 <mat-toolbar>Nylig aktivitet</mat-toolbar>
+<div class="drawer-container">
+        <mat-drawer-container>
+          <mat-drawer appItemDetailsDrawer autosize="true" mode="side" position="end" [opened]="(showItemDetails | async) && media.isActive('gt-sm')">
+            <app-item-details></app-item-details>
+          </mat-drawer>
+          <mat-drawer-content>
+      
 <app-items-section [showToolbar]="false" [list]="(recentActivity | async).items" [mediaTypeResults]="recentActivity | async"
     [isDebugOn]="isDebugOn" rows="1" tabindex="0"></app-items-section>
+</mat-drawer-content>
+</mat-drawer-container>
+</div>

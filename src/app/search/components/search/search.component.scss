@@ -1,3 +1,12 @@
+mat-drawer-container {
+  overflow: inherit;
+  mat-drawer {
+    top: 5px;
+    overflow: inherit;
+    background: transparent !important;
+  }
+}
+
 .progress-bar {
   padding: 4px;
 }
@@ -11,17 +20,21 @@ mat-chip {
 }
 
 .filters-container {
-  overflow: auto;
+  overflow-x: auto;
 }
 
 .search-results {
   height: 100px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .others-mediatype-container {
   padding-top: 10px;
-  overflow: auto;
+  overflow-x: auto;
+}
+
+.chart {
+  max-height: 200px;
 }
 
 .chart {

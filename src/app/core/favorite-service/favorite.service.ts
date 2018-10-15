@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   AngularFirestore,
   AngularFirestoreCollection
-} from 'angularfire2/firestore';
+} from '@angular/fire/firestore';
 import { Md5 } from 'ts-md5';
 import * as firebase from 'firebase';
 import { filter, take, map, tap } from 'rxjs/operators';

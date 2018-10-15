@@ -1,33 +1,35 @@
-import { User } from '../../models/user.model';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
-} from 'angularfire2/firestore';
+} from '@angular/fire/firestore';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { tap, map, switchMap, filter } from 'rxjs/operators';
 import * as firebase from 'firebase';
-
-import * as fromRoot from '../reducers';
-import { Item } from '../../models/search-result.model';
-import { ItemActionTypes, Open, Change } from '../actions/item.actions';
+import { Observable, of } from 'rxjs';
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
+import { PresentationService } from 'src/app/core/presentation-service/presentation.service';
+import { Manifest } from '../../core/presentation-service/manifest';
 import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { Item } from '../../models/search-result.model';
+import { User } from '../../models/user.model';
+import { ItemActions, PresentationApiActions } from '../actions';
+import { Change, ItemActionTypes, Open } from '../actions/item.actions';
+import * as fromRoot from '../reducers';
 
 @Injectable()
 export class ItemEffects {
   private itemsRef: AngularFirestoreCollection<Item>;
 
   @Effect({ dispatch: false })
-  open: Observable<Action> = this.actions.pipe(
+  open: Observable<Action> = this.actions$.pipe(
     ofType(ItemActionTypes.Open),
     map(action => action),
     tap((action: Open) => this.viewerService.open(action.payload))
   );
 
   @Effect({ dispatch: false })
-  change: Observable<Action> = this.actions.pipe(
+  change: Observable<Action> = this.actions$.pipe(
     ofType(ItemActionTypes.Change),
     map(action => action),
     tap((action: Change) =>
@@ -38,11 +40,29 @@ export class ItemEffects {
     )
   );
 
+  @Effect()
+  openItemDetails$: Observable<Action> = this.actions$.pipe(
+    ofType<ItemActions.OpenItemDetails>(ItemActionTypes.OpenItemDetails),
+    map(action => action.payload),
+    switchMap((item: Item) =>
+      this.presentationService
+        .getManifest(item.manifestUri, ['metadata'])
+        .pipe(
+          map(
+            (manifest: Manifest) =>
+              new PresentationApiActions.LoadSuccess(manifest)
+          ),
+          catchError(err => of(new PresentationApiActions.LoadFailure(err)))
+        )
+    )
+  );
+
   constructor(
-    private actions: Actions,
+    private actions$: Actions,
     private viewerService: ViewerService,
-    private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
+    private presentationService: PresentationService,
+    private store: Store<fromRoot.State>,
+    afs: AngularFirestore
   ) {
     this.store
       .select(fromRoot.currentUser)

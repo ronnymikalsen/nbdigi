@@ -10,4 +10,14 @@
         </div>
     </div>
 </mat-toolbar>
-<app-items-section [showToolbar]="false" [list]="list" [mediaTypeResults]="items" [isDebugOn]="isDebugOn" tabindex="0"></app-items-section>
+<div class="drawer-container">
+    <mat-drawer-container>
+        <mat-drawer appItemDetailsDrawer autosize="true" mode="side" position="end" [opened]="(showItemDetails | async) && media.isActive('gt-sm')">
+            <app-item-details></app-item-details>
+        </mat-drawer>
+        <mat-drawer-content>
+            <app-items-section [showToolbar]="false" [list]="list" [mediaTypeResults]="items" [isDebugOn]="isDebugOn"
+                tabindex="0"></app-items-section>
+        </mat-drawer-content>
+    </mat-drawer-container>
+</div>

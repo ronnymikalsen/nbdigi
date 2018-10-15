@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ItemDetailsModule } from '../shared/item-details/item-details.module';
 import { ItemsSectionModule } from '../shared/items-section/items-section.module';
 import { SharedModule } from '../shared/shared.module';
 import { CreateFavoriteListComponent } from './components/create-favorite-list/create-favorite-list.component';
@@ -19,7 +20,8 @@ import { FavoriteListMenuModule } from './shared/favorite-list-menu/favorite-lis
     MyLibraryRoutingModule,
     FormsModule,
     ItemsSectionModule,
-    FavoriteListMenuModule
+    FavoriteListMenuModule,
+    ItemDetailsModule
   ],
   declarations: [
     MyLibraryPageComponent,

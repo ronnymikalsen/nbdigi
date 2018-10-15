@@ -1,22 +1,20 @@
 import * as fromRouter from '@ngrx/router-store';
-import { storeFreeze } from 'ngrx-store-freeze';
 import {
-  ActionReducerMap,
-  createSelector,
-  createFeatureSelector,
   ActionReducer,
+  ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
   MetaReducer
 } from '@ngrx/store';
-
+import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
 import { RouterStateUrl } from '../../custom-serializer';
-
-import * as fromSession from './session.reducer';
-import * as fromHome from './home.reducer';
-import * as fromSearch from './search.reducer';
-import * as fromItem from './item.reducer';
-import * as fromFavorite from './favorite.reducer';
 import { AuthActionTypes } from '../actions/session.actions';
+import * as fromFavorite from './favorite.reducer';
+import * as fromHome from './home.reducer';
+import * as fromItem from './item.reducer';
+import * as fromSearch from './search.reducer';
+import * as fromSession from './session.reducer';
 
 export interface State {
   session: fromSession.State;
@@ -145,6 +143,19 @@ export const getItemState = createFeatureSelector<fromItem.State>('item');
 export const getCurrentItem = createSelector(
   getItemState,
   fromItem.getCurrentItem
+);
+export const getCurrentItemDetails = createSelector(
+  getItemState,
+  fromItem.getCurrentItemDetails
+);
+export const getItemCurrentManifest = createSelector(
+  getItemState,
+  fromItem.getCurrentItemDetailsManifest
+);
+export const getItemLoading = createSelector(getItemState, fromItem.getLoading);
+export const showItemDetails = createSelector(
+  getItemState,
+  fromItem.showItemDetails
 );
 
 /**
