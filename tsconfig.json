@@ -1,8 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -10,6 +8,20 @@
     "experimentalDecorators": true,
     "target": "es5",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2017", "dom"]
-  }
+    "lib": ["es2017", "dom"],
+    "baseUrl": ".",
+    "paths": {
+      "@nbdigi/ui-material": ["libs/ui-material/src/index.ts"],
+      "@nbdigi/ui-home": ["libs/ui-home/src/index.ts"],
+      "@nbdigi/ui-explore": ["libs/ui-explore/src/index.ts"],
+      "@nbdigi/ui-search": ["libs/ui-search/src/index.ts"],
+      "@nbdigi/ui-my-library": ["libs/ui-my-library/src/index.ts"],
+      "@nbdigi/ui-my-settings": ["libs/ui-my-settings/src/index.ts"],
+      "@nbdigi/ui-settings": ["libs/ui-settings/src/index.ts"],
+      "@nbdigi/backend": ["libs/backend/src/index.ts"],
+      "@nbdigi/data-models": ["libs/data-models/src/index.ts"],
+      "@nbdigi/authentication-state": ["libs/authentication-state/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
 }

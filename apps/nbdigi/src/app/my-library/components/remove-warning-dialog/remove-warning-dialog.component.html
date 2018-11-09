@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Fjern fra listen</h1>
+<div mat-dialog-content>
+  Er du sikker på at du vil fjerne "{{ data.title }}" fra listen
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="onNoClick()">AVBRYT</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>FJERN</button>
+</div>

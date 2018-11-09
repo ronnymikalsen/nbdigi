@@ -5,10 +5,10 @@ const functions = require('firebase-functions');
 admin.initializeApp(functions.config().firebase);
 exports.updateFavorite = functions.firestore
   .document('users/{userId}/items/{messageId}')
-  .onUpdate((snapshot, context) => {
-    const updatedItem = snapshot.after;
+  .onUpdate((change, context) => {
+    const updatedItem = change.after;
     const currentCanvasId = updatedItem.get('currentCanvasId');
-    return snapshot.after.ref.parent.parent
+    return change.after.ref.parent.parent
       .collection('favorites')
       .get()
       .then(favorites => {

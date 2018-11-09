@@ -1,6 +1,0 @@
-<div *ngIf="manifest" role="list" id="metadata-container" class="metadata-container">
-  <div *ngFor="let metadata of manifest.metadata" class="metadata">
-    <div class="label">{{metadata.label}}</div>
-    <div class="content" [innerHTML]="metadata.value"></div>
-  </div>
-</div>

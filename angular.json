@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "",
   "projects": {
     "nbdigi": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/nbdigi/",
+      "sourceRoot": "apps/nbdigi/src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "apps/nbdigi",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -17,20 +17,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nbdigi",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/apps/nbdigi",
+            "index": "apps/nbdigi/src/index.html",
+            "main": "apps/nbdigi/src/main.ts",
+            "polyfills": "apps/nbdigi/src/polyfills.ts",
+            "tsConfig": "apps/nbdigi/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json",
-              "src/browserconfig.xml",
-              "src/apple-touch-icon.png",
-              "src/apple-touch-icon-precomposed.png"
+              "apps/nbdigi/src/favicon.ico",
+              "apps/nbdigi/src/assets",
+              "apps/nbdigi/src/robots.txt",
+              "apps/nbdigi/src/manifest.json",
+              "apps/nbdigi/src/browserconfig.xml",
+              "apps/nbdigi/src/apple-touch-icon.png",
+              "apps/nbdigi/src/apple-touch-icon-precomposed.png"
             ],
-            "styles": ["src/styles.scss", "src/theme.scss"],
+            "styles": [
+              "apps/nbdigi/src/styles.scss",
+              "apps/nbdigi/src/theme.scss"
+            ],
             "scripts": [
               "node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
@@ -39,8 +43,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/nbdigi/src/environments/environment.ts",
+                  "with": "apps/nbdigi/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -52,7 +56,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true
+              "serviceWorker": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
@@ -73,47 +84,294 @@
             "browserTarget": "nbdigi:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.scss"],
-            "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json"]
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "tsConfig": [
+              "apps/nbdigi/tsconfig.app.json",
+              "apps/nbdigi/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/nbdigi/jest.config.js",
+            "tsConfig": "apps/nbdigi/tsconfig.spec.json",
+            "setupFile": "apps/nbdigi/src/test-setup.ts"
           }
         }
       }
     },
     "nbdigi-e2e": {
-      "root": "e2e/",
+      "root": "apps/nbdigi-e2e",
       "projectType": "application",
+      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "protractorConfig": "apps/nbdigi-e2e/protractor.conf.js",
             "devServerTarget": "nbdigi:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nbdigi:serve:production"
+            }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
+            "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
             "exclude": ["**/node_modules/**"]
           }
         }
       }
+    },
+    "ui-material": {
+      "root": "libs/ui-material",
+      "sourceRoot": "libs/ui-material/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-material/tsconfig.lib.json",
+              "libs/ui-material/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-material/jest.config.js",
+            "tsConfig": "libs/ui-material/tsconfig.spec.json",
+            "setupFile": "libs/ui-material/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-home": {
+      "root": "libs/ui-home",
+      "sourceRoot": "libs/ui-home/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-home/tsconfig.lib.json",
+              "libs/ui-home/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-home/jest.config.js",
+            "tsConfig": "libs/ui-home/tsconfig.spec.json",
+            "setupFile": "libs/ui-home/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-explore": {
+      "root": "libs/ui-explore",
+      "sourceRoot": "libs/ui-explore/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-explore/tsconfig.lib.json",
+              "libs/ui-explore/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-explore/jest.config.js",
+            "tsConfig": "libs/ui-explore/tsconfig.spec.json",
+            "setupFile": "libs/ui-explore/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-search": {
+      "root": "libs/ui-search",
+      "sourceRoot": "libs/ui-search/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-search/tsconfig.lib.json",
+              "libs/ui-search/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-search/jest.config.js",
+            "tsConfig": "libs/ui-search/tsconfig.spec.json",
+            "setupFile": "libs/ui-search/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-my-library": {
+      "root": "libs/ui-my-library",
+      "sourceRoot": "libs/ui-my-library/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-my-library/tsconfig.lib.json",
+              "libs/ui-my-library/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-my-library/jest.config.js",
+            "tsConfig": "libs/ui-my-library/tsconfig.spec.json",
+            "setupFile": "libs/ui-my-library/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-settings": {
+      "root": "libs/ui-settings",
+      "sourceRoot": "libs/ui-settings/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-settings/tsconfig.lib.json",
+              "libs/ui-settings/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-settings/jest.config.js",
+            "tsConfig": "libs/ui-settings/tsconfig.spec.json",
+            "setupFile": "libs/ui-settings/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "backend": {
+      "root": "libs/backend",
+      "sourceRoot": "libs/backend/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/backend/tsconfig.lib.json",
+              "libs/backend/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/backend/jest.config.js",
+            "tsConfig": "libs/backend/tsconfig.spec.json",
+            "setupFile": "libs/backend/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "data-models": {
+      "root": "libs/data-models",
+      "sourceRoot": "libs/data-models/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/data-models/tsconfig.lib.json",
+              "libs/data-models/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/data-models/jest.config.js",
+            "tsConfig": "libs/data-models/tsconfig.spec.json",
+            "setupFile": "libs/data-models/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "authentication-state": {
+      "root": "libs/authentication-state",
+      "sourceRoot": "libs/authentication-state/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/authentication-state/tsconfig.lib.json",
+              "libs/authentication-state/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/authentication-state/jest.config.js",
+            "tsConfig": "libs/authentication-state/tsconfig.spec.json",
+            "setupFile": "libs/authentication-state/src/test-setup.ts"
+          }
+        }
+      }
     }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics",
+    "packageManager": "yarn"
   },
   "defaultProject": "nbdigi"
 }

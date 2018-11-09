@@ -1,0 +1,48 @@
+{
+  "npmScope": "nbdigi",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "nbdigi": {
+      "tags": ["nbd"]
+    },
+    "nbdigi-e2e": {
+      "tags": []
+    },
+    "ui-material": {
+      "tags": []
+    },
+    "ui-home": {
+      "tags": ["nbd"]
+    },
+    "ui-explore": {
+      "tags": ["nbd"]
+    },
+    "ui-search": {
+      "tags": ["nbd"]
+    },
+    "ui-my-library": {
+      "tags": ["nbd"]
+    },
+    "ui-my-settings": {
+      "tags": ["nbd"]
+    },
+    "ui-settings": {
+      "tags": ["nbd"]
+    },
+    "backend": {
+      "tags": []
+    },
+    "data-models": {
+      "tags": []
+    },
+    "authentication-state": {
+      "tags": []
+    }
+  }
+}

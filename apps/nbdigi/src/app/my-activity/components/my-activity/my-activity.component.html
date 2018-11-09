@@ -1,0 +1,26 @@
+<mat-toolbar>
+  <mat-toolbar-row class="search-box-container">
+    <div fxFill fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex> Min aktivitet </div>
+      <div>
+        <button
+          mat-icon-button
+          routerLink="/settings"
+          matTooltip="Innstillinger"
+        >
+          <mat-icon>settings</mat-icon>
+        </button>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+<section class="my-activity-container">
+  <mat-tab-group>
+    <mat-tab label="Sett på">
+      <nbd-item-activity [items]="items"></nbd-item-activity>
+    </mat-tab>
+    <mat-tab label="Søkt på">
+      <nbd-search-activity></nbd-search-activity>
+    </mat-tab>
+  </mat-tab-group>
+</section>

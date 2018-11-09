@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/out-tsc/apps/nbdigi",
+    "types": []
+  },
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
+  "include": [
+    "**/*.ts",
+
+    "../../libs/ui-home/src/index.ts",
+
+    "../../libs/ui-explore/src/index.ts",
+
+    "../../libs/ui-search/src/index.ts",
+
+    "../../libs/ui-my-library/src/index.ts",
+
+    "../../libs/ui-settings/src/index.ts"
+  ]
+}

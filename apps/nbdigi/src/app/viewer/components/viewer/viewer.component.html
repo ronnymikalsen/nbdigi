@@ -1,0 +1,33 @@
+<mat-toolbar>
+  <div
+    class="viewer-header-container"
+    fxFlex
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="10px"
+  >
+    <div>
+      <button mat-icon-button mat-dialog-close matTooltip="Lukk">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <div fxFlex class="truncate" [matTooltip]="item?.title">
+      {{ item?.title }}
+    </div>
+    <div>
+      <nbd-item-menu-button
+        [item]="item"
+        [config]="{ enableOpen: false }"
+      ></nbd-item-menu-button>
+    </div>
+  </div>
+</mat-toolbar>
+<div *ngIf="item" class="viewer-container">
+  <mime-viewer
+    [manifestUri]="item.manifestUri"
+    [canvasIndex]="item.currentCanvasId"
+    [config]="config"
+    (manifestChanged)="onManifestChange($event)"
+    (canvasChanged)="onCanvasChange($event)"
+  ></mime-viewer>
+</div>
