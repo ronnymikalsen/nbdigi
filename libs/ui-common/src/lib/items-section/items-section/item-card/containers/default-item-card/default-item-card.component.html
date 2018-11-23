@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-content>
+    <div fxLayout="column">
+      <div lazy-load-images (click)="open(item)">
+        <img class="thumbnail" [attr.data-src]="item.thumbnail" />
+      </div>
+      <div class="content-container" fxLayout="row">
+        <div class="metadata-container" fxFlex fxLayout="column">
+          <div class="title truncate" [matTooltip]="item.title">
+            {{ item.title }}
+          </div>
+          <div class="truncate creator" [matTooltip]="item.creator">
+            {{ item.creator }}
+          </div>
+          <div class="truncate issued" [matTooltip]="item.issued">
+            {{ item.issued | dateFormat }}
+          </div>
+        </div>
+        <div>
+          <nbd-item-menu-button
+            [list]="list"
+            [item]="item"
+          ></nbd-item-menu-button>
+        </div>
+      </div>
+      <div>
+        <nbd-debug [isDebugOn]="isDebugOn | async" [item]="item"></nbd-debug>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -91,7 +91,9 @@
               "apps/nbdigi/tsconfig.app.json",
               "apps/nbdigi/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -125,7 +127,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -143,7 +147,9 @@
               "libs/ui-material/tsconfig.lib.json",
               "libs/ui-material/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -156,9 +162,9 @@
         }
       }
     },
-    "ui-home": {
-      "root": "libs/ui-home",
-      "sourceRoot": "libs/ui-home/src",
+    "home-view": {
+      "root": "libs/home-view",
+      "sourceRoot": "libs/home-view/src",
       "projectType": "library",
       "prefix": "nbdigi",
       "architect": {
@@ -166,25 +172,27 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui-home/tsconfig.lib.json",
-              "libs/ui-home/tsconfig.spec.json"
+              "libs/home-view/tsconfig.lib.json",
+              "libs/home-view/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/ui-home/jest.config.js",
-            "tsConfig": "libs/ui-home/tsconfig.spec.json",
-            "setupFile": "libs/ui-home/src/test-setup.ts"
+            "jestConfig": "libs/home-view/jest.config.js",
+            "tsConfig": "libs/home-view/tsconfig.spec.json",
+            "setupFile": "libs/home-view/src/test-setup.ts"
           }
         }
       }
     },
-    "ui-explore": {
-      "root": "libs/ui-explore",
-      "sourceRoot": "libs/ui-explore/src",
+    "explore-view": {
+      "root": "libs/explore-view",
+      "sourceRoot": "libs/explore-view/src",
       "projectType": "library",
       "prefix": "nbdigi",
       "architect": {
@@ -192,25 +200,27 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui-explore/tsconfig.lib.json",
-              "libs/ui-explore/tsconfig.spec.json"
+              "libs/explore-view/tsconfig.lib.json",
+              "libs/explore-view/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/ui-explore/jest.config.js",
-            "tsConfig": "libs/ui-explore/tsconfig.spec.json",
-            "setupFile": "libs/ui-explore/src/test-setup.ts"
+            "jestConfig": "libs/explore-view/jest.config.js",
+            "tsConfig": "libs/explore-view/tsconfig.spec.json",
+            "setupFile": "libs/explore-view/src/test-setup.ts"
           }
         }
       }
     },
-    "ui-search": {
-      "root": "libs/ui-search",
-      "sourceRoot": "libs/ui-search/src",
+    "search-view": {
+      "root": "libs/search-view",
+      "sourceRoot": "libs/search-view/src",
       "projectType": "library",
       "prefix": "nbdigi",
       "architect": {
@@ -218,25 +228,27 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui-search/tsconfig.lib.json",
-              "libs/ui-search/tsconfig.spec.json"
+              "libs/search-view/tsconfig.lib.json",
+              "libs/search-view/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/ui-search/jest.config.js",
-            "tsConfig": "libs/ui-search/tsconfig.spec.json",
-            "setupFile": "libs/ui-search/src/test-setup.ts"
+            "jestConfig": "libs/search-view/jest.config.js",
+            "tsConfig": "libs/search-view/tsconfig.spec.json",
+            "setupFile": "libs/search-view/src/test-setup.ts"
           }
         }
       }
     },
-    "ui-my-library": {
-      "root": "libs/ui-my-library",
-      "sourceRoot": "libs/ui-my-library/src",
+    "my-library-view": {
+      "root": "libs/my-library-view",
+      "sourceRoot": "libs/my-library-view/src",
       "projectType": "library",
       "prefix": "nbdigi",
       "architect": {
@@ -244,25 +256,27 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui-my-library/tsconfig.lib.json",
-              "libs/ui-my-library/tsconfig.spec.json"
+              "libs/my-library-view/tsconfig.lib.json",
+              "libs/my-library-view/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/ui-my-library/jest.config.js",
-            "tsConfig": "libs/ui-my-library/tsconfig.spec.json",
-            "setupFile": "libs/ui-my-library/src/test-setup.ts"
+            "jestConfig": "libs/my-library-view/jest.config.js",
+            "tsConfig": "libs/my-library-view/tsconfig.spec.json",
+            "setupFile": "libs/my-library-view/src/test-setup.ts"
           }
         }
       }
     },
-    "ui-settings": {
-      "root": "libs/ui-settings",
-      "sourceRoot": "libs/ui-settings/src",
+    "settings-view": {
+      "root": "libs/settings-view",
+      "sourceRoot": "libs/settings-view/src",
       "projectType": "library",
       "prefix": "nbdigi",
       "architect": {
@@ -270,18 +284,20 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "libs/ui-settings/tsconfig.lib.json",
-              "libs/ui-settings/tsconfig.spec.json"
+              "libs/settings-view/tsconfig.lib.json",
+              "libs/settings-view/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/builders:jest",
           "options": {
-            "jestConfig": "libs/ui-settings/jest.config.js",
-            "tsConfig": "libs/ui-settings/tsconfig.spec.json",
-            "setupFile": "libs/ui-settings/src/test-setup.ts"
+            "jestConfig": "libs/settings-view/jest.config.js",
+            "tsConfig": "libs/settings-view/tsconfig.spec.json",
+            "setupFile": "libs/settings-view/src/test-setup.ts"
           }
         }
       }
@@ -299,7 +315,9 @@
               "libs/backend/tsconfig.lib.json",
               "libs/backend/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -325,7 +343,9 @@
               "libs/data-models/tsconfig.lib.json",
               "libs/data-models/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -351,7 +371,9 @@
               "libs/authentication-state/tsconfig.lib.json",
               "libs/authentication-state/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -360,6 +382,118 @@
             "jestConfig": "libs/authentication-state/jest.config.js",
             "tsConfig": "libs/authentication-state/tsconfig.spec.json",
             "setupFile": "libs/authentication-state/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "home-state": {
+      "root": "libs/home-state",
+      "sourceRoot": "libs/home-state/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/home-state/tsconfig.lib.json",
+              "libs/home-state/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/home-state/jest.config.js",
+            "tsConfig": "libs/home-state/tsconfig.spec.json",
+            "setupFile": "libs/home-state/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "session-state": {
+      "root": "libs/session-state",
+      "sourceRoot": "libs/session-state/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/session-state/tsconfig.lib.json",
+              "libs/session-state/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/session-state/jest.config.js",
+            "tsConfig": "libs/session-state/tsconfig.spec.json",
+            "setupFile": "libs/session-state/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ui-common": {
+      "root": "libs/ui-common",
+      "sourceRoot": "libs/ui-common/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui-common/tsconfig.lib.json",
+              "libs/ui-common/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/ui-common/jest.config.js",
+            "tsConfig": "libs/ui-common/tsconfig.spec.json",
+            "setupFile": "libs/ui-common/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "item-state": {
+      "root": "libs/item-state",
+      "sourceRoot": "libs/item-state/src",
+      "projectType": "library",
+      "prefix": "nbdigi",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/item-state/tsconfig.lib.json",
+              "libs/item-state/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "libs/item-state/jest.config.js",
+            "tsConfig": "libs/item-state/tsconfig.spec.json",
+            "setupFile": "libs/item-state/src/test-setup.ts"
           }
         }
       }

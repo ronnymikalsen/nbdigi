@@ -9,7 +9,9 @@
   },
   "projects": {
     "nbdigi": {
-      "tags": ["nbd"]
+      "tags": [
+        "nbd"
+      ]
     },
     "nbdigi-e2e": {
       "tags": []
@@ -17,23 +19,35 @@
     "ui-material": {
       "tags": []
     },
-    "ui-home": {
-      "tags": ["nbd"]
+    "home-view": {
+      "tags": [
+        "nbd"
+      ]
     },
-    "ui-explore": {
-      "tags": ["nbd"]
+    "explore-view": {
+      "tags": [
+        "nbd"
+      ]
     },
-    "ui-search": {
-      "tags": ["nbd"]
+    "search-view": {
+      "tags": [
+        "nbd"
+      ]
     },
-    "ui-my-library": {
-      "tags": ["nbd"]
+    "my-library-view": {
+      "tags": [
+        "nbd"
+      ]
     },
     "ui-my-settings": {
-      "tags": ["nbd"]
+      "tags": [
+        "nbd"
+      ]
     },
-    "ui-settings": {
-      "tags": ["nbd"]
+    "settings-view": {
+      "tags": [
+        "nbd"
+      ]
     },
     "backend": {
       "tags": []
@@ -42,6 +56,20 @@
       "tags": []
     },
     "authentication-state": {
+      "tags": []
+    },
+    "home-state": {
+      "tags": []
+    },
+    "session-state": {
+      "tags": []
+    },
+    "ui-common": {
+      "tags": [
+        "nbd"
+      ]
+    },
+    "item-state": {
       "tags": []
     }
   }

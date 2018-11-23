@@ -4,16 +4,16 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { User } from '@nbdigi/data-models';
+import { User, Item } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import * as session from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class SessionService {
   private userRef: AngularFirestoreDocument<User>;
-
   constructor(
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
@@ -64,6 +64,15 @@ export class SessionService {
     this.userRef.update({
       theme: theme
     });
+  }
+
+  updateItem(item: Item) {
+    this.userRef
+    .collection('items').doc(item.id).set({
+      ...item,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
   }
 
   private createUserIfNotExists(user: User) {

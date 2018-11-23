@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Slett</h1>
+<div mat-dialog-content>
+  <p>Er du sikker på at du vil slette listen "{{ data.name }}"?</p>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-button (click)="onNoClick()">AVBRYT</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>SLETT</button>
+</div>

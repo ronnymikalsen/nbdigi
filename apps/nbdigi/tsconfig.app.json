@@ -8,14 +8,14 @@
   "include": [
     "**/*.ts",
 
-    "../../libs/ui-home/src/index.ts",
+    "../../libs/home-view/src/index.ts",
 
-    "../../libs/ui-explore/src/index.ts",
+    "../../libs/explore-view/src/index.ts",
 
-    "../../libs/ui-search/src/index.ts",
+    "../../libs/search-view/src/index.ts",
 
-    "../../libs/ui-my-library/src/index.ts",
+    "../../libs/my-library-view/src/index.ts",
 
-    "../../libs/ui-settings/src/index.ts"
+    "../../libs/settings-view/src/index.ts"
   ]
 }
