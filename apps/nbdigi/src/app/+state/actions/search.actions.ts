@@ -1,6 +1,6 @@
-import { Criteria, DateOption, SuperSearchResult } from '@nbdigi/data-models';
 import { Action } from '@ngrx/store';
-import { Hint, Hints } from '../../core/typeahead-service/hints.model';
+import { Criteria, DateOption, SuperSearchResult } from '../../core/models';
+import { Hint, Hints } from '../../core/models/hints.model';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 
 export enum SearchActionTypes {

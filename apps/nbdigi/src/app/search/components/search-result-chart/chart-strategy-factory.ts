@@ -1,4 +1,4 @@
-import { Criteria, DateOption, YearCount } from '@nbdigi/data-models';
+import { Criteria, DateOption, YearCount } from '../../../core/models';
 import { CenturyChartStrategy } from './century-chart-strategy';
 import { DayChartStrategy } from './day-char-strategy';
 import { DecadeChartStrategy } from './decade-chart-strategy';

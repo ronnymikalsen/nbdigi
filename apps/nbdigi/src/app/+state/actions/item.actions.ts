@@ -1,5 +1,5 @@
-import { Item } from '@nbdigi/data-models';
 import { Action } from '@ngrx/store';
+import { Item } from '../../core/models';
 
 export enum ItemActionTypes {
   Open = '[Viewer] Open',

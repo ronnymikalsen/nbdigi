@@ -1,5 +1,5 @@
-import { SuperSearchResult } from '@nbdigi/data-models';
 import { Action } from '@ngrx/store';
+import { SuperSearchResult } from '../../core/models';
 
 export enum HomeActionTypes {
   LoadNewItems = '[Home] Load new items',

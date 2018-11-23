@@ -1,5 +1,5 @@
-import { FavoriteList, Item } from '@nbdigi/data-models';
 import { Action } from '@ngrx/store';
+import { FavoriteList, Item } from '../../core/models';
 
 export enum FavoriteActionTypes {
   OpenAddToListDialog = '[Favorite] Open dialog',

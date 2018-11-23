@@ -1,4 +1,4 @@
-import { DateOption, DateOptions } from '@nbdigi/data-models';
+import { DateOption, DateOptions } from '../../../core/models';
 import { ChartStrategy } from './chart-strategy-factory';
 import { MonthChartStrategy } from './month-chart-strategy';
 

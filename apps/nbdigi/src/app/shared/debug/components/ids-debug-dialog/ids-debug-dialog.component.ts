@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { Item } from '@nbdigi/data-models';
+import { Item } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-ids-debug-dialog',

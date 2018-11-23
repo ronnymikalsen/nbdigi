@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Authenticate, AuthError } from '@nbdigi/data-models';
+import { Authenticate, AuthError } from '../../core/models';
 
 @Component({
   selector: 'nbd-login',

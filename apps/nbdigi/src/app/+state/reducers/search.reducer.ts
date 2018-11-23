@@ -1,5 +1,5 @@
-import { Criteria, MediaTypeResults, YearCount } from '@nbdigi/data-models';
-import { Hints } from '../../core/typeahead-service/hints.model';
+import { Criteria, MediaTypeResults, YearCount } from '../../core/models';
+import { Hints } from '../../core/models/hints.model';
 import { SearchAction, SearchActionTypes } from '../actions/search.actions';
 
 export interface State {

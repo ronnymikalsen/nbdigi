@@ -3,9 +3,9 @@ import {
   MimeManifest,
   MimeViewerConfig
 } from '@nationallibraryofnorway/ngx-mime';
-import { Item } from '@nbdigi/data-models';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Item } from '../../../core/models';
 
 @Component({
   selector: 'nbd-viewer',

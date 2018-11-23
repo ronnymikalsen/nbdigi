@@ -1,4 +1,3 @@
-import { ItemDetailsComponent } from './../shared/item-details/item-details/item-details.component';
 import {
   HttpClient,
   HttpClientModule,
@@ -13,21 +12,22 @@ import {
 } from '@angular/material';
 import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
+import { ItemDetailsModule } from '../shared/item-details/item-details.module';
 import { SharedModule } from '../shared/shared.module';
-import { AuthService } from './auth-service/auth.service';
-import { AuthInterceptor } from './auth.interceptor';
-import { CheckForUpdateService } from './check-for-update-service/check-for-update.service';
+import { ItemDetailsComponent } from './../shared/item-details/item-details/item-details.component';
 import { CustomHttp } from './custom-http';
 import { DateAdapter as CustomDateAdapter } from './date-adapter';
-import { FavoriteService } from './favorite-service/favorite.service';
-import { ItemDetailsService } from './item-details-service/item-details.service';
-import { PresentationService } from './presentation-service/presentation.service';
-import { SearchService } from './search-service/search.service';
-import { SessionService } from './session-service/session.service';
+import { AuthInterceptor } from './interceptors';
+import { AuthService } from './services/auth.service';
+import { CheckForUpdateService } from './services/check-for-update.service';
+import { FavoriteService } from './services/favorite.service';
+import { ItemDetailsService } from './services/item-details.service';
+import { PresentationService } from './services/presentation.service';
+import { SearchService } from './services/search.service';
+import { SessionService } from './services/session.service';
+import { TypeaheadService } from './services/typeahead.service';
+import { ViewerService } from './services/viewer.service';
 import { SwUpdateMessageComponent } from './sw-update-message/sw-update-message.component';
-import { TypeaheadService } from './typeahead-service/typeahead.service';
-import { ViewerService } from './viewer-service/viewer.service';
-import { ItemDetailsModule } from '../shared/item-details/item-details.module';
 
 export function httpFactory(handler: HttpHandler) {
   return new CustomHttp(handler);

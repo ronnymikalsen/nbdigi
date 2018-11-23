@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { Criteria, DateOption, YearCount } from '@nbdigi/data-models';
+import { Criteria, DateOption, YearCount } from '../../../core/models';
 import {
   ChartRangeToOption,
   ChartStrategy,

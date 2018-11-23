@@ -1,4 +1,4 @@
-import { Criteria, DateOption, YearCount } from '@nbdigi/data-models';
+import { Criteria, DateOption, YearCount } from '../../../core/models';
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class DecadeChartStrategy implements ChartStrategy {

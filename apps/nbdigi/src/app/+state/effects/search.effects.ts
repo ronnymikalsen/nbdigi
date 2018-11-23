@@ -6,10 +6,9 @@ import {
 import { DateAdapter, MatDialog, MatSnackBar } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
-import { Criteria, DateOption, DateOptions, User } from '@nbdigi/data-models';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -22,9 +21,10 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-import { SearchService } from '../../core/search-service/search.service';
-import { Hint, Hints } from '../../core/typeahead-service/hints.model';
-import { TypeaheadService } from '../../core/typeahead-service/typeahead.service';
+import { Criteria, DateOption, DateOptions, User } from '../../core/models';
+import { Hint, Hints } from '../../core/models/hints.model';
+import { SearchService } from '../../core/services/search.service';
+import { TypeaheadService } from '../../core/services/typeahead.service';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { ItemActions } from '../actions';

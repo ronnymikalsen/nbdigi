@@ -4,8 +4,8 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Item } from '@nbdigi/data-models';
 import { Observable } from 'rxjs';
+import { Item } from '../../../core/models';
 
 @Component({
   selector: 'nbd-item-activity',

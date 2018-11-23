@@ -5,11 +5,11 @@ import {
   OnInit
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Item, User } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import * as fromRoot from '../../+state/reducers';
+import { Item, User } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

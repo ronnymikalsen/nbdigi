@@ -1,5 +1,5 @@
-import { Item } from '@nbdigi/data-models';
-import { Manifest } from '../../core/presentation-service/manifest';
+import { Item } from '../../core/models';
+import { Manifest } from '../../core/models/manifest';
 import { ItemActions, PresentationApiActions } from '../actions';
 import { ItemActionTypes } from '../actions/item.actions';
 

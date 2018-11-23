@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { FavoriteList } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as favoriteAction from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList } from '../../../core/models';
 
 @Component({
   selector: 'nbd-add-to-favorite-list-dialog',

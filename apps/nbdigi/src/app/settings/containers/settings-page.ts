@@ -6,7 +6,7 @@ import * as fromRoot from '../../+state/reducers';
 import * as fromSession from '../../+state/reducers/session.reducer';
 import * as sessionAction from '../../+state/actions/session.actions';
 import * as session from '../../+state/actions/session.actions';
-import { Hint } from '../../core/typeahead-service/hints.model';
+import { Hint } from '../../core/models/hints.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

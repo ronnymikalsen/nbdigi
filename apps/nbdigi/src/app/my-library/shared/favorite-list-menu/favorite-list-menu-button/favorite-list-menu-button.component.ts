@@ -4,10 +4,10 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { FavoriteList } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import * as favoriteActions from '../../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../../+state/reducers';
+import { FavoriteList } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-favorite-list-menu-button',

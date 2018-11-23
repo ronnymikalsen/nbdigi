@@ -1,8 +1,8 @@
+import { FavoriteList } from '../../core/models';
 import {
-  FavoriteActionUnion,
-  FavoriteActionTypes
+  FavoriteActionTypes,
+  FavoriteActionUnion
 } from '../actions/favorite.actions';
-import { FavoriteList } from '@nbdigi/data-models';
 
 export interface State {
   selected: string;

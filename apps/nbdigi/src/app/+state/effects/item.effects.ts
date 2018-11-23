@@ -3,15 +3,15 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { Item, User } from '@nbdigi/data-models';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { Manifest } from '../../core/presentation-service/manifest';
-import { PresentationService } from '../../core/presentation-service/presentation.service';
-import { ViewerService } from '../../core/viewer-service/viewer.service';
+import { Item, User } from '../../core/models';
+import { Manifest } from '../../core/models/manifest';
+import { PresentationService } from '../../core/services/presentation.service';
+import { ViewerService } from '../../core/services/viewer.service';
 import { ItemActions, PresentationApiActions } from '../actions';
 import { Change, ItemActionTypes, Open } from '../actions/item.actions';
 import * as fromRoot from '../reducers';

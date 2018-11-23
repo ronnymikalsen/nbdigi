@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { FavoriteList, MediaTypeResults } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ItemActions } from '../../../+state/actions';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
-import { FavoriteService } from '../../../core/favorite-service/favorite.service';
+import { FavoriteList, MediaTypeResults } from '../../../core/models';
+import { FavoriteService } from '../../../core/services/favorite.service';
 
 @Component({
   templateUrl: './favorite-list-page.html',

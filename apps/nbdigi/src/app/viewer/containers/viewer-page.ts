@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Item } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as itemAction from '../../+state/actions/item.actions';
 import * as fromRoot from '../../+state/reducers';
+import { Item } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

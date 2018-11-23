@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Item } from '@nbdigi/data-models';
+import { Item } from '../../../../core/models';
 import { IdsDebugDialogComponent } from '../ids-debug-dialog/ids-debug-dialog.component';
 
 @Component({

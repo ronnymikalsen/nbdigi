@@ -4,11 +4,11 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Item } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as itemAction from '../../../../+state/actions/item.actions';
 import * as fromRoot from '../../../../+state/reducers';
+import { Item } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-default-item-list',

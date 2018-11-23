@@ -7,7 +7,7 @@ import {
   MAT_DIALOG_DATA
 } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DateOptions } from '@nbdigi/data-models';
+import { DateOptions } from '../../../core/models';
 
 @Component({
   selector: 'nbd-date-picker-dialog',

@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { FavoriteList, MediaTypeResults } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
   selector: 'nbd-favorite-list',

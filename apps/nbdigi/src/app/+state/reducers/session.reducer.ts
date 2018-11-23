@@ -1,4 +1,4 @@
-import { AuthError as AuthErrorModel, User } from '@nbdigi/data-models';
+import { AuthError as AuthErrorModel, User } from '../../core/models';
 import { AuthAction, AuthActionTypes } from '../actions/session.actions';
 
 export interface State {

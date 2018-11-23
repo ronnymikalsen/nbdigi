@@ -4,13 +4,13 @@ import {
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { User } from '@nbdigi/data-models';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthService } from '../../core/auth-service/auth.service';
-import { SessionService } from '../../core/session-service/session.service';
+import { User } from '../../core/models';
+import { AuthService } from '../../core/services/auth.service';
+import { SessionService } from '../../core/services/session.service';
 import {
   AuthActionTypes,
   AuthError,

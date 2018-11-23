@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Genre } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import * as searchAction from '../../+state/actions/search.actions';
 import * as fromRoot from '../../+state/reducers';
+import { Genre } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

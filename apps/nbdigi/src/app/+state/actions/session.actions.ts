@@ -1,9 +1,9 @@
+import { Action } from '@ngrx/store';
 import {
   Authenticate,
   AuthError as AuthErrorModel,
   User
-} from '@nbdigi/data-models';
-import { Action } from '@ngrx/store';
+} from '../../core/models';
 
 export enum AuthActionTypes {
   SignUpWithEmailAndPassword = '[Session] Sign up with email and password',

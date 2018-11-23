@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ItemActions } from '../../../+state/actions';
 import * as fromRoot from '../../../+state/reducers';
-import { Manifest } from '../../../core/presentation-service/manifest';
+import { Item } from '../../../core/models';
+import { Manifest } from '../../../core/models/manifest';
 import { ItemMenuButtonComponentConfig } from '../../item-menu/item-menu-button/item-menu-button.component';
 
 @Component({

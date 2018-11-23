@@ -6,7 +6,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { Criteria } from '@nbdigi/data-models';
+import { Criteria } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-criteria-list-item',

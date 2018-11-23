@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { FavoriteList, MediaTypeResults } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ItemActions } from '../../../+state/actions';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
   selector: 'nbd-my-library',

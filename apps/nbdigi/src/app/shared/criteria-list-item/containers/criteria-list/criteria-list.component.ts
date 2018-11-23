@@ -1,11 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Criteria, User } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import * as searchAction from '../../../../+state/actions/search.actions';
 import * as fromRoot from '../../../../+state/reducers';
+import { Criteria, User } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-criteria-list',

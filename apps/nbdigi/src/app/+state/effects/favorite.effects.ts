@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { FavoriteList } from '@nbdigi/data-models';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
-import { FavoriteService } from '../../core/favorite-service/favorite.service';
+import { FavoriteList } from '../../core/models';
+import { FavoriteService } from '../../core/services/favorite.service';
 import { RemoveWarningDialogComponent } from '../../my-library/components/remove-warning-dialog/remove-warning-dialog.component';
 import { AddToFavoriteListDialogComponent } from '../../my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component';
 import { RemoveFavoriteDialogComponent } from '../../my-library/shared/favorite-list-menu/favorite-list-menu-button/remove-favorite-dialog/remove-favorite-dialog.component';

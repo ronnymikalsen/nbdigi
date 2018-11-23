@@ -4,7 +4,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Manifest } from '../../../../core/presentation-service/manifest';
+import { Manifest } from '../../../../core/models/manifest';
 
 @Component({
   selector: 'nbd-item-details-metadata',

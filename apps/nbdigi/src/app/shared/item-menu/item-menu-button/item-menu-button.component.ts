@@ -5,11 +5,11 @@ import {
   OnInit
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FavoriteList, Item } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { ItemActions } from '../../../+state/actions';
 import * as favoriteActions from '../../../+state/actions/favorite.actions';
 import * as fromRoot from '../../../+state/reducers';
+import { FavoriteList, Item } from '../../../core/models';
 
 @Component({
   selector: 'nbd-item-menu-button',

@@ -13,8 +13,8 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+import { Authenticate, AuthError } from '../../../core/models';
 import { PasswordValidation } from './password.validation';
-import { AuthError, Authenticate } from '@nbdigi/data-models';
 
 @Component({
   selector: 'nbd-create-account',

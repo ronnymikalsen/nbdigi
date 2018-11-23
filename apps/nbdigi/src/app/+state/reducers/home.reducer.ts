@@ -1,4 +1,4 @@
-import { MediaTypeResults } from '@nbdigi/data-models';
+import { MediaTypeResults } from '../../core/models';
 import { HomeAction, HomeActionTypes } from '../actions/home.actions';
 
 export interface State {

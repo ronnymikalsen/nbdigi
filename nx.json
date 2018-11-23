@@ -15,62 +15,6 @@
     },
     "nbdigi-e2e": {
       "tags": []
-    },
-    "ui-material": {
-      "tags": []
-    },
-    "home-view": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "explore-view": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "search-view": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "my-library-view": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "ui-my-settings": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "settings-view": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "backend": {
-      "tags": []
-    },
-    "data-models": {
-      "tags": []
-    },
-    "authentication-state": {
-      "tags": []
-    },
-    "home-state": {
-      "tags": []
-    },
-    "session-state": {
-      "tags": []
-    },
-    "ui-common": {
-      "tags": [
-        "nbd"
-      ]
-    },
-    "item-state": {
-      "tags": []
     }
   }
 }

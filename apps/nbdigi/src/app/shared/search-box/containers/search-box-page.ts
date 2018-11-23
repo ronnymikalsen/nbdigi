@@ -6,7 +6,7 @@ import * as searchAction from '../../../+state/actions/search.actions';
 import * as sessionAction from '../../../+state/actions/session.actions';
 import * as fromRoot from '../../../+state/reducers';
 import * as fromSearch from '../../../+state/reducers/search.reducer';
-import { Hint } from '../../../core/typeahead-service/hints.model';
+import { Hint } from '../../../core/models/hints.model';
 
 @Component({
   selector: 'nbd-search-box',

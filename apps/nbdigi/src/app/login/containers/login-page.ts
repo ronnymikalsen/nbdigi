@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Authenticate } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import * as session from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
+import { Authenticate } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

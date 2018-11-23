@@ -9,8 +9,8 @@ import {
   Output
 } from '@angular/core';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
-import { FavoriteList, MediaTypeResults } from '@nbdigi/data-models';
 import { Subscription } from 'rxjs';
+import { FavoriteList, MediaTypeResults } from '../../../core/models';
 import { SizeStrategyFactory } from './size-strategy.factory';
 
 @Component({

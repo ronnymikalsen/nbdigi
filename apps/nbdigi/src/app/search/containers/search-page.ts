@@ -4,13 +4,6 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import {
-  DateOption,
-  Genre,
-  MediaTypeResults,
-  Sort,
-  YearCount
-} from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ItemActions } from '../../+state/actions';
@@ -18,7 +11,14 @@ import * as searchAction from '../../+state/actions/search.actions';
 import * as sessionAction from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
 import * as fromSearch from '../../+state/reducers/search.reducer';
-import { Hint } from '../../core/typeahead-service/hints.model';
+import {
+  DateOption,
+  Genre,
+  MediaTypeResults,
+  Sort,
+  YearCount
+} from '../../core/models';
+import { Hint } from '../../core/models/hints.model';
 import { ChartRangeToOption } from '../components/search-result-chart/chart-strategy-factory';
 
 @Component({

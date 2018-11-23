@@ -9,6 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import * as fromSearch from '../../../+state/reducers/search.reducer';
 import {
   DateOption,
   DateOptions,
@@ -16,9 +17,8 @@ import {
   GenreOptions,
   Sort,
   SortOptions
-} from '@nbdigi/data-models';
-import * as fromSearch from '../../../+state/reducers/search.reducer';
-import { Hint } from '../../../core/typeahead-service/hints.model';
+} from '../../../core/models';
+import { Hint } from '../../../core/models/hints.model';
 
 @Component({
   selector: 'nbd-toolbar',

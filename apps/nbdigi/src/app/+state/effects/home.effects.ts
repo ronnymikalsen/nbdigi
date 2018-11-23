@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { SortOptions } from '@nbdigi/data-models';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { SearchService } from '../../core/search-service/search.service';
+import { SortOptions } from '../../core/models';
+import { SearchService } from '../../core/services/search.service';
 import * as home from '../actions/home.actions';
 import * as fromRoot from '../reducers';
 

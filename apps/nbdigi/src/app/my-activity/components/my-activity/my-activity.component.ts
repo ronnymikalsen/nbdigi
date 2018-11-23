@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Criteria, Item } from '@nbdigi/data-models';
+import { Criteria, Item } from '../../../core/models';
 
 @Component({
   selector: 'nbd-my-activity',

@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { Item, MediaTypeResults, SortOptions, User } from '@nbdigi/data-models';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -14,6 +13,7 @@ import { ItemActions } from '../../+state/actions';
 import * as homeAction from '../../+state/actions/home.actions';
 import * as searchAction from '../../+state/actions/search.actions';
 import * as fromRoot from '../../+state/reducers';
+import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

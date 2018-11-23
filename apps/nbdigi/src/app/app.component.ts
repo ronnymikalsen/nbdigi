@@ -1,4 +1,4 @@
-import { ItemDetailsService } from './core/item-details-service/item-details.service';
+import { ItemDetailsService } from './core/services/item-details.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
@@ -6,8 +6,8 @@ import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import * as fromRoot from './+state/reducers';
-import { CheckForUpdateService } from './core/check-for-update-service/check-for-update.service';
-import { SessionService } from './core/session-service/session.service';
+import { CheckForUpdateService } from './core/services/check-for-update.service';
+import { SessionService } from './core/services/session.service';
 
 @Component({
   selector: 'nbd-root',

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Manifest } from '../../core/presentation-service/manifest';
+import { Manifest } from '../../core/models/manifest';
 
 export enum PresentationApiActionTypes {
   LoadSuccess = '[Presentation/API] Load Success',

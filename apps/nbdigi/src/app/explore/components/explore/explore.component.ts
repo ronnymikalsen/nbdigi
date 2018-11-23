@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Genre, GenreOptions } from '@nbdigi/data-models';
+import { Genre, GenreOptions } from '../../../core/models';
 
 @Component({
   selector: 'nbd-explore',

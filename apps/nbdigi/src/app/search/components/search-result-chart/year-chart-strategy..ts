@@ -3,7 +3,7 @@ import {
   DateOption,
   DateOptions,
   YearCount
-} from '@nbdigi/data-models';
+} from '../../../core/models';
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class YearChartStrategy implements ChartStrategy {
