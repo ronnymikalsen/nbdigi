@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { LoadNewItems } from './home.actions';
 import { HomePartialState } from './home.reducer';
 import { homeQuery } from './home.selectors';
 
@@ -12,4 +13,8 @@ export class HomeFacade {
   getNewOthers$ = this.store.pipe(select(homeQuery.getNewOthers));
 
   constructor(private store: Store<HomePartialState>) {}
+
+  loadNewItems() {
+    this.store.dispatch(new LoadNewItems());
+  }
 }

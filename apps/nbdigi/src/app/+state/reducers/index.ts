@@ -10,27 +10,21 @@ import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
 import { RouterStateUrl } from '../../custom-serializer';
 import { AuthActionTypes } from '../actions/session.actions';
-import * as fromFavorite from './favorite.reducer';
-import * as fromHome from './home.reducer';
 import * as fromItem from './item.reducer';
 import * as fromSearch from './search.reducer';
 import * as fromSession from './session.reducer';
 
 export interface State {
   session: fromSession.State;
-  home: fromHome.State;
   search: fromSearch.State;
   item: fromItem.State;
-  favorite: fromFavorite.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
 export const reducers: ActionReducerMap<State> = {
   session: fromSession.reducer,
-  home: fromHome.reducer,
   search: fromSearch.reducer,
   item: fromItem.reducer,
-  favorite: fromFavorite.reducer,
   router: fromRouter.routerReducer
 };
 
@@ -48,22 +42,6 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 export const metaReducers: MetaReducer<State>[] = !environment.production
   ? [storeFreeze, debug]
   : [debug];
-
-/**
- * Home Reducers
- */
-export const getHomeState = createFeatureSelector<fromHome.State>('home');
-export const getNewBooks = createSelector(getHomeState, fromHome.getNewBooks);
-export const getNewPeriodicals = createSelector(
-  getHomeState,
-  fromHome.getNewPeriodicals
-);
-export const getNewPhotos = createSelector(getHomeState, fromHome.getNewPhotos);
-export const getNewNewspapers = createSelector(
-  getHomeState,
-  fromHome.getNewNewspapers
-);
-export const getNewOthers = createSelector(getHomeState, fromHome.getNewOthers);
 
 /**
  * Settings Reducers
@@ -156,19 +134,4 @@ export const getItemLoading = createSelector(getItemState, fromItem.getLoading);
 export const showItemDetails = createSelector(
   getItemState,
   fromItem.showItemDetails
-);
-
-/**
- * Favorite Reducers
- */
-export const getFavoriteState = createFeatureSelector<fromFavorite.State>(
-  'favorite'
-);
-export const getFavoriteList = createSelector(
-  getFavoriteState,
-  fromFavorite.getLists
-);
-export const getCurrentList = createSelector(
-  getFavoriteState,
-  fromFavorite.getSelectedList
 );

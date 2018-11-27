@@ -46,9 +46,6 @@
       "@nbdigi/authentication-state": [
         "libs/authentication-state/src/index.ts"
       ],
-      "@nbdigi/home-state": [
-        "libs/home-state/src/index.ts"
-      ],
       "@nbdigi/session-state": [
         "libs/session-state/src/index.ts"
       ],

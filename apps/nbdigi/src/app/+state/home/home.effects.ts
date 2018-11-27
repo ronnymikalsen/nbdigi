@@ -4,15 +4,19 @@ import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { SortOptions } from '../../core/models';
-import { SearchService } from '../../core/services/search.service';
-import * as home from '../actions/home.actions';
-import * as fromRoot from '../reducers';
+import { SearchService } from '../../core/services';
+import {
+  HomeActionTypes,
+  LoadError,
+  LoadNewItemsSuccess
+} from './home.actions';
+import { HomePartialState } from './home.reducer';
 
 @Injectable()
 export class HomeEffects {
   @Effect()
   loadNewItems: Observable<Action> = this.actions.pipe(
-    ofType(home.HomeActionTypes.LoadNewItems),
+    ofType(HomeActionTypes.LoadNewItems),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
@@ -25,15 +29,15 @@ export class HomeEffects {
         })
         .pipe(
           map(searchResult => {
-            return new home.LoadNewItemsSuccess(searchResult);
+            return new LoadNewItemsSuccess(searchResult);
           }),
-          catchError(err => of(new home.LoadError(err)))
+          catchError(err => of(new LoadError(err)))
         );
     })
   );
 
   constructor(
-    private store: Store<fromRoot.State>,
+    private store: Store<HomePartialState>,
     private actions: Actions,
     private searchService: SearchService
   ) {}

@@ -8,7 +8,7 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
-import * as favoriteAction from '../../+state/actions/favorite.actions';
+import { FavoriteFacade } from '../../+state/favorite/favorite.facade';
 import * as fromRoot from '../../+state/reducers';
 import { FavoriteList, Item, User } from '../../core/models';
 
@@ -18,6 +18,7 @@ export class FavoriteService {
 
   constructor(
     private afs: AngularFirestore,
+    private favoriteFacade: FavoriteFacade,
     private store: Store<fromRoot.State>
   ) {
     this.store
@@ -38,13 +39,11 @@ export class FavoriteService {
                   .collection('items')
                   .valueChanges()
                   .subscribe((i: Item[]) => {
-                    this.store.dispatch(
-                      new favoriteAction.SetList({
-                        id: list.id,
-                        name: list.name,
-                        items: i
-                      })
-                    );
+                    this.favoriteFacade.setList({
+                      id: list.id,
+                      name: list.name,
+                      items: i
+                    });
                   });
               }
             })

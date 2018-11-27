@@ -1,7 +1,9 @@
 import { MediaTypeResults } from '../../core/models';
-import { HomeAction, HomeActionTypes } from '../actions/home.actions';
+import { HomeAction, HomeActionTypes } from './home.actions';
 
-export interface State {
+export const HOME_FEATURE_KEY = 'home';
+
+export interface HomeState {
   books: MediaTypeResults;
   periodicals: MediaTypeResults;
   photos: MediaTypeResults;
@@ -9,7 +11,11 @@ export interface State {
   others: MediaTypeResults;
 }
 
-export const initialState: State = {
+export interface HomePartialState {
+  readonly [HOME_FEATURE_KEY]: HomeState;
+}
+
+export const initialState: HomeState = {
   books: null,
   periodicals: null,
   photos: null,
@@ -17,10 +23,13 @@ export const initialState: State = {
   others: null
 };
 
-export function reducer(state = initialState, action: HomeAction): State {
+export function homeReducer(
+  state: HomeState = initialState,
+  action: HomeAction
+): HomeState {
   switch (action.type) {
     case HomeActionTypes.LoadNewItemsSuccess: {
-      return {
+      state = {
         ...state,
         books: action.payload.books,
         periodicals: action.payload.periodicals,
@@ -28,15 +37,8 @@ export function reducer(state = initialState, action: HomeAction): State {
         newspapers: action.payload.newspapers,
         others: action.payload.others
       };
-    }
-    default: {
-      return state;
+      break;
     }
   }
+  return state;
 }
-
-export const getNewBooks = (state: State) => state.books;
-export const getNewPeriodicals = (state: State) => state.periodicals;
-export const getNewPhotos = (state: State) => state.photos;
-export const getNewNewspapers = (state: State) => state.newspapers;
-export const getNewOthers = (state: State) => state.newspapers;

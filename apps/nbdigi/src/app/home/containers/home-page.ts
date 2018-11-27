@@ -10,8 +10,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ItemActions } from '../../+state/actions';
-import * as homeAction from '../../+state/actions/home.actions';
 import * as searchAction from '../../+state/actions/search.actions';
+import { HomeFacade } from '../../+state/home/home.facade';
 import * as fromRoot from '../../+state/reducers';
 import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 
@@ -38,27 +38,18 @@ import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   items: Observable<MediaTypeResults>;
-  newBooks: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewBooks
-  );
-  newPeriodicals: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewPeriodicals
-  );
-  newPhotos: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewPhotos
-  );
-  newNewspapers: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewNewspapers
-  );
-  newOthers: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewOthers
-  );
+  newBooks: Observable<MediaTypeResults> = this.facade.getNewBooks$;
+  newPeriodicals: Observable<MediaTypeResults> = this.facade.getNewPeriodicals$;
+  newPhotos: Observable<MediaTypeResults> = this.facade.getNewPhotos$;
+  newNewspapers: Observable<MediaTypeResults> = this.facade.getNewNewspapers$;
+  newOthers: Observable<MediaTypeResults> = this.facade.getNewOthers$;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   showItemDetails: Observable<boolean> = this.store.select(
     fromRoot.showItemDetails
   );
 
   constructor(
+    private facade: HomeFacade,
     private router: Router,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>
@@ -85,7 +76,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.store.dispatch(new homeAction.LoadNewItems());
+    this.facade.loadNewItems();
   }
 
   ngOnDestroy() {

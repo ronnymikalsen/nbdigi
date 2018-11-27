@@ -1,38 +1,43 @@
 import { FavoriteList } from '../../core/models';
-import {
-  FavoriteActionTypes,
-  FavoriteActionUnion
-} from '../actions/favorite.actions';
+import { FavoriteAction, FavoriteActionTypes } from './favorite.actions';
 
-export interface State {
+export const FAVORITE_FEATURE_KEY = 'favorite';
+
+export interface FavoriteState {
   selected: string;
   lists?: FavoriteList[];
 }
 
-export const initialState: State = {
+export interface FavoritePartialState {
+  readonly [FAVORITE_FEATURE_KEY]: FavoriteState;
+}
+
+export const initialState: FavoriteState = {
   selected: null,
   lists: []
 };
 
-export function reducer(
-  state = initialState,
-  action: FavoriteActionUnion
-): State {
+export function favoriteReducer(
+  state: FavoriteState = initialState,
+  action: FavoriteAction
+): FavoriteState {
   switch (action.type) {
     case FavoriteActionTypes.OpenList: {
-      return {
+      state = {
         ...state,
         selected: action.payload
       };
+      break;
     }
     case FavoriteActionTypes.RemoveListSuccess: {
       const index = state.lists.findIndex(l => l.id === action.payload.id);
       const newLists = [...state.lists];
       newLists.splice(index, 1);
-      return {
+      state = {
         ...state,
         lists: newLists
       };
+      break;
     }
     case FavoriteActionTypes.SetList: {
       const payload = { ...action.payload };
@@ -54,17 +59,12 @@ export function reducer(
       }
 
       newLists.sort((a, b) => a.name.localeCompare(b.name));
-      return {
+      state = {
         ...state,
         lists: newLists
       };
-    }
-    default: {
-      return state;
+      break;
     }
   }
+  return state;
 }
-
-export const getSelectedList = (state: State) =>
-  state.lists.filter(l => l.id === state.selected)[0];
-export const getLists = (state: State) => state.lists;

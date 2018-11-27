@@ -4,9 +4,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as favoriteActions from '../../../../+state/actions/favorite.actions';
-import * as fromRoot from '../../../../+state/reducers';
+import { FavoriteFacade } from '../../../../+state/favorite/favorite.facade';
 import { FavoriteList } from '../../../../core/models';
 
 @Component({
@@ -18,7 +16,7 @@ import { FavoriteList } from '../../../../core/models';
 export class FavoriteListMenuButtonComponent implements OnInit {
   @Input() favorite: FavoriteList;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private favoriteFacade: FavoriteFacade) {}
 
   ngOnInit() {}
 
@@ -27,9 +25,13 @@ export class FavoriteListMenuButtonComponent implements OnInit {
   }
 
   renameFavorite(list: FavoriteList) {
-    this.store.dispatch(new favoriteActions.OpenRenameListDialog(list));
+    this.favoriteFacade.openRenameListDialog(list);
   }
   removeFavorite(list: FavoriteList) {
-    this.store.dispatch(new favoriteActions.RemoveList(list));
+    this.favoriteFacade.removeList(list);
+  }
+
+  OpenAddToListDialog(list: FavoriteList) {
+    this.favoriteFacade.removeList(list);
   }
 }

@@ -1,0 +1,1 @@
+describe('Favorite Selectors', () => {});

@@ -19,11 +19,23 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import 'hammerjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
-import { FavoriteEffects } from './+state/effects/favorite.effects';
-import { HomeEffects } from './+state/effects/home.effects';
 import { ItemEffects } from './+state/effects/item.effects';
 import { SearchEffects } from './+state/effects/search.effects';
 import { SessionEffects } from './+state/effects/session.effects';
+import { FavoriteEffects } from './+state/favorite/favorite.effects';
+import { FavoriteFacade } from './+state/favorite/favorite.facade';
+import {
+  favoriteReducer,
+  FAVORITE_FEATURE_KEY,
+  initialState as favoriteInitialState
+} from './+state/favorite/favorite.reducer';
+import { HomeEffects } from './+state/home/home.effects';
+import { HomeFacade } from './+state/home/home.facade';
+import {
+  homeReducer,
+  HOME_FEATURE_KEY,
+  initialState as homeInitialState
+} from './+state/home/home.reducer';
 import { metaReducers, reducers } from './+state/reducers';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -63,13 +75,26 @@ registerLocaleData(localeNo);
     InfiniteScrollModule,
     NgxChartsModule,
     SharedModule,
-    ViewerModule
+    ViewerModule,
+    StoreModule.forFeature(HOME_FEATURE_KEY, homeReducer, {
+      initialState: homeInitialState
+    }),
+    EffectsModule.forFeature([HomeEffects]),
+    StoreModule.forFeature(FAVORITE_FEATURE_KEY, favoriteReducer, {
+      initialState: favoriteInitialState
+    }),
+    EffectsModule.forFeature([FavoriteEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   providers: [
     AuthGuard,
-    { provide: RouterStateSerializer, useClass: CustomSerializer }
+    {
+      provide: RouterStateSerializer,
+      useClass: CustomSerializer
+    },
+    HomeFacade,
+    FavoriteFacade
   ]
 })
 export class AppModule {}

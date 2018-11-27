@@ -164,7 +164,7 @@ export class Error implements Action {
   constructor(public payload: Error) {}
 }
 
-export type FavoriteActionUnion =
+export type FavoriteAction =
   | OpenAddToListDialog
   | OpenList
   | SetList
@@ -186,3 +186,27 @@ export type FavoriteActionUnion =
   | RemoveFromListSuccess
   | RemoveFromListCancelled
   | Error;
+
+export const fromFavoriteActions = {
+  OpenAddToListDialog,
+  OpenList,
+  SetList,
+  FetchListsSuccess,
+  AddList,
+  AddListSuccess,
+  RenameList,
+  RenameListSuccess,
+  RenameListCancelled,
+  RemoveList,
+  RemoveListConfirmed,
+  RemoveListSuccess,
+  RemoveListCancelled,
+  AddToList,
+  AddToListSuccess,
+  AddToListCancelled,
+  RemoveFromList,
+  RemoveFromListConfirmed,
+  RemoveFromListSuccess,
+  RemoveFromListCancelled,
+  Error
+};

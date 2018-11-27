@@ -1,9 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as favoriteAction from '../../../+state/actions/favorite.actions';
-import * as fromRoot from '../../../+state/reducers';
+import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import { FavoriteList } from '../../../core/models';
 
 @Component({
@@ -12,9 +10,8 @@ import { FavoriteList } from '../../../core/models';
   styleUrls: ['./add-to-favorite-list-dialog.component.scss']
 })
 export class AddToFavoriteListDialogComponent implements OnInit {
-  favoriteLists: Observable<FavoriteList[]> = this.store.select(
-    fromRoot.getFavoriteList
-  );
+  favoriteLists: Observable<FavoriteList[]> = this.favoriteFacade
+    .getFavoriteList$;
 
   showCreate = false;
 
@@ -22,7 +19,7 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddToFavoriteListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public snackBar: MatSnackBar,
-    private store: Store<fromRoot.State>
+    private favoriteFacade: FavoriteFacade
   ) {}
 
   ngOnInit() {}
@@ -41,6 +38,6 @@ export class AddToFavoriteListDialogComponent implements OnInit {
 
   addList(listName: string) {
     this.toggleCreate();
-    this.store.dispatch(new favoriteAction.AddList(listName));
+    this.favoriteFacade.addList(listName);
   }
 }

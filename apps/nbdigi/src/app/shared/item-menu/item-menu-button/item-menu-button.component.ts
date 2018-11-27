@@ -7,7 +7,7 @@ import {
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { ItemActions } from '../../../+state/actions';
-import * as favoriteActions from '../../../+state/actions/favorite.actions';
+import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import * as fromRoot from '../../../+state/reducers';
 import { FavoriteList, Item } from '../../../core/models';
 
@@ -22,7 +22,11 @@ export class ItemMenuButtonComponent implements OnInit {
   @Input() list: FavoriteList;
   @Input() config = new ItemMenuButtonComponentConfig();
 
-  constructor(private store: Store<fromRoot.State>, public dialog: MatDialog) {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    public dialog: MatDialog,
+    private favoriteFacade: FavoriteFacade
+  ) {}
 
   ngOnInit() {}
 
@@ -35,16 +39,14 @@ export class ItemMenuButtonComponent implements OnInit {
   }
 
   addToFavorites(): void {
-    this.store.dispatch(new favoriteActions.OpenAddToListDialog(this.item));
+    this.favoriteFacade.openAddToListDialog(this.item);
   }
 
   removeFromFavorites(): void {
-    this.store.dispatch(
-      new favoriteActions.RemoveFromList({
-        id: this.list.id,
-        items: [this.item]
-      })
-    );
+    this.favoriteFacade.removeFromList({
+      id: this.list.id,
+      items: [this.item]
+    });
   }
 }
 
