@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { SearchState } from '../../../+state/search/search.reducer';
 import {
   DateOption,
   DateOptions,
@@ -27,7 +27,7 @@ import { Hint } from '../../../core/models/hints.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToolbarComponent implements OnInit, OnChanges {
-  @Input() search: fromSearch.State;
+  @Input() search: SearchState;
   @Input() currentMediaTypeCount: number;
   @Input() showDateGraph: boolean;
   @Input() isDebugOn: boolean;

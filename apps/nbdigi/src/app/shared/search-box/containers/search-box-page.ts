@@ -2,10 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as searchAction from '../../../+state/actions/search.actions';
 import * as sessionAction from '../../../+state/actions/session.actions';
 import * as fromRoot from '../../../+state/reducers';
-import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { SearchFacade } from '../../../+state/search/search.facade';
+import { SearchState } from '../../../+state/search/search.reducer';
 import { Hint } from '../../../core/models/hints.model';
 
 @Component({
@@ -25,34 +25,34 @@ import { Hint } from '../../../core/models/hints.model';
 })
 export class SearchBoxPageComponent {
   @Output() searchSelected = new EventEmitter<string>();
-  search: Observable<fromSearch.State> = this.store.select(
-    fromRoot.getSearchState
-  );
-  q: Observable<string> = this.store.select(fromRoot.getQ);
+  search: Observable<SearchState> = this.searchFacade.state$;
+  q: Observable<string> = this.searchFacade.getQ$;
 
-  constructor(private router: Router, private store: Store<fromRoot.State>) {}
+  constructor(
+    private router: Router,
+    private store: Store<fromRoot.State>,
+    private searchFacade: SearchFacade
+  ) {}
 
   onSearchSelected(query: string): void {
     this.searchSelected.emit(query);
   }
 
   query(query: string): void {
-    this.store.dispatch(new searchAction.LoadHints(query));
+    this.searchFacade.loadHints(query);
   }
 
   addFilter(filter: Hint): void {
-    this.store.dispatch(
-      new searchAction.UpdateCriteria({
-        q: null
-      })
-    );
-    this.store.dispatch(new searchAction.AddFilter(filter));
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.updateCriteria({
+      q: null
+    });
+    this.searchFacade.addFilter(filter);
+    this.searchFacade.search();
   }
 
   onClearAll(): void {
-    this.store.dispatch(new searchAction.ClearAll());
-    this.store.dispatch(new searchAction.SearchAggs());
+    this.searchFacade.clearAll();
+    this.searchFacade.searchAggs();
     this.router.navigate(['/search']);
   }
 

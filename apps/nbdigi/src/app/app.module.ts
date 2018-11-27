@@ -20,7 +20,6 @@ import 'hammerjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
 import { ItemEffects } from './+state/effects/item.effects';
-import { SearchEffects } from './+state/effects/search.effects';
 import { SessionEffects } from './+state/effects/session.effects';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
 import { FavoriteFacade } from './+state/favorite/favorite.facade';
@@ -37,6 +36,13 @@ import {
   initialState as homeInitialState
 } from './+state/home/home.reducer';
 import { metaReducers, reducers } from './+state/reducers';
+import { SearchEffects } from './+state/search/search.effects';
+import { SearchFacade } from './+state/search/search.facade';
+import {
+  initialState as searchInitialState,
+  searchReducer,
+  SEARCH_FEATURE_KEY
+} from './+state/search/search.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -83,7 +89,11 @@ registerLocaleData(localeNo);
     StoreModule.forFeature(FAVORITE_FEATURE_KEY, favoriteReducer, {
       initialState: favoriteInitialState
     }),
-    EffectsModule.forFeature([FavoriteEffects])
+    EffectsModule.forFeature([FavoriteEffects]),
+    StoreModule.forFeature(SEARCH_FEATURE_KEY, searchReducer, {
+      initialState: searchInitialState
+    }),
+    EffectsModule.forFeature([SearchEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -94,7 +104,8 @@ registerLocaleData(localeNo);
       useClass: CustomSerializer
     },
     HomeFacade,
-    FavoriteFacade
+    FavoriteFacade,
+    SearchFacade
   ]
 })
 export class AppModule {}

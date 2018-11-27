@@ -10,9 +10,9 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ItemActions } from '../../+state/actions';
-import * as searchAction from '../../+state/actions/search.actions';
 import { HomeFacade } from '../../+state/home/home.facade';
 import * as fromRoot from '../../+state/reducers';
+import { SearchFacade } from '../../+state/search/search.facade';
 import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 
 @Component({
@@ -38,18 +38,21 @@ import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   items: Observable<MediaTypeResults>;
-  newBooks: Observable<MediaTypeResults> = this.facade.getNewBooks$;
-  newPeriodicals: Observable<MediaTypeResults> = this.facade.getNewPeriodicals$;
-  newPhotos: Observable<MediaTypeResults> = this.facade.getNewPhotos$;
-  newNewspapers: Observable<MediaTypeResults> = this.facade.getNewNewspapers$;
-  newOthers: Observable<MediaTypeResults> = this.facade.getNewOthers$;
+  newBooks: Observable<MediaTypeResults> = this.homeFacade.getNewBooks$;
+  newPeriodicals: Observable<MediaTypeResults> = this.homeFacade
+    .getNewPeriodicals$;
+  newPhotos: Observable<MediaTypeResults> = this.homeFacade.getNewPhotos$;
+  newNewspapers: Observable<MediaTypeResults> = this.homeFacade
+    .getNewNewspapers$;
+  newOthers: Observable<MediaTypeResults> = this.homeFacade.getNewOthers$;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   showItemDetails: Observable<boolean> = this.store.select(
     fromRoot.showItemDetails
   );
 
   constructor(
-    private facade: HomeFacade,
+    private homeFacade: HomeFacade,
+    private searchFacade: SearchFacade,
     private router: Router,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>
@@ -76,7 +79,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.facade.loadNewItems();
+    this.homeFacade.loadNewItems();
   }
 
   ngOnDestroy() {
@@ -100,21 +103,17 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   onSearchSelected(q: string) {
-    this.store.dispatch(
-      new searchAction.SetCriteria({
-        q: q
-      })
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.setCriteria({
+      q: q
+    });
+    this.searchFacade.search();
   }
 
   private showNewArrivals(mediaType: string) {
-    this.store.dispatch(
-      new searchAction.SetCriteria({
-        mediaType: mediaType,
-        sort: new SortOptions().newArrivals
-      })
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.setCriteria({
+      mediaType: mediaType,
+      sort: new SortOptions().newArrivals
+    });
+    this.searchFacade.search();
   }
 }

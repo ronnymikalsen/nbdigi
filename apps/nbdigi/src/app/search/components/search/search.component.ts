@@ -11,7 +11,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import * as fromSearch from '../../../+state/reducers/search.reducer';
+import { SearchState } from '../../../+state/search/search.reducer';
 import {
   ChartOption,
   Criteria,
@@ -30,7 +30,7 @@ import { Hint } from '../../../core/models/hints.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit, OnChanges {
-  @Input() search: fromSearch.State;
+  @Input() search: SearchState;
   @Input() criterias: Criteria[];
   @Input() currentMediaTypeCount: number;
   @Input() pristine: boolean;

@@ -1,6 +1,11 @@
 import { Action } from '@ngrx/store';
-import { Criteria, DateOption, SuperSearchResult } from '../../core/models';
-import { Hint, Hints } from '../../core/models/hints.model';
+import {
+  Criteria,
+  DateOption,
+  Hint,
+  Hints,
+  SuperSearchResult
+} from '../../core/models';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 
 export enum SearchActionTypes {
@@ -174,3 +179,28 @@ export type SearchAction =
   | SetDateCriteriaCancelled
   | ToChartRange
   | SetCurrentChartName;
+
+export const fromSearchActions = {
+  Search,
+  SearchSuccess,
+  SearchError,
+  SearchAggs,
+  SearchAggsSuccess,
+  SearchAggsError,
+  LoadHints,
+  HintsLoaded,
+  AddFilter,
+  RemoveFilter,
+  ToggleFilter,
+  LoadMoreSuccess,
+  LoadMore,
+  ClearAll,
+  SetCriteria,
+  UpdateCriteria,
+  OpenDatePickerDialog,
+  SetDateCriteria,
+  SetDateCriteriaConfirmed,
+  SetDateCriteriaCancelled,
+  ToChartRange,
+  SetCurrentChartName
+};

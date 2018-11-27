@@ -11,19 +11,16 @@ import { environment } from '../../../environments/environment';
 import { RouterStateUrl } from '../../custom-serializer';
 import { AuthActionTypes } from '../actions/session.actions';
 import * as fromItem from './item.reducer';
-import * as fromSearch from './search.reducer';
 import * as fromSession from './session.reducer';
 
 export interface State {
   session: fromSession.State;
-  search: fromSearch.State;
   item: fromItem.State;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
 export const reducers: ActionReducerMap<State> = {
   session: fromSession.reducer,
-  search: fromSearch.reducer,
   item: fromItem.reducer,
   router: fromRouter.routerReducer
 };
@@ -66,53 +63,6 @@ export const currentTheme = createSelector(
   getSessionState,
   fromSession.getTheme
 );
-
-/**
- * Search Reducers
- */
-export const getSearchState = createFeatureSelector<fromSearch.State>('search');
-export const getQ = createSelector(getSearchState, fromSearch.getQ);
-export const getCriteria = createSelector(
-  getSearchState,
-  fromSearch.getCriteria
-);
-export const pristine = createSelector(getSearchState, fromSearch.pristine);
-export const getBooks = createSelector(getSearchState, fromSearch.getBooks);
-export const getNewspapers = createSelector(
-  getSearchState,
-  fromSearch.getNewspapers
-);
-export const getMaps = createSelector(getSearchState, fromSearch.getMaps);
-export const getMusicBooks = createSelector(
-  getSearchState,
-  fromSearch.getMusicBooks
-);
-export const getMusicManuscripts = createSelector(
-  getSearchState,
-  fromSearch.getMusicManuscripts
-);
-export const getPosters = createSelector(getSearchState, fromSearch.getPosters);
-export const getPrivateArchives = createSelector(
-  getSearchState,
-  fromSearch.getPrivateArchives
-);
-export const getProgramReports = createSelector(
-  getSearchState,
-  fromSearch.getProgramReports
-);
-export const getPhotos = createSelector(getSearchState, fromSearch.getPhotos);
-export const getPeriodicals = createSelector(
-  getSearchState,
-  fromSearch.getPeriodicals
-);
-export const getOthers = createSelector(getSearchState, fromSearch.getOthers);
-export const getMoreUrl = createSelector(getSearchState, fromSearch.getMoreUrl);
-export const getCurrentMediaTypeCount = createSelector(
-  getSearchState,
-  fromSearch.getCurrentMediaTypeCount
-);
-export const getYears = createSelector(getSearchState, fromSearch.getYears);
-export const getMonths = createSelector(getSearchState, fromSearch.getMonths);
 
 /**
  * Item Reducers

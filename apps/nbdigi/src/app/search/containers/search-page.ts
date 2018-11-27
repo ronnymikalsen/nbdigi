@@ -7,10 +7,10 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ItemActions } from '../../+state/actions';
-import * as searchAction from '../../+state/actions/search.actions';
 import * as sessionAction from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
-import * as fromSearch from '../../+state/reducers/search.reducer';
+import { SearchFacade } from '../../+state/search/search.facade';
+import { SearchState } from '../../+state/search/search.reducer';
 import {
   DateOption,
   Genre,
@@ -64,41 +64,27 @@ import { ChartRangeToOption } from '../components/search-result-chart/chart-stra
   `
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
-  search: Observable<fromSearch.State> = this.store.select(
-    fromRoot.getSearchState
-  );
-  currentMediaTypeCount: Observable<number> = this.store.select(
-    fromRoot.getCurrentMediaTypeCount
-  );
-  books: Observable<MediaTypeResults> = this.store.select(fromRoot.getBooks);
-  newspapers: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getNewspapers
-  );
-  photos: Observable<MediaTypeResults> = this.store.select(fromRoot.getPhotos);
-  periodicals: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getPeriodicals
-  );
-  maps: Observable<MediaTypeResults> = this.store.select(fromRoot.getMaps);
-  musicBooks: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getMusicBooks
-  );
-  musicManuscripts: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getMusicManuscripts
-  );
-  posters: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getPosters
-  );
-  privateArchives: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getPrivateArchives
-  );
-  programReports: Observable<MediaTypeResults> = this.store.select(
-    fromRoot.getProgramReports
-  );
-  others: Observable<MediaTypeResults> = this.store.select(fromRoot.getOthers);
-  years: Observable<YearCount[]> = this.store.select(fromRoot.getYears);
-  months: Observable<YearCount[]> = this.store.select(fromRoot.getMonths);
-  moreUrl: Observable<string> = this.store.select(fromRoot.getMoreUrl);
-  pristine: Observable<boolean> = this.store.select(fromRoot.pristine);
+  search: Observable<SearchState> = this.searchFacade.state$;
+  currentMediaTypeCount: Observable<number> = this.searchFacade
+    .getCurrentMediaTypeCount$;
+  books: Observable<MediaTypeResults> = this.searchFacade.getBooks$;
+  newspapers: Observable<MediaTypeResults> = this.searchFacade.getNewspapers$;
+  photos: Observable<MediaTypeResults> = this.searchFacade.getPhotos$;
+  periodicals: Observable<MediaTypeResults> = this.searchFacade.getPeriodicals$;
+  maps: Observable<MediaTypeResults> = this.searchFacade.getMaps$;
+  musicBooks: Observable<MediaTypeResults> = this.searchFacade.getMusicBooks$;
+  musicManuscripts: Observable<MediaTypeResults> = this.searchFacade
+    .getMusicManuscripts$;
+  posters: Observable<MediaTypeResults> = this.searchFacade.getPosters$;
+  privateArchives: Observable<MediaTypeResults> = this.searchFacade
+    .getPrivateArchives$;
+  programReports: Observable<MediaTypeResults> = this.searchFacade
+    .getProgramReports$;
+  others: Observable<MediaTypeResults> = this.searchFacade.getOthers$;
+  years: Observable<YearCount[]> = this.searchFacade.getYears$;
+  months: Observable<YearCount[]> = this.searchFacade.getMonths$;
+  moreUrl: Observable<string> = this.searchFacade.getMoreUrl$;
+  pristine: Observable<boolean> = this.searchFacade.pristine$;
   isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
   showDateGraph: Observable<boolean> = this.store.select(
     fromRoot.showDateGraph
@@ -107,10 +93,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     fromRoot.showItemDetails
   );
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    private searchFacade: SearchFacade
+  ) {}
 
   ngOnInit() {
-    this.store.dispatch(new searchAction.SearchAggs());
+    this.searchFacade.searchAggs();
   }
 
   ngOnDestroy() {
@@ -118,74 +107,64 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   toggleFilter(hint: Hint): void {
-    this.store.dispatch(new searchAction.ToggleFilter(hint));
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.toggleFilter(hint);
+    this.searchFacade.search();
   }
 
   removeFilter(hint: Hint): void {
-    this.store.dispatch(new searchAction.RemoveFilter(hint));
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.removeFilter(hint);
+    this.searchFacade.search();
   }
 
   addFilter(hint: Hint): void {
-    this.store.dispatch(new searchAction.AddFilter(hint));
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.addFilter(hint);
+    this.searchFacade.search();
   }
 
   searchSelected(query: string): void {
-    this.store.dispatch(
-      new searchAction.UpdateCriteria({
-        q: query
-      })
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.updateCriteria({
+      q: query
+    });
+    this.searchFacade.search();
   }
 
   mediaTypeChanged(mediaType: string): void {
-    this.store.dispatch(
-      new searchAction.UpdateCriteria({
-        mediaType: mediaType
-      })
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.updateCriteria({
+      mediaType: mediaType
+    });
+    this.searchFacade.search();
   }
 
   sortChanged(sort: Sort): void {
-    this.store.dispatch(
-      new searchAction.UpdateCriteria({
-        sort: sort
-      })
-    );
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.updateCriteria({
+      sort: sort
+    });
+    this.searchFacade.search();
   }
 
   genreChanged(genre: Genre): void {
     if (genre) {
-      this.store.dispatch(
-        new searchAction.UpdateCriteria({
-          genre: genre,
-          mediaType: genre.mediaType
-        })
-      );
+      this.searchFacade.updateCriteria({
+        genre: genre,
+        mediaType: genre.mediaType
+      });
     } else {
-      this.store.dispatch(
-        new searchAction.UpdateCriteria({
-          genre: new Genre()
-        })
-      );
+      this.searchFacade.updateCriteria({
+        genre: new Genre()
+      });
     }
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.search();
   }
 
   debugChanged(debug: boolean): void {
     debug
       ? this.store.dispatch(new sessionAction.DebugOn())
       : this.store.dispatch(new sessionAction.DebugOff());
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.search();
   }
 
   dateChanged(dateOption: DateOption): void {
-    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+    this.searchFacade.setDateCriteria(dateOption);
   }
 
   dateGraphChanged(value: boolean): void {
@@ -195,18 +174,18 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   chartDateChanged(dateOption: DateOption): void {
-    this.store.dispatch(new searchAction.SetDateCriteria(dateOption));
+    this.searchFacade.setDateCriteria(dateOption);
   }
 
   currentChartChanged(name: string) {
-    this.store.dispatch(new searchAction.SetCurrentChartName(name));
+    this.searchFacade.setCurrentChartName(name);
   }
 
   previousChartRange(chartBackOption: ChartRangeToOption) {
-    this.store.dispatch(new searchAction.ToChartRange(chartBackOption));
+    this.searchFacade.toChartRange(chartBackOption);
   }
 
   loadMore(): void {
-    this.store.dispatch(new searchAction.LoadMore());
+    this.searchFacade.loadMore();
   }
 }

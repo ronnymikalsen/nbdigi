@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as searchAction from '../../+state/actions/search.actions';
-import * as fromRoot from '../../+state/reducers';
+import { SearchFacade } from '../../+state/search/search.facade';
 import { Genre } from '../../core/models';
 
 @Component({
@@ -11,17 +9,15 @@ import { Genre } from '../../core/models';
   `
 })
 export class ExplorePageComponent {
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private searchFacade: SearchFacade) {}
 
   genreChanged(genre: Genre): void {
     if (genre) {
-      this.store.dispatch(
-        new searchAction.SetCriteria({
-          genre: genre,
-          mediaType: genre.mediaType
-        })
-      );
+      this.searchFacade.setCriteria({
+        genre: genre,
+        mediaType: genre.mediaType
+      });
     }
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.search();
   }
 }

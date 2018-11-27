@@ -3,8 +3,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import * as searchAction from '../../../../+state/actions/search.actions';
 import * as fromRoot from '../../../../+state/reducers';
+import { SearchFacade } from '../../../../+state/search/search.facade';
 import { Criteria, User } from '../../../../core/models';
 
 @Component({
@@ -19,7 +19,8 @@ export class CriteriaListComponent implements OnInit, OnDestroy {
 
   constructor(
     private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
+    private store: Store<fromRoot.State>,
+    private searchFacade: SearchFacade
   ) {}
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export class CriteriaListComponent implements OnInit, OnDestroy {
   }
 
   changeCriteria(criteria: Criteria): void {
-    this.store.dispatch(new searchAction.SetCriteria(criteria));
-    this.store.dispatch(new searchAction.Search());
+    this.searchFacade.setCriteria(criteria);
+    this.searchFacade.search();
   }
 }

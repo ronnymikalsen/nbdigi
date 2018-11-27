@@ -28,9 +28,21 @@ import { TypeaheadService } from '../../core/services/typeahead.service';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { ItemActions } from '../actions';
-import * as search from '../actions/search.actions';
-import { SearchActionTypes, SetDateCriteria } from '../actions/search.actions';
 import * as fromRoot from '../reducers';
+import {
+  HintsLoaded,
+  LoadMoreSuccess,
+  Search,
+  SearchActionTypes,
+  SearchAggsSuccess,
+  SearchError,
+  SearchSuccess,
+  SetDateCriteria,
+  SetDateCriteriaCancelled,
+  SetDateCriteriaConfirmed,
+  ToChartRange
+} from './search.actions';
+import { SearchPartialState } from './search.reducer';
 
 @Injectable()
 export class SearchEffects {
@@ -38,7 +50,7 @@ export class SearchEffects {
 
   @Effect()
   search: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.Search),
+    ofType(SearchActionTypes.Search),
     tap(() => this.router.navigate(['/search'])),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
@@ -94,9 +106,9 @@ export class SearchEffects {
           )
           .pipe(
             map(searchResult => {
-              return new search.SearchSuccess(searchResult);
+              return new SearchSuccess(searchResult);
             }),
-            catchError(err => of(new search.SearchError(err)))
+            catchError(err => of(new SearchError(err)))
           );
       } else {
         return this.searchService
@@ -112,9 +124,9 @@ export class SearchEffects {
           )
           .pipe(
             map(searchResult => {
-              return new search.SearchSuccess(searchResult);
+              return new SearchSuccess(searchResult);
             }),
-            catchError(err => of(new search.SearchError(err)))
+            catchError(err => of(new SearchError(err)))
           );
       }
     })
@@ -122,10 +134,7 @@ export class SearchEffects {
 
   @Effect()
   searchAggregator: Observable<Action> = this.actions.pipe(
-    ofType(
-      search.SearchActionTypes.SearchAggs,
-      search.SearchActionTypes.SearchSuccess
-    ),
+    ofType(SearchActionTypes.SearchAggs, SearchActionTypes.SearchSuccess),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
@@ -153,16 +162,16 @@ export class SearchEffects {
         )
         .pipe(
           map(searchResult => {
-            return new search.SearchAggsSuccess(searchResult);
+            return new SearchAggsSuccess(searchResult);
           }),
-          catchError(err => of(new search.SearchError(err)))
+          catchError(err => of(new SearchError(err)))
         );
     })
   );
 
   @Effect()
   loadMore: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.LoadMore),
+    ofType(SearchActionTypes.LoadMore),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       let url: string;
@@ -197,10 +206,10 @@ export class SearchEffects {
         .searchByUrl(storeState.search.criteria.mediaType, url)
         .pipe(
           map(searchResult => {
-            return new search.LoadMoreSuccess(searchResult);
+            return new LoadMoreSuccess(searchResult);
           }),
           catchError(err => {
-            return of(new search.SearchError(err));
+            return of(new SearchError(err));
           })
         );
     })
@@ -208,13 +217,10 @@ export class SearchEffects {
 
   @Effect()
   backToPreviousChartRange: Observable<Action> = this.actions.pipe(
-    ofType<search.ToChartRange>(SearchActionTypes.ToChartRange),
+    ofType<ToChartRange>(SearchActionTypes.ToChartRange),
     map(action => action.payload),
-    map(
-      (date: ChartRangeToOption) =>
-        new search.SetDateCriteriaConfirmed(date.date)
-    ),
-    catchError(err => of(new search.SearchError(err)))
+    map((date: ChartRangeToOption) => new SetDateCriteriaConfirmed(date.date)),
+    catchError(err => of(new SearchError(err)))
   );
 
   @Effect()
@@ -225,7 +231,7 @@ export class SearchEffects {
     exhaustMap(([action, storeState]) => {
       const payload = (<SetDateCriteria>action).payload;
       if (payload.value !== new DateOptions().customDate.value) {
-        return of(new search.SetDateCriteriaConfirmed(payload));
+        return of(new SetDateCriteriaConfirmed(payload));
       } else {
         return this.dialog
           .open(DatePickerDialogComponent, {
@@ -265,30 +271,30 @@ export class SearchEffects {
                   value: `date:[${fromDateSearchFormat} TO ${toDateSearchFormat}]`,
                   viewValue: `${dateViewLabel}`
                 });
-                return new search.SetDateCriteriaConfirmed(date);
+                return new SetDateCriteriaConfirmed(date);
               } else {
-                return new search.SetDateCriteriaCancelled();
+                return new SetDateCriteriaCancelled();
               }
             })
           );
       }
     }),
-    catchError(err => of(new search.SearchError(err)))
+    catchError(err => of(new SearchError(err)))
   );
 
   @Effect()
   setDateCriteriaConfirmed: Observable<Action> = this.actions.pipe(
-    ofType<search.SetDateCriteriaConfirmed>(
+    ofType<SetDateCriteriaConfirmed>(
       SearchActionTypes.SetDateCriteriaConfirmed
     ),
     map(action => action.payload),
-    map((date: DateOption) => new search.Search()),
-    catchError(err => of(new search.SearchError(err)))
+    map((date: DateOption) => new Search()),
+    catchError(err => of(new SearchError(err)))
   );
 
   @Effect({ dispatch: false })
   error: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.SearchError),
+    ofType(SearchActionTypes.SearchError),
     tap(() => {
       this.snackBar.open('Det har oppstått en feil', null, {
         duration: 2000,
@@ -299,7 +305,7 @@ export class SearchEffects {
 
   @Effect()
   loadHints: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.LoadHints),
+    ofType(SearchActionTypes.LoadHints),
     map((action: any) => action),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
@@ -317,7 +323,7 @@ export class SearchEffects {
         mergeMap(h => this.typeaheadService.places(sc)),
         map((h: Hint[]) => (hints.places = h)),
         map(() => {
-          return new search.HintsLoaded(hints);
+          return new HintsLoaded(hints);
         })
       );
     })
@@ -325,14 +331,14 @@ export class SearchEffects {
 
   @Effect()
   clearAll: Observable<Action> = this.actions.pipe(
-    ofType(search.SearchActionTypes.ClearAll),
+    ofType(SearchActionTypes.ClearAll),
     map(() => new ItemActions.CloseItemDetails())
   );
 
   constructor(
     private router: Router,
     public dialog: MatDialog,
-    private store: Store<fromRoot.State>,
+    private store: Store<SearchPartialState>,
     private actions: Actions,
     private typeaheadService: TypeaheadService,
     private searchService: SearchService,

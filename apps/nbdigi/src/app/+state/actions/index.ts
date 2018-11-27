@@ -1,5 +1,4 @@
 import * as ItemActions from './item.actions';
 import * as PresentationApiActions from './presentation-api.actions';
-import * as SearchActions from './search.actions';
 
-export { SearchActions, ItemActions, PresentationApiActions };
+export { ItemActions, PresentationApiActions };

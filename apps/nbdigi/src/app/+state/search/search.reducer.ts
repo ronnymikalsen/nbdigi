@@ -1,8 +1,14 @@
-import { Criteria, MediaTypeResults, YearCount } from '../../core/models';
-import { Hints } from '../../core/models/hints.model';
-import { SearchAction, SearchActionTypes } from '../actions/search.actions';
+import {
+  Criteria,
+  Hints,
+  MediaTypeResults,
+  YearCount
+} from '../../core/models';
+import { SearchAction, SearchActionTypes } from './search.actions';
 
-export interface State {
+export const SEARCH_FEATURE_KEY = 'search';
+
+export interface SearchState {
   criteria: Criteria;
   hints: Hints;
   searchResult: {
@@ -28,7 +34,11 @@ export interface State {
   currentChartRange: string;
 }
 
-export const initialState: State = {
+export interface SearchPartialState {
+  readonly [SEARCH_FEATURE_KEY]: SearchState;
+}
+
+export const initialState: SearchState = {
   criteria: new Criteria(),
   hints: null,
   searchResult: {
@@ -56,12 +66,16 @@ export const initialState: State = {
   currentChartRange: null
 };
 
-export function reducer(state = initialState, action: SearchAction): State {
+export function searchReducer(
+  state: SearchState = initialState,
+  action: SearchAction
+): SearchState {
   switch (action.type) {
     case SearchActionTypes.ClearAll: {
-      return {
+      state = {
         ...initialState
       };
+      break;
     }
     case SearchActionTypes.UpdateCriteria: {
       const newCriteria = { ...state.criteria };
@@ -84,7 +98,7 @@ export function reducer(state = initialState, action: SearchAction): State {
         newCriteria.filters = [...action.payload.filters];
       }
 
-      return {
+      state = {
         ...state,
         criteria: new Criteria({
           q: newCriteria.q,
@@ -95,9 +109,10 @@ export function reducer(state = initialState, action: SearchAction): State {
           filters: newCriteria.filters
         })
       };
+      break;
     }
     case SearchActionTypes.SetCriteria: {
-      return {
+      state = {
         ...state,
         criteria: new Criteria({
           q: action.payload.q,
@@ -108,27 +123,31 @@ export function reducer(state = initialState, action: SearchAction): State {
           filters: action.payload.filters
         })
       };
+      break;
     }
     case SearchActionTypes.SetDateCriteriaConfirmed: {
-      return {
+      state = {
         ...state,
         criteria: {
           ...state.criteria,
           date: action.payload
         }
       };
+      break;
     }
     case SearchActionTypes.Search: {
-      return {
+      state = {
         ...state,
         isLoading: true
       };
+      break;
     }
     case SearchActionTypes.HintsLoaded: {
-      return { ...state, hints: action.payload };
+      state = { ...state, hints: action.payload };
+      break;
     }
     case SearchActionTypes.AddFilter: {
-      return {
+      state = {
         ...state,
         criteria: new Criteria({
           ...state.criteria,
@@ -136,9 +155,10 @@ export function reducer(state = initialState, action: SearchAction): State {
         }),
         isLoading: true
       };
+      break;
     }
     case SearchActionTypes.RemoveFilter: {
-      return {
+      state = {
         ...state,
         criteria: new Criteria({
           ...state.criteria,
@@ -146,10 +166,11 @@ export function reducer(state = initialState, action: SearchAction): State {
         }),
         isLoading: true
       };
+      break;
     }
     case SearchActionTypes.ToggleFilter: {
       const index = state.criteria.filters.findIndex(f => f === action.payload);
-      return {
+      state = {
         ...state,
         criteria: new Criteria({
           ...state.criteria,
@@ -159,9 +180,10 @@ export function reducer(state = initialState, action: SearchAction): State {
         }),
         isLoading: true
       };
+      break;
     }
     case SearchActionTypes.SearchSuccess: {
-      return {
+      state = {
         ...state,
         searchResult: {
           selfLink: action.payload.selfLink,
@@ -183,14 +205,16 @@ export function reducer(state = initialState, action: SearchAction): State {
         hasError: false,
         isLoading: false
       };
+      break;
     }
     case SearchActionTypes.SearchError: {
-      return {
+      state = {
         ...state,
         hasError: true,
         isLoading: false,
         isLoadingMore: false
       };
+      break;
     }
     case SearchActionTypes.SearchAggsSuccess: {
       const years =
@@ -201,7 +225,7 @@ export function reducer(state = initialState, action: SearchAction): State {
         state.criteria.mediaType === 'alle'
           ? [...action.payload.months]
           : [...state.searchResult.months];
-      return {
+      state = {
         ...state,
         searchResult: {
           selfLink: state.searchResult.selfLink,
@@ -251,24 +275,28 @@ export function reducer(state = initialState, action: SearchAction): State {
           months: months
         }
       };
+      break;
     }
     case SearchActionTypes.LoadMore: {
-      return {
+      state = {
         ...state,
         isLoadingMore: true
       };
+      break;
     }
     case SearchActionTypes.ToChartRange: {
-      return {
+      state = {
         ...state,
         currentChartRange: action.payload.to
       };
+      break;
     }
     case SearchActionTypes.SetCurrentChartRange: {
-      return {
+      state = {
         ...state,
         currentChartRange: action.payload
       };
+      break;
     }
     case SearchActionTypes.LoadMoreSuccess: {
       const books = { ...state.searchResult.books };
@@ -342,7 +370,7 @@ export function reducer(state = initialState, action: SearchAction): State {
         others.nextLink = action.payload.others.nextLink;
       }
 
-      return {
+      state = {
         ...state,
         searchResult: {
           ...state.searchResult,
@@ -363,104 +391,8 @@ export function reducer(state = initialState, action: SearchAction): State {
         isLoadingMore: false,
         hasError: false
       };
-    }
-    default: {
-      return state;
+      break;
     }
   }
+  return state;
 }
-
-export const getQ = (state: State) => state.criteria.q;
-export const getCriteria = (state: State) => state.criteria;
-export const getBooks = (state: State) => state.searchResult.books;
-export const getNewspapers = (state: State) => state.searchResult.newspapers;
-export const getPhotos = (state: State) => state.searchResult.photos;
-export const getPeriodicals = (state: State) => state.searchResult.periodicals;
-export const getMaps = (state: State) => state.searchResult.maps;
-export const getMusicBooks = (state: State) => state.searchResult.musicBooks;
-export const getMusicManuscripts = (state: State) =>
-  state.searchResult.musicManuscripts;
-export const getPosters = (state: State) => state.searchResult.posters;
-export const getPrivateArchives = (state: State) =>
-  state.searchResult.privateArchives;
-export const getProgramReports = (state: State) =>
-  state.searchResult.programReports;
-export const getOthers = (state: State) => state.searchResult.others;
-
-export const getMoreUrl = (state: State) => {
-  let url: string;
-  if (state.criteria.mediaType === 'bøker') {
-    url = state.searchResult.books.nextLink;
-  } else if (state.criteria.mediaType === 'bilder') {
-    url = state.searchResult.photos.nextLink;
-  } else if (state.criteria.mediaType === 'aviser') {
-    url = state.searchResult.newspapers.nextLink;
-  } else if (state.criteria.mediaType === 'tidsskrift') {
-    url = state.searchResult.periodicals.nextLink;
-  } else if (state.criteria.mediaType === 'kart') {
-    url = state.searchResult.maps.nextLink;
-  } else if (state.criteria.mediaType === 'noter') {
-    url = state.searchResult.musicBooks.nextLink;
-  } else if (state.criteria.mediaType === 'musikkmanuskripter') {
-    url = state.searchResult.musicManuscripts.nextLink;
-  } else if (state.criteria.mediaType === 'plakater') {
-    url = state.searchResult.posters.nextLink;
-  } else if (state.criteria.mediaType === 'privatarkivmateriale') {
-    url = state.searchResult.privateArchives.nextLink;
-  } else if (state.criteria.mediaType === 'programrapporter') {
-    url = state.searchResult.programReports.nextLink;
-  } else if (state.criteria.mediaType === 'others') {
-    url = state.searchResult.others.nextLink;
-  }
-
-  return url;
-};
-
-export const getCurrentMediaTypeCount = (state: State) => {
-  let counts: number;
-  if (state.criteria.mediaType === 'alle') {
-    counts = state.searchResult.totalElements;
-  } else if (state.criteria.mediaType === 'bøker') {
-    counts = state.searchResult.books.counts;
-  } else if (state.criteria.mediaType === 'bilder') {
-    counts = state.searchResult.photos.counts;
-  } else if (state.criteria.mediaType === 'aviser') {
-    counts = state.searchResult.newspapers.counts;
-  } else if (state.criteria.mediaType === 'tidsskrift') {
-    counts = state.searchResult.periodicals.counts;
-  } else if (state.criteria.mediaType === 'kart') {
-    counts = state.searchResult.maps.counts;
-  } else if (state.criteria.mediaType === 'noter') {
-    counts = state.searchResult.musicBooks.counts;
-  } else if (state.criteria.mediaType === 'musikkmanuskripter') {
-    counts = state.searchResult.musicManuscripts.counts;
-  } else if (state.criteria.mediaType === 'plakater') {
-    counts = state.searchResult.posters.counts;
-  } else if (state.criteria.mediaType === 'privatarkivmateriale') {
-    counts = state.searchResult.privateArchives.counts;
-  } else if (state.criteria.mediaType === 'programrapporter') {
-    counts = state.searchResult.programReports.counts;
-  } else if (state.criteria.mediaType === 'others') {
-    counts = state.searchResult.others.counts;
-  }
-
-  return counts;
-};
-
-export const getYears = (state: State) => {
-  return state.searchResult.years;
-};
-export const getMonths = (state: State) => {
-  return state.searchResult.months;
-};
-
-export const pristine = (state: State) => {
-  return (
-    state.criteria.q === initialState.criteria.q &&
-    state.criteria.mediaType === initialState.criteria.mediaType &&
-    state.criteria.filters === initialState.criteria.filters &&
-    state.criteria.genre === initialState.criteria.genre &&
-    state.criteria.date === initialState.criteria.date &&
-    state.criteria.sort === initialState.criteria.sort
-  );
-};
