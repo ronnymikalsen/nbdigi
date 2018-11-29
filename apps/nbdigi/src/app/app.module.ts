@@ -50,6 +50,9 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
+import { AUTH_FEATURE_KEY, initialState as authInitialState, authReducer } from './auth/auth.reducer';
+import { AuthEffects } from './auth/auth.effects';
+import { AuthFacade } from './auth/auth.facade';
 
 registerLocaleData(localeNo);
 
@@ -93,7 +96,9 @@ registerLocaleData(localeNo);
     StoreModule.forFeature(SEARCH_FEATURE_KEY, searchReducer, {
       initialState: searchInitialState
     }),
-    EffectsModule.forFeature([SearchEffects])
+    EffectsModule.forFeature([SearchEffects]),
+    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer, { initialState: authInitialState }),
+    EffectsModule.forFeature([AuthEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -105,7 +110,8 @@ registerLocaleData(localeNo);
     },
     HomeFacade,
     FavoriteFacade,
-    SearchFacade
+    SearchFacade,
+    AuthFacade
   ]
 })
 export class AppModule {}
