@@ -8,8 +8,10 @@ import { Store } from '@ngrx/store';
 import * as firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
 import * as session from '../../+state/actions/session.actions';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 import * as fromRoot from '../../+state/reducers';
 import { Item, User } from '../../core/models';
+import { UserService } from './user.service';
 
 @Injectable()
 export class SessionService {
@@ -18,7 +20,9 @@ export class SessionService {
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
     private store: Store<fromRoot.State>,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private userService: UserService,
+    private authFacade: AuthFacade
   ) {}
 
   init() {
@@ -32,11 +36,16 @@ export class SessionService {
               displayName: authState.displayName,
               email: authState.email
             };
-            this.createUserIfNotExists(user);
+            this.userService.createUserIfNotExists(user);
             this.userRef
               .valueChanges()
               .pipe(filter(u => u !== null))
               .subscribe(u => {
+                this.authFacade.SignedIn({
+                  ...user,
+                  isDebugOn: u.isDebugOn,
+                  theme: u.theme
+                });
                 this.store.dispatch(
                   new session.SignedIn({
                     ...user,
@@ -74,14 +83,5 @@ export class SessionService {
         ...item,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
-  }
-
-  private createUserIfNotExists(user: User) {
-    return this.userRef.ref.get().then(u => {
-      if (!u.exists) {
-        this.userRef.set(user);
-        return user;
-      }
-    });
   }
 }

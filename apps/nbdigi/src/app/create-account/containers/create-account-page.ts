@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as session from '../../+state/actions/session.actions';
-import * as fromRoot from '../../+state/reducers';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 import { Authenticate } from '../../core/models';
 
 @Component({
@@ -15,20 +13,15 @@ import { Authenticate } from '../../core/models';
   `
 })
 export class CreateAccountPageComponent {
-  authError = this.store.select(fromRoot.getAuthError);
+  authError = this.authFacade.getError$;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private authFacade: AuthFacade) {}
 
   signInWithGoogle(): void {
-    this.store.dispatch(new session.SignInWithGoogle());
+    this.authFacade.signInWithGoogle();
   }
 
   signUp(authenticate: Authenticate): void {
-    this.store.dispatch(
-      new session.SignUpWithEmailAndPassword({
-        email: authenticate.email,
-        password: authenticate.password
-      })
-    );
+    this.authFacade.signUpWithEmailAndPassword(authenticate);
   }
 }

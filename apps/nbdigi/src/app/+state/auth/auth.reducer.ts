@@ -1,4 +1,4 @@
-import { AuthError as AuthErrorModel, User } from '../core/models';
+import { AuthError as AuthErrorModel, User } from '../../core/models';
 import { AuthAction, AuthActionTypes } from './auth.actions';
 
 export const AUTH_FEATURE_KEY = 'auth';

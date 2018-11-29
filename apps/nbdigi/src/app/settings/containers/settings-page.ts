@@ -1,12 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
+import * as sessionAction from '../../+state/actions/session.actions';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 import * as fromRoot from '../../+state/reducers';
 import * as fromSession from '../../+state/reducers/session.reducer';
-import * as sessionAction from '../../+state/actions/session.actions';
-import * as session from '../../+state/actions/session.actions';
-import { Hint } from '../../core/models/hints.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,10 +22,13 @@ export class SettingsPageComponent {
     fromRoot.getSessionState
   );
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    private authFacade: AuthFacade
+  ) {}
 
   signOut(): void {
-    this.store.dispatch(new session.SignOut());
+    this.authFacade.signOut();
   }
 
   theme(theme: string) {

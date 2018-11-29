@@ -6,7 +6,7 @@ import { Action } from '@ngrx/store';
 import { User } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { AuthService, UserService } from '../core/services';
+import { AuthService, UserService } from '../../core/services';
 import {
   AuthActionTypes,
   AuthError,

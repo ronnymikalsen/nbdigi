@@ -19,6 +19,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import 'hammerjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
+import { AuthEffects } from './+state/auth/auth.effects';
+import { AuthFacade } from './+state/auth/auth.facade';
+import {
+  authReducer,
+  AUTH_FEATURE_KEY,
+  initialState as authInitialState
+} from './+state/auth/auth.reducer';
 import { ItemEffects } from './+state/effects/item.effects';
 import { SessionEffects } from './+state/effects/session.effects';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
@@ -50,9 +57,6 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
-import { AUTH_FEATURE_KEY, initialState as authInitialState, authReducer } from './auth/auth.reducer';
-import { AuthEffects } from './auth/auth.effects';
-import { AuthFacade } from './auth/auth.facade';
 
 registerLocaleData(localeNo);
 
@@ -97,7 +101,9 @@ registerLocaleData(localeNo);
       initialState: searchInitialState
     }),
     EffectsModule.forFeature([SearchEffects]),
-    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer, { initialState: authInitialState }),
+    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer, {
+      initialState: authInitialState
+    }),
     EffectsModule.forFeature([AuthEffects])
   ],
   declarations: [AppComponent],
