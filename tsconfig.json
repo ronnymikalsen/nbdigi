@@ -43,9 +43,6 @@
       "@nbdigi/data-models": [
         "libs/data-models/src/index.ts"
       ],
-      "@nbdigi/authentication-state": [
-        "libs/authentication-state/src/index.ts"
-      ],
       "@nbdigi/session-state": [
         "libs/session-state/src/index.ts"
       ],
