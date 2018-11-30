@@ -64,9 +64,9 @@ registerLocaleData(localeNo);
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
+    AppRoutingModule,
     NxModule.forRoot(),
     CoreModule,
-    AppRoutingModule,
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       SessionEffects,

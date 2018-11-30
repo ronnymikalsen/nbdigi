@@ -24,7 +24,6 @@ import {
 
 @Injectable()
 export class AuthEffects {
-  private userRef: AngularFirestoreDocument<User>;
 
   @Effect()
   signUpWithEmailAndPassword: Observable<Action> = this.actions.pipe(

@@ -45,11 +45,11 @@ export class AppComponent implements OnInit, OnDestroy {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
       this.overlayContainer
-        .getContainerElement()
-        .classList.remove(previousTheme);
+      .getContainerElement()
+      .classList.remove(previousTheme);
       this.overlayContainer
-        .getContainerElement()
-        .classList.add(this.currentTheme);
+      .getContainerElement()
+      .classList.add(this.currentTheme);
     });
   }
 

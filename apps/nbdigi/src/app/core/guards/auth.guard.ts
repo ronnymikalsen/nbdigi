@@ -10,24 +10,28 @@ import {
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { User } from '../../core/models';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     public afAuth: AngularFireAuth,
     private afs: AngularFirestore,
-    private router: Router
+    private router: Router,
+    private authFacade: AuthFacade
   ) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
+    console.log('auth?');
     return Observable.create(observer => {
-      this.afAuth.authState.subscribe(
-        res => {
-          if (res) {
-            const userRef = this.afs.doc<User>(`users/${res.uid}`);
+      this.authFacade.currentUser$.subscribe(
+        user => {
+          console.log('AuthGuard');
+          if (user) {
+            const userRef = this.afs.doc<User>(`users/${user.uid}`);
             userRef
               .valueChanges()
               .pipe(take(1))

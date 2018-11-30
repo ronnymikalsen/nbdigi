@@ -31,7 +31,8 @@ const routes: Routes = [
   },
   {
     path: 'settings',
-    loadChildren: './settings/settings.module#SettingsModule'
+    loadChildren: './settings/settings.module#SettingsModule',
+    canActivate: [AuthGuard]
   },
   {
     path: 'createaccount',

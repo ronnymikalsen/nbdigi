@@ -6,6 +6,7 @@ import {
 import { filter } from 'rxjs/operators';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { User } from '../models';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,13 @@ import { User } from '../models';
 export class UserService {
   private userRef: AngularFirestoreDocument<User>;
 
-  constructor(private authFacade: AuthFacade, private afs: AngularFirestore) {}
+  constructor(private authFacade: AuthFacade, private afs: AngularFirestore,private afAuth: AngularFireAuth) {
+    this.afAuth.authState.pipe().subscribe( authState => {
+      this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
+    });
+  }
 
   public createUserIfNotExists(user: User) {
-    this.setUserRef();
     if (this.userRef) {
       this.userRef.ref.get().then(u => {
         if (!u.exists) {
@@ -26,11 +30,4 @@ export class UserService {
     }
   }
 
-  private setUserRef() {
-    this.authFacade.currentUser$
-      .pipe(filter(user => user !== null))
-      .subscribe((user: User) => {
-        this.userRef = this.afs.doc<User>(`users/${user.uid}`);
-      });
-  }
 }

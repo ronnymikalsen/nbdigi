@@ -27,6 +27,7 @@ export class SessionService {
 
   init() {
     this.ngZone.runOutsideAngular(() => {
+      console.log('tester');
       this.afAuth.authState.pipe().subscribe(
         authState => {
           if (authState) {
@@ -36,7 +37,7 @@ export class SessionService {
               displayName: authState.displayName,
               email: authState.email
             };
-            this.userService.createUserIfNotExists(user);
+            //this.userService.createUserIfNotExists(user);
             this.userRef
               .valueChanges()
               .pipe(filter(u => u !== null))
