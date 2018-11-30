@@ -19,25 +19,6 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: AuthAction): State {
   switch (action.type) {
-    case AuthActionTypes.SignedIn: {
-      return {
-        ...state,
-        user: action.payload,
-        error: null
-      };
-    }
-    case AuthActionTypes.AuthError: {
-      return {
-        ...state,
-        error: action.payload
-      };
-    }
-    case AuthActionTypes.AuthError: {
-      return {
-        ...state,
-        error: action.payload
-      };
-    }
     case AuthActionTypes.DebugOn: {
       return {
         ...state,

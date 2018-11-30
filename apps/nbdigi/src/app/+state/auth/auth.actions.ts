@@ -1,6 +1,9 @@
 import { Action } from '@ngrx/store';
-import { User } from 'firebase';
-import { Authenticate, AuthError as AuthErrorModel } from '../../core/models';
+import {
+  Authenticate,
+  AuthError as AuthErrorModel,
+  User
+} from '../../core/models';
 
 export enum AuthActionTypes {
   SignUpWithEmailAndPassword = '[Auth] Sign up with email and password',

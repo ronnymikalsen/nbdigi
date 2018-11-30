@@ -28,7 +28,7 @@ import { TypeaheadService } from '../../core/services/typeahead.service';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { ItemActions } from '../actions';
-import * as fromRoot from '../reducers';
+import { AuthFacade } from '../auth/auth.facade';
 import {
   HintsLoaded,
   LoadMoreSuccess,
@@ -344,12 +344,12 @@ export class SearchEffects {
     private searchService: SearchService,
     public snackBar: MatSnackBar,
     private afs: AngularFirestore,
-    private dateAdapter: DateAdapter<MomentDateAdapter>
+    private dateAdapter: DateAdapter<MomentDateAdapter>,
+    private authFacade: AuthFacade
   ) {
-    this.store
-      .select(fromRoot.currentUser)
-      .pipe(filter(user => user !== null))
-      .subscribe((user: User) => {
+    this.authFacade.currentUser$
+    .pipe(filter(user => user !== null))
+    .subscribe((user: User) => {
         this.criteriasRef = afs
           .collection('users')
           .doc(user.uid)

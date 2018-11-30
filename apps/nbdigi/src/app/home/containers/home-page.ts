@@ -10,6 +10,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ItemActions } from '../../+state/actions';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
 import * as fromRoot from '../../+state/reducers';
 import { SearchFacade } from '../../+state/search/search.facade';
@@ -53,15 +54,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(
     private homeFacade: HomeFacade,
     private searchFacade: SearchFacade,
-    private router: Router,
+    private authFacade: AuthFacade,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>
   ) {
-    this.store
-      .select(fromRoot.currentUser)
+    this.authFacade.currentUser$
       .pipe(filter(user => user !== null))
       .subscribe((user: User) => {
-        this.items = afs
+        this.items = this.afs
           .collection('users')
           .doc(user.uid)
           .collection<Item>('items', ref =>

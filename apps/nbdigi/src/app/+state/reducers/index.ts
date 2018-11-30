@@ -9,7 +9,7 @@ import {
 import { storeFreeze } from 'ngrx-store-freeze';
 import { environment } from '../../../environments/environment';
 import { RouterStateUrl } from '../../custom-serializer';
-import { AuthActionTypes } from '../actions/session.actions';
+import { AuthActionTypes } from '../auth/auth.actions';
 import * as fromItem from './item.reducer';
 import * as fromSession from './session.reducer';
 
@@ -46,15 +46,14 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
 export const getSessionState = createFeatureSelector<fromSession.State>(
   'session'
 );
-export const currentUser = createSelector(
-  getSessionState,
-  fromSession.currentUser
-);
 export const getAuthError = createSelector(
   getSessionState,
   fromSession.getError
 );
-export const isDebugOn = createSelector(getSessionState, fromSession.isDebugOn);
+export const isDebugOn = createSelector(
+  getSessionState,
+  fromSession.isDebugOn
+);
 export const showDateGraph = createSelector(
   getSessionState,
   fromSession.showDateGraph
@@ -80,7 +79,10 @@ export const getItemCurrentManifest = createSelector(
   getItemState,
   fromItem.getCurrentItemDetailsManifest
 );
-export const getItemLoading = createSelector(getItemState, fromItem.getLoading);
+export const getItemLoading = createSelector(
+  getItemState,
+  fromItem.getLoading
+);
 export const showItemDetails = createSelector(
   getItemState,
   fromItem.showItemDetails

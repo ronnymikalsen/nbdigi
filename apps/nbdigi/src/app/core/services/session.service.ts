@@ -41,21 +41,14 @@ export class SessionService {
               .valueChanges()
               .pipe(filter(u => u !== null))
               .subscribe(u => {
-                this.authFacade.SignedIn({
+                this.authFacade.signedIn({
                   ...user,
                   isDebugOn: u.isDebugOn,
                   theme: u.theme
                 });
-                this.store.dispatch(
-                  new session.SignedIn({
-                    ...user,
-                    isDebugOn: u.isDebugOn,
-                    theme: u.theme
-                  })
-                );
               });
           } else {
-            this.store.dispatch(new session.SignOut());
+            this.authFacade.signOut();
           }
         },
         err => console.log('errr', err)

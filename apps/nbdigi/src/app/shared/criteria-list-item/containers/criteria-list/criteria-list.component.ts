@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import * as fromRoot from '../../../../+state/reducers';
+import { AuthFacade } from '../../../../+state/auth/auth.facade';
 import { SearchFacade } from '../../../../+state/search/search.facade';
 import { Criteria, User } from '../../../../core/models';
 
@@ -19,13 +18,12 @@ export class CriteriaListComponent implements OnInit, OnDestroy {
 
   constructor(
     private afs: AngularFirestore,
-    private store: Store<fromRoot.State>,
-    private searchFacade: SearchFacade
+    private searchFacade: SearchFacade,
+    private authFacade: AuthFacade
   ) {}
 
   ngOnInit() {
-    this.store
-      .select(fromRoot.currentUser)
+    this.authFacade.currentUser$
       .pipe(
         takeUntil(this.destroyed),
         filter(user => user !== null)

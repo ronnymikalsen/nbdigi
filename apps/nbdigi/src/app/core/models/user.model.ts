@@ -1,7 +1,7 @@
 export interface User {
-  uid: string;
+  uid?: string;
   displayName?: string;
-  email: string;
+  email?: string;
   isDebugOn?: boolean;
   theme?: string;
 }

@@ -70,10 +70,7 @@ registerLocaleData(localeNo);
     StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot([
       SessionEffects,
-      HomeEffects,
-      SearchEffects,
       ItemEffects,
-      FavoriteEffects
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25

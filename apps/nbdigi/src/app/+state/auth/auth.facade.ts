@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Authenticate } from '../../core/models';
+import { Authenticate, User } from '../../core/models';
 import {
   SendPasswordResetEmail,
+  SignedIn,
   SignInWithEmailAndPassword,
   SignInWithGoogle,
   SignOut,
@@ -42,6 +43,9 @@ export class AuthFacade {
         password: authenticate.password
       })
     );
+  }
+  signedIn(user: User): any {
+    this.store.dispatch(new SignedIn(user));
   }
 
   signOut(): any {

@@ -45,7 +45,7 @@ export class HomeEffects {
   private addAllFilters(storeState): string[] {
     let filters = [];
 
-    if (storeState.session.user.email !== 'ronny.mikalsen@gmail.com') {
+    if (storeState.auth.user.email !== 'ronny.mikalsen@gmail.com') {
       filters = [
         ...filters,
         'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'

@@ -4,7 +4,7 @@ import {
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import * as firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { PresentationService } from '../../core/services/presentation.service';
 import { ViewerService } from '../../core/services/viewer.service';
 import { ItemActions, PresentationApiActions } from '../actions';
 import { Change, ItemActionTypes, Open } from '../actions/item.actions';
-import * as fromRoot from '../reducers';
+import { AuthFacade } from '../auth/auth.facade';
 
 @Injectable()
 export class ItemEffects {
@@ -58,11 +58,10 @@ export class ItemEffects {
     private actions$: Actions,
     private viewerService: ViewerService,
     private presentationService: PresentationService,
-    private store: Store<fromRoot.State>,
+    private authFacade: AuthFacade,
     afs: AngularFirestore
   ) {
-    this.store
-      .select(fromRoot.currentUser)
+    this.authFacade.currentUser$
       .pipe(filter(user => user !== null))
       .subscribe((user: User) => {
         this.itemsRef = afs

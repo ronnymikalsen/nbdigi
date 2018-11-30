@@ -5,10 +5,9 @@ import {
   OnInit
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import * as fromRoot from '../../+state/reducers';
+import { AuthFacade } from '../../+state/auth/auth.facade';
 import { Item, User } from '../../core/models';
 
 @Component({
@@ -21,14 +20,10 @@ export class MyActivityPageComponent implements OnInit, OnDestroy {
   items: Observable<Item[]>;
   private destroyed: Subject<void> = new Subject();
 
-  constructor(
-    private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
-  ) {}
+  constructor(private authFacade: AuthFacade, private afs: AngularFirestore) {}
 
   ngOnInit() {
-    this.store
-      .select(fromRoot.currentUser)
+    this.authFacade.currentUser$
       .pipe(
         takeUntil(this.destroyed),
         filter(user => user !== null)
