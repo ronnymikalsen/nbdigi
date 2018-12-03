@@ -12,23 +12,29 @@ import { Item, User } from '../../core/models';
 import { Manifest } from '../../core/models/manifest';
 import { PresentationService } from '../../core/services/presentation.service';
 import { ViewerService } from '../../core/services/viewer.service';
-import { ItemActions, PresentationApiActions } from '../actions';
-import { Change, ItemActionTypes, Open } from '../actions/item.actions';
 import { AuthFacade } from '../auth/auth.facade';
+import {
+  Change,
+  ItemActionTypes,
+  LoadItemDetailsFailure,
+  LoadItemDetailsSuccess,
+  Open,
+  OpenItemDetails
+} from './item.actions';
 
 @Injectable()
 export class ItemEffects {
   private itemsRef: AngularFirestoreCollection<Item>;
 
   @Effect({ dispatch: false })
-  open: Observable<Action> = this.actions$.pipe(
+  open: Observable<Action> = this.actions.pipe(
     ofType(ItemActionTypes.Open),
     map(action => action),
     tap((action: Open) => this.viewerService.open(action.payload))
   );
 
   @Effect({ dispatch: false })
-  change: Observable<Action> = this.actions$.pipe(
+  change: Observable<Action> = this.actions.pipe(
     ofType(ItemActionTypes.Change),
     map(action => action),
     tap((action: Change) =>
@@ -40,22 +46,19 @@ export class ItemEffects {
   );
 
   @Effect()
-  openItemDetails$: Observable<Action> = this.actions$.pipe(
-    ofType<ItemActions.OpenItemDetails>(ItemActionTypes.OpenItemDetails),
+  openItemDetails$: Observable<Action> = this.actions.pipe(
+    ofType<OpenItemDetails>(ItemActionTypes.OpenItemDetails),
     map(action => action.payload),
     switchMap((item: Item) =>
       this.presentationService.getManifest(item.manifestUri, ['metadata']).pipe(
-        map(
-          (manifest: Manifest) =>
-            new PresentationApiActions.LoadSuccess(manifest)
-        ),
-        catchError(err => of(new PresentationApiActions.LoadFailure(err)))
+        map((manifest: Manifest) => new LoadItemDetailsSuccess(manifest)),
+        catchError(err => of(new LoadItemDetailsFailure(err)))
       )
     )
   );
 
   constructor(
-    private actions$: Actions,
+    private actions: Actions,
     private viewerService: ViewerService,
     private presentationService: PresentationService,
     private authFacade: AuthFacade,

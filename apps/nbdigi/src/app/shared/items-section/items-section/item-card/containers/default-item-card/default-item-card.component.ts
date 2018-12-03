@@ -4,10 +4,8 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as itemAction from '../../../../../../+state/actions/item.actions';
-import * as fromRoot from '../../../../../../+state/reducers';
+import { ItemFacade } from '../../../../../../+state/item/item.facade';
 import { SessionFacade } from '../../../../../../+state/session/session.facade';
 import { FavoriteList, Item } from '../../../../../../core/models';
 
@@ -23,13 +21,13 @@ export class DefaultItemCardComponent implements OnInit {
   isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
 
   constructor(
-    private store: Store<fromRoot.State>,
-    private sessionFacade: SessionFacade
+    private sessionFacade: SessionFacade,
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {}
 
   open(item: Item): void {
-    this.store.dispatch(new itemAction.Open(item));
+    this.itemFacade.open(item);
   }
 }

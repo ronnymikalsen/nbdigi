@@ -26,7 +26,6 @@ import {
   AUTH_FEATURE_KEY,
   initialState as authInitialState
 } from './+state/auth/auth.reducer';
-import { ItemEffects } from './+state/effects/item.effects';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
 import { FavoriteFacade } from './+state/favorite/favorite.facade';
 import {
@@ -41,6 +40,13 @@ import {
   HOME_FEATURE_KEY,
   initialState as homeInitialState
 } from './+state/home/home.reducer';
+import { ItemEffects } from './+state/item/item.effects';
+import { ItemFacade } from './+state/item/item.facade';
+import {
+  initialState as itemInitialState,
+  itemReducer,
+  ITEM_FEATURE_KEY
+} from './+state/item/item.reducer';
 import { metaReducers, reducers } from './+state/reducers';
 import { SearchEffects } from './+state/search/search.effects';
 import { SearchFacade } from './+state/search/search.facade';
@@ -49,6 +55,13 @@ import {
   searchReducer,
   SEARCH_FEATURE_KEY
 } from './+state/search/search.reducer';
+import { SessionEffects } from './+state/session/session.effects';
+import { SessionFacade } from './+state/session/session.facade';
+import {
+  initialState as sessionInitialState,
+  sessionReducer,
+  SESSION_FEATURE_KEY
+} from './+state/session/session.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -56,9 +69,6 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
-import { SESSION_FEATURE_KEY, initialState as sessionInitialState, sessionReducer } from './+state/session/session.reducer';
-import { SessionEffects } from './+state/session/session.effects';
-import { SessionFacade } from './+state/session/session.facade';
 
 registerLocaleData(localeNo);
 
@@ -70,10 +80,6 @@ registerLocaleData(localeNo);
     NxModule.forRoot(),
     CoreModule,
     StoreModule.forRoot(reducers, { metaReducers }),
-    EffectsModule.forRoot([
-      SessionEffects,
-      ItemEffects,
-    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
@@ -104,8 +110,14 @@ registerLocaleData(localeNo);
       initialState: authInitialState
     }),
     EffectsModule.forFeature([AuthEffects]),
-    StoreModule.forFeature(SESSION_FEATURE_KEY, sessionReducer, { initialState: sessionInitialState }),
-    EffectsModule.forFeature([SessionEffects])
+    StoreModule.forFeature(SESSION_FEATURE_KEY, sessionReducer, {
+      initialState: sessionInitialState
+    }),
+    EffectsModule.forFeature([SessionEffects]),
+    StoreModule.forFeature(ITEM_FEATURE_KEY, itemReducer, {
+      initialState: itemInitialState
+    }),
+    EffectsModule.forFeature([ItemEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -119,7 +131,8 @@ registerLocaleData(localeNo);
     FavoriteFacade,
     SearchFacade,
     AuthFacade,
-    SessionFacade
+    SessionFacade,
+    ItemFacade
   ]
 })
 export class AppModule {}

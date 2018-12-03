@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as itemAction from '../../+state/actions/item.actions';
-import * as fromRoot from '../../+state/reducers';
+import { ItemFacade } from '../../+state/item/item.facade';
 import { Item } from '../../core/models';
 
 @Component({
@@ -13,14 +11,14 @@ import { Item } from '../../core/models';
   `
 })
 export class ViewerPageComponent {
-  item: Observable<Item> = this.store.select(fromRoot.getCurrentItem);
+  item: Observable<Item> = this.itemFacade.getCurrentItem$;
 
   constructor(
     public dialogRef: MatDialogRef<ViewerPageComponent>,
-    private store: Store<fromRoot.State>
+    private itemFacade: ItemFacade
   ) {}
 
   onChange(currentItem: Item) {
-    this.store.dispatch(new itemAction.Change(currentItem));
+    this.itemFacade.change(currentItem);
   }
 }

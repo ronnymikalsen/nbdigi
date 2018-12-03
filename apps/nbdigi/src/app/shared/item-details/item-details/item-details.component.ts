@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ItemActions } from '../../../+state/actions';
-import * as fromRoot from '../../../+state/reducers';
+import { ItemFacade } from '../../../+state/item/item.facade';
 import { Item } from '../../../core/models';
 import { Manifest } from '../../../core/models/manifest';
 import { ItemMenuButtonComponentConfig } from '../../item-menu/item-menu-button/item-menu-button.component';
@@ -21,15 +19,15 @@ export class ItemDetailsComponent implements OnInit {
     enableShowDetails: false
   });
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(private itemFacade: ItemFacade) {}
 
   ngOnInit() {
-    this.item$ = this.store.select(fromRoot.getCurrentItemDetails);
-    this.manifest$ = this.store.select(fromRoot.getItemCurrentManifest);
-    this.loading$ = this.store.select(fromRoot.getItemLoading);
+    this.item$ = this.itemFacade.getCurrentItemDetails$;
+    this.manifest$ = this.itemFacade.getItemCurrentManifest$;
+    this.loading$ = this.itemFacade.getItemLoading$;
   }
 
   close() {
-    this.store.dispatch(new ItemActions.CloseItemDetails());
+    this.itemFacade.closeItemDetails();
   }
 }

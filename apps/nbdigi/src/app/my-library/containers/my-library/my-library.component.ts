@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ItemActions } from '../../../+state/actions';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
-import * as fromRoot from '../../../+state/reducers';
+import { ItemFacade } from '../../../+state/item/item.facade';
 import { SessionFacade } from '../../../+state/session/session.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
@@ -35,21 +33,19 @@ export class MyLibraryComponent implements OnInit, OnDestroy {
     })
   );
 
-  showItemDetails: Observable<boolean> = this.store.select(
-    fromRoot.showItemDetails
-  );
+  showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
-    private store: Store<fromRoot.State>,
     public media: ObservableMedia,
     private favoriteFacade: FavoriteFacade,
-    private sessionFacade: SessionFacade
+    private sessionFacade: SessionFacade,
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {}
 
   ngOnDestroy() {
-    this.store.dispatch(new ItemActions.CloseItemDetails());
+    this.itemFacade.closeItemDetails();
   }
 
   openFavorite(list: FavoriteList) {

@@ -5,7 +5,7 @@ import {
   OnInit
 } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as itemAction from '../../../../+state/actions/item.actions';
+import { ItemFacade } from '../../../../+state/item/item.facade';
 import * as fromRoot from '../../../../+state/reducers';
 import { Item } from '../../../../core/models';
 @Component({
@@ -17,11 +17,13 @@ import { Item } from '../../../../core/models';
 export class ItemDetailsHeadComponent implements OnInit {
   @Input() item: Item;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(
+    private itemFacade: ItemFacade
+  ) {}
 
   ngOnInit() {}
 
   open(item: Item): void {
-    this.store.dispatch(new itemAction.Open(item));
+    this.itemFacade.open(item);
   }
 }

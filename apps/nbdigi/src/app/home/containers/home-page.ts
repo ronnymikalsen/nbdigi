@@ -5,13 +5,11 @@ import {
   OnInit
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ItemActions } from '../../+state/actions';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
-import * as fromRoot from '../../+state/reducers';
+import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
 import { SessionFacade } from '../../+state/session/session.facade';
 import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
@@ -47,17 +45,15 @@ export class HomePageComponent implements OnInit, OnDestroy {
     .getNewNewspapers$;
   newOthers: Observable<MediaTypeResults> = this.homeFacade.getNewOthers$;
   isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
-  showItemDetails: Observable<boolean> = this.store.select(
-    fromRoot.showItemDetails
-  );
+  showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
     private homeFacade: HomeFacade,
     private searchFacade: SearchFacade,
     private sessionFacade: SessionFacade,
     private authFacade: AuthFacade,
-    private afs: AngularFirestore,
-    private store: Store<fromRoot.State>
+    private itemFacade: ItemFacade,
+    private afs: AngularFirestore
   ) {
     this.authFacade.currentUser$
       .pipe(filter(user => user !== null))
@@ -84,7 +80,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new ItemActions.CloseItemDetails());
+    this.itemFacade.closeItemDetails();
   }
 
   onShowMoreBooks() {

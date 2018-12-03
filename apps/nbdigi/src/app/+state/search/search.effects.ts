@@ -27,8 +27,8 @@ import { SearchService } from '../../core/services/search.service';
 import { TypeaheadService } from '../../core/services/typeahead.service';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
-import { ItemActions } from '../actions';
 import { AuthFacade } from '../auth/auth.facade';
+import { CloseItemDetails } from '../item/item.actions';
 import {
   HintsLoaded,
   LoadMoreSuccess,
@@ -333,7 +333,7 @@ export class SearchEffects {
   @Effect()
   clearAll: Observable<Action> = this.actions.pipe(
     ofType(SearchActionTypes.ClearAll),
-    map(() => new ItemActions.CloseItemDetails())
+    map(() => new CloseItemDetails())
   );
 
   constructor(

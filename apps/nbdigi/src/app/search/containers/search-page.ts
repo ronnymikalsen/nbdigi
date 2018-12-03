@@ -4,10 +4,8 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { ItemActions } from '../../+state/actions';
-import * as fromRoot from '../../+state/reducers';
+import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
 import { SearchState } from '../../+state/search/search.reducer';
 import { SessionFacade } from '../../+state/session/session.facade';
@@ -87,14 +85,12 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   pristine: Observable<boolean> = this.searchFacade.pristine$;
   isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
   showDateGraph: Observable<boolean> = this.sessionFacade.showDateGraph$;
-  showItemDetails: Observable<boolean> = this.store.select(
-    fromRoot.showItemDetails
-  );
+  showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
-    private store: Store<fromRoot.State>,
     private searchFacade: SearchFacade,
-    private sessionFacade: SessionFacade
+    private sessionFacade: SessionFacade,
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {
@@ -102,7 +98,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new ItemActions.CloseItemDetails());
+    this.itemFacade.closeItemDetails();
   }
 
   toggleFilter(hint: Hint): void {

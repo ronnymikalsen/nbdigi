@@ -59,6 +59,6 @@ export class SearchBoxPageComponent {
   debugChanged(debug: boolean): void {
     debug
       ? this.sessionFacade.debugOn()
-      : this.sessionFacade.debugOff());
+      : this.sessionFacade.debugOff();
   }
 }

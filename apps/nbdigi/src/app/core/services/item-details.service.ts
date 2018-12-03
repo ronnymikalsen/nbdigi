@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Store } from '@ngrx/store';
-import * as fromRoot from '../../+state/reducers';
+import { ItemFacade } from '../../+state/item/item.facade';
 import { ItemDetailsComponent } from '../../shared/item-details/item-details/item-details.component';
-import { ObservableMedia, MediaChange } from '@angular/flex-layout';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +12,9 @@ export class ItemDetailsService {
   private showItemDetails: boolean;
 
   constructor(
-    private store: Store<fromRoot.State>,
     public dialog: MatDialog,
-    private media: ObservableMedia
+    private media: ObservableMedia,
+    private itemFacade: ItemFacade
   ) {}
 
   init() {
@@ -23,7 +22,7 @@ export class ItemDetailsService {
       this.update();
     });
 
-    this.store.select(fromRoot.showItemDetails).subscribe(show => {
+    this.itemFacade.showItemDetails$.subscribe(show => {
       this.showItemDetails = show;
       this.update();
     });

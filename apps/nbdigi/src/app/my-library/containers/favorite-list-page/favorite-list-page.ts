@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { ItemActions } from '../../../+state/actions';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
-import * as fromRoot from '../../../+state/reducers';
+import { ItemFacade } from '../../../+state/item/item.facade';
 import { SessionFacade } from '../../../+state/session/session.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
@@ -23,7 +21,7 @@ export class FavoriteListPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private favoriteFacade: FavoriteFacade,
     private sessionFacade: SessionFacade,
-    private store: Store<fromRoot.State>
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {
@@ -39,6 +37,6 @@ export class FavoriteListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(new ItemActions.CloseItemDetails());
+    this.itemFacade.closeItemDetails();
   }
 }

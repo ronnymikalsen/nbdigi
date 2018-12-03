@@ -5,10 +5,8 @@ import {
   OnInit
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Store } from '@ngrx/store';
-import { ItemActions } from '../../../+state/actions';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
-import * as fromRoot from '../../../+state/reducers';
+import { ItemFacade } from '../../../+state/item/item.facade';
 import { FavoriteList, Item } from '../../../core/models';
 
 @Component({
@@ -23,19 +21,19 @@ export class ItemMenuButtonComponent implements OnInit {
   @Input() config = new ItemMenuButtonComponentConfig();
 
   constructor(
-    private store: Store<fromRoot.State>,
     public dialog: MatDialog,
-    private favoriteFacade: FavoriteFacade
+    private favoriteFacade: FavoriteFacade,
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {}
 
   open(): void {
-    this.store.dispatch(new ItemActions.Open(this.item));
+    this.itemFacade.open(this.item);
   }
 
   openItemDetails(): void {
-    this.store.dispatch(new ItemActions.OpenItemDetails(this.item));
+    this.itemFacade.openItemDetails(this.item);
   }
 
   addToFavorites(): void {

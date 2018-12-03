@@ -8,9 +8,8 @@ import {
   Renderer2
 } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
-import * as fromRoot from '../+state/reducers';
+import { ItemFacade } from '../+state/item/item.facade';
 
 @Directive({
   selector: '[appItemDetailsDrawer]'
@@ -26,11 +25,11 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     public renderer: Renderer2,
-    private store: Store<fromRoot.State>
+    private itemFacade: ItemFacade
   ) {}
 
   ngOnInit() {
-    this.store.select(fromRoot.showItemDetails).subscribe(value => {
+    this.itemFacade.showItemDetails$.subscribe(value => {
       this.showItemDetails = value;
       this.updatePosition();
     });
