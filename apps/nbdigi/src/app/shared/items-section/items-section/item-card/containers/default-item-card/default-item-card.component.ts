@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as itemAction from '../../../../../../+state/actions/item.actions';
 import * as fromRoot from '../../../../../../+state/reducers';
+import { SessionFacade } from '../../../../../../+state/session/session.facade';
 import { FavoriteList, Item } from '../../../../../../core/models';
 
 @Component({
@@ -19,9 +20,12 @@ import { FavoriteList, Item } from '../../../../../../core/models';
 export class DefaultItemCardComponent implements OnInit {
   @Input() item: Item;
   @Input() list: FavoriteList;
-  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
 
-  constructor(private store: Store<fromRoot.State>) {}
+  constructor(
+    private store: Store<fromRoot.State>,
+    private sessionFacade: SessionFacade
+  ) {}
 
   ngOnInit() {}
 

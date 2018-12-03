@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { ItemActions } from '../../../+state/actions';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import * as fromRoot from '../../../+state/reducers';
+import { SessionFacade } from '../../../+state/session/session.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
@@ -14,7 +15,7 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
   styleUrls: ['./my-library.component.scss']
 })
 export class MyLibraryComponent implements OnInit, OnDestroy {
-  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
   favoriteLists: Observable<FavoriteList[]> = this.favoriteFacade
     .getFavoriteList$;
   recentActivity: Observable<
@@ -41,7 +42,8 @@ export class MyLibraryComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromRoot.State>,
     public media: ObservableMedia,
-    private favoriteFacade: FavoriteFacade
+    private favoriteFacade: FavoriteFacade,
+    private sessionFacade: SessionFacade
   ) {}
 
   ngOnInit() {}

@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as sessionAction from '../../+state/actions/session.actions';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import * as fromRoot from '../../+state/reducers';
+import { SessionFacade } from '../../+state/session/session.facade';
 import { User } from '../../core/models';
 
 @Component({
@@ -11,6 +9,7 @@ import { User } from '../../core/models';
   template: `
     <nbd-settings
       [user]="currentUser | async"
+      [currentTheme]="currentTheme | async"
       (signOut)="signOut()"
       (themeChange)="theme($event)"
     >
@@ -19,10 +18,11 @@ import { User } from '../../core/models';
 })
 export class SettingsPageComponent {
   currentUser: Observable<User> = this.authFacade.currentUser$;
+  currentTheme: Observable<string> = this.sessionFacade.currentTheme$;
 
   constructor(
-    private store: Store<fromRoot.State>,
-    private authFacade: AuthFacade
+    private authFacade: AuthFacade,
+    private sessionFacade: SessionFacade
   ) {}
 
   signOut(): void {
@@ -30,6 +30,6 @@ export class SettingsPageComponent {
   }
 
   theme(theme: string) {
-    this.store.dispatch(new sessionAction.SetTheme(theme));
+    this.sessionFacade.setTheme(theme);
   }
 }

@@ -2,10 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as sessionAction from '../../../+state/actions/session.actions';
 import * as fromRoot from '../../../+state/reducers';
 import { SearchFacade } from '../../../+state/search/search.facade';
 import { SearchState } from '../../../+state/search/search.reducer';
+import { SessionFacade } from '../../../+state/session/session.facade';
 import { Hint } from '../../../core/models/hints.model';
 
 @Component({
@@ -30,8 +30,8 @@ export class SearchBoxPageComponent {
 
   constructor(
     private router: Router,
-    private store: Store<fromRoot.State>,
-    private searchFacade: SearchFacade
+    private searchFacade: SearchFacade,
+    private sessionFacade: SessionFacade
   ) {}
 
   onSearchSelected(query: string): void {
@@ -58,7 +58,7 @@ export class SearchBoxPageComponent {
 
   debugChanged(debug: boolean): void {
     debug
-      ? this.store.dispatch(new sessionAction.DebugOn())
-      : this.store.dispatch(new sessionAction.DebugOff());
+      ? this.sessionFacade.debugOn()
+      : this.sessionFacade.debugOff());
   }
 }

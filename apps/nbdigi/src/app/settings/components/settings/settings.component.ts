@@ -9,6 +9,7 @@ import { User } from '../../../core/models';
 })
 export class SettingsComponent implements OnInit {
   @Input() user: User;
+  @Input() currentTheme: string;
 
   @Output() signOut = new EventEmitter<void>();
   @Output() themeChange = new EventEmitter<string>();

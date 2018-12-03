@@ -6,6 +6,7 @@ import { filter, map } from 'rxjs/operators';
 import { ItemActions } from '../../../+state/actions';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import * as fromRoot from '../../../+state/reducers';
+import { SessionFacade } from '../../../+state/session/session.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
@@ -15,12 +16,13 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
 export class FavoriteListPageComponent implements OnInit, OnDestroy {
   items: Observable<MediaTypeResults>;
   listId: string;
-  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
   currentList: Observable<FavoriteList> = this.favoriteFacade.getCurrentList$;
 
   constructor(
     private route: ActivatedRoute,
     private favoriteFacade: FavoriteFacade,
+    private sessionFacade: SessionFacade,
     private store: Store<fromRoot.State>
   ) {}
 

@@ -4,12 +4,10 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import * as firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
-import * as session from '../../+state/actions/session.actions';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import * as fromRoot from '../../+state/reducers';
+import { SessionFacade } from '../../+state/session/session.facade';
 import { Item, User } from '../../core/models';
 import { UserService } from './user.service';
 
@@ -19,10 +17,10 @@ export class SessionService {
   constructor(
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
-    private store: Store<fromRoot.State>,
     private afs: AngularFirestore,
     private userService: UserService,
-    private authFacade: AuthFacade
+    private authFacade: AuthFacade,
+    private sessionFacade: SessionFacade
   ) {}
 
   init() {
@@ -42,10 +40,10 @@ export class SessionService {
               .pipe(filter(u => u !== null))
               .subscribe(u => {
                 this.authFacade.signedIn({
-                  ...user,
-                  isDebugOn: u.isDebugOn,
-                  theme: u.theme
+                  ...user
                 });
+                this.sessionFacade.setTheme(u.theme);
+                u.isDebugOn ? this.sessionFacade.debugOn() : this.sessionFacade.debugOff();
               });
           } else {
             this.authFacade.signOut();
@@ -58,8 +56,8 @@ export class SessionService {
       localStorage.getItem('showDateGraph')
     );
     showDateGraph
-      ? this.store.dispatch(new session.ShowDateGraph())
-      : this.store.dispatch(new session.HideDateGraph());
+      ? this.sessionFacade.showDateGraph()
+      : this.sessionFacade.hideDateGraph();
   }
 
   updateTheme(theme: string) {

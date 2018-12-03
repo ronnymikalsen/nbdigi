@@ -9,8 +9,11 @@ import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { User } from '../../core/models';
 import { SessionService } from '../../core/services/session.service';
-import { AuthActionTypes } from '../actions/session.actions';
 import { AuthFacade } from '../auth/auth.facade';
+import { SessionPartialState } from './session.reducer';
+import {
+  SessionActionTypes
+} from './session.actions';
 
 @Injectable()
 export class SessionEffects {
@@ -18,7 +21,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   debugOn: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.DebugOn),
+    ofType(SessionActionTypes.DebugOn),
     tap(() =>
       this.userRef.update({
         isDebugOn: true
@@ -28,7 +31,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   debugOff: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.DebugOff),
+    ofType(SessionActionTypes.DebugOff),
     tap(() =>
       this.userRef.update({
         isDebugOn: false
@@ -38,7 +41,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   theme: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.SetTheme),
+    ofType(SessionActionTypes.SetTheme),
     map((action: any) => action.payload),
     tap(theme => {
       localStorage.setItem('currentTheme', theme);
@@ -48,7 +51,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   showDateGraph: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.ShowDateGraph),
+    ofType(SessionActionTypes.ShowDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + true);
@@ -57,7 +60,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   hideDateGraph: Observable<Action> = this.actions.pipe(
-    ofType(AuthActionTypes.HideDateGraph),
+    ofType(SessionActionTypes.HideDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + false);

@@ -27,7 +27,6 @@ import {
   initialState as authInitialState
 } from './+state/auth/auth.reducer';
 import { ItemEffects } from './+state/effects/item.effects';
-import { SessionEffects } from './+state/effects/session.effects';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
 import { FavoriteFacade } from './+state/favorite/favorite.facade';
 import {
@@ -57,6 +56,9 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
+import { SESSION_FEATURE_KEY, initialState as sessionInitialState, sessionReducer } from './+state/session/session.reducer';
+import { SessionEffects } from './+state/session/session.effects';
+import { SessionFacade } from './+state/session/session.facade';
 
 registerLocaleData(localeNo);
 
@@ -101,7 +103,9 @@ registerLocaleData(localeNo);
     StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer, {
       initialState: authInitialState
     }),
-    EffectsModule.forFeature([AuthEffects])
+    EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature(SESSION_FEATURE_KEY, sessionReducer, { initialState: sessionInitialState }),
+    EffectsModule.forFeature([SessionEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -114,7 +118,8 @@ registerLocaleData(localeNo);
     HomeFacade,
     FavoriteFacade,
     SearchFacade,
-    AuthFacade
+    AuthFacade,
+    SessionFacade
   ]
 })
 export class AppModule {}

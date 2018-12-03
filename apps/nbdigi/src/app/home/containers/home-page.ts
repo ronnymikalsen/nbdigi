@@ -5,7 +5,6 @@ import {
   OnInit
 } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -14,6 +13,7 @@ import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
 import * as fromRoot from '../../+state/reducers';
 import { SearchFacade } from '../../+state/search/search.facade';
+import { SessionFacade } from '../../+state/session/session.facade';
 import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 
 @Component({
@@ -46,7 +46,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   newNewspapers: Observable<MediaTypeResults> = this.homeFacade
     .getNewNewspapers$;
   newOthers: Observable<MediaTypeResults> = this.homeFacade.getNewOthers$;
-  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
+  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
   showItemDetails: Observable<boolean> = this.store.select(
     fromRoot.showItemDetails
   );
@@ -54,6 +54,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(
     private homeFacade: HomeFacade,
     private searchFacade: SearchFacade,
+    private sessionFacade: SessionFacade,
     private authFacade: AuthFacade,
     private afs: AngularFirestore,
     private store: Store<fromRoot.State>

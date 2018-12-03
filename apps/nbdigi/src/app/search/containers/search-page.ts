@@ -7,10 +7,10 @@ import {
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ItemActions } from '../../+state/actions';
-import * as sessionAction from '../../+state/actions/session.actions';
 import * as fromRoot from '../../+state/reducers';
 import { SearchFacade } from '../../+state/search/search.facade';
 import { SearchState } from '../../+state/search/search.reducer';
+import { SessionFacade } from '../../+state/session/session.facade';
 import {
   DateOption,
   Genre,
@@ -85,17 +85,16 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   months: Observable<YearCount[]> = this.searchFacade.getMonths$;
   moreUrl: Observable<string> = this.searchFacade.getMoreUrl$;
   pristine: Observable<boolean> = this.searchFacade.pristine$;
-  isDebugOn: Observable<boolean> = this.store.select(fromRoot.isDebugOn);
-  showDateGraph: Observable<boolean> = this.store.select(
-    fromRoot.showDateGraph
-  );
+  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
+  showDateGraph: Observable<boolean> = this.sessionFacade.showDateGraph$;
   showItemDetails: Observable<boolean> = this.store.select(
     fromRoot.showItemDetails
   );
 
   constructor(
     private store: Store<fromRoot.State>,
-    private searchFacade: SearchFacade
+    private searchFacade: SearchFacade,
+    private sessionFacade: SessionFacade
   ) {}
 
   ngOnInit() {
@@ -157,9 +156,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   debugChanged(debug: boolean): void {
-    debug
-      ? this.store.dispatch(new sessionAction.DebugOn())
-      : this.store.dispatch(new sessionAction.DebugOff());
+    debug ? this.sessionFacade.debugOn() : this.sessionFacade.debugOff();
     this.searchFacade.search();
   }
 
@@ -169,8 +166,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
 
   dateGraphChanged(value: boolean): void {
     value
-      ? this.store.dispatch(new sessionAction.ShowDateGraph())
-      : this.store.dispatch(new sessionAction.HideDateGraph());
+      ? this.sessionFacade.showDateGraph()
+      : this.sessionFacade.hideDateGraph();
   }
 
   chartDateChanged(dateOption: DateOption): void {

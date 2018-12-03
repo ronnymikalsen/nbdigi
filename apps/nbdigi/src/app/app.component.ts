@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import * as fromRoot from './+state/reducers';
 import { CheckForUpdateService } from './core/services/check-for-update.service';
 import { SessionService } from './core/services/session.service';
+import { SessionFacade } from './+state/session/session.facade';
 
 @Component({
   selector: 'nbd-root',
@@ -28,7 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store<fromRoot.State>,
     private overlayContainer: OverlayContainer,
     media: MediaMatcher,
-    changeDetectorRef: ChangeDetectorRef
+    changeDetectorRef: ChangeDetectorRef,
+    private sessionFacade: SessionFacade
   ) {
     iconRegistry.addSvgIcon(
       'logo',
@@ -41,7 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
-    this.store.select(fromRoot.currentTheme).subscribe(theme => {
+    sessionFacade.currentTheme$.subscribe(theme => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
       this.overlayContainer
