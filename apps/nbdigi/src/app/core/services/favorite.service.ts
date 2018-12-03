@@ -3,14 +3,12 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { Store } from '@ngrx/store';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { FavoriteFacade } from '../../+state/favorite/favorite.facade';
-import * as fromRoot from '../../+state/reducers';
 import { FavoriteList, Item, User } from '../../core/models';
 
 @Injectable()
@@ -20,8 +18,7 @@ export class FavoriteService {
   constructor(
     private afs: AngularFirestore,
     private favoriteFacade: FavoriteFacade,
-    private authFacade: AuthFacade,
-    private store: Store<fromRoot.State>
+    private authFacade: AuthFacade
   ) {
     this.authFacade.currentUser$
       .pipe(filter(user => user !== null))

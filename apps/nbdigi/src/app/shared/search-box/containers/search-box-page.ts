@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import * as fromRoot from '../../../+state/reducers';
+import { AppFacade } from '../../../+state/app/app.facade';
 import { SearchFacade } from '../../../+state/search/search.facade';
 import { SearchState } from '../../../+state/search/search.reducer';
-import { AppFacade } from '../../../+state/app/app.facade';
 import { Hint } from '../../../core/models/hints.model';
 
 @Component({
@@ -57,8 +55,6 @@ export class SearchBoxPageComponent {
   }
 
   debugChanged(debug: boolean): void {
-    debug
-      ? this.appFacade.debugOn()
-      : this.appFacade.debugOff();
+    debug ? this.appFacade.debugOn() : this.appFacade.debugOff();
   }
 }

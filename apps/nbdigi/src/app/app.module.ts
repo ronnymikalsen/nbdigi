@@ -68,6 +68,7 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
+import { debug } from './+state/metaReducer';
 
 registerLocaleData(localeNo);
 
@@ -116,7 +117,7 @@ registerLocaleData(localeNo);
       { app: appReducer },
       {
         initialState: { app: appInitialState },
-        metaReducers: !environment.production ? [storeFreeze] : []
+        metaReducers: !environment.production ? [storeFreeze, debug] : [debug]
       }
     ),
     EffectsModule.forRoot([AppEffects]),

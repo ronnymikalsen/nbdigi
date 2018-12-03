@@ -3,9 +3,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Store } from '@ngrx/store';
 import { AppFacade } from './+state/app/app.facade';
-import * as fromRoot from './+state/reducers';
 import { CheckForUpdateService } from './core/services/check-for-update.service';
 import { ItemDetailsService } from './core/services/item-details.service';
 import { SessionService } from './core/services/session.service';
@@ -26,7 +24,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private itemDetailsService: ItemDetailsService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private store: Store<fromRoot.State>,
     private overlayContainer: OverlayContainer,
     media: MediaMatcher,
     changeDetectorRef: ChangeDetectorRef,

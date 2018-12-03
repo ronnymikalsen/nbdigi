@@ -4,9 +4,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ItemFacade } from '../../../../+state/item/item.facade';
-import * as fromRoot from '../../../../+state/reducers';
 import { Item } from '../../../../core/models';
 @Component({
   selector: 'nbd-item-details-head',
@@ -17,9 +15,7 @@ import { Item } from '../../../../core/models';
 export class ItemDetailsHeadComponent implements OnInit {
   @Input() item: Item;
 
-  constructor(
-    private itemFacade: ItemFacade
-  ) {}
+  constructor(private itemFacade: ItemFacade) {}
 
   ngOnInit() {}
 
