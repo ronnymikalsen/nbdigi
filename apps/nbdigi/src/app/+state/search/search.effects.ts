@@ -47,6 +47,7 @@ import { SearchPartialState } from './search.reducer';
 @Injectable()
 export class SearchEffects {
   private criteriasRef: AngularFirestoreCollection<Criteria>;
+  private user: User;
 
   @Effect()
   search: Observable<Action> = this.actions.pipe(
@@ -348,8 +349,9 @@ export class SearchEffects {
     private authFacade: AuthFacade
   ) {
     this.authFacade.currentUser$
-    .pipe(filter(user => user !== null))
-    .subscribe((user: User) => {
+      .pipe(filter(user => user !== null))
+      .subscribe((user: User) => {
+        this.user = user;
         this.criteriasRef = afs
           .collection('users')
           .doc(user.uid)
@@ -357,7 +359,7 @@ export class SearchEffects {
       });
   }
 
-  private addAllFilters(storeState): string[] {
+  private addAllFilters(storeState: SearchPartialState): string[] {
     let filters = [
       ...storeState.search.criteria.filters
         .filter(h => h.enabled)
@@ -365,14 +367,15 @@ export class SearchEffects {
     ];
 
     if (
-      storeState.session.user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
-      storeState.session.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2' &&
-      storeState.session.user.uid !== 'iHr3SCdKewU6M3bNGLMUwqxvDu73' &&
-      storeState.session.user.uid !== 'V9q3474Py0PfJx8zKeQ3DHlmklR2'
+      this.user &&
+      this.user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
+      this.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2' &&
+      this.user.uid !== 'iHr3SCdKewU6M3bNGLMUwqxvDu73' &&
+      this.user.uid !== 'V9q3474Py0PfJx8zKeQ3DHlmklR2'
     ) {
       filters = [
         ...filters,
-        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
+        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync OR contentClasses:cc0'
       ];
     }
     filters = [...filters, 'digital:Ja'];

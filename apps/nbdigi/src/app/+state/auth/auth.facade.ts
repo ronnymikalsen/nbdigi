@@ -14,6 +14,7 @@ import { authQuery } from './auth.selectors';
 
 @Injectable()
 export class AuthFacade {
+  state$ = this.store.pipe(select(authQuery.getState));
   currentUser$ = this.store.pipe(select(authQuery.currentUser));
   getError$ = this.store.pipe(select(authQuery.getError));
 

@@ -1,17 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-
-import * as fromRoot from '../../../+state/reducers';
-import * as fromSession from '../../../+state/reducers/session.reducer';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material';
+import { User } from '../../../core/models';
+
 @Component({
   selector: 'nbd-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  @Input() session: fromSession.State;
+  @Input() user: User;
 
   @Output() signOut = new EventEmitter<void>();
   @Output() themeChange = new EventEmitter<string>();

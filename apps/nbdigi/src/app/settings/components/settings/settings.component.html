@@ -2,15 +2,15 @@
   <mat-toolbar-row> <div fxFlex> Innstillinger </div> </mat-toolbar-row>
 </mat-toolbar>
 <section class="settings-container">
-  <div *ngIf="session.user" fxLayout="column">
+  <div *ngIf="user" fxLayout="column">
     <div fxLayout="row" class="person">
       <mat-icon>person</mat-icon>
-      <div> {{ session.user.email }} </div>
+      <div> {{ user.email }} </div>
     </div>
     <div class="theme">
       <mat-slide-toggle
         (change)="theme($event)"
-        [checked]="session.user.theme === 'dark-theme'"
+        [checked]="user.theme === 'dark-theme'"
         >Mørkt tema</mat-slide-toggle
       >
     </div>

@@ -25,17 +25,11 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     return Observable.create(observer => {
-      this.afAuth.authState.subscribe(
-        res => {
-          console.log('AuthGuard', res);
-
-        });
-      this.authFacade.currentUser$.pipe(take(1)).subscribe(
-        user => {
-          console.log('AuthGuard', user);
-          if (user) {
+      this.authFacade.state$.pipe().subscribe(
+        authState => {
+          if (authState.user) {
             observer.next(true);
-          } else {
+          } else if(authState.error){
             observer.next(this.router.navigate(['/login']));
           }
         },

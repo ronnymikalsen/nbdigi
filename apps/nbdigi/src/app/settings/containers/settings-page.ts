@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import * as sessionAction from '../../+state/actions/session.actions';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import * as fromRoot from '../../+state/reducers';
-import * as fromSession from '../../+state/reducers/session.reducer';
+import { User } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nbd-settings
-      [session]="session | async"
+      [user]="currentUser | async"
       (signOut)="signOut()"
       (themeChange)="theme($event)"
     >
@@ -18,9 +18,7 @@ import * as fromSession from '../../+state/reducers/session.reducer';
   `
 })
 export class SettingsPageComponent {
-  session: Observable<fromSession.State> = this.store.select(
-    fromRoot.getSessionState
-  );
+  currentUser: Observable<User> = this.authFacade.currentUser$;
 
   constructor(
     private store: Store<fromRoot.State>,
