@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
-import { filter } from 'rxjs/operators';
-import { AuthFacade } from '../../+state/auth/auth.facade';
 import { User } from '../models';
-import { AngularFireAuth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +12,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class UserService {
   private userRef: AngularFirestoreDocument<User>;
 
-  constructor(private authFacade: AuthFacade, private afs: AngularFirestore,private afAuth: AngularFireAuth) {
-    this.afAuth.authState.pipe().subscribe( authState => {
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
+    this.afAuth.authState.pipe().subscribe(authState => {
       this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
     });
   }
@@ -29,5 +27,4 @@ export class UserService {
       });
     }
   }
-
 }

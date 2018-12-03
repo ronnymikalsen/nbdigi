@@ -9,8 +9,8 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { User } from '../../core/models';
 import { AuthFacade } from '../../+state/auth/auth.facade';
+import { User } from '../../core/models';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -25,7 +25,6 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('auth?');
     return Observable.create(observer => {
       this.authFacade.currentUser$.subscribe(
         user => {

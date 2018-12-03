@@ -27,17 +27,16 @@ export class SessionService {
 
   init() {
     this.ngZone.runOutsideAngular(() => {
-      console.log('tester');
       this.afAuth.authState.pipe().subscribe(
         authState => {
           if (authState) {
-            this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
             const user = {
               uid: authState.uid,
               displayName: authState.displayName,
               email: authState.email
             };
-            //this.userService.createUserIfNotExists(user);
+            this.userService.createUserIfNotExists(user);
+            this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
             this.userRef
               .valueChanges()
               .pipe(filter(u => u !== null))
