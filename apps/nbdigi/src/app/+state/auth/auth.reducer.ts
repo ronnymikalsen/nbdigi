@@ -13,7 +13,7 @@ export interface AuthPartialState {
 }
 
 export const initialState: AuthState = {
-  user: {uid: '', email: ''},
+  user: null,
   error: null
 };
 

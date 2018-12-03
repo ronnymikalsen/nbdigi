@@ -10,7 +10,6 @@ import {
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import { User } from '../../core/models';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -26,17 +25,16 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
     return Observable.create(observer => {
-      this.authFacade.currentUser$.subscribe(
+      this.afAuth.authState.subscribe(
+        res => {
+          console.log('AuthGuard', res);
+
+        });
+      this.authFacade.currentUser$.pipe(take(1)).subscribe(
         user => {
-          console.log('AuthGuard');
+          console.log('AuthGuard', user);
           if (user) {
-            const userRef = this.afs.doc<User>(`users/${user.uid}`);
-            userRef
-              .valueChanges()
-              .pipe(take(1))
-              .subscribe(u => {
-                observer.next(true);
-              });
+            observer.next(true);
           } else {
             observer.next(this.router.navigate(['/login']));
           }
