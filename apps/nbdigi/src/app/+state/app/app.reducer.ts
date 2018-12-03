@@ -1,57 +1,57 @@
-import { SessionAction, SessionActionTypes } from './session.actions';
+import { AppAction, AppActionTypes } from './app.actions';
 
-export const SESSION_FEATURE_KEY = 'session';
+export const APP_FEATURE_KEY = 'app';
 
-export interface SessionState {
+export interface AppState {
   debug: boolean;
   theme: string;
   showDateGraph: boolean;
 }
 
-export interface SessionPartialState {
-  readonly [SESSION_FEATURE_KEY]: SessionState;
+export interface AppPartialState {
+  readonly [APP_FEATURE_KEY]: AppState;
 }
 
-export const initialState: SessionState = {
+export const initialState: AppState = {
   debug: false,
   theme: null,
   showDateGraph: true
 };
 
-export function sessionReducer(
-  state: SessionState = initialState,
-  action: SessionAction
-): SessionState {
+export function appReducer(
+  state: AppState = initialState,
+  action: AppAction
+): AppState {
   switch (action.type) {
-    case SessionActionTypes.DebugOn: {
+    case AppActionTypes.DebugOn: {
       state = {
         ...state,
         debug: true
       };
       break;
     }
-    case SessionActionTypes.DebugOff: {
+    case AppActionTypes.DebugOff: {
       state = {
         ...state,
         debug: false
       };
       break;
     }
-    case SessionActionTypes.ShowDateGraph: {
+    case AppActionTypes.ShowDateGraph: {
       state = {
         ...state,
         showDateGraph: true
       };
       break;
     }
-    case SessionActionTypes.HideDateGraph: {
+    case AppActionTypes.HideDateGraph: {
       state = {
         ...state,
         showDateGraph: false
       };
       break;
     }
-    case SessionActionTypes.SetTheme: {
+    case AppActionTypes.SetTheme: {
       state = {
         ...state,
         theme: action.payload

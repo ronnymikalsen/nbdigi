@@ -6,17 +6,16 @@ import {
   HideDateGraph,
   SetTheme,
   ShowDateGraph
-} from './session.actions';
-import { SessionPartialState } from './session.reducer';
-import { sessionQuery } from './session.selectors';
+} from './app.actions';
+import { AppPartialState } from './app.reducer';
+import { appQuery } from './app.selectors';
 
 @Injectable()
-export class SessionFacade {
-  isDebugOn$ = this.store.pipe(select(sessionQuery.isDebugOn));
-  showDateGraph$ = this.store.pipe(select(sessionQuery.showDateGraph));
-  currentTheme$ = this.store.pipe(select(sessionQuery.getTheme));
-
-  constructor(private store: Store<SessionPartialState>) {}
+export class AppFacade {
+  isDebugOn$ = this.store.pipe(select(appQuery.isDebugOn));
+  showDateGraph$ = this.store.pipe(select(appQuery.showDateGraph));
+  currentTheme$ = this.store.pipe(select(appQuery.getTheme));
+  constructor(private store: Store<AppPartialState>) {}
 
   showDateGraph() {
     this.store.dispatch(new ShowDateGraph());

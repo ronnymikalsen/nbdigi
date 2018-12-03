@@ -1,14 +1,14 @@
-import { ItemDetailsService } from './core/services/item-details.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
+import { AppFacade } from './+state/app/app.facade';
 import * as fromRoot from './+state/reducers';
 import { CheckForUpdateService } from './core/services/check-for-update.service';
+import { ItemDetailsService } from './core/services/item-details.service';
 import { SessionService } from './core/services/session.service';
-import { SessionFacade } from './+state/session/session.facade';
 
 @Component({
   selector: 'nbd-root',
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private overlayContainer: OverlayContainer,
     media: MediaMatcher,
     changeDetectorRef: ChangeDetectorRef,
-    private sessionFacade: SessionFacade
+    private appFacade: AppFacade
   ) {
     iconRegistry.addSvgIcon(
       'logo',
@@ -43,15 +43,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
-    sessionFacade.currentTheme$.subscribe(theme => {
+    appFacade.currentTheme$.subscribe(theme => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
       this.overlayContainer
-      .getContainerElement()
-      .classList.remove(previousTheme);
+        .getContainerElement()
+        .classList.remove(previousTheme);
       this.overlayContainer
-      .getContainerElement()
-      .classList.add(this.currentTheme);
+        .getContainerElement()
+        .classList.add(this.currentTheme);
     });
   }
 

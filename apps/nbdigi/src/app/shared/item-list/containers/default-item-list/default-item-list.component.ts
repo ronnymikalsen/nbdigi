@@ -5,8 +5,8 @@ import {
   OnInit
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppFacade } from '../../../../+state/app/app.facade';
 import { ItemFacade } from '../../../../+state/item/item.facade';
-import { SessionFacade } from '../../../../+state/session/session.facade';
 import { Item } from '../../../../core/models';
 
 @Component({
@@ -18,12 +18,9 @@ import { Item } from '../../../../core/models';
 export class DefaultItemListComponent implements OnInit {
   @Input() item: Item;
   @Input() config = new DefaultItemListComponentConfig();
-  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
+  isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
 
-  constructor(
-    private sessionFacade: SessionFacade,
-    private itemFacade: ItemFacade
-  ) {}
+  constructor(private appFacade: AppFacade, private itemFacade: ItemFacade) {}
 
   ngOnInit() {}
 

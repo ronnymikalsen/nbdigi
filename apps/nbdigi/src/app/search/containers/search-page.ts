@@ -5,10 +5,10 @@ import {
   OnInit
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppFacade } from '../../+state/app/app.facade';
 import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
 import { SearchState } from '../../+state/search/search.reducer';
-import { SessionFacade } from '../../+state/session/session.facade';
 import {
   DateOption,
   Genre,
@@ -83,13 +83,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   months: Observable<YearCount[]> = this.searchFacade.getMonths$;
   moreUrl: Observable<string> = this.searchFacade.getMoreUrl$;
   pristine: Observable<boolean> = this.searchFacade.pristine$;
-  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
-  showDateGraph: Observable<boolean> = this.sessionFacade.showDateGraph$;
+  isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
+  showDateGraph: Observable<boolean> = this.appFacade.showDateGraph$;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
     private searchFacade: SearchFacade,
-    private sessionFacade: SessionFacade,
+    private appFacade: AppFacade,
     private itemFacade: ItemFacade
   ) {}
 
@@ -152,7 +152,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   debugChanged(debug: boolean): void {
-    debug ? this.sessionFacade.debugOn() : this.sessionFacade.debugOff();
+    debug ? this.appFacade.debugOn() : this.appFacade.debugOff();
     this.searchFacade.search();
   }
 
@@ -161,9 +161,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   dateGraphChanged(value: boolean): void {
-    value
-      ? this.sessionFacade.showDateGraph()
-      : this.sessionFacade.hideDateGraph();
+    value ? this.appFacade.showDateGraph() : this.appFacade.hideDateGraph();
   }
 
   chartDateChanged(dateOption: DateOption): void {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import * as fromRoot from '../../../+state/reducers';
 import { SearchFacade } from '../../../+state/search/search.facade';
 import { SearchState } from '../../../+state/search/search.reducer';
-import { SessionFacade } from '../../../+state/session/session.facade';
+import { AppFacade } from '../../../+state/app/app.facade';
 import { Hint } from '../../../core/models/hints.model';
 
 @Component({
@@ -31,7 +31,7 @@ export class SearchBoxPageComponent {
   constructor(
     private router: Router,
     private searchFacade: SearchFacade,
-    private sessionFacade: SessionFacade
+    private appFacade: AppFacade
   ) {}
 
   onSearchSelected(query: string): void {
@@ -58,7 +58,7 @@ export class SearchBoxPageComponent {
 
   debugChanged(debug: boolean): void {
     debug
-      ? this.sessionFacade.debugOn()
-      : this.sessionFacade.debugOff();
+      ? this.appFacade.debugOn()
+      : this.appFacade.debugOff();
   }
 }

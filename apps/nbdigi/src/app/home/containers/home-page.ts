@@ -7,11 +7,11 @@ import {
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
 import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
-import { SessionFacade } from '../../+state/session/session.facade';
 import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
 
 @Component({
@@ -44,13 +44,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
   newNewspapers: Observable<MediaTypeResults> = this.homeFacade
     .getNewNewspapers$;
   newOthers: Observable<MediaTypeResults> = this.homeFacade.getNewOthers$;
-  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
+  isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
     private homeFacade: HomeFacade,
     private searchFacade: SearchFacade,
-    private sessionFacade: SessionFacade,
+    private appFacade: AppFacade,
     private authFacade: AuthFacade,
     private itemFacade: ItemFacade,
     private afs: AngularFirestore

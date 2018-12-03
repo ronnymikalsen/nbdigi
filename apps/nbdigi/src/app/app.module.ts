@@ -17,8 +17,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NxModule } from '@nrwl/nx';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import 'hammerjs';
+import { storeFreeze } from 'ngrx-store-freeze';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
+import { AppEffects } from './+state/app/app.effects';
+import { AppFacade } from './+state/app/app.facade';
+import {
+  appReducer,
+  initialState as appInitialState
+} from './+state/app/app.reducer';
 import { AuthEffects } from './+state/auth/auth.effects';
 import { AuthFacade } from './+state/auth/auth.facade';
 import {
@@ -47,7 +54,6 @@ import {
   itemReducer,
   ITEM_FEATURE_KEY
 } from './+state/item/item.reducer';
-import { metaReducers, reducers } from './+state/reducers';
 import { SearchEffects } from './+state/search/search.effects';
 import { SearchFacade } from './+state/search/search.facade';
 import {
@@ -55,13 +61,6 @@ import {
   searchReducer,
   SEARCH_FEATURE_KEY
 } from './+state/search/search.reducer';
-import { SessionEffects } from './+state/session/session.effects';
-import { SessionFacade } from './+state/session/session.facade';
-import {
-  initialState as sessionInitialState,
-  sessionReducer,
-  SESSION_FEATURE_KEY
-} from './+state/session/session.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -79,7 +78,6 @@ registerLocaleData(localeNo);
     AppRoutingModule,
     NxModule.forRoot(),
     CoreModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
@@ -110,14 +108,19 @@ registerLocaleData(localeNo);
       initialState: authInitialState
     }),
     EffectsModule.forFeature([AuthEffects]),
-    StoreModule.forFeature(SESSION_FEATURE_KEY, sessionReducer, {
-      initialState: sessionInitialState
-    }),
-    EffectsModule.forFeature([SessionEffects]),
     StoreModule.forFeature(ITEM_FEATURE_KEY, itemReducer, {
       initialState: itemInitialState
     }),
-    EffectsModule.forFeature([ItemEffects])
+    EffectsModule.forFeature([ItemEffects]),
+    StoreModule.forRoot(
+      { app: appReducer },
+      {
+        initialState: { app: appInitialState },
+        metaReducers: !environment.production ? [storeFreeze] : []
+      }
+    ),
+    EffectsModule.forRoot([AppEffects]),
+    !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -131,8 +134,8 @@ registerLocaleData(localeNo);
     FavoriteFacade,
     SearchFacade,
     AuthFacade,
-    SessionFacade,
-    ItemFacade
+    ItemFacade,
+    AppFacade
   ]
 })
 export class AppModule {}

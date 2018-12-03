@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import { SessionFacade } from '../../+state/session/session.facade';
 import { User } from '../../core/models';
 
 @Component({
@@ -18,18 +18,15 @@ import { User } from '../../core/models';
 })
 export class SettingsPageComponent {
   currentUser: Observable<User> = this.authFacade.currentUser$;
-  currentTheme: Observable<string> = this.sessionFacade.currentTheme$;
+  currentTheme: Observable<string> = this.appFacade.currentTheme$;
 
-  constructor(
-    private authFacade: AuthFacade,
-    private sessionFacade: SessionFacade
-  ) {}
+  constructor(private authFacade: AuthFacade, private appFacade: AppFacade) {}
 
   signOut(): void {
     this.authFacade.signOut();
   }
 
   theme(theme: string) {
-    this.sessionFacade.setTheme(theme);
+    this.appFacade.setTheme(theme);
   }
 }

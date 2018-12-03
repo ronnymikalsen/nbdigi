@@ -6,8 +6,8 @@ import {
 } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
+import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import { SessionFacade } from '../../+state/session/session.facade';
 import { Item, User } from '../../core/models';
 import { UserService } from './user.service';
 
@@ -20,7 +20,7 @@ export class SessionService {
     private afs: AngularFirestore,
     private userService: UserService,
     private authFacade: AuthFacade,
-    private sessionFacade: SessionFacade
+    private appFacade: AppFacade
   ) {}
 
   init() {
@@ -42,8 +42,10 @@ export class SessionService {
                 this.authFacade.signedIn({
                   ...user
                 });
-                this.sessionFacade.setTheme(u.theme);
-                u.isDebugOn ? this.sessionFacade.debugOn() : this.sessionFacade.debugOff();
+                this.appFacade.setTheme(u.theme);
+                u.isDebugOn
+                  ? this.appFacade.debugOn()
+                  : this.appFacade.debugOff();
               });
           } else {
             this.authFacade.signOut();
@@ -56,8 +58,8 @@ export class SessionService {
       localStorage.getItem('showDateGraph')
     );
     showDateGraph
-      ? this.sessionFacade.showDateGraph()
-      : this.sessionFacade.hideDateGraph();
+      ? this.appFacade.showDateGraph()
+      : this.appFacade.hideDateGraph();
   }
 
   updateTheme(theme: string) {

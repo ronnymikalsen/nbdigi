@@ -10,18 +10,15 @@ import { filter, map, tap } from 'rxjs/operators';
 import { User } from '../../core/models';
 import { SessionService } from '../../core/services/session.service';
 import { AuthFacade } from '../auth/auth.facade';
-import { SessionPartialState } from './session.reducer';
-import {
-  SessionActionTypes
-} from './session.actions';
+import { AppActionTypes } from './app.actions';
 
 @Injectable()
-export class SessionEffects {
+export class AppEffects {
   private userRef: AngularFirestoreDocument<User>;
 
   @Effect({ dispatch: false })
   debugOn: Observable<Action> = this.actions.pipe(
-    ofType(SessionActionTypes.DebugOn),
+    ofType(AppActionTypes.DebugOn),
     tap(() =>
       this.userRef.update({
         isDebugOn: true
@@ -31,7 +28,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   debugOff: Observable<Action> = this.actions.pipe(
-    ofType(SessionActionTypes.DebugOff),
+    ofType(AppActionTypes.DebugOff),
     tap(() =>
       this.userRef.update({
         isDebugOn: false
@@ -41,7 +38,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   theme: Observable<Action> = this.actions.pipe(
-    ofType(SessionActionTypes.SetTheme),
+    ofType(AppActionTypes.SetTheme),
     map((action: any) => action.payload),
     tap(theme => {
       localStorage.setItem('currentTheme', theme);
@@ -51,7 +48,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   showDateGraph: Observable<Action> = this.actions.pipe(
-    ofType(SessionActionTypes.ShowDateGraph),
+    ofType(AppActionTypes.ShowDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + true);
@@ -60,7 +57,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   hideDateGraph: Observable<Action> = this.actions.pipe(
-    ofType(SessionActionTypes.HideDateGraph),
+    ofType(AppActionTypes.HideDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + false);

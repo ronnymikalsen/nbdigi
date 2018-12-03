@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AppFacade } from '../../../+state/app/app.facade';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import { ItemFacade } from '../../../+state/item/item.facade';
-import { SessionFacade } from '../../../+state/session/session.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
@@ -13,7 +13,7 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
   styleUrls: ['./my-library.component.scss']
 })
 export class MyLibraryComponent implements OnInit, OnDestroy {
-  isDebugOn: Observable<boolean> = this.sessionFacade.isDebugOn$;
+  isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   favoriteLists: Observable<FavoriteList[]> = this.favoriteFacade
     .getFavoriteList$;
   recentActivity: Observable<
@@ -38,7 +38,7 @@ export class MyLibraryComponent implements OnInit, OnDestroy {
   constructor(
     public media: ObservableMedia,
     private favoriteFacade: FavoriteFacade,
-    private sessionFacade: SessionFacade,
+    private appFacade: AppFacade,
     private itemFacade: ItemFacade
   ) {}
 
