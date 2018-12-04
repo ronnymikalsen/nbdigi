@@ -93,25 +93,15 @@ registerLocaleData(localeNo);
     NgxChartsModule,
     SharedModule,
     ViewerModule,
-    StoreModule.forFeature(HOME_FEATURE_KEY, homeReducer, {
-      initialState: homeInitialState
-    }),
+    StoreModule.forFeature(HOME_FEATURE_KEY, homeReducer),
     EffectsModule.forFeature([HomeEffects]),
-    StoreModule.forFeature(FAVORITE_FEATURE_KEY, favoriteReducer, {
-      initialState: favoriteInitialState
-    }),
+    StoreModule.forFeature(FAVORITE_FEATURE_KEY, favoriteReducer),
     EffectsModule.forFeature([FavoriteEffects]),
-    StoreModule.forFeature(SEARCH_FEATURE_KEY, searchReducer, {
-      initialState: searchInitialState
-    }),
+    StoreModule.forFeature(SEARCH_FEATURE_KEY, searchReducer),
     EffectsModule.forFeature([SearchEffects]),
-    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer, {
-      initialState: authInitialState
-    }),
+    StoreModule.forFeature(AUTH_FEATURE_KEY, authReducer),
     EffectsModule.forFeature([AuthEffects]),
-    StoreModule.forFeature(ITEM_FEATURE_KEY, itemReducer, {
-      initialState: itemInitialState
-    }),
+    StoreModule.forFeature(ITEM_FEATURE_KEY, itemReducer),
     EffectsModule.forFeature([ItemEffects]),
     StoreModule.forRoot(
       { app: appReducer },
