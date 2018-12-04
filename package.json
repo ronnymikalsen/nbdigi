@@ -63,7 +63,6 @@
     "core-js": "^2.5.4",
     "d3": "^5.7.0",
     "firebase": "^5.5.9",
-    "global": "^4.3.2",
     "hammerjs": "^2.0.8",
     "moment": "^2.22.2",
     "ngx-clipboard": "^11.1.9",
