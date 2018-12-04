@@ -1,15 +1,9 @@
-@import './../../../theme.scss';
-
 .login-form {
   width: 360px;
 }
 
 .forgottenPasswordLink {
   margin-top: 16px;
-}
-
-.primary {
-  color: mat-color($default-primary);
 }
 
 .google-login-button {
@@ -26,13 +20,11 @@ h2.seperator {
   width: 100%;
   margin-top: 24px !important;
   display: flex;
-  color: mat-color($default-primary);
 }
 
 h2.seperator:before,
 h2.seperator:after {
   content: '';
   flex: 1 1;
-  border-bottom: 1px solid mat-color($default-primary);
   margin: auto;
 }

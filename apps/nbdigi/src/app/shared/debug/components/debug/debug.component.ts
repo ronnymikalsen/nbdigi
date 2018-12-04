@@ -18,7 +18,7 @@ export class DebugComponent implements OnInit {
   ngOnInit() {}
 
   openIds(event: MouseEvent) {
-    const dialogRef = this.dialog.open(IdsDebugDialogComponent, {
+    this.dialog.open(IdsDebugDialogComponent, {
       panelClass: 'debug-ids-panel',
       data: this.item
     });

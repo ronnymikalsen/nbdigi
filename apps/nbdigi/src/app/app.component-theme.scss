@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin nbd-app-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .menu-toolbar {
+    border-style: solid;
+    border-color: mat-color($primary) transparent transparent transparent;
+  }
+
+}

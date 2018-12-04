@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin styles-theme($theme) {
+  $warn: map-get($theme, warn);
+
+  snack-bar-container.error {
+    background: mat-color($warn);
+    color: whitesmoke;
+  }
+}

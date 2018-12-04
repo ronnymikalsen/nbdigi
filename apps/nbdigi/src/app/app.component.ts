@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
-    appFacade.currentTheme$.subscribe(theme => {
+    this.appFacade.currentTheme$.subscribe(theme => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
       this.overlayContainer

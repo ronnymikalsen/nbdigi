@@ -1,7 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/theming';
-@import './theme.scss';
-
 html,
 body {
   font-family: Roboto, Arial, sans-serif;
@@ -34,11 +31,6 @@ body {
   text-overflow: ellipsis;
   touch-action: auto !important;
   user-select: auto !important;
-}
-
-snack-bar-container.error {
-  background: mat-color($default-warn);
-  color: whitesmoke;
 }
 
 .dark-theme .mat-toolbar {

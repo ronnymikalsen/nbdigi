@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin nbd-ids-debug-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  h3 {
+    color: mat-color($primary);
+  }
+
+}

@@ -1,0 +1,18 @@
+@import '~@angular/material/theming';
+
+@mixin nbd-login-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .primary {
+    color: mat-color($primary);
+  }
+
+  h2.seperator {
+    color: mat-color($primary);
+  }
+
+  h2.seperator:after {
+    border-bottom: 1px solid mat-color($primary);
+  }
+
+}

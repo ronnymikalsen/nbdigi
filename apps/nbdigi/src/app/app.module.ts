@@ -28,36 +28,23 @@ import {
 } from './+state/app/app.reducer';
 import { AuthEffects } from './+state/auth/auth.effects';
 import { AuthFacade } from './+state/auth/auth.facade';
-import {
-  authReducer,
-  AUTH_FEATURE_KEY,
-  initialState as authInitialState
-} from './+state/auth/auth.reducer';
+import { authReducer, AUTH_FEATURE_KEY } from './+state/auth/auth.reducer';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
 import { FavoriteFacade } from './+state/favorite/favorite.facade';
 import {
   favoriteReducer,
-  FAVORITE_FEATURE_KEY,
-  initialState as favoriteInitialState
+  FAVORITE_FEATURE_KEY
 } from './+state/favorite/favorite.reducer';
 import { HomeEffects } from './+state/home/home.effects';
 import { HomeFacade } from './+state/home/home.facade';
-import {
-  homeReducer,
-  HOME_FEATURE_KEY,
-  initialState as homeInitialState
-} from './+state/home/home.reducer';
+import { homeReducer, HOME_FEATURE_KEY } from './+state/home/home.reducer';
 import { ItemEffects } from './+state/item/item.effects';
 import { ItemFacade } from './+state/item/item.facade';
-import {
-  initialState as itemInitialState,
-  itemReducer,
-  ITEM_FEATURE_KEY
-} from './+state/item/item.reducer';
+import { itemReducer, ITEM_FEATURE_KEY } from './+state/item/item.reducer';
+import { debug } from './+state/metaReducer';
 import { SearchEffects } from './+state/search/search.effects';
 import { SearchFacade } from './+state/search/search.facade';
 import {
-  initialState as searchInitialState,
   searchReducer,
   SEARCH_FEATURE_KEY
 } from './+state/search/search.reducer';
@@ -68,7 +55,6 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './viewer/viewer.module';
-import { debug } from './+state/metaReducer';
 
 registerLocaleData(localeNo);
 

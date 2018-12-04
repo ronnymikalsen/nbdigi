@@ -1,5 +1,10 @@
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
+@import './app/shared/debug/components/debug/debug.component-theme.scss';
+@import './app/app.component-theme.scss';
+@import './app/login/components/login.component-theme.scss';
+@import './app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss';
+@import './styles-theme.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -24,6 +29,11 @@ $default-theme: mat-light-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($default-theme);
+@include nbd-debug-theme($default-theme);
+@include nbd-app-theme($default-theme);
+@include nbd-login-theme($default-theme);
+@include nbd-ids-debug-theme($default-theme);
+@include styles-theme($default-theme);
 
 $dark-primary: mat-palette($mat-cyan, A200, A100, A400);
 $dark-accent: mat-palette($mat-light-green, A200, A100, A400);
@@ -32,4 +42,10 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // Our dark theme
 .dark-theme {
   @include angular-material-theme($dark-theme);
+  @include nbd-debug-theme($dark-theme);
+  @include nbd-app-theme($dark-theme);
+  @include nbd-login-theme($dark-theme);
+  @include nbd-ids-debug-theme($dark-theme);
+  @include styles-theme($dark-theme);
 }
+

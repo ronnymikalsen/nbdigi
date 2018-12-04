@@ -1,0 +1,10 @@
+@import '~@angular/material/theming';
+
+@mixin nbd-debug-theme($theme) {
+  $warn: map-get($theme, accent);
+
+  .debug {
+    color: mat-color($warn);
+  }
+
+}
