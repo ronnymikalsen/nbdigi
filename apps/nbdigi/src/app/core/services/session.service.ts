@@ -63,9 +63,11 @@ export class SessionService {
   }
 
   updateTheme(theme: string) {
-    this.userRef.update({
-      theme: theme
-    });
+    if (theme) {
+      this.userRef.update({
+        theme: theme
+      });
+    }
   }
 
   updateItem(item: Item) {

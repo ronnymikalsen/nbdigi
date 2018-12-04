@@ -91,7 +91,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   sendPasswordResetEmaildSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmaildSuccess),
-    tap(() => this.router.navigate(['/login']))
+    tap(() => this.router.navigate(['/auth']))
   );
 
   @Effect()
@@ -105,7 +105,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   signedOut: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignedOut),
-    tap(() => this.router.navigate(['/login']))
+    tap(() => this.router.navigate(['/auth']))
   );
 
   @Effect({ dispatch: false })

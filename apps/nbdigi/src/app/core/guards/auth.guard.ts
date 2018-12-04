@@ -30,7 +30,7 @@ export class AuthGuard implements CanActivate {
           if (authState.user) {
             observer.next(true);
           } else if(authState.error){
-            observer.next(this.router.navigate(['/login']));
+            observer.next(this.router.navigate(['/auth']));
           }
         },
         err => {

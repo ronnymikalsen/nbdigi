@@ -35,14 +35,9 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'createaccount',
-    loadChildren: './create-account/create-account.module#CreateAccountModule'
+    path: 'auth',
+    loadChildren: './auth/auth.module#AuthModule'
   },
-  {
-    path: 'resetpassword',
-    loadChildren: './reset-password/reset-password.module#ResetPasswordModule'
-  },
-  { path: 'login', loadChildren: './login/login.module#LoginModule' }
 ];
 
 @NgModule({

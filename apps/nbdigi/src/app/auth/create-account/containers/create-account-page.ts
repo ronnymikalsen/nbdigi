@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AuthFacade } from '../../+state/auth/auth.facade';
-import { Authenticate } from '../../core/models';
+import { AuthFacade } from '../../../+state/auth/auth.facade';
+import { Authenticate } from '../../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

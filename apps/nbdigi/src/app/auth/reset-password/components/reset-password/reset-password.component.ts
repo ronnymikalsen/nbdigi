@@ -8,7 +8,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { AuthError } from '../../../core/models';
+import { AuthError } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-reset-password',
