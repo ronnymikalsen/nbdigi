@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppFacade } from '../../+state/app/app.facade';
-import { AuthFacade } from '../../+state/auth/auth.facade';
-import { User } from '../../core/models';
+import { AppFacade } from '../../../+state/app/app.facade';
+import { AuthFacade } from '../../../+state/auth/auth.facade';
+import { User } from '../../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

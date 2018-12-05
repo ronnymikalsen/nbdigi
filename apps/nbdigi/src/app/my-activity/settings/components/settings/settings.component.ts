@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material';
-import { User } from '../../../core/models';
+import { User } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-settings',
