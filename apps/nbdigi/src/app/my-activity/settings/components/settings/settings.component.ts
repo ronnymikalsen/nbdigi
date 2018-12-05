@@ -19,7 +19,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {}
 
   theme(change: MatSlideToggleChange) {
-    const selectedTheme = change.checked ? 'dark-theme' : 'default-theme';
+    const selectedTheme = change.checked ? 'dark-theme' : 'ligth-theme';
     this.themeChange.emit(selectedTheme);
   }
 }
