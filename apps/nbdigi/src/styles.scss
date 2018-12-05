@@ -1,7 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+/* roboto-regular - latin */
+@font-face {
+  font-family: 'Roboto';
+  font-display: optional;
+  src: local('Roboto'), local('Roboto-Regular'),
+       url('/assets/fonts/roboto-v18-latin-regular.woff2') format('woff2'),
+       url('/assets/fonts/roboto-v18-latin-regular.woff') format('woff');
+}
+/* roboto-condensed-regular - latin */
+@font-face {
+  font-family: 'Roboto Condensed';
+  font-display: optional;
+  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'),
+       url('/assets/fonts/roboto-condensed-v16-latin-regular.woff2') format('woff2'),
+       url('/assets/fonts/roboto-condensed-v16-latin-regular.woff') format('woff');
+}
+@font-face {
+  font-family: 'Material Icons';
+  font-display: block;
+  src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('/assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
+    url('/assets/fonts/MaterialIcons-Regular.woff') format('woff'),
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+
 html,
 body {
-  font-family: Roboto, Arial, sans-serif;
   height: 100%;
   margin: 0;
 }

@@ -25,8 +25,6 @@ export class DividerComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     const color: SimpleChange = changes.color;
-    console.log('prev value: ', color.previousValue);
-    console.log('got name: ', color.currentValue);
     this.className =  color.currentValue === 'primary' ? 'mat-primary' : null;
   }
 }

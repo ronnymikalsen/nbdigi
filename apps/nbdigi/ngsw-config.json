@@ -13,11 +13,7 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/assets/**"],
-        "urls": [
-          "https://fonts.googleapis.com/css?family=Roboto:300,400,500|Roboto+Mono:300",
-          "https://fonts.googleapis.com/icon?family=Material+Icons"
-        ]
+        "files": ["/assets/**"]
       }
     }
   ],
