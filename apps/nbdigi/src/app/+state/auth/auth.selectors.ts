@@ -6,7 +6,7 @@ const getAuthState = createFeatureSelector<AuthState>(AUTH_FEATURE_KEY);
 const currentUser = createSelector(
   getAuthState,
   (state: AuthState) => {
-    return state ? state.user : null
+    return state ? state.user : null;
   }
 );
 const getError = createSelector(
@@ -21,5 +21,5 @@ const getState = createSelector(
 export const authQuery = {
   getState,
   currentUser,
-  getError,
+  getError
 };

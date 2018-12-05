@@ -24,7 +24,6 @@ import {
 
 @Injectable()
 export class AuthEffects {
-
   @Effect()
   signUpWithEmailAndPassword: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignUpWithEmailAndPassword),

@@ -1,2 +1,1 @@
-describe('FavoriteEffects', () => {
-});
+describe('FavoriteEffects', () => {});

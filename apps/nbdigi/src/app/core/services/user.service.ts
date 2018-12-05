@@ -14,11 +14,11 @@ export class UserService {
   private userRef: AngularFirestoreDocument<User>;
 
   constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth) {
-    this.afAuth.authState.pipe(
-      filter(user => user !== null)
-    ).subscribe(authState => {
-      this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
-    });
+    this.afAuth.authState
+      .pipe(filter(user => user !== null))
+      .subscribe(authState => {
+        this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
+      });
   }
 
   public createUserIfNotExists(user: User) {
