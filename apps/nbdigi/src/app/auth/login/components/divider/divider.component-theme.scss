@@ -1,0 +1,13 @@
+@import '~@angular/material/theming';
+
+@mixin nbd-divider-theme($theme) {
+  $primary: map-get($theme, primary);
+
+  .mat-primary {
+    color: mat-color($primary);
+  }
+
+  .mat-divider {
+    border-top-color: mat-color($primary) !important;
+  }
+}

@@ -5,6 +5,7 @@
 @import './app/auth/login/components/login.component-theme.scss';
 @import './app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss';
 @import './styles-theme.scss';
+@import './app/auth/login/components/divider/divider.component-theme.scss';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -34,6 +35,7 @@ $default-theme: mat-light-theme(
 @include nbd-login-theme($default-theme);
 @include nbd-ids-debug-theme($default-theme);
 @include styles-theme($default-theme);
+@include nbd-divider-theme($default-theme);
 
 $dark-primary: mat-palette($mat-cyan, A200, A100, A400);
 $dark-accent: mat-palette($mat-light-green, A200, A100, A400);
@@ -47,5 +49,6 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
   @include nbd-login-theme($dark-theme);
   @include nbd-ids-debug-theme($dark-theme);
   @include styles-theme($dark-theme);
+  @include nbd-divider-theme($dark-theme);
 }
 
