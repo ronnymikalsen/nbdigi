@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Observable } from 'rxjs';
-import { ItemFacade } from '../../+state/item/item.facade';
-import { Item } from '../../core/models';
+import { ItemFacade } from '../../../+state/item/item.facade';
+import { Item } from '../../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

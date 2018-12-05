@@ -54,7 +54,7 @@ import { CoreModule } from './core/core.module';
 import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
-import { ViewerModule } from './viewer/viewer.module';
+import { ViewerModule } from './shared/viewer/viewer.module';
 
 registerLocaleData(localeNo);
 
