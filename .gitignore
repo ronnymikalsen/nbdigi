@@ -43,4 +43,7 @@ package-lock.json
 functions/node_modules/
 functions/package-lock.json
 functions/firebase-debug.log
-functions/lib/*.*
+functions/lib
+.firebase
+.sonarlint
+.directory

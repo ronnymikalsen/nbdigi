@@ -1,0 +1,5 @@
+<div class="button-container" *ngIf="counts > 0">
+  <button mat-raised-button color="primary" (click)="selected.emit(mediaType)"
+    >{{ mediaType | uppercase }} ({{ counts | number: '':'nb_NO' }})</button
+  >
+</div>

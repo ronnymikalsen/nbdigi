@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "../../dist/out-tsc/apps/nbdigi-server",
+    "types": ["node"]
+  },
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
+  "include": [
+    "**/*.ts",
+
+    "../../libs/home-view/src/index.ts",
+
+    "../../libs/explore-view/src/index.ts",
+
+    "../../libs/search-view/src/index.ts",
+
+    "../../libs/my-library-view/src/index.ts",
+
+    "../../libs/settings-view/src/index.ts"
+  ]
+}

@@ -1,13 +1,13 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "",
   "projects": {
     "nbdigi": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/nbdigi/",
+      "sourceRoot": "apps/nbdigi/src",
       "projectType": "application",
-      "prefix": "app",
+      "prefix": "apps/nbdigi",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -17,20 +17,24 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/nbdigi",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/apps/nbdigi",
+            "index": "apps/nbdigi/src/index.html",
+            "main": "apps/nbdigi/src/main.ts",
+            "polyfills": "apps/nbdigi/src/polyfills.ts",
+            "tsConfig": "apps/nbdigi/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.json",
-              "src/browserconfig.xml",
-              "src/apple-touch-icon.png",
-              "src/apple-touch-icon-precomposed.png"
+              "apps/nbdigi/src/favicon.ico",
+              "apps/nbdigi/src/assets",
+              "apps/nbdigi/src/robots.txt",
+              "apps/nbdigi/src/manifest.json",
+              "apps/nbdigi/src/browserconfig.xml",
+              "apps/nbdigi/src/apple-touch-icon.png",
+              "apps/nbdigi/src/apple-touch-icon-precomposed.png"
             ],
-            "styles": ["src/styles.scss", "src/theme.scss"],
+            "styles": [
+              "apps/nbdigi/src/styles.scss",
+              "apps/nbdigi/src/theme.scss"
+            ],
             "scripts": [
               "node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
             ]
@@ -39,8 +43,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/nbdigi/src/environments/environment.ts",
+                  "with": "apps/nbdigi/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -52,7 +56,14 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "serviceWorker": true
+              "serviceWorker": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
@@ -73,47 +84,64 @@
             "browserTarget": "nbdigi:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
-            "styles": ["src/styles.scss"],
-            "scripts": [],
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.json"]
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": [
+              "apps/nbdigi/tsconfig.app.json",
+              "apps/nbdigi/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/builders:jest",
+          "options": {
+            "jestConfig": "apps/nbdigi/jest.config.js",
+            "tsConfig": "apps/nbdigi/tsconfig.spec.json",
+            "setupFile": "apps/nbdigi/src/test-setup.ts"
           }
         }
       }
     },
     "nbdigi-e2e": {
-      "root": "e2e/",
+      "root": "apps/nbdigi-e2e",
       "projectType": "application",
+      "prefix": "",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "protractorConfig": "apps/nbdigi-e2e/protractor.conf.js",
             "devServerTarget": "nbdigi:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nbdigi:serve:production"
+            }
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/schematics",
+    "packageManager": "yarn"
   },
   "defaultProject": "nbdigi"
 }

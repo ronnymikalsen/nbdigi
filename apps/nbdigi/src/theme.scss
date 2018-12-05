@@ -1,0 +1,50 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+@import './app/shared/debug/components/debug/debug.component-theme.scss';
+@import './app/app.component-theme.scss';
+@import './app/auth/login/components/login.component-theme.scss';
+@import './app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss';
+@import './styles-theme.scss';
+@import './app/auth/login/components/divider/divider.component-theme.scss';
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a ligth, lighter, and darker
+// hue.
+
+$dark-primary: mat-palette($mat-cyan, A200, A100, A400);
+$dark-accent: mat-palette($mat-light-green, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+// Our dark theme
+@include angular-material-theme($dark-theme);
+@include nbd-debug-theme($dark-theme);
+@include nbd-app-theme($dark-theme);
+@include nbd-login-theme($dark-theme);
+@include nbd-ids-debug-theme($dark-theme);
+@include styles-theme($dark-theme);
+@include nbd-divider-theme($dark-theme);
+
+$ligth-primary: mat-palette($mat-cyan);
+$ligth-accent: mat-palette($mat-light-green, A200, A100, A400);
+$ligth-warn: mat-palette($mat-deep-orange);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$ligth-theme: mat-light-theme($ligth-primary, $ligth-accent, $ligth-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+.ligth-theme {
+  @include angular-material-theme($ligth-theme);
+  @include nbd-debug-theme($ligth-theme);
+  @include nbd-app-theme($ligth-theme);
+  @include nbd-login-theme($ligth-theme);
+  @include nbd-ids-debug-theme($ligth-theme);
+  @include styles-theme($ligth-theme);
+  @include nbd-divider-theme($ligth-theme);
+}

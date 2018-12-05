@@ -1,7 +1,0 @@
-{
-  "files.exclude": {
-    ".sonarlint": true,
-    "angular_material_s*": true,
-    "node_modules": true
-  }
-}

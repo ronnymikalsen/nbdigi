@@ -1,0 +1,50 @@
+mat-chip {
+  cursor: pointer !important;
+}
+
+::ng-deep .mat-select-value-text {
+  font-family: 'Roboto Condensed' !important;
+}
+
+::ng-deep .mat-option-text {
+  font-family: 'Roboto Condensed';
+}
+
+.mediaType {
+  text-transform: capitalize;
+}
+
+.mediaTypeSelect {
+  min-width: 250px;
+}
+
+.genre-container {
+  margin-left: 8px;
+}
+
+.sort-container {
+  margin-left: 8px;
+}
+
+.search-options-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+::ng-deep .mat-select-panel {
+  overflow: initial !important;
+  max-height: none !important;
+}
+
+::ng-deep .search-options-container .mat-form-field-underline {
+  visibility: hidden;
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  visibility: hidden;
+}
+
+.settings-container .mat-button {
+  font-size: 20px;
+  font-weight: 400;
+}

@@ -1,0 +1,34 @@
+<form
+  class="date-form"
+  [formGroup]="dateForm"
+  (ngSubmit)="onSubmit()"
+  novalidate
+>
+  <div mat-dialog-content fxLayout="column">
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [formControl]="fromDate"
+        placeholder="Fra"
+        (dateChange)="fromDateParser($event)"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        [formControl]="toDate"
+        placeholder="Til"
+        (dateChange)="toDateParser($event)"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-button type="submit">Start</button>
+  </div>
+</form>
