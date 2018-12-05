@@ -46,3 +46,4 @@ functions/firebase-debug.log
 functions/lib
 .firebase
 .sonarlint
+.directory
