@@ -39,107 +39,201 @@
       [href]="search.searchResult.selfLink"
     ></nbd-debug>
     <div>
-      <mat-form-field class="mediaTypeSelect" [floatLabel]="'never'">
-        <mat-select
-          panelClass="mediaTypeOptions"
-          [formControl]="mediaType"
-          placeholder="Mediatyper"
-          (selectionChange)="mediaTypeChanged.emit($event.value)"
+      <button
+        #mediatypeMenuButton="matMenuTrigger"
+        mat-menu-item
+        [matMenuTriggerFor]="mediatypeMenu"
+      >
+        <div class="mediaType"
+          >{{ mediaType.value }} ({{
+            currentMediaTypeCount | number: '':'nb_NO'
+          }})</div
         >
-          <mat-select-trigger>
-            <div class="mediaType"
-              >{{ mediaType.value }} ({{
-                currentMediaTypeCount | number: '':'nb_NO'
-              }})</div
-            >
-          </mat-select-trigger>
-          <mat-option [value]="'alle'">
-            <nbd-media-type-option
-              [mediaType]="'Alle'"
-              [count]="search.searchResult.totalElements"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.books.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.books.mediaType"
-              [count]="search.searchResult.books.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.newspapers.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.newspapers.mediaType"
-              [count]="search.searchResult.newspapers.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.photos.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.photos.mediaType"
-              [count]="search.searchResult.photos.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.periodicals.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.periodicals.mediaType"
-              [count]="search.searchResult.periodicals.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.maps.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.maps.mediaType"
-              [count]="search.searchResult.maps.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.musicBooks.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.musicBooks.mediaType"
-              [count]="search.searchResult.musicBooks.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.musicManuscripts.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.musicManuscripts.mediaType"
-              [count]="search.searchResult.musicManuscripts.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.posters.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.posters.mediaType"
-              [count]="search.searchResult.posters.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.privateArchives.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.privateArchives.mediaType"
-              [count]="search.searchResult.privateArchives.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-          <mat-option [value]="search.searchResult.programReports.mediaType">
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.programReports.mediaType"
-              [count]="search.searchResult.programReports.counts"
-            ></nbd-media-type-option>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      </button>
+      <mat-menu #mediatypeMenu="matMenu">
+        <button mat-menu-item (click)="changeMediatype('alle')">
+          <nbd-media-type-option
+            [mediaType]="'Alle'"
+            [count]="search.searchResult.totalElements"
+            [checked]="mediaType.value === 'alle'"
+            (selected)="changeMediatype('alle')"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.books.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.books.mediaType"
+            [count]="search.searchResult.books.counts"
+            [checked]="mediaType.value === search.searchResult.books.mediaType"
+            (selected)="changeMediatype(search.searchResult.books.mediaType)"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.newspapers.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.newspapers.mediaType"
+            [count]="search.searchResult.newspapers.counts"
+            [checked]="
+              mediaType.value === search.searchResult.newspapers.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.newspapers.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.photos.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.photos.mediaType"
+            [count]="search.searchResult.photos.counts"
+            [checked]="mediaType.value === search.searchResult.photos.mediaType"
+            (selected)="changeMediatype(search.searchResult.photos.mediaType)"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.periodicals.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.periodicals.mediaType"
+            [count]="search.searchResult.periodicals.counts"
+            [checked]="
+              mediaType.value === search.searchResult.periodicals.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.periodicals.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.maps.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.maps.mediaType"
+            [count]="search.searchResult.maps.counts"
+            [checked]="mediaType.value === search.searchResult.maps.mediaType"
+            (selected)="changeMediatype(search.searchResult.maps.mediaType)"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.musicBooks.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.musicBooks.mediaType"
+            [count]="search.searchResult.musicBooks.counts"
+            [checked]="
+              mediaType.value === search.searchResult.musicBooks.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.musicBooks.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.musicManuscripts.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.musicManuscripts.mediaType"
+            [count]="search.searchResult.musicManuscripts.counts"
+            [checked]="
+              mediaType.value === search.searchResult.musicManuscripts.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.musicManuscripts.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.posters.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.posters.mediaType"
+            [count]="search.searchResult.posters.counts"
+            [checked]="
+              mediaType.value === search.searchResult.posters.mediaType
+            "
+            (selected)="changeMediatype(search.searchResult.posters.mediaType)"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.privateArchives.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.privateArchives.mediaType"
+            [count]="search.searchResult.privateArchives.counts"
+            [checked]="
+              mediaType.value === search.searchResult.privateArchives.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.privateArchives.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.programReports.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.programReports.mediaType"
+            [count]="search.searchResult.programReports.counts"
+            [checked]="
+              mediaType.value === search.searchResult.programReports.mediaType
+            "
+            (selected)="
+              changeMediatype(search.searchResult.programReports.mediaType)
+            "
+          ></nbd-media-type-option>
+        </button>
+      </mat-menu>
     </div>
     <div class="genre-container">
-      <mat-form-field [floatLabel]="'never'">
-        <mat-select
-          panelClass="genreOptions"
-          [compareWith]="genreCompareFn"
-          [formControl]="genreControl"
-          placeholder="Sjangre"
-          (selectionChange)="genreChanged.emit($event.value)"
+      <button mat-menu-item [matMenuTriggerFor]="genreMenu">
+        <div>{{
+          search.criteria.genre?.viewValue ? search.criteria.genre?.viewValue : 'Sjanger'
+        }}</div>
+      </button>
+      <mat-menu #genreMenu="matMenu">
+          <button
+          mat-menu-item
+          (click)="genreChanged.emit(null)"
         >
-          <mat-option>Ingen</mat-option>
-          <mat-option
-            *ngFor="let genreOption of genreOptions"
-            [value]="genreOption"
+          <div class="checked"
+            ></div
           >
-            {{ genreOption.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div fxFlex="grow">Ingen</div>
+        </button>
+        <button
+          mat-menu-item
+          *ngFor="let genreOption of genreOptions"
+          (click)="genreChanged.emit(genreOption)"
+        >
+          <div class="checked"
+            ><mat-icon
+              matListIcon
+              *ngIf="genreOption.value === search.criteria.genre?.value"
+              >check</mat-icon
+            ></div
+          >
+          <div fxFlex="grow">{{ genreOption.viewValue }}</div>
+        </button>
+      </mat-menu>
     </div>
     <div class="date-container">
       <mat-form-field [floatLabel]="'never'">

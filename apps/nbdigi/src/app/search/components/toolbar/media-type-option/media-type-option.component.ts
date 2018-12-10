@@ -2,7 +2,9 @@ import {
   Component,
   OnInit,
   ChangeDetectionStrategy,
-  Input
+  Input,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
 @Component({
@@ -14,6 +16,8 @@ import {
 export class MediaTypeOptionComponent implements OnInit {
   @Input() mediaType: string;
   @Input() count: number;
+  @Input() checked: boolean;
+  @Output() selected = new EventEmitter<boolean>();
 
   constructor() {}
 

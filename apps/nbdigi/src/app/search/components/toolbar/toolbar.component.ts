@@ -6,7 +6,8 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
+  ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SearchState } from '../../../+state/search/search.reducer';
@@ -19,6 +20,7 @@ import {
   SortOptions
 } from '../../../core/models';
 import { Hint } from '../../../core/models/hints.model';
+import { MatMenuTrigger } from '@angular/material';
 
 @Component({
   selector: 'nbd-toolbar',
@@ -41,6 +43,8 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() openDatePicker = new EventEmitter<boolean>();
   @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() dateChanged = new EventEmitter<DateOption>();
+  @ViewChild('mediatypeMenuButton') mediatypeMenu: MatMenuTrigger;
+
   mediaType = new FormControl();
   sortControl = new FormControl();
   sortOptions = new SortOptions().all;
@@ -60,6 +64,11 @@ export class ToolbarComponent implements OnInit, OnChanges {
       this.genreControl.setValue(this.search.criteria.genre);
       this.dateControl.setValue(this.search.criteria.date);
     }
+  }
+
+  changeMediatype(selected: string) {
+    this.mediatypeMenu.closeMenu();
+    this.mediaTypeChanged.emit(selected);
   }
 
   sortCompareFn(c1: Sort, c2: Sort): boolean {
