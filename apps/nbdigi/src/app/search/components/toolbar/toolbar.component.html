@@ -45,17 +45,20 @@
         [matMenuTriggerFor]="mediatypeMenu"
       >
         <div class="mediaType"
-          >{{ mediaType.value }} ({{
-            currentMediaTypeCount | number: '':'nb_NO'
-          }})</div
+          >{{
+            mediatypeControl.value !== 'alle'
+              ? mediatypeControl.value
+              : 'Alle medietyper'
+          }}
+          ({{ currentMediaTypeCount | number: '':'nb_NO' }})</div
         >
       </button>
       <mat-menu #mediatypeMenu="matMenu">
         <button mat-menu-item (click)="changeMediatype('alle')">
           <nbd-media-type-option
-            [mediaType]="'Alle'"
+            [mediaType]="'Alle medietyper'"
             [count]="search.searchResult.totalElements"
-            [checked]="mediaType.value === 'alle'"
+            [checked]="mediatypeControl.value === 'alle'"
             (selected)="changeMediatype('alle')"
           ></nbd-media-type-option>
         </button>
@@ -66,7 +69,9 @@
           <nbd-media-type-option
             [mediaType]="search.searchResult.books.mediaType"
             [count]="search.searchResult.books.counts"
-            [checked]="mediaType.value === search.searchResult.books.mediaType"
+            [checked]="
+              mediatypeControl.value === search.searchResult.books.mediaType
+            "
             (selected)="changeMediatype(search.searchResult.books.mediaType)"
           ></nbd-media-type-option>
         </button>
@@ -78,7 +83,8 @@
             [mediaType]="search.searchResult.newspapers.mediaType"
             [count]="search.searchResult.newspapers.counts"
             [checked]="
-              mediaType.value === search.searchResult.newspapers.mediaType
+              mediatypeControl.value ===
+              search.searchResult.newspapers.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.newspapers.mediaType)
@@ -92,7 +98,9 @@
           <nbd-media-type-option
             [mediaType]="search.searchResult.photos.mediaType"
             [count]="search.searchResult.photos.counts"
-            [checked]="mediaType.value === search.searchResult.photos.mediaType"
+            [checked]="
+              mediatypeControl.value === search.searchResult.photos.mediaType
+            "
             (selected)="changeMediatype(search.searchResult.photos.mediaType)"
           ></nbd-media-type-option>
         </button>
@@ -104,7 +112,8 @@
             [mediaType]="search.searchResult.periodicals.mediaType"
             [count]="search.searchResult.periodicals.counts"
             [checked]="
-              mediaType.value === search.searchResult.periodicals.mediaType
+              mediatypeControl.value ===
+              search.searchResult.periodicals.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.periodicals.mediaType)
@@ -118,7 +127,9 @@
           <nbd-media-type-option
             [mediaType]="search.searchResult.maps.mediaType"
             [count]="search.searchResult.maps.counts"
-            [checked]="mediaType.value === search.searchResult.maps.mediaType"
+            [checked]="
+              mediatypeControl.value === search.searchResult.maps.mediaType
+            "
             (selected)="changeMediatype(search.searchResult.maps.mediaType)"
           ></nbd-media-type-option>
         </button>
@@ -130,7 +141,8 @@
             [mediaType]="search.searchResult.musicBooks.mediaType"
             [count]="search.searchResult.musicBooks.counts"
             [checked]="
-              mediaType.value === search.searchResult.musicBooks.mediaType
+              mediatypeControl.value ===
+              search.searchResult.musicBooks.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.musicBooks.mediaType)
@@ -147,7 +159,8 @@
             [mediaType]="search.searchResult.musicManuscripts.mediaType"
             [count]="search.searchResult.musicManuscripts.counts"
             [checked]="
-              mediaType.value === search.searchResult.musicManuscripts.mediaType
+              mediatypeControl.value ===
+              search.searchResult.musicManuscripts.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.musicManuscripts.mediaType)
@@ -162,7 +175,7 @@
             [mediaType]="search.searchResult.posters.mediaType"
             [count]="search.searchResult.posters.counts"
             [checked]="
-              mediaType.value === search.searchResult.posters.mediaType
+              mediatypeControl.value === search.searchResult.posters.mediaType
             "
             (selected)="changeMediatype(search.searchResult.posters.mediaType)"
           ></nbd-media-type-option>
@@ -177,7 +190,8 @@
             [mediaType]="search.searchResult.privateArchives.mediaType"
             [count]="search.searchResult.privateArchives.counts"
             [checked]="
-              mediaType.value === search.searchResult.privateArchives.mediaType
+              mediatypeControl.value ===
+              search.searchResult.privateArchives.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.privateArchives.mediaType)
@@ -194,7 +208,8 @@
             [mediaType]="search.searchResult.programReports.mediaType"
             [count]="search.searchResult.programReports.counts"
             [checked]="
-              mediaType.value === search.searchResult.programReports.mediaType
+              mediatypeControl.value ===
+              search.searchResult.programReports.mediaType
             "
             (selected)="
               changeMediatype(search.searchResult.programReports.mediaType)
@@ -206,18 +221,19 @@
     <div class="genre-container">
       <button mat-menu-item [matMenuTriggerFor]="genreMenu">
         <div>{{
-          search.criteria.genre?.viewValue ? search.criteria.genre?.viewValue : 'Sjanger'
+          genreControl.value?.viewValue
+            ? genreControl.value.viewValue
+            : 'Alle sjangrer'
         }}</div>
       </button>
       <mat-menu #genreMenu="matMenu">
-          <button
-          mat-menu-item
-          (click)="genreChanged.emit(null)"
-        >
+        <button mat-menu-item (click)="genreChanged.emit(null)">
           <div class="checked"
+            ><mat-icon matListIcon *ngIf="genreControl.value?.value === null"
+              >check</mat-icon
             ></div
           >
-          <div fxFlex="grow">Ingen</div>
+          <div fxFlex="grow">Alle sjangrer</div>
         </button>
         <button
           mat-menu-item
@@ -236,61 +252,58 @@
       </mat-menu>
     </div>
     <div class="date-container">
-      <mat-form-field [floatLabel]="'never'">
-        <mat-select
-          panelClass="dateOptions"
-          [compareWith]="dateCompareFn"
-          placeholder="Datoområde"
-          [formControl]="dateControl"
+      <button mat-menu-item [matMenuTriggerFor]="dateMenu">
+        <div>{{
+          dateControl.value?.viewValue !== ''
+            ? dateControl.value.viewValue
+            : 'Når som helst'
+        }}</div>
+      </button>
+      <mat-menu #dateMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let dateOption of dateOptions"
+          (click)="dateChanged.emit(dateOption)"
         >
-          <mat-select-trigger>
-            {{ dateControl.value.viewValue }}
-          </mat-select-trigger>
-          <mat-option
-            *ngFor="let dateOption of dateOptions"
-            [value]="dateOption"
-            (click)="dateChanged.emit(dateOption)"
+          <div class="checked"
+            ><mat-icon
+              matListIcon
+              *ngIf="dateOption.value === search.criteria.date?.value"
+              >check</mat-icon
+            ></div
           >
-            {{ dateOption.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div fxFlex="grow">{{ dateOption.viewValue }}</div>
+        </button>
+        <mat-divider></mat-divider>
+
+        <button mat-menu-item (click)="dateGraphChanged.emit(!showDateGraph)">
+          <div class="checked"
+            ><mat-icon matListIcon *ngIf="showDateGraph">check</mat-icon> Vis
+            datograf</div
+          >
+        </button>
+      </mat-menu>
     </div>
     <div class="sort-container ">
-      <mat-form-field [floatLabel]="'never'">
-        <mat-select
-          panelClass="sortOptions "
-          [compareWith]="sortCompareFn"
-          [formControl]="sortControl"
-          placeholder="Sortering"
-          (selectionChange)="sortChanged.emit($event.value)"
+      <button mat-menu-item [matMenuTriggerFor]="sortMenu">
+        <div>Sortert på {{ sortControl.value?.viewValue }}</div>
+      </button>
+      <mat-menu #sortMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let sortOption of sortOptions"
+          (click)="sortChanged.emit(sortOption)"
         >
-          <mat-option
-            *ngFor="let sortOption of sortOptions"
-            [value]="sortOption"
+          <div class="checked"
+            ><mat-icon
+              matListIcon
+              *ngIf="sortOption.value === search.criteria.sort?.value"
+              >check</mat-icon
+            ></div
           >
-            {{ sortOption.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="settings-container">
-      <mat-form-field [floatLabel]="'never'">
-        <mat-select panelClass="settingsOptions " placeholder="Innstillinger">
-          <mat-option
-            *ngIf="!showDateGraph"
-            (click)="dateGraphChanged.emit(true)"
-          >
-            Vis datograf
-          </mat-option>
-          <mat-option
-            *ngIf="showDateGraph"
-            (click)="dateGraphChanged.emit(false)"
-          >
-            Skjul datograf
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+          <div fxFlex="grow" class="sortOption">{{ sortOption.viewValue }}</div>
+        </button>
+      </mat-menu>
     </div>
   </div>
 </mat-toolbar>

@@ -45,7 +45,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() dateChanged = new EventEmitter<DateOption>();
   @ViewChild('mediatypeMenuButton') mediatypeMenu: MatMenuTrigger;
 
-  mediaType = new FormControl();
+  mediatypeControl = new FormControl();
   sortControl = new FormControl();
   sortOptions = new SortOptions().all;
   genreControl = new FormControl();
@@ -59,7 +59,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
-      this.mediaType.setValue(this.search.criteria.mediaType);
+      this.mediatypeControl.setValue(this.search.criteria.mediaType);
       this.sortControl.setValue(this.search.criteria.sort);
       this.genreControl.setValue(this.search.criteria.genre);
       this.dateControl.setValue(this.search.criteria.date);
@@ -69,21 +69,5 @@ export class ToolbarComponent implements OnInit, OnChanges {
   changeMediatype(selected: string) {
     this.mediatypeMenu.closeMenu();
     this.mediaTypeChanged.emit(selected);
-  }
-
-  sortCompareFn(c1: Sort, c2: Sort): boolean {
-    return c1 && c2 ? c1.value === c2.value : c1 === c2;
-  }
-
-  genreCompareFn(c1: Genre, c2: Genre): boolean {
-    return c1 && c2 ? c1.value === c2.value : c1 === c2;
-  }
-
-  dateCompareFn(c1: DateOption, c2: DateOption): boolean {
-    if (c1.value === 'select') {
-      return true;
-    } else {
-      return c1 && c2 ? c1.value === c2.value : c1 === c2;
-    }
   }
 }

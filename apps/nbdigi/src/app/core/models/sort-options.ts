@@ -1,10 +1,10 @@
 export class SortOptions {
   public all: Sort[];
-  public relevance = new Sort({ value: '_score,desc', viewValue: 'Relevans' });
-  public titleAsc = new Sort({ value: 'title,asc', viewValue: 'Tittel A-Å' });
-  public titleDesc = new Sort({ value: 'title,desc', viewValue: 'Tittel Å-A' });
-  public dateAsc = new Sort({ value: 'date,asc', viewValue: 'Eldste først' });
-  public dateDesc = new Sort({ value: 'date,desc', viewValue: 'Nyeste først' });
+  public relevance = new Sort({ value: '_score,desc', viewValue: 'relevans' });
+  public titleAsc = new Sort({ value: 'title,asc', viewValue: 'tittel A-Å' });
+  public titleDesc = new Sort({ value: 'title,desc', viewValue: 'tittel Å-A' });
+  public dateAsc = new Sort({ value: 'date,asc', viewValue: 'eldste først' });
+  public dateDesc = new Sort({ value: 'date,desc', viewValue: 'nyeste først' });
   public newArrivals = new Sort({
     value: 'firstDigitalContentTime,desc',
     viewValue: 'Nyankommet'
