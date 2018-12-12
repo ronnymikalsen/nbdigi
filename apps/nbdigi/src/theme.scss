@@ -48,3 +48,11 @@ $ligth-theme: mat-light-theme($ligth-primary, $ligth-accent, $ligth-warn);
   @include styles-theme($ligth-theme);
   @include nbd-divider-theme($ligth-theme);
 }
+
+
+$custom-typography: mat-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif;',
+);
+
+// Override the typography in the core CSS.
+@include mat-core($custom-typography);
