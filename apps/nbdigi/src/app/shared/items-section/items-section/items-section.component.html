@@ -16,7 +16,7 @@
         mat-button
         (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)"
         color="primary"
-        >VIS FLERE</button
+        >Vis alle</button
       >
     </div>
   </mat-toolbar>
@@ -28,29 +28,38 @@
           [list]="list"
           fxFlex.xs="33.3"
           fxFlex.sm="20"
-          fxFlex.md="20"
-          fxFlex.lg="16.6"
+          fxFlex.md="12.5"
+          fxFlex.lg="10"
           fxFlex.xl="10"
         >
         </nbd-default-item-card>
       </ng-container>
     </div>
-    <div fxLayout="rov wrap" *ngIf="!selected">
-      <ng-container
-        *ngFor="let item of (mediaTypeResults?.items | slice: 0:size)"
-      >
-        <nbd-default-item-card
-          [item]="item"
-          [list]="list"
-          fxFlex.xs="33.3"
-          fxFlex.sm="20"
-          fxFlex.md="20"
-          fxFlex.lg="16.6"
-          fxFlex.xl="10"
-        >
-        </nbd-default-item-card>
-      </ng-container>
-    </div>
+        <div *ngIf="!selected">
+            <ngu-carousel
+              #itemCarousel
+              [inputs]="carouselConfig"
+              [dataSource]="carouselItems"
+            >
+              <ngu-tile *nguCarouselDef="let item; let i = index">
+                <nbd-default-item-card [item]="item"> </nbd-default-item-card>
+              </ngu-tile>
+              <button
+                *ngIf="!itemCarousel.isFirst"
+                mat-mini-fab
+                NguCarouselPrev
+                class="nav-button left"
+                ><mat-icon>navigate_before</mat-icon></button
+              >
+              <button
+                *ngIf="!itemCarousel.isLast"
+                mat-mini-fab
+                NguCarouselNext
+                class="nav-button right"
+                ><mat-icon>navigate_next</mat-icon></button
+              >
+            </ngu-carousel>
+          </div>
   </ng-container>
   <ng-container *ngIf="asList">
     <div id="item-activity-component" fxLayout="column">

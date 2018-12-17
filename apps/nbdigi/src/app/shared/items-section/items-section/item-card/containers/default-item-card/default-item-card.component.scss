@@ -4,7 +4,7 @@
 }
 
 .thumbnail {
-  height: 245px;
+  height: 200px;
   width: 100%;
   object-fit: contain;
 }
@@ -29,4 +29,9 @@
 .issued {
   font-size: 10px;
   line-height: 16px;
+}
+
+
+:ng-deep mat-card {
+ padding: 0px !important;
 }

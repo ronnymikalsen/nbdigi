@@ -1,17 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { NguCarouselConfig } from '@ngu/carousel';
 import { Subscription } from 'rxjs';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
-import { SizeStrategyFactory } from './size-strategy.factory';
 
 @Component({
   selector: 'nbd-items-section',
@@ -19,7 +9,7 @@ import { SizeStrategyFactory } from './size-strategy.factory';
   styleUrls: ['./items-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ItemsSectionComponent implements OnInit, OnDestroy {
+export class ItemsSectionComponent implements OnChanges, OnDestroy {
   @Input() mediaTypeResults = new MediaTypeResults();
   @Input() selected = false;
   @Input() label: string;
@@ -31,17 +21,18 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
   @Input() list: FavoriteList;
   @Input() asList: boolean;
-  size = 4;
   private watcher: Subscription;
 
-  constructor(private media: ObservableMedia, private cdr: ChangeDetectorRef) {}
+  carouselItems: Array<any> = [];
+  carouselConfig: NguCarouselConfig = {
+    grid: { xs: 3, sm: 5, md: 8, lg: 10, all: 0 },
+    point: {
+      visible: true
+    },
+    touch: true
+  };
 
-  ngOnInit() {
-    this.watcher = this.media.subscribe((change: MediaChange) => {
-      this.calculateAndUpdateSize();
-    });
-    this.calculateAndUpdateSize();
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnDestroy() {
     if (this.watcher) {
@@ -49,12 +40,18 @@ export class ItemsSectionComponent implements OnInit, OnDestroy {
     }
   }
 
-  private calculateAndUpdateSize(): void {
-    const sizeStrategy = SizeStrategyFactory.createStrategy(this.media);
-    const newSize = sizeStrategy.getSize(this.rows);
-    if (this.size !== newSize) {
-      this.size = sizeStrategy.getSize(this.rows);
-      this.cdr.markForCheck();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['mediaTypeResults']) {
+      this.carouselItems = [];
+      if (this.mediaTypeResults) {
+        for (let i = 0; i < this.mediaTypeResults.items.length; i++) {
+          const el = this.mediaTypeResults.items[i];
+          this.carouselItems.push(el);
+        }
+      }
+      setTimeout(() => {
+        this.cdr.markForCheck();
+      }, 1);
     }
   }
 }

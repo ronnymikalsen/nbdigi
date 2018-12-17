@@ -7,6 +7,7 @@ import {
   MimeViewerIntl,
   MimeViewerIntlNoNb
 } from '@nationallibraryofnorway/ngx-mime';
+import { NguCarouselModule } from '@ngu/carousel';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { ClipboardModule } from 'ngx-clipboard';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -25,6 +26,7 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     MaterialModule,
     LazyLoadImagesModule,
     InfiniteScrollModule,
+    NguCarouselModule,
     MimeModule,
     DateFormatPipe,
     ItemDetailsDrawerDirective,

@@ -655,6 +655,13 @@
     tree-kill "1.2.0"
     webpack-sources "1.2.0"
 
+"@ngu/carousel@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/@ngu/carousel/-/carousel-1.5.4.tgz#ab0deacf2946f6d1155571fd6179920b78ee05ac"
+  integrity sha512-Wf4vowWhitpptLNeCdO/LrBA+EDHT7E9OFftV78JeCrPQ7MEJ6w9RjdtHqC5QotqrMVSXenaoeifH6LZGYsGsw==
+  dependencies:
+    tslib "^1.9.0"
+
 "@nrwl/builders@7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@nrwl/builders/-/builders-7.1.1.tgz#46639567e46c0fef6f5ad56120f6b4dda60594a1"
