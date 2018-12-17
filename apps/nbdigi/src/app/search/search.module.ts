@@ -7,9 +7,9 @@ import { ItemsSectionModule } from '../shared/items-section/items-section.module
 import { SearchBoxModule } from '../shared/search-box/search-box.module';
 import { SharedModule } from '../shared/shared.module';
 import { MediaTypeButtonComponent } from './components/media-type-button/media-type-button.component';
-import { MediaTypeOptionComponent } from './components/media-type-option/media-type-option.component';
 import { SearchResultChartComponent } from './components/search-result-chart/search-result-chart.component';
 import { SearchComponent } from './components/search/search.component';
+import { MediaTypeOptionComponent } from './components/toolbar/media-type-option/media-type-option.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SearchPageComponent } from './containers/search-page';
 import { SearchRoutingModule } from './search-routing.module';

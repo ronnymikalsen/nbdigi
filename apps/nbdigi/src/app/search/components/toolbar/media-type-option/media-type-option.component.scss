@@ -1,0 +1,28 @@
+.checked {
+  min-width: 32px;
+}
+
+.checked:after
+{
+    content: '.';
+    visibility: hidden;
+}
+
+.mediatype-container {
+  font-family: 'Roboto Condensed';
+}
+
+.mediaType {
+  text-transform: capitalize;
+  margin-right: 8px;
+}
+
+.mat-chip {
+  overflow: initial;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mat-standard-chip {
+  min-height: 18px;
+}
