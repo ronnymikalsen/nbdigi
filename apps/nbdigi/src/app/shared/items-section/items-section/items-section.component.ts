@@ -17,7 +17,6 @@ export class ItemsSectionComponent implements OnChanges, OnDestroy {
   @Input() showToolbar = true;
   @Input() showIfEmpty = false;
   @Input() isDebugOn: boolean;
-  @Input() rows = 2;
   @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
   @Input() list: FavoriteList;
   @Input() asList: boolean;
