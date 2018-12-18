@@ -25,7 +25,7 @@ export class ItemsSectionComponent implements OnChanges, OnDestroy {
 
   carouselItems: Array<any> = [];
   carouselConfig: NguCarouselConfig = {
-    grid: { xs: 3, sm: 5, md: 8, lg: 10, all: 0 },
+    grid: { xs: 3, sm: 5, md: 5, lg: 8, all: 0 },
     point: {
       visible: true
     },
