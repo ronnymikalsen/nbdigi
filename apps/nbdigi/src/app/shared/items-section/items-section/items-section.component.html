@@ -35,31 +35,31 @@
         </nbd-default-item-card>
       </ng-container>
     </div>
-        <div *ngIf="!selected">
-            <ngu-carousel
-              #itemCarousel
-              [inputs]="carouselConfig"
-              [dataSource]="carouselItems"
-            >
-              <ngu-tile *nguCarouselDef="let item; let i = index">
-                <nbd-default-item-card [item]="item"> </nbd-default-item-card>
-              </ngu-tile>
-              <button
-                *ngIf="!itemCarousel.isFirst"
-                mat-mini-fab
-                NguCarouselPrev
-                class="nav-button left"
-                ><mat-icon>navigate_before</mat-icon></button
-              >
-              <button
-                *ngIf="!itemCarousel.isLast"
-                mat-mini-fab
-                NguCarouselNext
-                class="nav-button right"
-                ><mat-icon>navigate_next</mat-icon></button
-              >
-            </ngu-carousel>
-          </div>
+    <div *ngIf="!selected">
+      <ngu-carousel
+        #itemCarousel
+        [inputs]="carouselConfig"
+        [dataSource]="carouselItems"
+      >
+        <ngu-tile *nguCarouselDef="let item; let i = index">
+          <nbd-default-item-card [item]="item"> </nbd-default-item-card>
+        </ngu-tile>
+        <button
+          *ngIf="!itemCarousel.isFirst"
+          mat-mini-fab
+          NguCarouselPrev
+          class="nav-button left"
+          ><mat-icon>navigate_before</mat-icon></button
+        >
+        <button
+          *ngIf="!itemCarousel.isLast"
+          mat-mini-fab
+          NguCarouselNext
+          class="nav-button right"
+          ><mat-icon>navigate_next</mat-icon></button
+        >
+      </ngu-carousel>
+    </div>
   </ng-container>
   <ng-container *ngIf="asList">
     <div id="item-activity-component" fxLayout="column">
