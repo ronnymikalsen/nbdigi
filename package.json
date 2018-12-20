@@ -52,7 +52,7 @@
     "@angular/pwa": "^0.10.6",
     "@angular/router": "^7.1.4",
     "@angular/service-worker": "^7.1.4",
-    "@nationallibraryofnorway/ngx-mime": "^7.0.0",
+    "@nationallibraryofnorway/ngx-mime": "^7.1.0",
     "@ngrx/effects": "7.0.0-beta.1",
     "@ngrx/entity": "7.0.0-beta.1",
     "@ngrx/router-store": "7.0.0-beta.1",

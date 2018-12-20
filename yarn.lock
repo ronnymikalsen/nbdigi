@@ -612,8 +612,10 @@
     through2 "^2.0.0"
     xdg-basedir "^3.0.0"
 
-"@nationallibraryofnorway/ngx-mime@file:../ngx-mime/dist/libs/@nationallibraryofnorway/ngx-mime":
-  version "0.0.1"
+"@nationallibraryofnorway/ngx-mime@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@nationallibraryofnorway/ngx-mime/-/ngx-mime-7.1.0.tgz#4a0a1d35b3091ea4472c96877e6e8e5e82704192"
+  integrity sha512-xf7lkNuMJylRUiQtIdLAA6WXROh59iKaYJ+xHW9i4yNx///L3dTfiOox/RG3QFGYZtl+LR6a0KVHBYYxTezdOw==
   dependencies:
     tslib "^1.9.0"
 
