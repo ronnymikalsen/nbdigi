@@ -1,4 +1,9 @@
+.my-library-container {
+  height: calc(100% - 64px);
+}
+
 mat-drawer-container {
+  height: 100%;
   overflow: inherit;
   mat-drawer {
     overflow: inherit;

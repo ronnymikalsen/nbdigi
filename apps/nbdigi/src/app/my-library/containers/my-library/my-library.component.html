@@ -1,39 +1,40 @@
-<mat-toolbar>Mitt bibliotek</mat-toolbar>
-<mat-nav-list>
-  <a
-    mat-list-item
-    *ngFor="let favorite of (favoriteLists | async)"
-    (click)="openFavorite(favorite)"
-  >
-    <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-      <div>{{ favorite.name }}</div>
-      <nbd-favorite-list-menu-button
-        [favorite]="favorite"
-      ></nbd-favorite-list-menu-button>
-    </div>
-  </a>
-</mat-nav-list>
-<mat-toolbar>Nylig aktivitet</mat-toolbar>
-<div class="drawer-container">
-  <mat-drawer-container>
-    <mat-drawer
-      appItemDetailsDrawer
-      autosize="true"
-      mode="side"
-      position="end"
-      [opened]="(showItemDetails | async) && media.isActive('gt-sm')"
-    >
-      <nbd-item-details></nbd-item-details>
-    </mat-drawer>
-    <mat-drawer-content>
-      <nbd-items-section
-        [showToolbar]="false"
-        [list]="(recentActivity | async).items"
-        [mediaTypeResults]="recentActivity | async"
-        [isDebugOn]="isDebugOn"
-        rows="1"
-        tabindex="0"
-      ></nbd-items-section>
-    </mat-drawer-content>
-  </mat-drawer-container>
+<div class="my-library-container">
+  <mat-toolbar>Mitt bibliotek</mat-toolbar>
+  <div fxFill>
+    <mat-drawer-container>
+      <mat-drawer
+        appItemDetailsDrawer
+        autosize="true"
+        mode="side"
+        position="end"
+        [opened]="(showItemDetails | async) && media.isActive('gt-sm')"
+      >
+        <nbd-item-details></nbd-item-details>
+      </mat-drawer>
+      <mat-drawer-content>
+        <mat-nav-list>
+          <a
+            mat-list-item
+            *ngFor="let favorite of (favoriteLists | async)"
+            (click)="openFavorite(favorite)"
+          >
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+              <div>{{ favorite.name }}</div>
+              <nbd-favorite-list-menu-button
+                [favorite]="favorite"
+              ></nbd-favorite-list-menu-button>
+            </div>
+          </a>
+        </mat-nav-list>
+        <mat-toolbar>Nylig aktivitet</mat-toolbar>
+        <nbd-items-section
+          [showToolbar]="false"
+          [list]="(recentActivity | async).items"
+          [mediaTypeResults]="recentActivity | async"
+          [isDebugOn]="isDebugOn"
+          tabindex="0"
+        ></nbd-items-section>
+      </mat-drawer-content>
+    </mat-drawer-container>
+  </div>
 </div>

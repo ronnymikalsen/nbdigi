@@ -7,5 +7,30 @@ h1:first-letter {
 }
 
 .item-section-container {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+
+.nav-button {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(246,245,255,.3);
+  color: white !important;
+}
+
+.left {
+  left: 8px;
+}
+
+.right {
+  right: 8px;
+}
+
+::ng-deep .tile {
+  box-shadow: none ! important;
+}
+
+::ng-deep ngu-tile {
+  padding: 0px !important;
 }

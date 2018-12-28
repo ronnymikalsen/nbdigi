@@ -12,7 +12,7 @@
     </div>
   </div>
 </mat-toolbar>
-<div class="drawer-container">
+<div fxFill class="drawer-container">
   <mat-drawer-container>
     <mat-drawer
       appItemDetailsDrawer
@@ -30,6 +30,7 @@
         [mediaTypeResults]="items"
         [isDebugOn]="isDebugOn"
         tabindex="0"
+        [selected]="true"
       ></nbd-items-section>
     </mat-drawer-content>
   </mat-drawer-container>

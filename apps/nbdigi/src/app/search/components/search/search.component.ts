@@ -74,12 +74,13 @@ export class SearchComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
+      const searchResultHeight = document.querySelector('#search-container').clientHeight;
       if (
         this.moreUrl &&
         !this.search.isLoading &&
         !this.search.isLoadingMore &&
         this.search.criteria.mediaType &&
-        document.body.clientHeight > document.body.scrollHeight
+        document.body.clientHeight > searchResultHeight
       ) {
         this.loadMore.emit();
       }

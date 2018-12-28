@@ -4,6 +4,7 @@ mat-drawer-container {
     overflow: inherit;
     background: transparent !important;
   }
+  height: calc(100% - 64px);
 }
 
 .fix-sticky {

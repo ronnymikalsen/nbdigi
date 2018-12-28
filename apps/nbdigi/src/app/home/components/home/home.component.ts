@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ObservableMedia } from '@angular/flex-layout';
-import { Item, MediaTypeResults } from '../../../core/models';
+import { MediaTypeResults } from '../../../core/models';
 
 @Component({
   selector: 'nbd-home',
@@ -8,7 +8,7 @@ import { Item, MediaTypeResults } from '../../../core/models';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @Input() items: Item[];
+  @Input() items: MediaTypeResults;
   @Input() newBooks: MediaTypeResults;
   @Input() newPeriodicals: MediaTypeResults;
   @Input() newPhotos: MediaTypeResults;
