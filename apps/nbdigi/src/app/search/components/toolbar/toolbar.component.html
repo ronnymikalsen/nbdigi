@@ -268,7 +268,7 @@
           <div class="checked"
             ><mat-icon
               matListIcon
-              *ngIf="dateOption.value === search.criteria.date?.value"
+              *ngIf="(search.criteria.date?.type === 'custom' && dateOption.type === search.criteria.date?.type) || dateOption.value === search.criteria.date?.value"
               >check</mat-icon
             ></div
           >
