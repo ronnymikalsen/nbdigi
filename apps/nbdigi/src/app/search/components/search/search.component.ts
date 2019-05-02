@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { SearchState } from '../../../+state/search/search.reducer';
 import {
   ChartOption,
@@ -68,13 +68,14 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() currentChartChanged = new EventEmitter<string>();
   @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
 
-  constructor(public media: ObservableMedia) {}
+  constructor(public media: MediaObserver) {}
 
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['search']) {
-      const searchResultHeight = document.querySelector('#search-container').clientHeight;
+      const searchResultHeight = document.querySelector('#search-container')
+        .clientHeight;
       if (
         this.moreUrl &&
         !this.search.isLoading &&

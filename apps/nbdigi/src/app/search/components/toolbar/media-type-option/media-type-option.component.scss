@@ -2,10 +2,9 @@
   min-width: 32px;
 }
 
-.checked:after
-{
-    content: '.';
-    visibility: hidden;
+.checked:after {
+  content: '.';
+  visibility: hidden;
 }
 
 .mediatype-container {

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AppFacade } from '../../../+state/app/app.facade';
@@ -36,7 +36,7 @@ export class MyLibraryComponent implements OnInit, OnDestroy {
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(
-    public media: ObservableMedia,
+    public media: MediaObserver,
     private favoriteFacade: FavoriteFacade,
     private appFacade: AppFacade,
     private itemFacade: ItemFacade

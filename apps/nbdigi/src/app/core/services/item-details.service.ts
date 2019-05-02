@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { map } from 'rxjs/operators';
 import { ItemFacade } from '../../+state/item/item.facade';
 import { ItemDetailsComponent } from '../../shared/item-details/item-details/item-details.component';
 
@@ -13,14 +14,17 @@ export class ItemDetailsService {
 
   constructor(
     public dialog: MatDialog,
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private itemFacade: ItemFacade
   ) {}
 
   init() {
-    this.media.subscribe((change: MediaChange) => {
-      this.update();
-    });
+    this.media
+      .asObservable()
+      .pipe(map((changes: MediaChange[]) => changes[changes.length - 1]))
+      .subscribe((change: MediaChange) => {
+        this.update();
+      });
 
     this.itemFacade.showItemDetails$.subscribe(show => {
       this.showItemDetails = show;

@@ -7,7 +7,7 @@ import {
   OnInit,
   Renderer2
 } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { ItemFacade } from '../+state/item/item.facade';
 
@@ -21,7 +21,7 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   private destroyed: Subject<void> = new Subject();
 
   constructor(
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     public renderer: Renderer2,

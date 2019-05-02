@@ -188,17 +188,15 @@ export class FavoriteEffects {
     ofType<RemoveListConfirmed>(FavoriteActionTypes.RemoveListConfirmed),
     map(action => action.payload),
     exhaustMap((favoriteList: FavoriteList) => {
-      let action;
       if (favoriteList) {
-        action = this.favoriteService.removeList(favoriteList).pipe(
+        return this.favoriteService.removeList(favoriteList).pipe(
           take(1),
           map(() => new RemoveListSuccess(favoriteList)),
           catchError(err => of(new Error(err)))
         );
       } else {
-        action = of(new RemoveListCancelled());
+        return of(new RemoveListCancelled());
       }
-      return action;
     })
   );
 
