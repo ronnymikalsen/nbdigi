@@ -10,7 +10,8 @@ mat-chip {
   font-family: 'Roboto Condensed';
 }
 
-.mediaType:first-letter, .sortOption:first-letter {
+.mediaType:first-letter,
+.sortOption:first-letter {
   text-transform: capitalize;
 }
 

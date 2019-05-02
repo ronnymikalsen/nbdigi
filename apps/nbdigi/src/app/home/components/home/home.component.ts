@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { MediaTypeResults } from '../../../core/models';
 
 @Component({
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
   @Output() showMorePhotos = new EventEmitter<void>();
   @Output() showMoreNewspapers = new EventEmitter<void>();
 
-  constructor(public media: ObservableMedia) {}
+  constructor(public media: MediaObserver) {}
 
   ngOnInit() {}
 }

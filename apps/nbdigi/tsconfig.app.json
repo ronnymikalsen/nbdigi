@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc/apps/nbdigi",
     "types": []
@@ -7,15 +7,10 @@
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"],
   "include": [
     "**/*.ts",
-
     "../../libs/home-view/src/index.ts",
-
     "../../libs/explore-view/src/index.ts",
-
     "../../libs/search-view/src/index.ts",
-
     "../../libs/my-library-view/src/index.ts",
-
     "../../libs/settings-view/src/index.ts"
   ]
 }
