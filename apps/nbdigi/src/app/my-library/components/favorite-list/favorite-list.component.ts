@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { ItemFacade } from '../../../+state/item/item.facade';
 import { FavoriteList, MediaTypeResults } from '../../../core/models';
@@ -15,7 +15,7 @@ export class FavoriteListComponent implements OnInit {
   @Input() isDebugOn: boolean;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
-  constructor(public media: ObservableMedia, private itemFacade: ItemFacade) {}
+  constructor(public media: MediaObserver, private itemFacade: ItemFacade) {}
 
   ngOnInit() {}
 }

@@ -55,6 +55,13 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './shared/viewer/viewer.module';
+import {
+  MYACTIVITY_FEATURE_KEY,
+  initialState as myActivityInitialState,
+  myActivityReducer
+} from './+state/my-activity/my-activity.reducer';
+import { MyActivityEffects } from './+state/my-activity/my-activity.effects';
+import { MyActivityFacade } from './+state/my-activity/my-activity.facade';
 
 registerLocaleData(localeNo);
 
@@ -97,7 +104,11 @@ registerLocaleData(localeNo);
       }
     ),
     EffectsModule.forRoot([AppEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    StoreModule.forFeature(MYACTIVITY_FEATURE_KEY, myActivityReducer, {
+      initialState: myActivityInitialState
+    }),
+    EffectsModule.forFeature([MyActivityEffects])
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -112,7 +123,8 @@ registerLocaleData(localeNo);
     SearchFacade,
     AuthFacade,
     ItemFacade,
-    AppFacade
+    AppFacade,
+    MyActivityFacade
   ]
 })
 export class AppModule {}

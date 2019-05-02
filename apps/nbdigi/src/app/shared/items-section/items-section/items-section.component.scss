@@ -15,7 +15,7 @@ h1:first-letter {
   margin: auto;
   top: 0;
   bottom: 0;
-  background-color: rgba(246,245,255,.3);
+  background-color: rgba(246, 245, 255, 0.3);
   color: white !important;
 }
 
@@ -28,7 +28,7 @@ h1:first-letter {
 }
 
 ::ng-deep .tile {
-  box-shadow: none ! important;
+  box-shadow: none !important;
 }
 
 ::ng-deep ngu-tile {
