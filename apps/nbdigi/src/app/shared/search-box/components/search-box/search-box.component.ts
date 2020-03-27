@@ -13,11 +13,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import {
-  MatAutocompleteSelectedEvent,
-  MatAutocompleteTrigger,
-  MatCheckboxChange
-} from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import {
@@ -43,8 +40,8 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Output() searchSelected = new EventEmitter<string>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() clearAll = new EventEmitter<boolean>();
-  @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
-  @ViewChild('searchbox-container') searchboxContainer: ElementRef;
+  @ViewChild(MatAutocompleteTrigger, { static: true }) matAutocomplete: MatAutocompleteTrigger;
+  @ViewChild('searchbox-container', { static: false }) searchboxContainer: ElementRef;
   public searchForm: FormGroup;
   public queryControl: FormControl;
   private destroyed: Subject<void> = new Subject();

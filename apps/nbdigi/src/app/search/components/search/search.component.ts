@@ -66,7 +66,7 @@ export class SearchComponent implements OnInit, OnChanges {
   @Output() chartDateChanged = new EventEmitter<DateOption>();
   @Output() previousChartRange = new EventEmitter<ChartOption>();
   @Output() currentChartChanged = new EventEmitter<string>();
-  @ViewChild('searchResultContainer') searchResultContainer: ElementRef;
+  @ViewChild('searchResultContainer', { static: true }) searchResultContainer: ElementRef;
 
   constructor(public media: MediaObserver) {}
 

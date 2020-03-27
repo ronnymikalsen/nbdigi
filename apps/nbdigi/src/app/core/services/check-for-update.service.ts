@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 

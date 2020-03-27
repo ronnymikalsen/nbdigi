@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { DateAdapter, MatDialog, MatSnackBar } from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -52,7 +54,7 @@ export class SearchEffects {
   @Effect()
   search: Observable<Action> = this.actions.pipe(
     ofType(SearchActionTypes.Search),
-    tap(() => this.router.navigate(['/search'])),
+    tap(() => this.ngZone.run(() => this.router.navigate(['/search']))),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
@@ -337,6 +339,7 @@ export class SearchEffects {
   );
 
   constructor(
+    private ngZone: NgZone,
     private router: Router,
     public dialog: MatDialog,
     private store: Store<SearchPartialState>,

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CheckForUpdateService } from './check-for-update.service';
 

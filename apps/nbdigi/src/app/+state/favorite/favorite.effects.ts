@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { Injectable, NgZone } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -91,7 +92,7 @@ export class FavoriteEffects {
   openList: Observable<Action> = this.actions.pipe(
     ofType<OpenList>(FavoriteActionTypes.OpenList),
     tap((action: OpenList) =>
-      this.router.navigate(['/mylibrary', action.payload])
+      this.ngZone.run(() =>this.router.navigate(['/mylibrary', action.payload]))
     )
   );
 
@@ -207,7 +208,7 @@ export class FavoriteEffects {
       this.snackBar.open('Listen er slettet', null, {
         duration: 2000
       });
-      this.router.navigate(['/mylibrary']);
+      this.ngZone.run(() => this.router.navigate(['/mylibrary']));
     })
   );
 
@@ -271,6 +272,7 @@ export class FavoriteEffects {
   constructor(
     public snackBar: MatSnackBar,
     public dialog: MatDialog,
+    private ngZone: NgZone,
     private router: Router,
     private actions: Actions,
     private favoriteService: FavoriteService

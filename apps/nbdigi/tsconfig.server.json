@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "../../dist/out-tsc/apps/nbdigi-server",
+    "outDir": "../../dist/out-tsc",
     "types": ["node"]
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts"],

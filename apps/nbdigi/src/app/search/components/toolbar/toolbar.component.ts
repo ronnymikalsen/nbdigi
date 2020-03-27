@@ -20,7 +20,7 @@ import {
   SortOptions
 } from '../../../core/models';
 import { Hint } from '../../../core/models/hints.model';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'nbd-toolbar',
@@ -43,7 +43,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() openDatePicker = new EventEmitter<boolean>();
   @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() dateChanged = new EventEmitter<DateOption>();
-  @ViewChild('mediatypeMenuButton') mediatypeMenu: MatMenuTrigger;
+  @ViewChild('mediatypeMenuButton', { static: true }) mediatypeMenu: MatMenuTrigger;
 
   mediatypeControl = new FormControl();
   sortControl = new FormControl();

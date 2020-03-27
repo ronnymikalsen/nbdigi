@@ -9,7 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'nbd-create-favorite-list',
@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
-  @ViewChild('listname') listNameEl: ElementRef;
+  @ViewChild('listname', { static: true }) listNameEl: ElementRef;
   @Output() cancelSelected = new EventEmitter<void>();
   @Output() listNameSelected = new EventEmitter<string>();
   listForm: FormGroup;

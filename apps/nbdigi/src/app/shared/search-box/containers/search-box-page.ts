@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppFacade } from '../../../+state/app/app.facade';
@@ -27,6 +27,7 @@ export class SearchBoxPageComponent {
   q: Observable<string> = this.searchFacade.getQ$;
 
   constructor(
+    private ngZone: NgZone,
     private router: Router,
     private searchFacade: SearchFacade,
     private appFacade: AppFacade
@@ -51,7 +52,7 @@ export class SearchBoxPageComponent {
   onClearAll(): void {
     this.searchFacade.clearAll();
     this.searchFacade.searchAggs();
-    this.router.navigate(['/search']);
+    this.ngZone.run(() =>this.router.navigate(['/search']));
   }
 
   debugChanged(debug: boolean): void {

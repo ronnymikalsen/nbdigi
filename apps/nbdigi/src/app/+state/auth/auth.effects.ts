@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
@@ -46,7 +46,7 @@ export class AuthEffects {
     switchMap((action: SignInWithGoogle) => {
       return this.authService.signInWithGoogle().pipe(
         map(authState => new SignInWithGoogleSuccess()),
-        tap(() => this.router.navigate(['/home'])),
+        tap(() => this.ngZone.run(() => this.router.navigate(['/home']))),
         catchError(err => of(new AuthError(err)))
       );
     })
@@ -63,7 +63,7 @@ export class AuthEffects {
         )
         .pipe(
           map(authState => new SignInWithEmailAndPasswordSuccess()),
-          tap(() => this.router.navigate(['/home'])),
+          tap(() => this.ngZone.run(() => this.router.navigate(['/home']))),
           catchError(err => of(new AuthError(err)))
         );
     })
@@ -90,7 +90,7 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   sendPasswordResetEmaildSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmaildSuccess),
-    tap(() => this.router.navigate(['/auth']))
+    tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
   );
 
   @Effect()
@@ -104,16 +104,17 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   signedOut: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignedOut),
-    tap(() => this.router.navigate(['/auth']))
+    tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
   );
 
   @Effect({ dispatch: false })
   signUpSuccess: Observable<Action> = this.actions.pipe(
     ofType(AuthActionTypes.SignUpSuccess),
-    tap(() => this.router.navigate(['/home']))
+    tap(() => this.ngZone.run(() => this.router.navigate(['/home']))),
   );
 
   constructor(
+    private ngZone: NgZone,
     private actions: Actions,
     private router: Router,
     private authService: AuthService,

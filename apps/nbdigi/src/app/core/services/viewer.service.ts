@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Item } from '../../core/models';
 import { ViewerPageComponent } from '../../shared/viewer/containers/viewer-page';
 

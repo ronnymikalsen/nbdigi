@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {
@@ -15,6 +15,7 @@ import { AuthFacade } from '../../+state/auth/auth.facade';
 export class AuthGuard implements CanActivate {
   constructor(
     public afAuth: AngularFireAuth,
+    private ngZone: NgZone,
     private afs: AngularFirestore,
     private router: Router,
     private authFacade: AuthFacade
@@ -30,7 +31,7 @@ export class AuthGuard implements CanActivate {
           if (authState.user) {
             observer.next(true);
           } else if (authState.error) {
-            observer.next(this.router.navigate(['/auth']));
+            observer.next(this.ngZone.run(() =>this.router.navigate(['/auth'])));
           }
         },
         err => {
