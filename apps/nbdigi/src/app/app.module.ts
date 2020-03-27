@@ -17,7 +17,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NxModule } from '@nrwl/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import 'hammerjs';
-import { storeFreeze } from 'ngrx-store-freeze';
+
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
 import { AppEffects } from './+state/app/app.effects';
@@ -75,7 +75,7 @@ registerLocaleData(localeNo);
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
-    StoreRouterConnectingModule,
+    StoreRouterConnectingModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -100,7 +100,7 @@ registerLocaleData(localeNo);
       { app: appReducer },
       {
         initialState: { app: appInitialState },
-        metaReducers: !environment.production ? [storeFreeze, debug] : [debug]
+        metaReducers: !environment.production ? [debug] : [debug], runtimeChecks: { strictStateImmutability: true, strictActionImmutability: true }
       }
     ),
     EffectsModule.forRoot([AppEffects]),
