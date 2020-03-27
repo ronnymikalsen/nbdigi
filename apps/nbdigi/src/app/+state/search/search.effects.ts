@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -54,7 +54,7 @@ export class SearchEffects {
   @Effect()
   search: Observable<Action> = this.actions.pipe(
     ofType(SearchActionTypes.Search),
-    tap(() => this.router.navigate(['/search'])),
+    tap(() => this.ngZone.run(() => this.router.navigate(['/search']))),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
       const filters = this.addAllFilters(storeState);
@@ -339,6 +339,7 @@ export class SearchEffects {
   );
 
   constructor(
+    private ngZone: NgZone,
     private router: Router,
     public dialog: MatDialog,
     private store: Store<SearchPartialState>,
