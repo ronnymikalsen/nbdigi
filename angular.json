@@ -95,7 +95,7 @@
           }
         },
         "test": {
-          "builder": "@nrwl/builders:jest",
+          "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/nbdigi/jest.config.js",
             "tsConfig": "apps/nbdigi/tsconfig.spec.json",
@@ -136,7 +136,7 @@
       "typescriptMismatch": false,
       "versionMismatch": false
     },
-    "defaultCollection": "@nrwl/schematics",
+    "defaultCollection": "@nrwl/angular",
     "packageManager": "yarn"
   },
   "defaultProject": "nbdigi",

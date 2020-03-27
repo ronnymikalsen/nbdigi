@@ -14,7 +14,7 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NxModule } from '@nrwl/nx';
+import { NxModule } from '@nrwl/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import 'hammerjs';
 import { storeFreeze } from 'ngrx-store-freeze';

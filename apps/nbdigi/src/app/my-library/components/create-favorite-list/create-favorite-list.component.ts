@@ -18,7 +18,7 @@ import { MatSnackBar } from '@angular/material';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
-  @ViewChild('listname') listNameEl: ElementRef;
+  @ViewChild('listname', { static: true }) listNameEl: ElementRef;
   @Output() cancelSelected = new EventEmitter<void>();
   @Output() listNameSelected = new EventEmitter<string>();
   listForm: FormGroup;

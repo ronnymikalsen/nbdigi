@@ -43,7 +43,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() openDatePicker = new EventEmitter<boolean>();
   @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() dateChanged = new EventEmitter<DateOption>();
-  @ViewChild('mediatypeMenuButton') mediatypeMenu: MatMenuTrigger;
+  @ViewChild('mediatypeMenuButton', { static: true }) mediatypeMenu: MatMenuTrigger;
 
   mediatypeControl = new FormControl();
   sortControl = new FormControl();
