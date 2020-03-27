@@ -5,11 +5,7 @@ import {
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { ItemDetailsModule } from '../shared/item-details/item-details.module';

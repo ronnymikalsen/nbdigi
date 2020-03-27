@@ -20,7 +20,7 @@ import {
   SortOptions
 } from '../../../core/models';
 import { Hint } from '../../../core/models/hints.model';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'nbd-toolbar',

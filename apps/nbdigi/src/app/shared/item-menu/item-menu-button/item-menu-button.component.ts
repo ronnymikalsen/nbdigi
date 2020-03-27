@@ -4,7 +4,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import { ItemFacade } from '../../../+state/item/item.facade';
 import { FavoriteList, Item } from '../../../core/models';

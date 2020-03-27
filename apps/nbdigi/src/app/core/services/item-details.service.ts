@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
 import { ItemFacade } from '../../+state/item/item.facade';
 import { ItemDetailsComponent } from '../../shared/item-details/item-details/item-details.component';
