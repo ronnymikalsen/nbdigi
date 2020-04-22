@@ -1593,12 +1593,10 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.6.4"
 
-"@nationallibraryofnorway/ngx-mime@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@nationallibraryofnorway/ngx-mime/-/ngx-mime-8.0.0.tgz#f532968878ede910961a563ecad970ca93026ebc"
-  integrity sha512-p3uwBMM2fBLc0Jhf64j+Hhcgb0J+VtT2f2kkmlK7OR0qKRoboc4lQDtjOpFzaWDaa/3OZwh2E9aQq4EybN/6ZQ==
-  dependencies:
-    tslib "^1.9.0"
+"@nationallibraryofnorway/ngx-mime@^9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@nationallibraryofnorway/ngx-mime/-/ngx-mime-9.0.2.tgz#6bfdd96fbf437f0fce019fdebe977037468f52f4"
+  integrity sha512-ZtqKIvRffVbq0wdCdh4YD26NwqS03sFY21P0mZ58q3p+g35hh4VtS4unB5uy1e1tis4EQI9h7e/VzZe+lPB1gQ==
 
 "@ngrx/effects@9.1.0":
   version "9.1.0"
