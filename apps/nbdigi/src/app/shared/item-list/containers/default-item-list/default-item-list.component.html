@@ -1,8 +1,8 @@
 <mat-list-item (click)="open(item)">
   <div matLine>
     <div fxLayout="row">
-      <div fxFlex="100px" lazy-load-images>
-        <img class="thumbnail" [attr.data-src]="item.thumbnail" />
+      <div fxFlex="100px">
+        <img class="thumbnail" [lazyLoad]="item.thumbnail" />
       </div>
       <div class="truncate">
         <div class="metadata-container" fxLayout="column">
