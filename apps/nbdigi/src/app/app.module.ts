@@ -4,19 +4,19 @@ import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
 import {
+  DefaultRouterStateSerializer,
   RouterStateSerializer,
-  StoreRouterConnectingModule, DefaultRouterStateSerializer
+  StoreRouterConnectingModule
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { NxModule } from '@nrwl/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
 import { AppEffects } from './+state/app/app.effects';
@@ -41,6 +41,13 @@ import { ItemEffects } from './+state/item/item.effects';
 import { ItemFacade } from './+state/item/item.facade';
 import { itemReducer, ITEM_FEATURE_KEY } from './+state/item/item.reducer';
 import { debug } from './+state/metaReducer';
+import { MyActivityEffects } from './+state/my-activity/my-activity.effects';
+import { MyActivityFacade } from './+state/my-activity/my-activity.facade';
+import {
+  initialState as myActivityInitialState,
+  myActivityReducer,
+  MYACTIVITY_FEATURE_KEY
+} from './+state/my-activity/my-activity.reducer';
 import { SearchEffects } from './+state/search/search.effects';
 import { SearchFacade } from './+state/search/search.facade';
 import {
@@ -54,13 +61,6 @@ import { AuthGuard } from './core/guards';
 import { CustomSerializer } from './custom-serializer';
 import { SharedModule } from './shared/shared.module';
 import { ViewerModule } from './shared/viewer/viewer.module';
-import {
-  MYACTIVITY_FEATURE_KEY,
-  initialState as myActivityInitialState,
-  myActivityReducer
-} from './+state/my-activity/my-activity.reducer';
-import { MyActivityEffects } from './+state/my-activity/my-activity.effects';
-import { MyActivityFacade } from './+state/my-activity/my-activity.facade';
 
 registerLocaleData(localeNo);
 
@@ -68,13 +68,16 @@ registerLocaleData(localeNo);
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     BrowserAnimationsModule,
+    HammerModule,
     AppRoutingModule,
     NxModule.forRoot(),
     CoreModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
-    StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: DefaultRouterStateSerializer
+    }),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -99,7 +102,11 @@ registerLocaleData(localeNo);
       { app: appReducer },
       {
         initialState: { app: appInitialState },
-        metaReducers: !environment.production ? [debug] : [debug], runtimeChecks: { strictStateImmutability: true, strictActionImmutability: true }
+        metaReducers: !environment.production ? [debug] : [debug],
+        runtimeChecks: {
+          strictStateImmutability: true,
+          strictActionImmutability: true
+        }
       }
     ),
     EffectsModule.forRoot([AppEffects]),
