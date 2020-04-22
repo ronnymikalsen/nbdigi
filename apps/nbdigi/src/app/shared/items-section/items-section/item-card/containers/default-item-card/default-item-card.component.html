@@ -1,8 +1,8 @@
 <mat-card>
   <mat-card-content>
     <div fxLayout="column">
-      <div lazy-load-images (click)="open(item)">
-        <img class="thumbnail" [attr.data-src]="item.thumbnail" />
+      <div (click)="open(item)">
+        <img class="thumbnail" [lazyLoad]="item.thumbnail" />
       </div>
       <div class="content-container" fxLayout="row">
         <div class="metadata-container" fxFlex fxLayout="column">

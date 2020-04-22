@@ -7,7 +7,7 @@ const routes: Routes = [
   { path: '', component: MyActivityPageComponent },
   {
     path: 'settings',
-    loadChildren: './settings/settings.module#SettingsModule',
+    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
     canActivate: [AuthGuard]
   }
 ];

@@ -41,7 +41,7 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() clearAll = new EventEmitter<boolean>();
   @ViewChild(MatAutocompleteTrigger, { static: true }) matAutocomplete: MatAutocompleteTrigger;
-  @ViewChild('searchbox-container', { static: false }) searchboxContainer: ElementRef;
+  @ViewChild('searchbox-container') searchboxContainer: ElementRef;
   public searchForm: FormGroup;
   public queryControl: FormControl;
   private destroyed: Subject<void> = new Subject();
