@@ -104,7 +104,8 @@
           "options": {
             "jestConfig": "apps/nbdigi/jest.config.js",
             "tsConfig": "apps/nbdigi/tsconfig.spec.json",
-            "setupFile": "apps/nbdigi/src/test-setup.ts"
+            "setupFile": "apps/nbdigi/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }

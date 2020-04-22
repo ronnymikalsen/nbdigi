@@ -1598,6 +1598,15 @@
     "@angular-devkit/core" "8.0.0"
     "@angular-devkit/schematics" "8.0.0"
 
+"@nrwl/jest@9.2.3":
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/@nrwl/jest/-/jest-9.2.3.tgz#15c2d3e28b3a2aec6f55a307d2da45d0736b3cae"
+  integrity sha512-2br+bz/RJ7JTULHOpm+Fkn1qjKy+s7Lx6IKfDA5wBR5Ys/9MITTyAuDN0TIGSJmkjrouHjek3DUdjcgwLBPMiQ==
+  dependencies:
+    "@angular-devkit/architect" "~0.901.0"
+    "@angular-devkit/core" "~9.1.0"
+    "@angular-devkit/schematics" "~9.1.0"
+
 "@nrwl/tao@9.2.3":
   version "9.2.3"
   resolved "https://registry.yarnpkg.com/@nrwl/tao/-/tao-9.2.3.tgz#be61af4b016f680fd9d288e94b12a04f199ceda3"
