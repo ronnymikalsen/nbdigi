@@ -11,13 +11,13 @@ const routes: Routes = [
   },
   {
     path: 'createaccount',
-    loadChildren: './create-account/create-account.module#CreateAccountModule'
+    loadChildren: () => import('./create-account/create-account.module').then(m => m.CreateAccountModule)
   },
   {
     path: 'resetpassword',
-    loadChildren: './reset-password/reset-password.module#ResetPasswordModule'
+    loadChildren: () => import('./reset-password/reset-password.module').then(m => m.ResetPasswordModule)
   },
-  { path: 'login', loadChildren: './login/login.module#LoginModule' }
+  { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginModule) }
 ];
 
 @NgModule({

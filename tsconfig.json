@@ -11,7 +11,7 @@
     "lib": ["es2017", "dom"],
     "baseUrl": ".",
     "paths": {},
-    "module": "es2015",
+    "module": "esnext",
     "rootDir": "."
   },
   "exclude": ["node_modules", "tmp"]
