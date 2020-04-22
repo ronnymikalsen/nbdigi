@@ -31,7 +31,8 @@
     "help": "./node_modules/.bin/nx help",
     "deploy": "firebase deploy",
     "affected": "./node_modules/.bin/nx affected",
-    "bundle-report": "yarn build --prod --stats-json && webpack-bundle-analyzer dist/apps/nbdigi/stats.json"
+    "bundle-report": "yarn build --prod --stats-json && webpack-bundle-analyzer dist/apps/nbdigi/stats.json",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
@@ -56,7 +57,7 @@
     "@ngrx/router-store": "9.1.0",
     "@ngrx/store": "9.1.0",
     "@ngu/carousel": "^2.0.3",
-    "@nrwl/angular": "8.0.0",
+    "@nrwl/angular": "9.2.3",
     "@swimlane/ngx-charts": "^14.0.0",
     "classlist.js": "^1.1.20150312",
     "d3": "^5.9.2",
