@@ -1,4 +1,6 @@
 @import '~@angular/material/theming';
+@import '~@nationallibraryofnorway/ngx-mime/ngx-mime.theme';
+
 // Plus imports for other components in your app.
 @import './app/shared/debug/components/debug/debug.component-theme.scss';
 @import './app/app.component-theme.scss';
@@ -28,6 +30,7 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 @include nbd-ids-debug-theme($dark-theme);
 @include styles-theme($dark-theme);
 @include nbd-divider-theme($dark-theme);
+@include ngx-mime-theme($dark-theme);
 
 $ligth-primary: mat-palette($mat-cyan);
 $ligth-accent: mat-palette($mat-light-green, A200, A100, A400);
@@ -47,6 +50,7 @@ $ligth-theme: mat-light-theme($ligth-primary, $ligth-accent, $ligth-warn);
   @include nbd-ids-debug-theme($ligth-theme);
   @include styles-theme($ligth-theme);
   @include nbd-divider-theme($ligth-theme);
+  @include ngx-mime-theme($ligth-theme);
 }
 
 $custom-typography: mat-typography-config(
