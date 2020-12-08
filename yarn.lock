@@ -265,12 +265,13 @@
   dependencies:
     tslib "^2.0.0"
 
-"@angular/platform-server@^9.1.9":
-  version "9.1.9"
-  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-9.1.9.tgz#60c9b81c6c963948f4dd426c7029e72a65fe4396"
-  integrity sha512-PtOUE6Vxnrg03/zJbjnZ6BbctAEdFjAbHr8zbGhHa2q504DlY9OJACRCqcP8tIpW9nbDDKqvr/RENONmISichA==
+"@angular/platform-server@^10.0.0":
+  version "10.2.3"
+  resolved "https://registry.yarnpkg.com/@angular/platform-server/-/platform-server-10.2.3.tgz#6a9c45f1dc4f738cfa852b4cf85c4a2ef1195a93"
+  integrity sha512-iYs1fsdEio3TdN4HlZw0HNSmpGbTs/+FozVePP7m+k5ozjyxBg1J5kF9R/RSaT9Zqhyw54G3DE/KJ0tnOGUtdA==
   dependencies:
     domino "^2.1.2"
+    tslib "^2.0.0"
     xhr2 "^0.2.0"
 
 "@angular/router@10.2.3":
@@ -7282,6 +7283,11 @@ gzip-size@^5.0.0:
   dependencies:
     duplexer "^0.1.1"
     pify "^4.0.1"
+
+hammerjs@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
+  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
 
 handle-thing@^2.0.0:
   version "2.0.1"
