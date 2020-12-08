@@ -237,15 +237,19 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-10.2.3.tgz#bb678c11822b9bf7ca007703a31dae090dc2c0ab"
   integrity sha512-8rtNG3HjBdUMlKcakh6gDfFvYSS5X16ymbVR0i2L/Nc4d9HuqgKrIrsNY4We/jSBoAjo/CGS8AvbscMa8oW4Eg==
 
-"@angular/material-moment-adapter@^9.2.4":
-  version "9.2.4"
-  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-9.2.4.tgz#4d3cfcd5c2b8914bcca4e70a46cf7ec127c14b40"
-  integrity sha512-V5xkL+YUec3nDGRaJB72mJTUtdUvGaG9WCQEdr45viDWFGjQaEpS6msuScBLp0PwsN8Wt0n69eZg0ULgxPBa5g==
+"@angular/material-moment-adapter@^10.2.7":
+  version "10.2.7"
+  resolved "https://registry.yarnpkg.com/@angular/material-moment-adapter/-/material-moment-adapter-10.2.7.tgz#91f7af33cced44a5f698c5babac83cf8261d6381"
+  integrity sha512-VaigAiBCz10AvpzgZvdR4SCGnMRxXKx8ukUdeowuoqAFONEPpRdCJmwZ+8bpi9Q/jXlrZJicCMhklj4bBQw6tg==
+  dependencies:
+    tslib "^2.0.0"
 
-"@angular/material@^9.2.4":
-  version "9.2.4"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-9.2.4.tgz#2666ef606fbb88d60f8e2f18c5e4f94a3dd572d8"
-  integrity sha512-LkoTXE6B0slvMhvfZDdPWaz4yaYLkaAp5VSPunI9pxGsPxzqEV9e210wC1/sjG/76Nk8Ep7/2z9XKac8Q9bMwA==
+"@angular/material@^10.2.7":
+  version "10.2.7"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-10.2.7.tgz#b84aeeca997dc64fbcc7969540e22434315bab68"
+  integrity sha512-uk6JkRrKHaM9VFMzX7pWC83YNLVgXPB3D8U1yjSOafCdWwrRZgUHGr8MPlSILCr3o2nxgg5SsKdWcWwHuXXUZA==
+  dependencies:
+    tslib "^2.0.0"
 
 "@angular/platform-browser-dynamic@10.2.3":
   version "10.2.3"
