@@ -2375,10 +2375,10 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@nationallibraryofnorway/ngx-mime@^10.0.0":
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/@nationallibraryofnorway/ngx-mime/-/ngx-mime-10.0.0.tgz#ddb58ebfaa59864c1ef0e4b694a6f3e84fc82803"
-  integrity sha512-b/ZDflDYRcYMMUt0i53ozD4TRvmqIfVNjJVI4WnJPMxezcwOdfTOaXAr2zhliU0htWXkUMmKNUY/5FWPDVr6ZQ==
+"@nationallibraryofnorway/ngx-mime@^11.0.0":
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/@nationallibraryofnorway/ngx-mime/-/ngx-mime-11.0.3.tgz#06051ec59aaf7de2f30c199ea23bdb37b6f5c83c"
+  integrity sha512-X0u3mqoVkFUXWN2W/3HrwONzIJWYiMNgtFarsL+OFapr5gyiTUnE+dqZqsYD+jGpO7qI9r2Nq+fGcRAGcB5PGQ==
   dependencies:
     tslib "^2.0.0"
 
