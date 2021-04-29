@@ -51,7 +51,7 @@
     "@angular/platform-server": "^11.2.12",
     "@angular/router": "11.2.12",
     "@angular/service-worker": "11.2.12",
-    "@nationallibraryofnorway/ngx-mime": "^11.0.0",
+    "@nationallibraryofnorway/ngx-mime": "^11.0.3",
     "@ngrx/effects": "11.1.1",
     "@ngrx/entity": "11.1.1",
     "@ngrx/router-store": "11.1.1",
