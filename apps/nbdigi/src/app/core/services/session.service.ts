@@ -39,8 +39,6 @@ export class SessionService {
       this.afAuth.authState.pipe().subscribe(
         (authState) => {
           if (authState) {
-            console.log(authState);
-
             const user = {
               uid: authState.uid,
               displayName: authState.displayName,
@@ -55,8 +53,6 @@ export class SessionService {
                 this.authFacade.signedIn({
                   ...user,
                 });
-                console.log(u);
-                console.log('theme', this.currentTheme);
                 if (u.theme !== this.currentTheme) {
                   this.appFacade.setTheme(u.theme);
                 }

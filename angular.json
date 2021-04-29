@@ -15,7 +15,7 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "aot": true,
             "outputPath": "dist/apps/nbdigi",
@@ -38,7 +38,18 @@
             ],
             "scripts": [
               "node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
-            ]
+            ],
+            "customWebpackConfig": {
+              "path": "./webpack.config.ts",
+              "replaceDuplicatePlugins": true,
+              "mergeStrategies": {
+                "externals": "prepend"
+              }
+            },
+            "allowedCommonJsDependencies": [
+              "hammerjs",
+              "openseadragon"
+           ]
           },
           "configurations": {
             "production": {
