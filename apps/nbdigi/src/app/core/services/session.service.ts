@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
@@ -26,32 +26,37 @@ export class SessionService {
   init() {
     this.ngZone.runOutsideAngular(() => {
       this.afAuth.authState.pipe().subscribe(
-        authState => {
+        (authState) => {
           if (authState) {
+            console.log(authState);
+            
             const user = {
               uid: authState.uid,
               displayName: authState.displayName,
-              email: authState.email
+              email: authState.email,
             };
             this.userService.createUserIfNotExists(user);
             this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
             this.userRef
               .valueChanges()
-              .pipe(filter(u => u !== null))
-              .subscribe(u => {
+              .pipe(filter((u) => u !== null))
+              .subscribe((u) => {
                 this.authFacade.signedIn({
-                  ...user
+                  ...user,
                 });
+                console.log(u);
+                /*
                 this.appFacade.setTheme(u.theme);
                 u.isDebugOn
                   ? this.appFacade.debugOn()
                   : this.appFacade.debugOff();
+                  */
               });
           } else {
             this.authFacade.signOut();
           }
         },
-        err => console.log('errr', err)
+        (err) => console.log('errr', err)
       );
     });
     const showDateGraph: boolean = Boolean(
@@ -64,8 +69,10 @@ export class SessionService {
 
   updateTheme(theme: string) {
     if (theme) {
+      console.log(theme);
+      
       this.userRef.update({
-        theme: theme
+        theme: theme,
       });
     }
   }
@@ -76,7 +83,7 @@ export class SessionService {
       .doc(item.id)
       .set({
         ...item,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        timestamp: firebase.firestore.Timestamp.now(),
       });
   }
 }

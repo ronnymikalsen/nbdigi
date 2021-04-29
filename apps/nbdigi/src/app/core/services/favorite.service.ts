@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
-  AngularFirestoreCollection
+  AngularFirestoreCollection,
 } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
@@ -20,8 +20,9 @@ export class FavoriteService {
     private favoriteFacade: FavoriteFacade,
     private authFacade: AuthFacade
   ) {
+    /*
     this.authFacade.currentUser$
-      .pipe(filter(user => user !== null))
+      .pipe(filter((user) => user !== null))
       .subscribe((user: User) => {
         this.favoritesRef = afs
           .collection('users')
@@ -40,7 +41,7 @@ export class FavoriteService {
                     this.favoriteFacade.setList({
                       id: list.id,
                       name: list.name,
-                      items: i
+                      items: i,
                     });
                   });
               }
@@ -48,17 +49,17 @@ export class FavoriteService {
           )
           .subscribe();
       });
+      */
   }
 
   public addList(name: string): Observable<void> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       const id = <string>Md5.hashStr(name);
       this.favoritesRef
         .doc(id)
         .set({
           id: id,
           name: name,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
         })
         .then(() => observer.next());
     });
@@ -68,25 +69,23 @@ export class FavoriteService {
     favoriteList: FavoriteList,
     newName: string
   ): Observable<void> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       this.favoritesRef
         .doc(favoriteList.id)
         .update({
-          name: newName
+          name: newName,
         })
         .then(() => observer.next());
     });
   }
 
   public removeList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       const batch = this.afs.firestore.batch();
-      favoriteList.items.forEach(i => {
+      favoriteList.items.forEach((i) => {
         batch.delete(
-          this.favoritesRef
-            .doc(favoriteList.id)
-            .collection('items')
-            .doc(i.id).ref
+          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
+            .ref
         );
       });
       batch.delete(this.favoritesRef.doc(favoriteList.id).ref);
@@ -95,18 +94,16 @@ export class FavoriteService {
   }
 
   public addToList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       const batch = this.afs.firestore.batch();
 
-      favoriteList.items.forEach(i => {
+      favoriteList.items.forEach((i) => {
         batch.set(
-          this.favoritesRef
-            .doc(favoriteList.id)
-            .collection('items')
-            .doc(i.id).ref,
+          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
+            .ref,
           {
             ...i,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           }
         );
       });
@@ -115,15 +112,13 @@ export class FavoriteService {
   }
 
   public removeFromList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create(observer => {
+    return Observable.create((observer) => {
       const batch = this.afs.firestore.batch();
 
-      favoriteList.items.forEach(i => {
+      favoriteList.items.forEach((i) => {
         batch.delete(
-          this.favoritesRef
-            .doc(favoriteList.id)
-            .collection('items')
-            .doc(i.id).ref
+          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
+            .ref
         );
       });
       batch.commit().then(() => observer.next());

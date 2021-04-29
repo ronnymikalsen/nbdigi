@@ -1,46 +1,39 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  AngularFirestoreDocument
-} from '@angular/fire/firestore';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
-import { User } from '../../core/models';
+import { map, tap } from 'rxjs/operators';
 import { SessionService } from '../../core/services/session.service';
-import { AuthFacade } from '../auth/auth.facade';
+import { UserService } from '../../core/services/user.service';
 import { AppActionTypes } from './app.actions';
 
 @Injectable()
 export class AppEffects {
-  private userRef: AngularFirestoreDocument<User>;
-
   @Effect({ dispatch: false })
   debugOn: Observable<Action> = this.actions.pipe(
     ofType(AppActionTypes.DebugOn),
-    tap(() =>
-      this.userRef.update({
-        isDebugOn: true
-      })
-    )
+    tap(() => {
+      this.userService.updateUser({
+        isDebugOn: true,
+      });
+    })
   );
 
   @Effect({ dispatch: false })
   debugOff: Observable<Action> = this.actions.pipe(
     ofType(AppActionTypes.DebugOff),
-    tap(() =>
-      this.userRef.update({
-        isDebugOn: false
-      })
-    )
+    tap(() => {
+      this.userService.updateUser({
+        isDebugOn: false,
+      });
+    })
   );
 
   @Effect({ dispatch: false })
   theme: Observable<Action> = this.actions.pipe(
     ofType(AppActionTypes.SetTheme),
     map((action: any) => action.payload),
-    tap(theme => {
+    tap((theme) => {
       localStorage.setItem('currentTheme', theme);
       this.sessionService.updateTheme(theme);
     })
@@ -67,13 +60,6 @@ export class AppEffects {
   constructor(
     private actions: Actions,
     private sessionService: SessionService,
-    private afs: AngularFirestore,
-    private authFacade: AuthFacade
-  ) {
-    this.authFacade.currentUser$
-      .pipe(filter(user => user !== null))
-      .subscribe((user: User) => {
-        this.userRef = afs.doc<User>(`users/${user.uid}`);
-      });
-  }
+    private userService: UserService
+  ) {}
 }

@@ -10,7 +10,7 @@ export class AuthService {
 
   signUpWithEmailAndPassword(email: string, password: string): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
+      this.afAuth
         .createUserWithEmailAndPassword(email, password)
         .then(res => {
           observer.next(res);
@@ -23,8 +23,7 @@ export class AuthService {
 
   signInWithEmailAndPassword(email: string, password: string): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
-        .signInWithEmailAndPassword(email, password)
+      this.afAuth.signInWithEmailAndPassword(email, password)
         .then(res => {
           observer.next(res);
         })
@@ -36,8 +35,7 @@ export class AuthService {
 
   signInWithGoogle(): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
-        .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(res => {
           observer.next(res);
         })
@@ -49,8 +47,7 @@ export class AuthService {
 
   sendPasswordResetEmail(email: string): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
-        .sendPasswordResetEmail(email)
+      this.afAuth.sendPasswordResetEmail(email)
         .then(res => {
           observer.next(res);
         })
@@ -62,8 +59,7 @@ export class AuthService {
 
   confirmPasswordReset(code: string, newPassword: string): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
-        .confirmPasswordReset(code, newPassword)
+      this.afAuth.confirmPasswordReset(code, newPassword)
         .then(res => {
           observer.next(res);
         })
@@ -75,8 +71,7 @@ export class AuthService {
 
   signOut(): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.auth
-        .signOut()
+      this.afAuth.signOut()
         .then(res => {
           observer.next(res);
         })

@@ -30,4 +30,12 @@ export class UserService {
       });
     }
   }
+
+  public updateUser(user: User) {
+    if (this.userRef) {
+      this.userRef.ref.get().then(u => {
+         this.userRef.update(user);
+      });
+    }
+  }
 }

@@ -12,7 +12,8 @@
     "baseUrl": ".",
     "paths": {},
     "module": "esnext",
-    "rootDir": "."
+    "rootDir": ".",
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "tmp"]
 }
