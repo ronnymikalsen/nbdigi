@@ -67,7 +67,7 @@
     "ngx-clipboard": "^14.0.1",
     "ngx-infinite-scroll": "^10.0.0",
     "openseadragon": "^2.4.0",
-    "rxjs": "6.5.5",
+    "rxjs": "6.6.7",
     "ts-md5": "^1.2.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
