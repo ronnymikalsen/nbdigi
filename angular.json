@@ -70,7 +70,10 @@
                 }
               ]
             }
-          }
+          },
+          "outputs": [
+            "{options.outputPath}"
+          ]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -96,7 +99,9 @@
               "apps/nbdigi/tsconfig.app.json",
               "apps/nbdigi/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "test": {
@@ -104,7 +109,10 @@
           "options": {
             "jestConfig": "apps/nbdigi/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": [
+            "coverage/apps/nbdigi/"
+          ]
         }
       }
     },
@@ -129,7 +137,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
