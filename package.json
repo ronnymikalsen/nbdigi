@@ -62,7 +62,7 @@
     "classlist.js": "^1.1.20150312",
     "d3": "^6.7.0",
     "firebase": "^8.4.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.1",
     "ng-lazyload-image": "^7.1.0",
     "ngx-clipboard": "^14.0.1",
     "ngx-infinite-scroll": "^10.0.0",
