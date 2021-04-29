@@ -40,7 +40,7 @@ export class ItemEffects {
     tap((action: Change) =>
       this.itemsRef.doc(action.payload.id).set({
         ...action.payload,
-        timestamp: firebase.firestore.Timestamp.now()
+        timestamp: firebase.default.firestore.Timestamp.now()
       })
     )
   );

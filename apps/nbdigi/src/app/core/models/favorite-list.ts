@@ -4,5 +4,5 @@ export interface FavoriteList {
   id?: string;
   name?: string;
   items?: Item[];
-  timestamp?: firebase.firestore.Timestamp;
+  timestamp?: firebase.default.firestore.Timestamp;
 }

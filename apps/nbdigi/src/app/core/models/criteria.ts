@@ -12,7 +12,7 @@ export class Criteria {
   genre?: Genre;
   date? = new DateOptions().anytime;
   sort?: Sort = new SortOptions().relevance;
-  timestamp?: firebase.firestore.FieldValue;
+  timestamp?: firebase.default.firestore.FieldValue;
   hash?: string = null;
 
   constructor(fields?: {
@@ -22,7 +22,7 @@ export class Criteria {
     genre?: Genre;
     date?: DateOption;
     sort?: Sort;
-    timestamp?: firebase.firestore.FieldValue;
+    timestamp?: firebase.default.firestore.FieldValue;
     hash?: string;
   }) {
     if (fields) {

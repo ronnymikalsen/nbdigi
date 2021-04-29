@@ -14,6 +14,9 @@ import { UserService } from './user.service';
 @Injectable()
 export class SessionService {
   private userRef: AngularFirestoreDocument<User>;
+  private currentTheme: string;
+  private debugon: boolean;
+
   constructor(
     private ngZone: NgZone,
     private afAuth: AngularFireAuth,
@@ -24,12 +27,20 @@ export class SessionService {
   ) {}
 
   init() {
+    this.appFacade.currentTheme$.subscribe((theme) => {
+      this.currentTheme = theme;
+    });
+
+    this.appFacade.isDebugOn$.subscribe((debugon) => {
+      this.debugon = debugon;
+    });
+
     this.ngZone.runOutsideAngular(() => {
       this.afAuth.authState.pipe().subscribe(
         (authState) => {
           if (authState) {
             console.log(authState);
-            
+
             const user = {
               uid: authState.uid,
               displayName: authState.displayName,
@@ -45,12 +56,15 @@ export class SessionService {
                   ...user,
                 });
                 console.log(u);
-                /*
-                this.appFacade.setTheme(u.theme);
-                u.isDebugOn
-                  ? this.appFacade.debugOn()
-                  : this.appFacade.debugOff();
-                  */
+                console.log('theme', this.currentTheme);
+                if (u.theme !== this.currentTheme) {
+                  this.appFacade.setTheme(u.theme);
+                }
+                if (u.isDebugOn !== this.debugon) {
+                  u.isDebugOn
+                    ? this.appFacade.debugOn()
+                    : this.appFacade.debugOff();
+                }
               });
           } else {
             this.authFacade.signOut();
@@ -70,7 +84,7 @@ export class SessionService {
   updateTheme(theme: string) {
     if (theme) {
       console.log(theme);
-      
+
       this.userRef.update({
         theme: theme,
       });
@@ -83,7 +97,7 @@ export class SessionService {
       .doc(item.id)
       .set({
         ...item,
-        timestamp: firebase.firestore.Timestamp.now(),
+        timestamp: firebase.default.firestore.Timestamp.now(),
       });
   }
 }

@@ -35,7 +35,7 @@ export class AuthService {
 
   signInWithGoogle(): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      this.afAuth.signInWithPopup(new firebase.default.auth.GoogleAuthProvider())
         .then(res => {
           observer.next(res);
         })

@@ -1,9 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
-import { AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { User } from 'firebase';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { AuthService, UserService } from '../../core/services';

@@ -103,7 +103,7 @@ export class FavoriteService {
             .ref,
           {
             ...i,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            timestamp: firebase.default.firestore.FieldValue.serverTimestamp(),
           }
         );
       });

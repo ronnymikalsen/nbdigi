@@ -111,7 +111,7 @@ export class Item {
   public thumbnail: string = null;
   public manifestUri: string = null;
   public currentCanvasId = 0;
-  public timestamp: firebase.firestore.Timestamp;
+  public timestamp: firebase.default.firestore.Timestamp;
   public selfLink? = null;
   public urn: string = null;
   public oaiId: string = null;
@@ -125,7 +125,7 @@ export class Item {
     thumbnail?: string;
     manifestUri?: string;
     currentCanvasId?: number;
-    timestamp?: firebase.firestore.Timestamp;
+    timestamp?: firebase.default.firestore.Timestamp;
     selfLink?: string;
     urn?: string;
     oaiId?: string;

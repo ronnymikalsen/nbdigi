@@ -82,7 +82,7 @@ export class SearchEffects {
               viewValue: storeState.search.criteria.genre.viewValue
             }
           : null,
-        timestamp: firebase.firestore.Timestamp.now()
+        timestamp: firebase.default.firestore.Timestamp.now()
       };
       const createHash = new Criteria(hint);
       this.criteriasRef.doc(<string>createHash.hash).set(hint);
