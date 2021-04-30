@@ -51,11 +51,6 @@ export function httpFactory(handler: HttpHandler) {
     CheckForUpdateService,
     PresentationService,
     ItemDetailsService
-  ],
-  entryComponents: [
-    SwUpdateMessageComponent,
-    DatePickerDialogComponent,
-    ItemDetailsComponent
   ]
 })
 export class CoreModule {}

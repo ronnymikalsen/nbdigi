@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Md5 } from 'ts-md5';
 import { Hint } from './hints.model';
 import { DateOption, DateOptions } from './date-options';

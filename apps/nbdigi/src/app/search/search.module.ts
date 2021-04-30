@@ -33,7 +33,6 @@ import { SearchRoutingModule } from './search-routing.module';
     MediaTypeOptionComponent,
     SearchResultChartComponent
   ],
-  entryComponents: [],
   exports: [],
   providers: []
 })

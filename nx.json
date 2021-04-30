@@ -3,18 +3,19 @@
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
-    "tsconfig.json": "*",
     "tslint.json": "*",
-    "nx.json": "*"
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
   },
   "projects": {
     "nbdigi": {
-      "tags": [
-        "nbd"
-      ]
+      "tags": ["nbd"]
     },
     "nbdigi-e2e": {
       "tags": []
     }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

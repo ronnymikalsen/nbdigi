@@ -1,6 +1,6 @@
 import { Inject, Pipe, PipeTransform } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Pipe({
   name: 'dateFormat'

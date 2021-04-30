@@ -1,5 +1,16 @@
 module.exports = {
-  name: 'nbdigi',
-  preset: '../../jest.config.js',
-  coverageDirectory: '../../coverage/apps/nbdigi/'
+  preset: '../../jest.preset.js',
+  coverageDirectory: '../../coverage/apps/nbdigi/',
+  setupFilesAfterEnv: ['<rootDir>src/test-setup.ts'],
+  globals: {
+    'ts-jest': {
+      tsConfig: '<rootDir>tsconfig.spec.json',
+      stringifyContentPathRegex: '\\.(html|svg)$',
+      astTransformers: [
+        'jest-preset-angular/build/InlineFilesTransformer',
+        'jest-preset-angular/build/StripStylesTransformer',
+      ],
+    },
+  },
+  displayName: 'nbdigi',
 };

@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, exhaustMap, map, take, tap } from 'rxjs/operators';
@@ -37,8 +37,8 @@ import {
 
 @Injectable()
 export class FavoriteEffects {
-  @Effect()
-  openAddToListDialog: Observable<Action> = this.actions.pipe(
+  
+  openAddToListDialog: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(FavoriteActionTypes.OpenAddToListDialog),
     map(action => action),
     exhaustMap((action: OpenAddToListDialog) =>
@@ -61,10 +61,10 @@ export class FavoriteEffects {
         )
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect()
-  addToList: Observable<Action> = this.actions.pipe(
+  
+  addToList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<AddToList>(FavoriteActionTypes.AddToList),
     map(action => action.payload),
     exhaustMap((favoriteList: FavoriteList) =>
@@ -76,28 +76,28 @@ export class FavoriteEffects {
       )
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  addToListSuccess: Observable<Action> = this.actions.pipe(
+  
+  addToListSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(FavoriteActionTypes.AddToListSuccess),
     tap(() => {
       this.snackBar.open('Lagt til i din liste', null, {
         duration: 2000
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  openList: Observable<Action> = this.actions.pipe(
+  
+  openList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<OpenList>(FavoriteActionTypes.OpenList),
     tap((action: OpenList) =>
       this.ngZone.run(() =>this.router.navigate(['/mylibrary', action.payload]))
     )
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  addList: Observable<Action> = this.actions.pipe(
+  
+  addList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<AddList>(FavoriteActionTypes.AddList),
     map(action => action.payload),
     exhaustMap((listName: string) =>
@@ -106,20 +106,20 @@ export class FavoriteEffects {
         .pipe(map(() => new AddListSuccess()))
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  addListSuccess: Observable<Action> = this.actions.pipe(
+  
+  addListSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<AddList>(FavoriteActionTypes.AddList),
     tap(() => {
       this.snackBar.open('Ny liste er lagret', null, {
         duration: 2000
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  openRenameListDialog: Observable<Action> = this.actions.pipe(
+  
+  openRenameListDialog: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<OpenRenameListDialog>(FavoriteActionTypes.OpenRenameListDialog),
     map(action => action.payload),
     exhaustMap((favoriteList: FavoriteList) =>
@@ -140,10 +140,10 @@ export class FavoriteEffects {
         )
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect()
-  renameList: Observable<Action> = this.actions.pipe(
+  
+  renameList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RenameList>(FavoriteActionTypes.RenameList),
     map(action => action.payload),
     exhaustMap((result: any) =>
@@ -152,20 +152,20 @@ export class FavoriteEffects {
         map(() => new RenameListSuccess())
       )
     )
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  renameListSuccess: Observable<Action> = this.actions.pipe(
+  
+  renameListSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveListSuccess>(FavoriteActionTypes.RenameListSuccess),
     tap(() => {
       this.snackBar.open('Listen har fått nytt navn', null, {
         duration: 2000
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  removeList: Observable<Action> = this.actions.pipe(
+  
+  removeList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveList>(FavoriteActionTypes.RemoveList),
     map(action => action),
     exhaustMap((action: RemoveList) =>
@@ -182,10 +182,10 @@ export class FavoriteEffects {
           })
         )
     )
-  );
+  ));
 
-  @Effect()
-  removeListConfirmed: Observable<Action> = this.actions.pipe(
+  
+  removeListConfirmed: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveListConfirmed>(FavoriteActionTypes.RemoveListConfirmed),
     map(action => action.payload),
     exhaustMap((favoriteList: FavoriteList) => {
@@ -199,10 +199,10 @@ export class FavoriteEffects {
         return of(new RemoveListCancelled());
       }
     })
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  removeListSuccess: Observable<Action> = this.actions.pipe(
+  
+  removeListSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveListSuccess>(FavoriteActionTypes.RemoveListSuccess),
     tap(() => {
       this.snackBar.open('Listen er slettet', null, {
@@ -210,10 +210,10 @@ export class FavoriteEffects {
       });
       this.ngZone.run(() => this.router.navigate(['/mylibrary']));
     })
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  removeFromList: Observable<Action> = this.actions.pipe(
+  
+  removeFromList: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveFromList>(FavoriteActionTypes.RemoveFromList),
     map(action => action.payload),
     exhaustMap((favoriteList: FavoriteList) =>
@@ -231,10 +231,10 @@ export class FavoriteEffects {
         )
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect()
-  removeFromListConfirmed: Observable<Action> = this.actions.pipe(
+  
+  removeFromListConfirmed: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveFromListConfirmed>(
       FavoriteActionTypes.RemoveFromListConfirmed
     ),
@@ -245,20 +245,20 @@ export class FavoriteEffects {
         .pipe(map(() => new RemoveFromListSuccess()))
     ),
     catchError(err => of(new Error(err)))
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  removeFromListSuccess: Observable<Action> = this.actions.pipe(
+  
+  removeFromListSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<RemoveFromListSuccess>(FavoriteActionTypes.RemoveFromListSuccess),
     tap(() => {
       this.snackBar.open('Fjernet fra din liste', null, {
         duration: 2000
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  error: Observable<Action> = this.actions.pipe(
+  
+  error: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<Error>(FavoriteActionTypes.Error),
     tap(err => {
       console.error(err);
@@ -267,7 +267,7 @@ export class FavoriteEffects {
         panelClass: 'error'
       });
     })
-  );
+  ), { dispatch: false });
 
   constructor(
     public snackBar: MatSnackBar,

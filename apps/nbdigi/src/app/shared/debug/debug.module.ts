@@ -7,7 +7,6 @@ import { IdsDebugDialogComponent } from './components/ids-debug-dialog/ids-debug
 @NgModule({
   imports: [SharedModule],
   declarations: [DebugComponent, IdsDebugDialogComponent, IdCopyValueComponent],
-  entryComponents: [IdsDebugDialogComponent],
   exports: [DebugComponent]
 })
 export class DebugModule {}

@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { YearCount } from './year-count';
 export class SuperSearchResult {
   totalElements = 0;

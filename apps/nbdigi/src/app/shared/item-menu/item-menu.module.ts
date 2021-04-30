@@ -6,7 +6,6 @@ import { ItemMenuButtonComponent } from './item-menu-button/item-menu-button.com
 @NgModule({
   imports: [SharedModule],
   declarations: [ItemMenuButtonComponent, RemoveWarningDialogComponent],
-  entryComponents: [RemoveWarningDialogComponent],
   exports: [ItemMenuButtonComponent]
 })
 export class ItemMenuModule {}
