@@ -79,8 +79,6 @@ export class SessionService {
 
   updateTheme(theme: string) {
     if (theme) {
-      console.log(theme);
-
       this.userRef.update({
         theme: theme,
       });

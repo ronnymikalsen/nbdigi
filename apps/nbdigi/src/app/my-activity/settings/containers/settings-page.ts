@@ -27,8 +27,6 @@ export class SettingsPageComponent {
   }
 
   theme(theme: string) {
-    console.log('set theme');
-    
     this.appFacade.setTheme(theme);
   }
 }

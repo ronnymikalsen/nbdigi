@@ -49,7 +49,7 @@
             "allowedCommonJsDependencies": [
               "hammerjs",
               "openseadragon"
-           ]
+            ]
           },
           "configurations": {
             "production": {
@@ -123,6 +123,10 @@
           "outputs": [
             "coverage/apps/nbdigi/"
           ]
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     },

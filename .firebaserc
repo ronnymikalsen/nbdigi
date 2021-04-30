@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "nbdigi-9637d"
+  },
+  "targets": {
+    "nbdigi-9637d": {
+      "hosting": {
+        "nbdigi": [
+          "nbdigi-9637d"
+        ]
+      }
+    }
   }
 }
