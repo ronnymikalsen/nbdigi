@@ -4,7 +4,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
@@ -91,7 +91,7 @@ export class SessionService {
       .doc(item.id)
       .set({
         ...item,
-        timestamp: firebase.default.firestore.Timestamp.now(),
+        timestamp: firebase.firestore.Timestamp.now(),
       });
   }
 }

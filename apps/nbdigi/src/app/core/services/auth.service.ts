@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AuthError } from '../../core/models';
 
@@ -35,7 +35,7 @@ export class AuthService {
 
   signInWithGoogle(): Observable<any> {
     return Observable.create(observer => {
-      this.afAuth.signInWithPopup(new firebase.default.auth.GoogleAuthProvider())
+      this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then(res => {
           observer.next(res);
         })

@@ -10,7 +10,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -82,7 +82,7 @@ export class SearchEffects {
               viewValue: storeState.search.criteria.genre.viewValue
             }
           : null,
-        timestamp: firebase.default.firestore.Timestamp.now()
+        timestamp: firebase.firestore.Timestamp.now()
       };
       const createHash = new Criteria(hint);
       this.criteriasRef.doc(<string>createHash.hash).set(hint);

@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { YearCount } from './year-count';
 export class SuperSearchResult {
   totalElements = 0;
@@ -111,7 +111,7 @@ export class Item {
   public thumbnail: string = null;
   public manifestUri: string = null;
   public currentCanvasId = 0;
-  public timestamp: firebase.default.firestore.Timestamp;
+  public timestamp: firebase.firestore.Timestamp;
   public selfLink? = null;
   public urn: string = null;
   public oaiId: string = null;
@@ -125,7 +125,7 @@ export class Item {
     thumbnail?: string;
     manifestUri?: string;
     currentCanvasId?: number;
-    timestamp?: firebase.default.firestore.Timestamp;
+    timestamp?: firebase.firestore.Timestamp;
     selfLink?: string;
     urn?: string;
     oaiId?: string;

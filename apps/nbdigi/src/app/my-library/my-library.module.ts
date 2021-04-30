@@ -34,11 +34,6 @@ import { FavoriteListMenuModule } from './shared/favorite-list-menu/favorite-lis
     RemoveFavoriteDialogComponent
   ],
   providers: [],
-  entryComponents: [
-    AddToFavoriteListDialogComponent,
-    RenameFavoriteDialogComponent,
-    RemoveFavoriteDialogComponent
-  ],
   exports: [AddToFavoriteListDialogComponent, CreateFavoriteListComponent]
 })
 export class MyLibraryModule {}

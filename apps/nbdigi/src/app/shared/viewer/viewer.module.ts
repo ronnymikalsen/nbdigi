@@ -9,6 +9,5 @@ import { ViewerPageComponent } from './containers/viewer-page';
 @NgModule({
   imports: [CommonModule, SharedModule, MyLibraryModule, ItemMenuModule],
   declarations: [ViewerPageComponent, ViewerComponent],
-  entryComponents: [ViewerPageComponent]
 })
 export class ViewerModule {}

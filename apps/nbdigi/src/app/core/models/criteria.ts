@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Md5 } from 'ts-md5';
 import { Hint } from './hints.model';
 import { DateOption, DateOptions } from './date-options';
@@ -12,7 +12,7 @@ export class Criteria {
   genre?: Genre;
   date? = new DateOptions().anytime;
   sort?: Sort = new SortOptions().relevance;
-  timestamp?: firebase.default.firestore.FieldValue;
+  timestamp?: firebase.firestore.FieldValue;
   hash?: string = null;
 
   constructor(fields?: {
@@ -22,7 +22,7 @@ export class Criteria {
     genre?: Genre;
     date?: DateOption;
     sort?: Sort;
-    timestamp?: firebase.default.firestore.FieldValue;
+    timestamp?: firebase.firestore.FieldValue;
     hash?: string;
   }) {
     if (fields) {

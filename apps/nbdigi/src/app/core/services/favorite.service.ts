@@ -3,9 +3,8 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/firestore';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { FavoriteFacade } from '../../+state/favorite/favorite.facade';
@@ -103,7 +102,7 @@ export class FavoriteService {
             .ref,
           {
             ...i,
-            timestamp: firebase.default.firestore.FieldValue.serverTimestamp(),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           }
         );
       });

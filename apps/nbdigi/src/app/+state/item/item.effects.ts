@@ -5,7 +5,7 @@ import {
 } from '@angular/fire/firestore';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators';
 import { Item, User } from '../../core/models';
@@ -40,7 +40,7 @@ export class ItemEffects {
     tap((action: Change) =>
       this.itemsRef.doc(action.payload.id).set({
         ...action.payload,
-        timestamp: firebase.default.firestore.Timestamp.now()
+        timestamp: firebase.firestore.Timestamp.now()
       })
     )
   );
