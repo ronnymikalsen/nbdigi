@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -14,8 +14,8 @@ import { HomePartialState } from './home.reducer';
 
 @Injectable()
 export class HomeEffects {
-  @Effect()
-  loadNewItems: Observable<Action> = this.actions.pipe(
+  
+  loadNewItems: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(HomeActionTypes.LoadNewItems),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
@@ -34,7 +34,7 @@ export class HomeEffects {
           catchError(err => of(new LoadError(err)))
         );
     })
-  );
+  ));
 
   constructor(
     private store: Store<HomePartialState>,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -9,53 +9,53 @@ import { AppActionTypes } from './app.actions';
 
 @Injectable()
 export class AppEffects {
-  @Effect({ dispatch: false })
-  debugOn: Observable<Action> = this.actions.pipe(
+  
+  debugOn: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AppActionTypes.DebugOn),
     tap(() => {
       this.userService.updateUser({
         isDebugOn: true,
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  debugOff: Observable<Action> = this.actions.pipe(
+  
+  debugOff: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AppActionTypes.DebugOff),
     tap(() => {
       this.userService.updateUser({
         isDebugOn: false,
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  theme: Observable<Action> = this.actions.pipe(
+  
+  theme: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AppActionTypes.SetTheme),
     map((action: any) => action.payload),
     tap((theme) => {
       localStorage.setItem('currentTheme', theme);
       this.sessionService.updateTheme(theme);
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  showDateGraph: Observable<Action> = this.actions.pipe(
+  
+  showDateGraph: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AppActionTypes.ShowDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + true);
     })
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  hideDateGraph: Observable<Action> = this.actions.pipe(
+  
+  hideDateGraph: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AppActionTypes.HideDateGraph),
     map((action: any) => action.payload),
     tap(() => {
       localStorage.setItem('showDateGraph', '' + false);
     })
-  );
+  ), { dispatch: false });
 
   constructor(
     private actions: Actions,

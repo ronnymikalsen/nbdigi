@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
@@ -51,8 +51,8 @@ export class SearchEffects {
   private criteriasRef: AngularFirestoreCollection<Criteria>;
   private user: User;
 
-  @Effect()
-  search: Observable<Action> = this.actions.pipe(
+  
+  search: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.Search),
     tap(() => this.ngZone.run(() => this.router.navigate(['/search']))),
     withLatestFrom(this.store),
@@ -133,10 +133,10 @@ export class SearchEffects {
           );
       }
     })
-  );
+  ));
 
-  @Effect()
-  searchAggregator: Observable<Action> = this.actions.pipe(
+  
+  searchAggregator: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.SearchAggs, SearchActionTypes.SearchSuccess),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
@@ -170,10 +170,10 @@ export class SearchEffects {
           catchError(err => of(new SearchError(err)))
         );
     })
-  );
+  ));
 
-  @Effect()
-  loadMore: Observable<Action> = this.actions.pipe(
+  
+  loadMore: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.LoadMore),
     withLatestFrom(this.store),
     switchMap(([action, storeState]) => {
@@ -216,18 +216,18 @@ export class SearchEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
-  backToPreviousChartRange: Observable<Action> = this.actions.pipe(
+  
+  backToPreviousChartRange: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<ToChartRange>(SearchActionTypes.ToChartRange),
     map(action => action.payload),
     map((date: ChartRangeToOption) => new SetDateCriteriaConfirmed(date.date)),
     catchError(err => of(new SearchError(err)))
-  );
+  ));
 
-  @Effect()
-  setCustomDate: Observable<Action> = this.actions.pipe(
+  
+  setCustomDate: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.SetDateCriteria),
     map(action => action),
     withLatestFrom(this.store),
@@ -283,20 +283,20 @@ export class SearchEffects {
       }
     }),
     catchError(err => of(new SearchError(err)))
-  );
+  ));
 
-  @Effect()
-  setDateCriteriaConfirmed: Observable<Action> = this.actions.pipe(
+  
+  setDateCriteriaConfirmed: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<SetDateCriteriaConfirmed>(
       SearchActionTypes.SetDateCriteriaConfirmed
     ),
     map(action => action.payload),
     map((date: DateOption) => new Search()),
     catchError(err => of(new SearchError(err)))
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  error: Observable<Action> = this.actions.pipe(
+  
+  error: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.SearchError),
     tap(() => {
       this.snackBar.open('Det har oppstått en feil', null, {
@@ -304,10 +304,10 @@ export class SearchEffects {
         panelClass: 'error'
       });
     })
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  loadHints: Observable<Action> = this.actions.pipe(
+  
+  loadHints: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.LoadHints),
     map((action: any) => action),
     withLatestFrom(this.store),
@@ -330,13 +330,13 @@ export class SearchEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
-  clearAll: Observable<Action> = this.actions.pipe(
+  
+  clearAll: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(SearchActionTypes.ClearAll),
     map(() => new CloseItemDetails())
-  );
+  ));
 
   constructor(
     private ngZone: NgZone,

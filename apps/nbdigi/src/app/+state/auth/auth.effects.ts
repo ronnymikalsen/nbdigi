@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
@@ -23,8 +23,8 @@ import {
 
 @Injectable()
 export class AuthEffects {
-  @Effect()
-  signUpWithEmailAndPassword: Observable<Action> = this.actions.pipe(
+  
+  signUpWithEmailAndPassword: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignUpWithEmailAndPassword),
     switchMap((action: SignUpWithEmailAndPassword) => {
       return this.authService
@@ -37,10 +37,10 @@ export class AuthEffects {
           catchError(err => of(new AuthError(err)))
         );
     })
-  );
+  ));
 
-  @Effect()
-  signInWithGoogle: Observable<Action> = this.actions.pipe(
+  
+  signInWithGoogle: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignInWithGoogle),
     switchMap((action: SignInWithGoogle) => {
       return this.authService.signInWithGoogle().pipe(
@@ -49,10 +49,10 @@ export class AuthEffects {
         catchError(err => of(new AuthError(err)))
       );
     })
-  );
+  ));
 
-  @Effect()
-  signInWithEmailAndPassword: Observable<Action> = this.actions.pipe(
+  
+  signInWithEmailAndPassword: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignInWithEmailAndPassword),
     switchMap((action: SignInWithEmailAndPassword) => {
       return this.authService
@@ -66,17 +66,17 @@ export class AuthEffects {
           catchError(err => of(new AuthError(err)))
         );
     })
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  signedIn: Observable<Action> = this.actions.pipe(
+  
+  signedIn: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignedIn),
     map((action: any) => action.payload),
     tap(user => this.userService.createUserIfNotExists(user))
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  sendPasswordResetEmail: Observable<Action> = this.actions.pipe(
+  
+  sendPasswordResetEmail: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmail),
     switchMap((action: SendPasswordResetEmail) => {
       return this.authService.sendPasswordResetEmail(action.payload).pipe(
@@ -84,33 +84,33 @@ export class AuthEffects {
         catchError(err => of(new AuthError(err)))
       );
     })
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  sendPasswordResetEmaildSuccess: Observable<Action> = this.actions.pipe(
+  
+  sendPasswordResetEmaildSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmaildSuccess),
     tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  signOut: Observable<Action> = this.actions.pipe(
+  
+  signOut: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignOut),
     switchMap((action: SignOut) => {
       return this.authService.signOut().pipe(map(() => new SignedOut()));
     })
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  signedOut: Observable<Action> = this.actions.pipe(
+  
+  signedOut: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignedOut),
     tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  signUpSuccess: Observable<Action> = this.actions.pipe(
+  
+  signUpSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignUpSuccess),
     tap(() => this.ngZone.run(() => this.router.navigate(['/home']))),
-  );
+  ), { dispatch: false });
 
   constructor(
     private ngZone: NgZone,

@@ -3,7 +3,7 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from '@angular/fire/firestore';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import firebase from 'firebase/app';
 import { Observable, of } from 'rxjs';
@@ -26,15 +26,15 @@ import {
 export class ItemEffects {
   private itemsRef: AngularFirestoreCollection<Item>;
 
-  @Effect({ dispatch: false })
-  open: Observable<Action> = this.actions.pipe(
+  
+  open: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(ItemActionTypes.Open),
     map(action => action),
     tap((action: Open) => this.viewerService.open(action.payload))
-  );
+  ), { dispatch: false });
 
-  @Effect({ dispatch: false })
-  change: Observable<Action> = this.actions.pipe(
+  
+  change: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(ItemActionTypes.Change),
     map(action => action),
     tap((action: Change) =>
@@ -43,10 +43,10 @@ export class ItemEffects {
         timestamp: firebase.firestore.Timestamp.now()
       })
     )
-  );
+  ), { dispatch: false });
 
-  @Effect()
-  openItemDetails$: Observable<Action> = this.actions.pipe(
+  
+  openItemDetails$: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType<OpenItemDetails>(ItemActionTypes.OpenItemDetails),
     map(action => action.payload),
     switchMap((item: Item) =>
@@ -55,7 +55,7 @@ export class ItemEffects {
         catchError(err => of(new LoadItemDetailsFailure(err)))
       )
     )
-  );
+  ));
 
   constructor(
     private actions: Actions,

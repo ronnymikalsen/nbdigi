@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Effect, Actions } from '@ngrx/effects';
+import { createEffect, Actions } from '@ngrx/effects';
 import { DataPersistence } from '@nrwl/angular';
 
 import { MyActivityPartialState } from './my-activity.reducer';
@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class MyActivityEffects {
-  @Effect() loadMyActivity$ = this.dataPersistence.fetch(
+   loadMyActivity$ = createEffect(() => this.dataPersistence.fetch(
     MyActivityActionTypes.LoadMyActivity,
     {
       run: (action: LoadMyActivity, state: MyActivityPartialState) => {
@@ -25,7 +25,7 @@ export class MyActivityEffects {
         return new MyActivityLoadError(error);
       }
     }
-  );
+  ));
 
   constructor(
     private actions$: Actions,
