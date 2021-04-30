@@ -9,7 +9,7 @@
     *ngIf="search.criteria.filters?.length > 0"
     class="filters-container"
   >
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
       <mat-chip-list *ngFor="let filter of search.criteria.filters">
         <mat-chip
           color="accent"
