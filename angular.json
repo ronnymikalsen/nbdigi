@@ -46,10 +46,7 @@
                 "externals": "prepend"
               }
             },
-            "allowedCommonJsDependencies": [
-              "hammerjs",
-              "openseadragon"
-            ]
+            "allowedCommonJsDependencies": ["hammerjs", "openseadragon"]
           },
           "configurations": {
             "production": {
@@ -81,9 +78,7 @@
               ]
             }
           },
-          "outputs": [
-            "{options.outputPath}"
-          ]
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -109,9 +104,7 @@
               "apps/nbdigi/tsconfig.app.json",
               "apps/nbdigi/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "test": {
@@ -120,9 +113,7 @@
             "jestConfig": "apps/nbdigi/jest.config.js",
             "passWithNoTests": true
           },
-          "outputs": [
-            "coverage/apps/nbdigi/"
-          ]
+          "outputs": ["coverage/apps/nbdigi/"]
         },
         "deploy": {
           "builder": "@angular/fire:deploy",
@@ -151,9 +142,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

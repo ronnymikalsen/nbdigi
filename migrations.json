@@ -1,193 +1,122 @@
 {
   "migrations": [
     {
-      "version": "9.3.0-beta.1",
-      "description": "Update prettier to v2",
-      "factory": "./src/migrations/update-9-3-0/update-9-3-0",
-      "package": "@nrwl/workspace",
-      "name": "update-9-3-0"
+      "cli": "nx",
+      "version": "12.3.1",
+      "description": "Remove deprecated options and update others according to new defaults. It syncs with the v12 migration of Angular builders.",
+      "factory": "./src/migrations/update-12-3-0/update-webpack-browser-config",
+      "package": "@nrwl/angular",
+      "name": "update-webpack-browser-config"
     },
     {
-      "version": "9.4.0-beta.1",
-      "description": "Remove config builder option when using eslint to enable automatic detection",
-      "factory": "./src/migrations/update-9-4-0/update-eslint-config",
-      "package": "@nrwl/workspace",
-      "name": "update-eslint-config"
+      "cli": "nx",
+      "version": "12.3.1",
+      "description": "Updates storybook configurations to support webpack 5",
+      "factory": "./src/migrations/update-12-3-0/update-storybook",
+      "package": "@nrwl/angular",
+      "name": "update-storybook"
     },
     {
-      "version": "9.4.0-beta.1",
-      "description": "Fix exclude patterns in tslint and eslint to ensure it does not break linting when a files option is defined",
-      "factory": "./src/migrations/update-9-4-0/update-linters-exclude",
-      "package": "@nrwl/workspace",
-      "name": "update-linters-exclude"
+      "cli": "nx",
+      "version": "12.3.1",
+      "description": "Migrates some rules that have changed in Angular EsLint",
+      "factory": "./src/migrations/update-12-3-0/update-angular-eslint-rules",
+      "package": "@nrwl/angular",
+      "name": "update-angular-eslint-rules"
     },
     {
-      "version": "9.4.0-beta.1",
-      "description": "Decorate cli to enable computation caching",
-      "factory": "./src/migrations/update-9-4-0/add-decorate-cli",
-      "package": "@nrwl/workspace",
-      "name": "add-decorate-cli"
+      "cli": "nx",
+      "version": "12.3.5-beta.0",
+      "description": "Convert targets using @nrwl/angular:webpack-browser with the buildTarget option set to use the @nrwl/angular:delegate-build executor instead.",
+      "factory": "./src/migrations/update-12-3-0/convert-webpack-browser-build-target-to-delegate-build",
+      "package": "@nrwl/angular",
+      "name": "convert-webpack-browser-build-target-to-delegate-build"
     },
     {
-      "version": "10.0.0-beta.0",
-      "description": "Add default branch to nx.json",
-      "factory": "./src/migrations/update-10-0-0/update-10-0-0",
-      "package": "@nrwl/workspace",
-      "name": "add-default-branch-to-nx-json"
+      "version": "12.0.0-next.0",
+      "factory": "./update-12/update-angular-config",
+      "description": "Remove deprecated options from 'angular.json' that are no longer present in v12.",
+      "package": "@angular/cli",
+      "name": "update-angular-config-v12"
     },
     {
-      "version": "10.0.0-beta.0",
-      "description": "Migrate tsconfigs to solution style tsconfigs",
-      "factory": "./src/migrations/update-10-0-0/solution-tsconfigs",
-      "package": "@nrwl/workspace",
-      "name": "solution-tsconfigs"
+      "version": "12.0.0-next.1",
+      "factory": "./update-12/update-zonejs",
+      "description": "Update 'zone.js' to version 0.11.x. Read more about this here: https://github.com/angular/angular/blob/master/packages/zone.js/CHANGELOG.md#breaking-changes-since-zonejs-v0111",
+      "package": "@angular/cli",
+      "name": "update-zonejs"
     },
     {
-      "version": "10.0.1-beta.0",
-      "description": "Migrate .eslintrc files to reference new tsconfig",
-      "factory": "./src/migrations/update-10-0-1/migrate-eslintrc",
-      "package": "@nrwl/workspace",
-      "name": "migrate-eslintrc-tsconfig"
+      "version": "12.0.0-next.2",
+      "factory": "./update-12/remove-emit-decorator-metadata",
+      "description": "Remove 'emitDecoratorMetadata' TypeScript compiler option. Decorator metadata is no longer needed by Angular. Read more about this here: https://www.typescriptlang.org/docs/handbook/decorators.html#metadata",
+      "package": "@angular/cli",
+      "name": "remove-emit-decorator-metadata"
     },
     {
-      "version": "10.1.0-beta.0",
-      "description": "Migrate .eslintrc files to use tsconfig with a wildcard",
-      "factory": "./src/migrations/update-10-1-0/migrate-eslintrc-tsconfig-wildcard",
-      "package": "@nrwl/workspace",
-      "name": "migrate-eslintrc-tsconfig-wildcard"
+      "version": "12.0.0-next.4",
+      "factory": "./update-12/update-lazy-module-paths",
+      "description": "Lazy loading syntax migration. Update lazy loading string syntax to use dynamic imports.",
+      "package": "@angular/cli",
+      "name": "lazy-loading-string-syntax"
     },
     {
-      "version": "10.3.0-beta.0",
-      "description": "Add @nrwl/cli as dependency",
-      "factory": "./src/migrations/update-10-3-0/add-cli-dependency",
-      "package": "@nrwl/workspace",
-      "name": "add-cli-dependency"
+      "version": "12.0.0-next.7",
+      "factory": "./update-9/update-i18n#updateI18nConfig",
+      "description": "Remove deprecated ViewEngine-based i18n build and extract options. Options present in the configuration will be converted to use non-deprecated options.",
+      "package": "@angular/cli",
+      "name": "remove-deprecated-i18n-options"
     },
     {
-      "version": "10.3.0-beta.0",
-      "description": "Update typescript to v4",
-      "factory": "./src/migrations/update-10-3-0/update-typescript",
-      "package": "@nrwl/workspace",
-      "name": "update-10-3-0"
+      "version": "12.0.0-next.7",
+      "factory": "./update-12/update-web-workers",
+      "description": "Updates Web Worker consumer usage to use the new syntax supported directly by Webpack 5.",
+      "package": "@angular/cli",
+      "name": "update-web-workers-webpack-5"
     },
     {
-      "version": "10.3.0-beta.1",
-      "description": "Adds .vscode/extensions.json to a workspace",
-      "factory": "./src/migrations/update-10-3-0/add-vscode-extensions",
-      "package": "@nrwl/workspace",
-      "name": "add-vscode-extensions"
+      "version": "12.0.1",
+      "factory": "./update-12/schematic-options",
+      "description": "Remove invalid 'skipTests' option in '@schematics/angular:module' Angular schematic options.",
+      "package": "@angular/cli",
+      "name": "schematic-options-12"
     },
     {
-      "version": "10.3.0-beta.0",
-      "description": "Adds `buildableProjectDepsInPackageJsonType` for web and angular package builders",
-      "factory": "./src/migrations/update-10-3-0/add-buildable-project-deps-in-package-json-type",
-      "package": "@nrwl/workspace",
-      "name": "add-buildable-project-deps-in-package-json-type"
-    },
-    {
-      "version": "10.4.0-beta.5",
-      "description": "Add an explicit dependency on @nrwl/tao",
-      "factory": "./src/migrations/update-10-4-0/add-explicit-dep-on-tao",
-      "package": "@nrwl/workspace",
-      "name": "add-explicit-dep-on-tao"
-    },
-    {
-      "version": "10.0.0-beta",
-      "description": "Missing @Injectable and incomplete provider definition migration. As of Angular 9, enforcement of @Injectable decorators for DI is a bit stricter and incomplete provider definitions behave differently. Read more about this here: https://v9.angular.io/guide/migration-injectable",
-      "factory": "./migrations/missing-injectable/index",
+      "version": "12.0.0-beta",
+      "description": "In Angular version 12, the type of ActivatedRouteSnapshot.fragment is nullable. This migration automatically adds non-null assertions to it.",
+      "factory": "./migrations/activated-route-snapshot-fragment/index",
       "package": "@angular/core",
-      "name": "migration-v10-missing-injectable"
+      "name": "migration-v12-activated-route-snapshot-fragment"
     },
     {
-      "version": "10.0.0-beta",
-      "description": "ModuleWithProviders migration. As of Angular 10, the ModuleWithProviders type requires a generic. This migration adds the generic where it is missing. Read more about this here: https://v10.angular.io/guide/migration-module-with-providers",
-      "factory": "./migrations/module-with-providers/index",
+      "version": "12.0.0-next.6",
+      "description": "`XhrFactory` has been moved from `@angular/common/http` to `@angular/common`.",
+      "factory": "./migrations/xhr-factory/index",
       "package": "@angular/core",
-      "name": "migration-v10-module-with-providers"
+      "name": "migration-v12-xhr-factory"
     },
     {
-      "version": "10.0.0-beta",
-      "description": "Undecorated classes with Angular features migration. In version 10, classes that use Angular features and do not have an Angular decorator are no longer supported. Read more about this here: https://v10.angular.io/guide/migration-undecorated-classes",
-      "factory": "./migrations/undecorated-classes-with-decorated-fields/index",
+      "version": "12.0.2",
+      "description": "Automatically migrates shadow-piercing selector from `/deep/` to the recommanded alternative `::ng-deep`.",
+      "factory": "./migrations/deep-shadow-piercing-selector/index",
       "package": "@angular/core",
-      "name": "migration-v10-undecorated-classes-with-decorated-fields"
+      "name": "migration-v12-deep-shadow-piercing-selector"
     },
     {
-      "version": "10.0.0-beta.1",
-      "description": "Upgrades Angular and Angular CLI to 10.0.0",
-      "factory": "./src/migrations/update-10-0-0/update-10-0-0",
-      "package": "@nrwl/angular",
-      "name": "update-10-0-0"
-    },
-    {
-      "version": "10.2.0-beta.1",
-      "description": "Upgrade NgRx libraries to version 10.0.0",
-      "factory": "./src/migrations/update-10-2-0/update-10-2-0",
-      "package": "@nrwl/angular",
-      "name": "update-10-2-0"
-    },
-    {
-      "version": "10.3.0-beta.1",
-      "description": "Add tsconfig.editor.json to angular apps and update jest-angular-preset",
-      "factory": "./src/migrations/update-10-3-0/update-10-3-0",
-      "package": "@nrwl/angular",
-      "name": "update-10-3-0"
-    },
-    {
-      "version": "10.4.0-beta.3",
-      "description": "Adjust karma and protractor setup",
-      "factory": "./src/migrations/update-10-4-0/update-10-4-0",
-      "package": "@nrwl/angular",
-      "name": "update-10-4-0"
-    },
-    {
-      "version": "9.4.0-beta.1",
-      "description": "Add Cypress ESLint plugin",
-      "factory": "./src/migrations/update-9-4-0/add-cypress-eslint-plugin-9-4-0",
-      "package": "@nrwl/cypress",
-      "name": "add-cypress-eslint-plugin-9.4.0"
-    },
-    {
-      "version": "10.0.0-beta.2",
-      "description": "update jest configs to include setup env files",
-      "factory": "./src/migrations/update-10-0-0/update-jest-configs",
+      "version": "12.1.0-beta.1",
+      "cli": "nx",
+      "description": "Update jest-preset-angular to version 8.4.0",
+      "factory": "./src/migrations/update-12-1-2/update-jest-preset-angular",
       "package": "@nrwl/jest",
-      "name": "update-10.0.0"
+      "name": "update-jest-preset-angular-8-4-0"
     },
     {
-      "version": "10.1.0-beta.4",
-      "description": "Update jest to v26",
-      "factory": "./src/migrations/update-10-1-0/update-10-1-0",
+      "version": "12.1.2-beta.1",
+      "cli": "nx",
+      "description": "Replace tsConfig with tsconfig for ts-jest in jest.config.js",
+      "factory": "./src/migrations/update-12-1-2/update-ts-jest",
       "package": "@nrwl/jest",
-      "name": "update-10.1.0"
-    },
-    {
-      "version": "10.2.0",
-      "description": "Remove deprecated jest builder options",
-      "factory": "./src/migrations/update-10-2-0/update-10-2-0",
-      "package": "@nrwl/jest",
-      "name": "update-10.2.0"
-    },
-    {
-      "version": "10.3.0-beta.1",
-      "description": "Adds all jest projects into the root jest config",
-      "factory": "./src/migrations/update-10-3-0/update-projects-property",
-      "package": "@nrwl/jest",
-      "name": "update-projects-property"
-    },
-    {
-      "version": "10.3.1-beta.1",
-      "description": "Fix ts-jest migration",
-      "factory": "./src/migrations/update-10-3-0/update-ts-jest",
-      "package": "@nrwl/jest",
-      "name": "update-ts-jest"
-    },
-    {
-      "version": "10.3.0-beta.1",
-      "description": "Adds a jest extension to the recommended extensions for vscode",
-      "factory": "./src/migrations/update-10-3-0/add-jest-extension",
-      "package": "@nrwl/jest",
-      "name": "add-jest-extension"
+      "name": "update-ts-jest-6-5-5"
     }
   ]
 }
