@@ -56,7 +56,7 @@
     "@ngrx/router-store": "16.3.0",
     "@ngrx/store": "16.3.0",
     "@ngu/carousel": "^7.0.0",
-    "@nrwl/angular": "15.7.0",
+    "@nrwl/angular": "16.10.0",
     "@swimlane/ngx-charts": "^20.4.1",
     "d3": "^7.8.5",
     "firebase": "9.17.1",
