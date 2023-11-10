@@ -1,17 +1,12 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
   constructor(
     public afAuth: Auth,
     private ngZone: NgZone,
