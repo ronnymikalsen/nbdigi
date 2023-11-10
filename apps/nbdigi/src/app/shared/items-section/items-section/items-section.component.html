@@ -8,14 +8,14 @@
         <div fxLayout="row">
           <nbd-debug
             [isDebugOn]="isDebugOn"
-            [href]="mediaTypeResults?.selfLink"
+            [href]="mediaTypeResults.selfLink"
           ></nbd-debug>
           <h1>{{ label }}</h1>
         </div>
         <button
           *ngIf="showMoreButton"
           mat-button
-          (click)="mediaTypeChanged.emit(mediaTypeResults?.mediaType)"
+          (click)="mediaTypeChanged.emit(mediaTypeResults.mediaType)"
           color="primary"
         >
           Vis alle

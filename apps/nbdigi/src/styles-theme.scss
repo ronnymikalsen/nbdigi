@@ -1,11 +1,26 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@mixin styles-theme($theme) {
+@mixin color($theme) {
   $warn: map.get($theme, warn);
 
   snack-bar-container.error {
     background: mat.get-color-from-palette($warn);
     color: whitesmoke;
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

@@ -30,7 +30,7 @@
   </nbd-toolbar>
   <nbd-search-result-chart
     *ngIf="showDateGraph"
-    [criteria]="search?.criteria"
+    [criteria]="search.criteria"
     [years]="years"
     [months]="months"
     (currentChartChanged)="currentChartChanged.emit($event)"

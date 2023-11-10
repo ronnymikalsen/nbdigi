@@ -11,7 +11,7 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-builders/custom-webpack:browser",
+      "executor": "@angular-devkit/build-angular:browser-esbuild",
       "options": {
         "aot": true,
         "outputPath": "dist/apps/nbdigi",
@@ -35,14 +35,19 @@
         "scripts": [
           "node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
         ],
-        "customWebpackConfig": {
-          "path": "./webpack.config.ts",
-          "replaceDuplicatePlugins": true,
-          "mergeStrategies": {
-            "externals": "prepend"
-          }
-        },
-        "allowedCommonJsDependencies": ["hammerjs", "openseadragon"]
+        "allowedCommonJsDependencies": [
+          "hammerjs",
+          "openseadragon",
+          "material-moment-adapter",
+          "moment",
+          "xml2js",
+          "@swimlane/ngx-charts",
+          "rfdc",
+          "sax",
+          "events",
+          "timers",
+          "stream"
+        ]
       },
       "configurations": {
         "production": {

@@ -5,7 +5,7 @@
       [disabled]="backDateOption.to === undefined"
       mat-icon-button
       [matTooltip]="
-        'Utvid til ' + backDateOption?.date?.viewValue?.toLowerCase() ?? ''
+        'Utvid til ' + backDateOption.date.viewValue?.toLowerCase()
       "
       (click)="back()"
     >

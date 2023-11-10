@@ -1,12 +1,27 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@mixin nbd-app-theme($theme) {
+@mixin color($theme) {
   $primary: map.get($theme, primary);
 
   .menu-toolbar {
     border-style: solid;
     border-color: mat.get-color-from-palette($primary) transparent transparent
       transparent;
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

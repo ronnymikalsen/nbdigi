@@ -4,8 +4,8 @@
     {{ criteria.mediaType }}
   </div>
   <div class="genre" matLine>{{ criteria.genre?.viewValue }}</div>
-  <div class="date" matLine>{{ criteria.date?.viewValue }}</div>
-  <div class="sort" matLine>{{ criteria.sort?.viewValue }}</div>
+  <div class="date" matLine>{{ criteria.date.viewValue }}</div>
+  <div class="sort" matLine>{{ criteria.sort.viewValue }}</div>
   <div matLine *ngFor="let hint of criteria.filters">
     <mat-chip-listbox>
       <mat-chip-option color="accent" [selected]="hint.enabled" disabled="true">

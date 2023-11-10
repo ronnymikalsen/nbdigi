@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@mixin nbd-divider-theme($theme) {
+@mixin color($theme) {
   $primary: map.get($theme, primary);
 
   nbd-divider {
@@ -12,5 +12,20 @@
     .mat-divider {
       border-top-color: mat.get-color-from-palette($primary) !important;
     }
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

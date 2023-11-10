@@ -1,10 +1,25 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@mixin nbd-debug-theme($theme) {
+@mixin color($theme) {
   $warn: map.get($theme, accent);
 
   .debug {
     color: mat.get-color-from-palette($warn);
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

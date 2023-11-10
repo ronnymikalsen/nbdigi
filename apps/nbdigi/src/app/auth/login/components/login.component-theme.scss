@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 @use 'sass:map';
 
-@mixin nbd-login-theme($theme) {
+@mixin color($theme) {
   $primary: map.get($theme, primary);
 
   .primary {
@@ -14,5 +14,20 @@
 
   h2.seperator:after {
     border-bottom: 1px solid mat.get-color-from-palette($primary);
+  }
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($theme);
   }
 }

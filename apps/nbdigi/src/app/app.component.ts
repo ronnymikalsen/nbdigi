@@ -29,6 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
     changeDetectorRef: ChangeDetectorRef,
     private appFacade: AppFacade,
   ) {
+    console.log('AppComponent');
+
     iconRegistry.addSvgIcon(
       'logo',
       sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg'),
