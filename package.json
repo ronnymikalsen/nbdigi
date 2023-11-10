@@ -85,6 +85,7 @@
     "@nrwl/cli": "15.5.0",
     "@nrwl/tao": "16.0.0",
     "@nrwl/workspace": "16.0.0",
+    "@nx/jest": "16.10.0",
     "@types/d3-scale": "^4.0.4",
     "@types/d3-selection": "^3.0.6",
     "@types/d3-shape": "^3.1.2",
@@ -110,12 +111,12 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "nx": "16",
     "open": "^7.0.3",
     "prettier": "2.1.2",
     "protractor": "7.0.0",
     "ts-node": "~7.0.0",
     "typescript": "5.1.6",
-    "webpack-bundle-analyzer": "^4.4.1",
-    "@nx/jest": "15.5.0"
+    "webpack-bundle-analyzer": "^4.4.1"
   }
 }
