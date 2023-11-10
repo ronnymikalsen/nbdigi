@@ -6,12 +6,12 @@ import { IdsDebugDialogComponent } from '../ids-debug-dialog/ids-debug-dialog.co
 @Component({
   selector: 'nbd-debug',
   templateUrl: './debug.component.html',
-  styleUrls: ['./debug.component.scss']
+  styleUrls: ['./debug.component.scss'],
 })
 export class DebugComponent implements OnInit {
-  @Input() isDebugOn: boolean;
-  @Input() href: string;
-  @Input() item: Item;
+  @Input() isDebugOn: boolean | null = false;
+  @Input() href!: string | null | undefined;
+  @Input() item!: Item | undefined;
 
   constructor(public dialog: MatDialog) {}
 
@@ -20,7 +20,7 @@ export class DebugComponent implements OnInit {
   openIds(event: MouseEvent) {
     this.dialog.open(IdsDebugDialogComponent, {
       panelClass: 'debug-ids-panel',
-      data: this.item
+      data: this.item,
     });
   }
 }

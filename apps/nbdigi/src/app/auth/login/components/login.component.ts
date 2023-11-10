@@ -5,24 +5,24 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Authenticate, AuthError } from '../../../core/models';
+import { AuthError, Authenticate } from '../../../core/models';
 
 @Component({
   selector: 'nbd-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnChanges {
-  @Input() authError: AuthError;
+  @Input() authError: AuthError | null | undefined = null;
   @Output() signInWithGoogleSelected = new EventEmitter<void>();
   @Output()
   signInWithEmailAndPasswordSelected = new EventEmitter<Authenticate>();
-  loginForm: FormGroup;
-  email: FormControl;
-  password: FormControl;
+  loginForm!: FormGroup;
+  email!: FormControl;
+  password!: FormControl;
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -36,19 +36,19 @@ export class LoginComponent implements OnInit, OnChanges {
       if (curr) {
         if (curr.code === 'auth/wrong-password') {
           this.password.setErrors({
-            wrongPassword: curr.message
+            wrongPassword: curr.message,
           });
         } else if (curr.code === 'auth/user-not-found') {
           this.email.setErrors({
-            userNotFound: curr.message
+            userNotFound: curr.message,
           });
         } else if (curr.code === 'auth/invalid-email') {
           this.email.setErrors({
-            invalidEmail: curr.message
+            invalidEmail: curr.message,
           });
         } else if (curr.code === 'auth/too-many-requests') {
           this.loginForm.setErrors({
-            tooManyRequests: curr.message
+            tooManyRequests: curr.message,
           });
         }
       }
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, OnChanges {
     this.password = new FormControl();
     this.loginForm = this.fb.group({
       email: this.email,
-      password: this.password
+      password: this.password,
     });
   }
 
@@ -70,8 +70,8 @@ export class LoginComponent implements OnInit, OnChanges {
 
   signInWithEmailAndPassword(): void {
     this.signInWithEmailAndPasswordSelected.emit({
-      email: this.loginForm.get('email').value,
-      password: this.loginForm.get('password').value
+      email: this.loginForm.get('email')?.value,
+      password: this.loginForm.get('password')?.value,
     });
   }
 }

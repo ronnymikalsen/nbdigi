@@ -5,19 +5,19 @@ import {
   HostBinding,
   OnDestroy,
   OnInit,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Subject } from 'rxjs';
 import { ItemFacade } from '../+state/item/item.facade';
 
 @Directive({
-  selector: '[appItemDetailsDrawer]'
+  selector: '[appItemDetailsDrawer]',
 })
 export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   @HostBinding('style.width') width = '375px';
-  currentFixTop: boolean;
-  showItemDetails: boolean;
+  currentFixTop = false;
+  showItemDetails = false;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
@@ -29,15 +29,17 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.itemFacade.showItemDetails$.subscribe(value => {
+    this.itemFacade.showItemDetails$.subscribe((value) => {
       this.showItemDetails = value;
       this.updatePosition();
     });
 
     const mainEl = document.querySelector('.main-content');
-    mainEl.addEventListener('scroll', () => {
-      this.updatePosition();
-    });
+    if (mainEl) {
+      mainEl.addEventListener('scroll', () => {
+        this.updatePosition();
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -47,7 +49,7 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
 
   private updatePosition() {
     const drawerEl = document.querySelector('.drawer-container');
-    const top = drawerEl.getBoundingClientRect().top;
+    const top = drawerEl?.getBoundingClientRect().top ?? 0;
     const prevFixTop = this.currentFixTop;
     const newFixTop =
       this.showItemDetails && this.media.isActive('gt-sm') && top < 0

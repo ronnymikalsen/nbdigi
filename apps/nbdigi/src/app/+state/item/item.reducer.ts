@@ -4,9 +4,9 @@ import { ItemAction, ItemActionTypes } from './item.actions';
 export const ITEM_FEATURE_KEY = 'item';
 
 export interface ItemState {
-  currentItem?: Item;
-  currentItemDetails?: Item;
-  currentItemDetailsManifest: Manifest;
+  currentItem?: Item | undefined;
+  currentItemDetails?: Item | undefined;
+  currentItemDetailsManifest: Manifest | undefined;
   loading: boolean;
   showItemDetails: boolean;
 }
@@ -16,11 +16,11 @@ export interface ItemPartialState {
 }
 
 export const initialState: ItemState = {
-  currentItem: null,
-  currentItemDetails: null,
-  currentItemDetailsManifest: null,
+  currentItem: undefined,
+  currentItemDetails: undefined,
+  currentItemDetailsManifest: undefined,
   loading: false,
-  showItemDetails: false
+  showItemDetails: false,
 };
 
 export function itemReducer(
@@ -31,7 +31,7 @@ export function itemReducer(
     case ItemActionTypes.Open: {
       state = {
         ...state,
-        currentItem: action.payload
+        currentItem: action.payload,
       };
       break;
     }
@@ -39,7 +39,7 @@ export function itemReducer(
       state = {
         ...state,
         showItemDetails: true,
-        currentItemDetails: action.payload
+        currentItemDetails: action.payload,
       };
       break;
     }
@@ -47,7 +47,7 @@ export function itemReducer(
       state = {
         ...state,
         showItemDetails: false,
-        currentItemDetails: null
+        currentItemDetails: undefined,
       };
       break;
     }
@@ -55,7 +55,7 @@ export function itemReducer(
       state = {
         ...state,
         loading: false,
-        currentItemDetailsManifest: action.payload
+        currentItemDetailsManifest: action.payload,
       };
       break;
     }
@@ -63,7 +63,7 @@ export function itemReducer(
       state = {
         ...state,
         loading: false,
-        currentItemDetailsManifest: null
+        currentItemDetailsManifest: undefined,
       };
       break;
     }

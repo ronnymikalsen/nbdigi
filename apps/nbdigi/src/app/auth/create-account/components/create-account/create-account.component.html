@@ -17,8 +17,8 @@
           formControlName="email"
           placeholder="E-post"
         />
-        <mat-error *ngIf="email.errors?.invalidEmail">Ugyldig e-post</mat-error>
-        <mat-error *ngIf="email.errors?.emailAlreadyInUse"
+        <mat-error *ngIf="email.errors?.['invalidEmail']">Ugyldig e-post</mat-error>
+        <mat-error *ngIf="email.errors?.['emailAlreadyInUse']"
           >E-post adressen er registret fra før</mat-error
         >
       </mat-form-field>
@@ -29,7 +29,7 @@
           formControlName="password"
           placeholder="Passord"
         />
-        <mat-error *ngIf="password.errors?.weakPassword"
+        <mat-error *ngIf="password.errors?.['weakPassword']"
           >Passordet må være minst 6 tegn</mat-error
         >
       </mat-form-field>
@@ -41,7 +41,7 @@
           placeholder="Bekreft passord"
         />
         <mat-error
-          *ngIf="signUpForm.controls.confirmPassword.errors?.MatchPassword"
+          *ngIf="confirmPassword.errors?.['MatchPassword']"
           >Passordene stemmer ikke overens</mat-error
         >
       </mat-form-field>

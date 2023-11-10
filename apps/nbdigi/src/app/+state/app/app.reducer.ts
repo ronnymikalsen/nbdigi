@@ -1,4 +1,5 @@
-import { AppAction, AppActionTypes } from './app.actions';
+import { createReducer, on } from '@ngrx/store';
+import { AppActionTypes } from './app.actions';
 
 export const APP_FEATURE_KEY = 'app';
 
@@ -14,47 +15,44 @@ export interface AppPartialState {
 
 export const initialState: AppState = {
   debug: false,
-  theme: null,
-  showDateGraph: true
+  theme: 'light',
+  showDateGraph: true,
 };
 
-export function appReducer(
-  state: AppState = initialState,
-  action: AppAction
-): AppState {
+export function appReducer(state: any, action: any): AppState {
   switch (action.type) {
     case AppActionTypes.DebugOn: {
       state = {
         ...state,
-        debug: true
+        debug: true,
       };
       break;
     }
     case AppActionTypes.DebugOff: {
       state = {
         ...state,
-        debug: false
+        debug: false,
       };
       break;
     }
     case AppActionTypes.ShowDateGraph: {
       state = {
         ...state,
-        showDateGraph: true
+        showDateGraph: true,
       };
       break;
     }
     case AppActionTypes.HideDateGraph: {
       state = {
         ...state,
-        showDateGraph: false
+        showDateGraph: false,
       };
       break;
     }
     case AppActionTypes.SetTheme: {
       state = {
         ...state,
-        theme: action.payload
+        theme: action.payload,
       };
       break;
     }

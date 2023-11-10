@@ -21,6 +21,7 @@
 </mat-toolbar>
 <div *ngIf="item" class="viewer-container">
   <mime-viewer
+    *ngIf="item.manifestUri"
     [manifestUri]="item.manifestUri"
     [canvasIndex]="item.currentCanvasId"
     [config]="config"

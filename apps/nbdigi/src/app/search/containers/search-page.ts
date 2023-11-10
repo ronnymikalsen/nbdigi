@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppFacade } from '../../+state/app/app.facade';
@@ -10,11 +10,12 @@ import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
 import { SearchState } from '../../+state/search/search.reducer';
 import {
+  Criteria,
   DateOption,
   Genre,
   MediaTypeResults,
   Sort,
-  YearCount
+  YearCount,
 } from '../../core/models';
 import { Hint } from '../../core/models/hints.model';
 import { ChartRangeToOption } from '../components/search-result-chart/chart-strategy-factory';
@@ -59,7 +60,7 @@ import { ChartRangeToOption } from '../components/search-result-chart/chart-stra
       (loadMore)="loadMore()"
     >
     </nbd-search>
-  `
+  `,
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
   search: Observable<SearchState> = this.searchFacade.state$;
@@ -81,7 +82,8 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   others: Observable<MediaTypeResults> = this.searchFacade.getOthers$;
   years: Observable<YearCount[]> = this.searchFacade.getYears$;
   months: Observable<YearCount[]> = this.searchFacade.getMonths$;
-  moreUrl: Observable<string> = this.searchFacade.getMoreUrl$;
+  moreUrl: Observable<string | null | undefined> = this.searchFacade
+    .getMoreUrl$;
   pristine: Observable<boolean> = this.searchFacade.pristine$;
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   showDateGraph: Observable<boolean> = this.appFacade.showDateGraph$;
@@ -117,36 +119,46 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   searchSelected(query: string): void {
-    this.searchFacade.updateCriteria({
-      q: query
-    });
+    this.searchFacade.updateCriteria(
+      new Criteria({
+        q: query,
+      })
+    );
     this.searchFacade.search();
   }
 
-  mediaTypeChanged(mediaType: string): void {
-    this.searchFacade.updateCriteria({
-      mediaType: mediaType
-    });
+  mediaTypeChanged(mediaType: string | null): void {
+    this.searchFacade.updateCriteria(
+      new Criteria({
+        mediaType: mediaType,
+      })
+    );
     this.searchFacade.search();
   }
 
   sortChanged(sort: Sort): void {
-    this.searchFacade.updateCriteria({
-      sort: sort
-    });
+    this.searchFacade.updateCriteria(
+      new Criteria({
+        sort: sort,
+      })
+    );
     this.searchFacade.search();
   }
 
   genreChanged(genre: Genre): void {
     if (genre) {
-      this.searchFacade.updateCriteria({
-        genre: genre,
-        mediaType: genre.mediaType
-      });
+      this.searchFacade.updateCriteria(
+        new Criteria({
+          genre: genre,
+          mediaType: genre.mediaType,
+        })
+      );
     } else {
-      this.searchFacade.updateCriteria({
-        genre: new Genre()
-      });
+      this.searchFacade.updateCriteria(
+        new Criteria({
+          genre: new Genre(),
+        })
+      );
     }
     this.searchFacade.search();
   }

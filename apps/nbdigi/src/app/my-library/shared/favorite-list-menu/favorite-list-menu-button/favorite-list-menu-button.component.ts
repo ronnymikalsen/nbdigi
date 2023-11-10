@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FavoriteFacade } from '../../../../+state/favorite/favorite.facade';
 import { FavoriteList } from '../../../../core/models';
@@ -11,10 +11,10 @@ import { FavoriteList } from '../../../../core/models';
   selector: 'nbd-favorite-list-menu-button',
   templateUrl: './favorite-list-menu-button.component.html',
   styleUrls: ['./favorite-list-menu-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FavoriteListMenuButtonComponent implements OnInit {
-  @Input() favorite: FavoriteList;
+  @Input() favorite!: FavoriteList | null;
 
   constructor(private favoriteFacade: FavoriteFacade) {}
 

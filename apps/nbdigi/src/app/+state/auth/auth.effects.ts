@@ -23,7 +23,7 @@ import {
 
 @Injectable()
 export class AuthEffects {
-  
+
   signUpWithEmailAndPassword: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignUpWithEmailAndPassword),
     switchMap((action: SignUpWithEmailAndPassword) => {
@@ -39,7 +39,7 @@ export class AuthEffects {
     })
   ));
 
-  
+
   signInWithGoogle: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignInWithGoogle),
     switchMap((action: SignInWithGoogle) => {
@@ -51,7 +51,7 @@ export class AuthEffects {
     })
   ));
 
-  
+
   signInWithEmailAndPassword: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignInWithEmailAndPassword),
     switchMap((action: SignInWithEmailAndPassword) => {
@@ -68,14 +68,14 @@ export class AuthEffects {
     })
   ));
 
-  
+
   signedIn: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignedIn),
     map((action: any) => action.payload),
     tap(user => this.userService.createUserIfNotExists(user))
   ), { dispatch: false });
 
-  
+
   sendPasswordResetEmail: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmail),
     switchMap((action: SendPasswordResetEmail) => {
@@ -86,13 +86,13 @@ export class AuthEffects {
     })
   ));
 
-  
+
   sendPasswordResetEmaildSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SendPasswordResetEmaildSuccess),
     tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
   ), { dispatch: false });
 
-  
+
   signOut: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignOut),
     switchMap((action: SignOut) => {
@@ -100,13 +100,13 @@ export class AuthEffects {
     })
   ));
 
-  
+
   signedOut: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignedOut),
     tap(() => this.ngZone.run(() => this.router.navigate(['/auth']))),
   ), { dispatch: false });
 
-  
+
   signUpSuccess: Observable<Action> = createEffect(() => this.actions.pipe(
     ofType(AuthActionTypes.SignUpSuccess),
     tap(() => this.ngZone.run(() => this.router.navigate(['/home']))),

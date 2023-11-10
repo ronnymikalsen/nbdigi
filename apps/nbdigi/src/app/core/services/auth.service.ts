@@ -1,30 +1,37 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
+import {
+  Auth,
+  GoogleAuthProvider,
+  confirmPasswordReset,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AuthError } from '../../core/models';
 
 @Injectable()
 export class AuthService {
-  constructor(private afAuth: AngularFireAuth) {}
+  constructor(private afAuth: Auth) {}
 
   signUpWithEmailAndPassword(email: string, password: string): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth
-        .createUserWithEmailAndPassword(email, password)
-        .then(res => {
+    return Observable.create((observer: any) => {
+      createUserWithEmailAndPassword(this.afAuth, email, password)
+        .then((res: any) => {
           observer.next(res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           observer.error(err);
         });
     });
   }
 
   signInWithEmailAndPassword(email: string, password: string): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth.signInWithEmailAndPassword(email, password)
-        .then(res => {
+    return Observable.create((observer: any) => {
+      signInWithEmailAndPassword(this.afAuth, email, password)
+        .then((res: any) => {
           observer.next(res);
         })
         .catch((err: AuthError) => {
@@ -34,48 +41,49 @@ export class AuthService {
   }
 
   signInWithGoogle(): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
-        .then(res => {
+    return Observable.create((observer: any) => {
+      signInWithPopup(this.afAuth, new GoogleAuthProvider())
+        .then((res: any) => {
           observer.next(res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           observer.error(err);
         });
     });
   }
 
   sendPasswordResetEmail(email: string): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth.sendPasswordResetEmail(email)
-        .then(res => {
+    return Observable.create((observer: any) => {
+      sendPasswordResetEmail(this.afAuth, email)
+        .then((res: any) => {
           observer.next(res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           observer.error(err);
         });
     });
   }
 
   confirmPasswordReset(code: string, newPassword: string): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth.confirmPasswordReset(code, newPassword)
-        .then(res => {
+    return Observable.create((observer: any) => {
+      confirmPasswordReset(this.afAuth, code, newPassword)
+        .then((res: any) => {
           observer.next(res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           observer.error(err);
         });
     });
   }
 
   signOut(): Observable<any> {
-    return Observable.create(observer => {
-      this.afAuth.signOut()
-        .then(res => {
+    return Observable.create((observer: any) => {
+      this.afAuth
+        .signOut()
+        .then((res: any) => {
           observer.next(res);
         })
-        .catch(err => {
+        .catch((err: any) => {
           observer.error(err);
         });
     });

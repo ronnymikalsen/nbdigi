@@ -10,11 +10,13 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { MatCheckboxChange } from '@angular/material/checkbox';
+import {
+  MatAutocompleteSelectedEvent,
+  MatAutocompleteTrigger,
+} from '@angular/material/autocomplete';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import {
@@ -22,7 +24,7 @@ import {
   distinctUntilChanged,
   filter,
   skipWhile,
-  takeUntil
+  takeUntil,
 } from 'rxjs/operators';
 import { Hint, Hints } from '../../../../core/models/hints.model';
 
@@ -30,23 +32,24 @@ import { Hint, Hints } from '../../../../core/models/hints.model';
   selector: 'nbd-search-box-container',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() q: string;
-  @Input() hints: Hints;
+  @Input() q!: string | null;
+  @Input() hints!: Hints | undefined;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<string>();
   @Output() debugChanged = new EventEmitter<boolean>();
   @Output() clearAll = new EventEmitter<boolean>();
-  @ViewChild(MatAutocompleteTrigger, { static: true }) matAutocomplete: MatAutocompleteTrigger;
-  @ViewChild('searchbox-container') searchboxContainer: ElementRef;
-  public searchForm: FormGroup;
-  public queryControl: FormControl;
+  @ViewChild(MatAutocompleteTrigger, { static: true })
+  matAutocomplete!: MatAutocompleteTrigger;
+  @ViewChild('searchbox-container') searchboxContainer!: ElementRef;
+  public searchForm!: FormGroup;
+  public queryControl!: FormControl;
   private destroyed: Subject<void> = new Subject();
   private timer: any;
-  private preventSimpleClick: boolean;
+  private preventSimpleClick!: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -61,12 +64,12 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
     this.queryControl.valueChanges
       .pipe(
         distinctUntilChanged(),
-        filter(f => f !== null),
+        filter((f) => f !== null),
         takeUntil(this.destroyed),
-        skipWhile(val => val.length < 2),
+        skipWhile((val) => val.length < 2),
         debounceTime(300)
       )
-      .subscribe(val => this.query.emit(val));
+      .subscribe((val) => this.query.emit(val));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -129,7 +132,7 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   private createForm() {
     this.queryControl = new FormControl(this.q ? this.q : '');
     this.searchForm = this.fb.group({
-      q: this.queryControl
+      q: this.queryControl,
     });
   }
 }

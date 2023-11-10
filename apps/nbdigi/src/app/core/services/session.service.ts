@@ -1,26 +1,30 @@
-import { Injectable, NgZone } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import {
-  AngularFirestore,
-  AngularFirestoreDocument,
+  CollectionReference,
+  Firestore,
+  collection,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+  DocumentReference,
+  doc
 } from '@angular/fire/firestore';
-import firebase from 'firebase/app';
 import { filter } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { Item, User } from '../../core/models';
 import { UserService } from './user.service';
+import { Injectable, NgZone } from '@angular/core';
 
 @Injectable()
 export class SessionService {
-  private userRef: AngularFirestoreDocument<User>;
-  private currentTheme: string;
-  private debugon: boolean;
+  private userRef: DocumentReference<User> | undefined;
+  private currentTheme: string = 'light';
+  private debugon: boolean = false;
 
   constructor(
     private ngZone: NgZone,
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
+    //private afAuth: AngularFireAuth,
+    private afs: Firestore,
     private userService: UserService,
     private authFacade: AuthFacade,
     private appFacade: AppFacade
@@ -36,8 +40,9 @@ export class SessionService {
     });
 
     this.ngZone.runOutsideAngular(() => {
+      /*
       this.afAuth.authState.pipe().subscribe(
-        (authState) => {
+        (authState: any) => {
           if (authState) {
             const user = {
               uid: authState.uid,
@@ -45,15 +50,15 @@ export class SessionService {
               email: authState.email,
             };
             this.userService.createUserIfNotExists(user);
-            this.userRef = this.afs.doc<User>(`users/${authState.uid}`);
+            this.userRef = doc<User>(this.afs, `users/${authState.uid}`);
             this.userRef
               .valueChanges()
               .pipe(filter((u) => u !== null))
-              .subscribe((u) => {
+              .subscribe((u: User) => {
                 this.authFacade.signedIn({
                   ...user,
                 });
-                if (u.theme !== this.currentTheme) {
+                if (u.theme && u.theme !== this.currentTheme) {
                   this.appFacade.setTheme(u.theme);
                 }
                 if (u.isDebugOn !== this.debugon) {
@@ -66,8 +71,9 @@ export class SessionService {
             this.authFacade.signOut();
           }
         },
-        (err) => console.log('errr', err)
+        (err: Error) => console.log('errr', err)
       );
+      */
     });
     const showDateGraph: boolean = Boolean(
       localStorage.getItem('showDateGraph')
@@ -79,19 +85,23 @@ export class SessionService {
 
   updateTheme(theme: string) {
     if (theme) {
+      /*
       this.userRef.update({
         theme: theme,
       });
+      */
     }
   }
 
   updateItem(item: Item) {
+    /*
     this.userRef
       .collection('items')
       .doc(item.id)
       .set({
         ...item,
-        timestamp: firebase.firestore.Timestamp.now(),
+        timestamp: serverTimestamp(),
       });
+      */
   }
 }

@@ -12,9 +12,9 @@ import { DateOptions } from '../../../core/models';
   styleUrls: ['./date-picker-dialog.component.scss']
 })
 export class DatePickerDialogComponent implements OnInit {
-  dateForm: FormGroup;
-  fromDate: FormControl;
-  toDate: FormControl;
+  dateForm!: FormGroup;
+  fromDate!: FormControl;
+  toDate!: FormControl;
 
   constructor(
     public dialogRef: MatDialogRef<DatePickerDialogComponent>,

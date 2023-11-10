@@ -2,7 +2,7 @@ import {
   Criteria,
   Hints,
   MediaTypeResults,
-  YearCount
+  YearCount,
 } from '../../core/models';
 import { SearchAction, SearchActionTypes } from './search.actions';
 
@@ -40,9 +40,9 @@ export interface SearchPartialState {
 
 export const initialState: SearchState = {
   criteria: new Criteria(),
-  hints: null,
+  hints: new Hints(),
   searchResult: {
-    selfLink: null,
+    selfLink: '',
     totalElements: 0,
     books: new MediaTypeResults({ mediaType: 'bøker' }),
     newspapers: new MediaTypeResults({ mediaType: 'bilder' }),
@@ -53,17 +53,17 @@ export const initialState: SearchState = {
     musicManuscripts: new MediaTypeResults({ mediaType: 'musikkmanuskripter' }),
     posters: new MediaTypeResults({ mediaType: 'plakater' }),
     privateArchives: new MediaTypeResults({
-      mediaType: 'privatarkivmateriale'
+      mediaType: 'privatarkivmateriale',
     }),
     programReports: new MediaTypeResults({ mediaType: 'programrapporter' }),
     others: new MediaTypeResults(),
     years: [],
-    months: []
+    months: [],
   },
   isLoading: false,
   isLoadingMore: false,
   hasError: false,
-  currentChartRange: null
+  currentChartRange: '',
 };
 
 export function searchReducer(
@@ -73,7 +73,7 @@ export function searchReducer(
   switch (action.type) {
     case SearchActionTypes.ClearAll: {
       state = {
-        ...initialState
+        ...initialState,
       };
       break;
     }
@@ -106,8 +106,8 @@ export function searchReducer(
           sort: newCriteria.sort,
           genre: newCriteria.genre,
           date: newCriteria.date,
-          filters: newCriteria.filters
-        })
+          filters: newCriteria.filters,
+        }),
       };
       break;
     }
@@ -120,8 +120,8 @@ export function searchReducer(
           sort: action.payload.sort,
           genre: action.payload.genre,
           date: action.payload.date,
-          filters: action.payload.filters
-        })
+          filters: action.payload.filters,
+        }),
       };
       break;
     }
@@ -130,15 +130,15 @@ export function searchReducer(
         ...state,
         criteria: {
           ...state.criteria,
-          date: action.payload
-        }
+          date: action.payload,
+        },
       };
       break;
     }
     case SearchActionTypes.Search: {
       state = {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
       break;
     }
@@ -149,36 +149,38 @@ export function searchReducer(
     case SearchActionTypes.AddFilter: {
       state = {
         ...state,
-        criteria: new Criteria({
+        criteria: {
           ...state.criteria,
-          filters: [...state.criteria.filters, action.payload]
-        }),
-        isLoading: true
+          filters: [...state.criteria.filters, action.payload],
+        },
+        isLoading: true,
       };
       break;
     }
     case SearchActionTypes.RemoveFilter: {
       state = {
         ...state,
-        criteria: new Criteria({
+        criteria: {
           ...state.criteria,
-          filters: state.criteria.filters.filter(f => f !== action.payload)
-        }),
-        isLoading: true
+          filters: state.criteria.filters.filter((f) => f !== action.payload),
+        },
+        isLoading: true,
       };
       break;
     }
     case SearchActionTypes.ToggleFilter: {
-      const index = state.criteria.filters.findIndex(f => f === action.payload);
+      const index = state.criteria.filters.findIndex(
+        (f) => f === action.payload
+      );
       state = {
         ...state,
-        criteria: new Criteria({
+        criteria: {
           ...state.criteria,
           filters: state.criteria.filters.map((f, i) => {
             return i !== index ? f : { ...f, enabled: !f.enabled };
-          })
-        }),
-        isLoading: true
+          }),
+        },
+        isLoading: true,
       };
       break;
     }
@@ -200,10 +202,10 @@ export function searchReducer(
           programReports: action.payload.programReports,
           others: action.payload.others,
           years: action.payload.years,
-          months: action.payload.months
+          months: action.payload.months,
         },
         hasError: false,
-        isLoading: false
+        isLoading: false,
       };
       break;
     }
@@ -212,7 +214,7 @@ export function searchReducer(
         ...state,
         hasError: true,
         isLoading: false,
-        isLoadingMore: false
+        isLoadingMore: false,
       };
       break;
     }
@@ -232,69 +234,69 @@ export function searchReducer(
           totalElements: action.payload.totalElements,
           books: {
             ...state.searchResult.books,
-            counts: action.payload.books.counts
+            counts: action.payload.books.counts,
           },
           newspapers: {
             ...state.searchResult.newspapers,
-            counts: action.payload.newspapers.counts
+            counts: action.payload.newspapers.counts,
           },
           photos: {
             ...state.searchResult.photos,
-            counts: action.payload.photos.counts
+            counts: action.payload.photos.counts,
           },
           periodicals: {
             ...state.searchResult.periodicals,
-            counts: action.payload.periodicals.counts
+            counts: action.payload.periodicals.counts,
           },
           maps: {
             ...state.searchResult.maps,
-            counts: action.payload.maps.counts
+            counts: action.payload.maps.counts,
           },
           musicBooks: {
             ...state.searchResult.musicBooks,
-            counts: action.payload.musicBooks.counts
+            counts: action.payload.musicBooks.counts,
           },
           musicManuscripts: {
             ...state.searchResult.musicManuscripts,
-            counts: action.payload.musicManuscripts.counts
+            counts: action.payload.musicManuscripts.counts,
           },
           posters: {
             ...state.searchResult.posters,
-            counts: action.payload.posters.counts
+            counts: action.payload.posters.counts,
           },
           privateArchives: {
             ...state.searchResult.privateArchives,
-            counts: action.payload.privateArchives.counts
+            counts: action.payload.privateArchives.counts,
           },
           programReports: {
             ...state.searchResult.programReports,
-            counts: action.payload.programReports.counts
+            counts: action.payload.programReports.counts,
           },
           others: { ...state.searchResult.others },
           years: years,
-          months: months
-        }
+          months: months,
+        },
       };
       break;
     }
     case SearchActionTypes.LoadMore: {
       state = {
         ...state,
-        isLoadingMore: true
+        isLoadingMore: true,
       };
       break;
     }
     case SearchActionTypes.ToChartRange: {
       state = {
         ...state,
-        currentChartRange: action.payload.to
+        currentChartRange: action.payload.to,
       };
       break;
     }
     case SearchActionTypes.SetCurrentChartRange: {
       state = {
         ...state,
-        currentChartRange: action.payload
+        currentChartRange: action.payload,
       };
       break;
     }
@@ -327,7 +329,7 @@ export function searchReducer(
       } else if (state.criteria.mediaType === 'tidsskrift') {
         const items = [
           ...periodicals.items,
-          ...action.payload.periodicals.items
+          ...action.payload.periodicals.items,
         ];
         periodicals.items = items;
         periodicals.nextLink = action.payload.periodicals.nextLink;
@@ -342,7 +344,7 @@ export function searchReducer(
       } else if (state.criteria.mediaType === 'musikkmanuskripter') {
         const items = [
           ...musicManuscripts.items,
-          ...action.payload.musicManuscripts.items
+          ...action.payload.musicManuscripts.items,
         ];
         musicManuscripts.items = items;
         musicManuscripts.nextLink = action.payload.musicManuscripts.nextLink;
@@ -353,14 +355,14 @@ export function searchReducer(
       } else if (state.criteria.mediaType === 'privatarkivmateriale') {
         const items = [
           ...privateArchives.items,
-          ...action.payload.privateArchives.items
+          ...action.payload.privateArchives.items,
         ];
         privateArchives.items = items;
         privateArchives.nextLink = action.payload.privateArchives.nextLink;
       } else if (state.criteria.mediaType === 'programrapporter') {
         const items = [
           ...programReports.items,
-          ...action.payload.programReports.items
+          ...action.payload.programReports.items,
         ];
         programReports.items = items;
         programReports.nextLink = action.payload.programReports.nextLink;
@@ -386,10 +388,10 @@ export function searchReducer(
           programReports: programReports,
           others: others,
           years: years,
-          months: months
+          months: months,
         },
         isLoadingMore: false,
-        hasError: false
+        hasError: false,
       };
       break;
     }

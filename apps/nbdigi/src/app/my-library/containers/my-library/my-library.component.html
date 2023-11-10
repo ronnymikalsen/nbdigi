@@ -15,7 +15,7 @@
         <mat-nav-list>
           <a
             mat-list-item
-            *ngFor="let favorite of (favoriteLists | async)"
+            *ngFor="let favorite of favoriteLists | async"
             (click)="openFavorite(favorite)"
           >
             <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
@@ -29,9 +29,9 @@
         <mat-toolbar>Nylig aktivitet</mat-toolbar>
         <nbd-items-section
           [showToolbar]="false"
-          [list]="(recentActivity | async).items"
-          [mediaTypeResults]="recentActivity | async"
-          [isDebugOn]="isDebugOn"
+          [list]="recentActivity | async"
+          [mediaTypeResults]="mediaTypeResults | async"
+          [isDebugOn]="isDebugOn | async"
           tabindex="0"
         ></nbd-items-section>
       </mat-drawer-content>

@@ -30,7 +30,7 @@ const getSelectedMyActivity = createSelector(
   getAllMyActivity,
   getSelectedId,
   (myActivity, id) => {
-    const result = myActivity.find(it => it['id'] === id);
+    const result = myActivity.find((it: any) => it.id === id);
     return result ? Object.assign({}, result) : undefined;
   }
 );

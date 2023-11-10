@@ -48,3 +48,4 @@ functions/lib
 .sonarlint
 .directory
 firebase-debug.log
+.angular

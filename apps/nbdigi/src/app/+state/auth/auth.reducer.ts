@@ -13,8 +13,8 @@ export interface AuthPartialState {
 }
 
 export const initialState: AuthState = {
-  user: null,
-  error: null
+  user: undefined,
+  error: undefined
 };
 
 export function authReducer(
@@ -26,7 +26,7 @@ export function authReducer(
       state = {
         ...state,
         user: action.payload,
-        error: null
+        error: undefined
       };
       break;
     }

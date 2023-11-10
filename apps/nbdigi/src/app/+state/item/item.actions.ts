@@ -7,7 +7,7 @@ export enum ItemActionTypes {
   OpenItemDetails = '[Item] open item details',
   CloseItemDetails = '[Item] close item details',
   LoadSuccess = '[Item] Load item details Success',
-  LoadFailure = '[Item] Load item details  Failure'
+  LoadFailure = '[Item] Load item details  Failure',
 }
 
 export class Open implements Action {
@@ -19,7 +19,7 @@ export class Open implements Action {
 export class Change implements Action {
   readonly type = ItemActionTypes.Change;
 
-  constructor(public payload: Item) {}
+  constructor(public payload: Item | undefined | null) {}
 }
 
 export class OpenItemDetails implements Action {
@@ -58,5 +58,5 @@ export const fromItemActions = {
   OpenItemDetails,
   CloseItemDetails,
   LoadItemDetailsSuccess,
-  LoadItemDetailsFailure
+  LoadItemDetailsFailure,
 };

@@ -13,14 +13,14 @@ export class DecadeChartStrategy implements ChartStrategy {
   }
 
   createChart(): any[] {
-    const newResult = [];
+    const newResult: any[] = [];
     const r = [];
-    this.aggs.forEach(y => {
+    this.aggs.forEach((y) => {
       const first = Math.floor(Number(y.year) / 10) + '0';
       newResult.push({
         first: first,
         name: y.year,
-        value: y.count
+        value: y.count,
       });
     });
     if (this.aggs.length > 0) {
@@ -40,7 +40,7 @@ export class DecadeChartStrategy implements ChartStrategy {
         r[i] = {
           first: year,
           name: name,
-          value: 0
+          value: 0,
         };
       }
       for (let i = 0; i < newResult.length; i++) {
@@ -49,11 +49,13 @@ export class DecadeChartStrategy implements ChartStrategy {
         const y = x;
         const first = Math.floor(Number(x) / 10) + '0';
 
-        const index = r.findIndex(va => Number(va.first) === Number(first));
+        const index: number = r.findIndex(
+          (va) => Number(va.first) === Number(first)
+        );
         try {
           r[index] = {
             ...r[index],
-            value: Number(r[index].value) + Number(v.value)
+            value: Number(r[index].value) + Number(v.value),
           };
         } catch (e) {
           console.error(e);
@@ -73,8 +75,8 @@ export class DecadeChartStrategy implements ChartStrategy {
         fromDate: `${first}0000101`,
         toDate: `${first}9991231`,
         value: `date:[${first}0000101 TO ${first}9991231]`,
-        viewValue: `${startYearLabel}-${endYearLabel}`
-      })
+        viewValue: `${startYearLabel}-${endYearLabel}`,
+      }),
     };
   }
 
@@ -93,7 +95,7 @@ export class DecadeChartStrategy implements ChartStrategy {
       fromDate: `${fromYear}0101`,
       toDate: `${toYear}1231`,
       value: `date:[${fromYear}0101 TO ${toYear}1231]`,
-      viewValue: `${selection}`
+      viewValue: `${selection}`,
     });
   }
 }

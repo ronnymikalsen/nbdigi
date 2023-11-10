@@ -5,23 +5,39 @@ import { map } from 'rxjs/operators';
 import { AppFacade } from '../../../+state/app/app.facade';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
 import { ItemFacade } from '../../../+state/item/item.facade';
-import { FavoriteList, MediaTypeResults } from '../../../core/models';
+import { FavoriteList, Item, MediaTypeResults } from '../../../core/models';
 
 @Component({
   selector: 'nbd-my-library',
   templateUrl: './my-library.component.html',
-  styleUrls: ['./my-library.component.scss']
+  styleUrls: ['./my-library.component.scss'],
 })
 export class MyLibraryComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   favoriteLists: Observable<FavoriteList[]> = this.favoriteFacade
     .getFavoriteList$;
   recentActivity: Observable<
+    FavoriteList
+  > = this.favoriteFacade.getFavoriteList$.pipe(
+    map((favoriteLists: FavoriteList[]) => {
+      let items: Item[] = [];
+      favoriteLists.forEach((l) => {
+        items = [...items, ...l.items];
+      });
+      items.sort(
+        (a, b) =>
+          (b.timestamp ? b.timestamp.toMillis() : 0) -
+          (a.timestamp ? a.timestamp.toMillis() : 0)
+      );
+      return { id: '', name: '', items, timestamp: null };
+    })
+  );
+  mediaTypeResults: Observable<
     MediaTypeResults
   > = this.favoriteFacade.getFavoriteList$.pipe(
     map((favoriteLists: FavoriteList[]) => {
-      let items = [];
-      favoriteLists.forEach(l => {
+      let items: Item[] = [];
+      favoriteLists.forEach((l) => {
         items = [...items, ...l.items];
       });
       items.sort(

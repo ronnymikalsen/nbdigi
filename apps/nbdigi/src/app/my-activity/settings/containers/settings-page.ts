@@ -17,7 +17,7 @@ import { User } from '../../../core/models';
   `
 })
 export class SettingsPageComponent {
-  currentUser: Observable<User> = this.authFacade.currentUser$;
+  currentUser: Observable<User | null | undefined> = this.authFacade.currentUser$;
   currentTheme: Observable<string> = this.appFacade.currentTheme$;
 
   constructor(private authFacade: AuthFacade, private appFacade: AppFacade) {}

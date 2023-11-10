@@ -16,7 +16,7 @@ import { Item } from '../../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DefaultItemListComponent implements OnInit {
-  @Input() item: Item;
+  @Input() item!: Item;
   @Input() config = new DefaultItemListComponentConfig();
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
 

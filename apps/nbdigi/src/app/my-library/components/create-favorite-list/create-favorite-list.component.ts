@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,14 +15,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   selector: 'nbd-create-favorite-list',
   templateUrl: './create-favorite-list.component.html',
   styleUrls: ['./create-favorite-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
-  @ViewChild('listname', { static: true }) listNameEl: ElementRef;
+  @ViewChild('listname', { static: true }) listNameEl!: ElementRef;
   @Output() cancelSelected = new EventEmitter<void>();
   @Output() listNameSelected = new EventEmitter<string>();
-  listForm: FormGroup;
-  listName: FormControl;
+  listForm!: FormGroup;
+  listName!: FormControl;
 
   constructor(public snackBar: MatSnackBar, private fb: FormBuilder) {
     this.createForm();
@@ -33,7 +33,7 @@ export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
   createForm() {
     this.listName = new FormControl();
     this.listForm = this.fb.group({
-      listName: this.listName
+      listName: this.listName,
     });
   }
 

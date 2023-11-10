@@ -1,58 +1,54 @@
 import { registerLocaleData } from '@angular/common';
 import localeNo from '@angular/common/locales/nb';
 import { NgModule } from '@angular/core';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
 import {
-  DefaultRouterStateSerializer,
   RouterStateSerializer,
-  StoreRouterConnectingModule
+  StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NxModule } from '@nrwl/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { environment } from '../environments/environment';
 import { AppEffects } from './+state/app/app.effects';
 import { AppFacade } from './+state/app/app.facade';
 import {
+  initialState as appInitialState,
   appReducer,
-  initialState as appInitialState
 } from './+state/app/app.reducer';
 import { AuthEffects } from './+state/auth/auth.effects';
 import { AuthFacade } from './+state/auth/auth.facade';
-import { authReducer, AUTH_FEATURE_KEY } from './+state/auth/auth.reducer';
+import { AUTH_FEATURE_KEY, authReducer } from './+state/auth/auth.reducer';
 import { FavoriteEffects } from './+state/favorite/favorite.effects';
 import { FavoriteFacade } from './+state/favorite/favorite.facade';
 import {
+  FAVORITE_FEATURE_KEY,
   favoriteReducer,
-  FAVORITE_FEATURE_KEY
 } from './+state/favorite/favorite.reducer';
 import { HomeEffects } from './+state/home/home.effects';
 import { HomeFacade } from './+state/home/home.facade';
-import { homeReducer, HOME_FEATURE_KEY } from './+state/home/home.reducer';
+import { HOME_FEATURE_KEY, homeReducer } from './+state/home/home.reducer';
 import { ItemEffects } from './+state/item/item.effects';
 import { ItemFacade } from './+state/item/item.facade';
-import { itemReducer, ITEM_FEATURE_KEY } from './+state/item/item.reducer';
+import { ITEM_FEATURE_KEY, itemReducer } from './+state/item/item.reducer';
 import { debug } from './+state/metaReducer';
 import { MyActivityEffects } from './+state/my-activity/my-activity.effects';
 import { MyActivityFacade } from './+state/my-activity/my-activity.facade';
 import {
+  MYACTIVITY_FEATURE_KEY,
   initialState as myActivityInitialState,
   myActivityReducer,
-  MYACTIVITY_FEATURE_KEY
 } from './+state/my-activity/my-activity.reducer';
 import { SearchEffects } from './+state/search/search.effects';
 import { SearchFacade } from './+state/search/search.facade';
 import {
+  SEARCH_FEATURE_KEY,
   searchReducer,
-  SEARCH_FEATURE_KEY
 } from './+state/search/search.reducer';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -70,19 +66,15 @@ registerLocaleData(localeNo);
     BrowserAnimationsModule,
     HammerModule,
     AppRoutingModule,
-    NxModule.forRoot(),
     CoreModule,
     StoreDevtoolsModule.instrument({
-      maxAge: 25
+      maxAge: 25,
     }),
-    StoreRouterConnectingModule.forRoot({
-      serializer: DefaultRouterStateSerializer
-    }),
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAuthModule,
+    StoreRouterConnectingModule.forRoot(),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+
     ServiceWorkerModule.register('/ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.production,
     }),
     InfiniteScrollModule,
     NgxChartsModule,
@@ -105,16 +97,16 @@ registerLocaleData(localeNo);
         metaReducers: !environment.production ? [debug] : [debug],
         runtimeChecks: {
           strictStateImmutability: true,
-          strictActionImmutability: true
-        }
+          strictActionImmutability: true,
+        },
       }
     ),
     EffectsModule.forRoot([AppEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreModule.forFeature(MYACTIVITY_FEATURE_KEY, myActivityReducer, {
-      initialState: myActivityInitialState
+      initialState: myActivityInitialState,
     }),
-    EffectsModule.forFeature([MyActivityEffects])
+    EffectsModule.forFeature([MyActivityEffects]),
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
@@ -122,7 +114,7 @@ registerLocaleData(localeNo);
     AuthGuard,
     {
       provide: RouterStateSerializer,
-      useClass: CustomSerializer
+      useClass: CustomSerializer,
     },
     HomeFacade,
     FavoriteFacade,
@@ -130,7 +122,7 @@ registerLocaleData(localeNo);
     AuthFacade,
     ItemFacade,
     AppFacade,
-    MyActivityFacade
-  ]
+    MyActivityFacade,
+  ],
 })
 export class AppModule {}

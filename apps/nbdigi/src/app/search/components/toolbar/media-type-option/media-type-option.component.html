@@ -3,13 +3,13 @@
   fxLayout="row"
   fxLayoutAlign="space-between center"
 >
-  <div class="checked"
-    ><mat-icon matListIcon *ngIf="checked">check</mat-icon></div
-  >
+  <div class="checked">
+    <mat-icon matListIcon *ngIf="checked">check</mat-icon>
+  </div>
   <div fxFlex="grow" class="mediaType">{{ mediaType }}</div>
-  <mat-chip-list>
-    <mat-chip (click)="selected.emit()" color="primary" selected>{{
+  <mat-chip-listbox>
+    <mat-chip-option (click)="selected.emit()" color="primary" selected>{{
       count | number: '':'nb_NO'
-    }}</mat-chip>
-  </mat-chip-list>
+    }}</mat-chip-option>
+  </mat-chip-listbox>
 </div>

@@ -5,7 +5,7 @@ export const FAVORITE_FEATURE_KEY = 'favorite';
 
 export interface FavoriteState {
   selected: string;
-  lists?: FavoriteList[];
+  lists: FavoriteList[];
 }
 
 export interface FavoritePartialState {
@@ -13,8 +13,8 @@ export interface FavoritePartialState {
 }
 
 export const initialState: FavoriteState = {
-  selected: null,
-  lists: []
+  selected: '',
+  lists: [],
 };
 
 export function favoriteReducer(
@@ -25,17 +25,17 @@ export function favoriteReducer(
     case FavoriteActionTypes.OpenList: {
       state = {
         ...state,
-        selected: action.payload
+        selected: action.payload,
       };
       break;
     }
     case FavoriteActionTypes.RemoveListSuccess: {
-      const index = state.lists.findIndex(l => l.id === action.payload.id);
+      const index = state.lists.findIndex((l) => l.id === action.payload.id);
       const newLists = [...state.lists];
       newLists.splice(index, 1);
       state = {
         ...state,
-        lists: newLists
+        lists: newLists,
       };
       break;
     }
@@ -50,7 +50,7 @@ export function favoriteReducer(
       payload.items = items;
       const newLists = [...state.lists];
       const foundIndex = newLists.findIndex(
-        element => element.id === payload.id
+        (element) => element.id === payload.id
       );
       if (foundIndex !== -1) {
         newLists.splice(foundIndex, 1, payload);
@@ -61,7 +61,7 @@ export function favoriteReducer(
       newLists.sort((a, b) => a.name.localeCompare(b.name));
       state = {
         ...state,
-        lists: newLists
+        lists: newLists,
       };
       break;
     }

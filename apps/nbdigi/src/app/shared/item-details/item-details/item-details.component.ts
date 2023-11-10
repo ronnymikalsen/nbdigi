@@ -8,15 +8,15 @@ import { ItemMenuButtonComponentConfig } from '../../item-menu/item-menu-button/
 @Component({
   selector: 'nbd-item-details',
   templateUrl: './item-details.component.html',
-  styleUrls: ['./item-details.component.scss']
+  styleUrls: ['./item-details.component.scss'],
 })
 export class ItemDetailsComponent implements OnInit {
-  item$: Observable<Item>;
-  manifest$: Observable<Manifest>;
-  loading$: Observable<boolean>;
+  item$!: Observable<Item | undefined>;
+  manifest$!: Observable<Manifest | undefined>;
+  loading$!: Observable<boolean>;
   config = new ItemMenuButtonComponentConfig({
     direction: 'horiz',
-    enableShowDetails: false
+    enableShowDetails: false,
   });
 
   constructor(private itemFacade: ItemFacade) {}

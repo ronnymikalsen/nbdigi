@@ -10,7 +10,7 @@
             {{ item.title }}
           </div>
           <div
-            *ngIf="config.showMediaType"
+            *ngIf="config.showMediaType && item.mediaType"
             class="truncate mediaType"
             [matTooltip]="item.mediaType"
           >

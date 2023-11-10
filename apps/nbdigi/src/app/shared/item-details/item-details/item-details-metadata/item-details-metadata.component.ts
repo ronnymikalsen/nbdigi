@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { Manifest } from '../../../../core/models/manifest';
 
@@ -10,10 +10,10 @@ import { Manifest } from '../../../../core/models/manifest';
   selector: 'nbd-item-details-metadata',
   templateUrl: './item-details-metadata.component.html',
   styleUrls: ['./item-details-metadata.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemDetailsMetadataComponent implements OnInit {
-  @Input() manifest: Manifest;
+  @Input() manifest: Manifest | null | undefined;
 
   constructor() {}
 

@@ -8,11 +8,14 @@ import { YearChartStrategy } from './year-chart-strategy.';
 
 export class ChartStrategyFactory {
   public static create(
-    criteria: Criteria,
-    yearAggs: YearCount[],
-    monthAggs: YearCount[],
+    criteria: Criteria | undefined,
+    yearAggs: YearCount[] | null,
+    monthAggs: YearCount[] | null,
     force?: string
-  ): ChartStrategy {
+  ): ChartStrategy | undefined {
+    if (!criteria || !yearAggs || !monthAggs) {
+      return undefined;
+    }
     if (force === 'MillenniumChart') {
       return new MillenniumChartStrategy(criteria, yearAggs);
     } else if (force === 'CenturyChart') {
@@ -25,13 +28,17 @@ export class ChartStrategyFactory {
       return new MonthChartStrategy(criteria, monthAggs);
     } else {
       if (
+        criteria.date.fromDate &&
+        criteria.date.toDate &&
         criteria.date.fromDate.substring(0, 6) ===
-        criteria.date.toDate.substring(0, 6)
+          criteria.date.toDate.substring(0, 6)
       ) {
         return new DayChartStrategy(criteria, yearAggs);
       } else if (
+        criteria.date.fromDate &&
+        criteria.date.toDate &&
         criteria.date.fromDate.substring(0, 4) ===
-        criteria.date.toDate.substring(0, 4)
+          criteria.date.toDate.substring(0, 4)
       ) {
         return new MonthChartStrategy(criteria, monthAggs);
       } else if (yearAggs.length > 0) {
@@ -59,6 +66,7 @@ export class ChartStrategyFactory {
         }
       }
     }
+    return undefined;
   }
 }
 
@@ -66,11 +74,11 @@ export interface ChartStrategy {
   getName(): string;
   getNext(): string;
   createChart(): any[];
-  createBack(): ChartRangeToOption;
+  createBack(): ChartRangeToOption | undefined;
   createQuery(selection: string): DateOption;
 }
 
 export interface ChartRangeToOption {
-  to?: string;
-  date?: DateOption;
+  to: string;
+  date: DateOption;
 }

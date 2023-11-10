@@ -2,7 +2,7 @@ import {
   Criteria,
   DateOption,
   DateOptions,
-  YearCount
+  YearCount,
 } from '../../../core/models';
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
@@ -18,12 +18,12 @@ export class YearChartStrategy implements ChartStrategy {
   }
 
   createChart(): any[] {
-    const newResult = [];
+    const newResult: any[] = [];
     const r = [];
-    this.aggs.forEach(y => {
+    this.aggs.forEach((y) => {
       newResult.push({
         name: y.year,
-        value: y.count
+        value: y.count,
       });
     });
     const min = Number(this.aggs[0].year);
@@ -37,7 +37,7 @@ export class YearChartStrategy implements ChartStrategy {
       const name = `${year}`;
       r[i] = {
         name: name,
-        value: 0
+        value: 0,
       };
     }
 
@@ -46,11 +46,11 @@ export class YearChartStrategy implements ChartStrategy {
       const x = Number(v.name);
       const y = x;
       const name = `${y}`;
-      const value =
+      const value: any =
         r[y - start] !== undefined ? r[y - start].value + v.value : 1;
       r[y - start] = {
         name: name,
-        value: value
+        value: value,
       };
     }
     return r;
@@ -66,8 +66,8 @@ export class YearChartStrategy implements ChartStrategy {
         fromDate: `${first}000101`,
         toDate: `${first}991231`,
         value: `date:[${first}000101 TO ${first}991231]`,
-        viewValue: `${startYearLabel}-${endYearLabel}`
-      })
+        viewValue: `${startYearLabel}-${endYearLabel}`,
+      }),
     };
   }
 
@@ -79,7 +79,7 @@ export class YearChartStrategy implements ChartStrategy {
       toDate: `${year}1231`,
       type: new DateOptions().customDate.type,
       value: `date:[${year}0101 TO ${year}1231]`,
-      viewValue: `${Number(year)}`
+      viewValue: `${Number(year)}`,
     });
   }
 }

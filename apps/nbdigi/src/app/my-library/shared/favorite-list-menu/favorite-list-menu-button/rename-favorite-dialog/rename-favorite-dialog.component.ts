@@ -2,20 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'nbd-rename-favorite-dialog',
   templateUrl: './rename-favorite-dialog.component.html',
   styleUrls: ['./rename-favorite-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RenameFavoriteDialogComponent implements OnInit {
-  listForm: FormGroup;
-  listName: FormControl;
+  listForm!: FormGroup;
+  listName!: FormControl;
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +30,7 @@ export class RenameFavoriteDialogComponent implements OnInit {
   createForm() {
     this.listName = new FormControl();
     this.listForm = this.fb.group({
-      listName: this.listName
+      listName: this.listName,
     });
 
     this.listName.patchValue(this.data.name);
@@ -43,7 +43,7 @@ export class RenameFavoriteDialogComponent implements OnInit {
   renameList(event: any) {
     this.dialogRef.close({
       favoriteList: this.data,
-      newName: this.listName.value
+      newName: this.listName.value,
     });
   }
 }

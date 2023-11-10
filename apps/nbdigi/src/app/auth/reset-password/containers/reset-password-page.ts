@@ -9,14 +9,16 @@ import { AuthFacade } from '../../../+state/auth/auth.facade';
       (resetEmail)="resetPassord($event)"
     >
     </nbd-reset-password>
-  `
+  `,
 })
 export class ResetPasswordPageComponent {
   authError = this.authFacade.getError$;
 
   constructor(private authFacade: AuthFacade) {}
 
-  resetPassord(email: string) {
-    this.authFacade.sendPasswordResetEmail(email);
+  resetPassord(email: string | null) {
+    if (email) {
+      this.authFacade.sendPasswordResetEmail(email);
+    }
   }
 }

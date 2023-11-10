@@ -16,11 +16,11 @@ export interface HomePartialState {
 }
 
 export const initialState: HomeState = {
-  books: null,
-  periodicals: null,
-  photos: null,
-  newspapers: null,
-  others: null
+  books: new MediaTypeResults(),
+  periodicals: new MediaTypeResults(),
+  photos: new MediaTypeResults(),
+  newspapers: new MediaTypeResults(),
+  others: new MediaTypeResults(),
 };
 
 export function homeReducer(
@@ -35,7 +35,7 @@ export function homeReducer(
         periodicals: action.payload.periodicals,
         photos: action.payload.photos,
         newspapers: action.payload.newspapers,
-        others: action.payload.others
+        others: action.payload.others,
       };
       break;
     }

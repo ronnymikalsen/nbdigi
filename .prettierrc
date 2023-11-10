@@ -1,4 +1,3 @@
 {
-  "singleQuote": true,
-  "htmlWhitespaceSensitivity": "strict"
+  "singleQuote": true
 }

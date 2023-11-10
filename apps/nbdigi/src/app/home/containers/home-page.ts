@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
 } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
@@ -12,7 +12,13 @@ import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
 import { ItemFacade } from '../../+state/item/item.facade';
 import { SearchFacade } from '../../+state/search/search.facade';
-import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
+import {
+  Criteria,
+  Item,
+  MediaTypeResults,
+  SortOptions,
+  User,
+} from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,10 +39,10 @@ import { Item, MediaTypeResults, SortOptions, User } from '../../core/models';
       (searchSelected)="onSearchSelected($event)"
     >
     </nbd-home>
-  `
+  `,
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  items: Observable<MediaTypeResults>;
+  items!: Observable<MediaTypeResults>;
   newBooks: Observable<MediaTypeResults> = this.homeFacade.getNewBooks$;
   newPeriodicals: Observable<MediaTypeResults> = this.homeFacade
     .getNewPeriodicals$;
@@ -53,25 +59,27 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private appFacade: AppFacade,
     private authFacade: AuthFacade,
     private itemFacade: ItemFacade,
-    private afs: AngularFirestore
+    private afs: Firestore
   ) {
     this.authFacade.currentUser$
-      .pipe(filter(user => user !== null))
-      .subscribe((user: User) => {
+      .pipe(filter((user) => user !== null))
+      .subscribe((user: User | null | undefined) => {
+        /*
         this.items = this.afs
           .collection('users')
           .doc(user.uid)
-          .collection<Item>('items', ref =>
+          .collection<Item>('items', (ref: any) =>
             ref.orderBy('timestamp', 'desc').limit(20)
           )
           .valueChanges()
           .pipe(
-            map(i => {
+            map((i: Item[]) => {
               return new MediaTypeResults({
-                items: i
+                items: i,
               });
             })
           );
+          */
       });
   }
 
@@ -100,17 +108,21 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   onSearchSelected(q: string) {
-    this.searchFacade.setCriteria({
-      q: q
-    });
+    this.searchFacade.setCriteria(
+      new Criteria({
+        q: q,
+      })
+    );
     this.searchFacade.search();
   }
 
   private showNewArrivals(mediaType: string) {
-    this.searchFacade.setCriteria({
-      mediaType: mediaType,
-      sort: new SortOptions().newArrivals
-    });
+    this.searchFacade.setCriteria(
+      new Criteria({
+        mediaType: mediaType,
+        sort: new SortOptions().newArrivals,
+      })
+    );
     this.searchFacade.search();
   }
 }

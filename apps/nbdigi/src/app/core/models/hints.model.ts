@@ -11,9 +11,9 @@ export class Hints {
 }
 
 export class Hint {
-  public type: string;
-  public label: string;
-  public value: string;
+  public type: string = '';
+  public label: string = '';
+  public value: string = '';
   public enabled = true;
 
   constructor(fields?: {

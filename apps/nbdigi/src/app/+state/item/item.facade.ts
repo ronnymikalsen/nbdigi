@@ -36,7 +36,7 @@ export class ItemFacade {
     this.store.dispatch(new CloseItemDetails());
   }
 
-  change(item: Item): void {
+  change(item: Item| undefined | null): void {
     this.store.dispatch(new Change(item));
   }
 }

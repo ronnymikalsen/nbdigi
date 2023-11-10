@@ -1,21 +1,21 @@
 import {
-  Component,
-  OnInit,
   ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
   Input,
+  OnInit,
   Output,
-  EventEmitter
 } from '@angular/core';
 
 @Component({
   selector: 'nbd-media-type-button',
   templateUrl: './media-type-button.component.html',
   styleUrls: ['./media-type-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaTypeButtonComponent implements OnInit {
-  @Input() mediaType: string;
-  @Input() counts: number;
+  @Input() mediaType!: string | null | undefined;
+  @Input() counts!: number | undefined;
   @Output() selected = new EventEmitter<string>();
 
   constructor() {}

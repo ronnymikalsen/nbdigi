@@ -6,11 +6,11 @@ import { ItemFacade } from '../../+state/item/item.facade';
 import { ItemDetailsComponent } from '../../shared/item-details/item-details/item-details.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemDetailsService {
-  private dialogRef: MatDialogRef<ItemDetailsComponent>;
-  private showItemDetails: boolean;
+  private dialogRef: MatDialogRef<ItemDetailsComponent> | undefined;
+  private showItemDetails: boolean | undefined;
 
   constructor(
     public dialog: MatDialog,
@@ -26,7 +26,7 @@ export class ItemDetailsService {
         this.update();
       });
 
-    this.itemFacade.showItemDetails$.subscribe(show => {
+    this.itemFacade.showItemDetails$.subscribe((show) => {
       this.showItemDetails = show;
       this.update();
     });
@@ -39,7 +39,7 @@ export class ItemDetailsService {
           width: '100%',
           height: '100%',
           data: null,
-          panelClass: ['viewer-panel']
+          panelClass: ['viewer-panel'],
         });
       }
     } else {

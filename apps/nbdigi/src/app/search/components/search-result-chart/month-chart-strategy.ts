@@ -2,7 +2,7 @@ import {
   Criteria,
   DateOption,
   DateOptions,
-  YearCount
+  YearCount,
 } from '../../../core/models';
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
@@ -21,12 +21,12 @@ export class MonthChartStrategy implements ChartStrategy {
     if (!this.aggs || this.aggs.length === 0) {
       return [];
     }
-    const newResult = [];
+    const newResult: any[] = [];
     const r = [];
-    this.aggs.forEach(y => {
+    this.aggs.forEach((y) => {
       newResult.push({
         name: y.year,
-        value: y.count
+        value: y.count,
       });
     });
     const min = Number(this.aggs[0].year);
@@ -40,7 +40,7 @@ export class MonthChartStrategy implements ChartStrategy {
       const name = this.monthIndexToName(Number(this.aggs[0].year), y);
       r[i] = {
         name: name,
-        value: 0
+        value: 0,
       };
     }
 
@@ -49,48 +49,58 @@ export class MonthChartStrategy implements ChartStrategy {
       const x = Number(v.name);
       const y = x;
       const name = this.monthIndexToName(Number(this.aggs[0].year), y);
-      const value =
+      const value: any =
         r[y - start] !== undefined ? r[y - start].value + v.value : 1;
       r[y - start] = {
         name: name,
-        value: value
+        value: value,
       };
     }
     return r;
   }
 
   createBack(): ChartRangeToOption {
-    const currentYear = this.criteria.date.fromDate.substring(0, 3);
-    const startYearLabel = Number(`${currentYear}0`);
-    const endYearLabel = Number(`${currentYear}9`);
-    return {
-      to: 'YearChart',
-      date: new DateOption({
-        fromDate: `${currentYear}10101`,
-        toDate: `${currentYear}91231`,
-        value: `date:[${currentYear}00101 TO ${currentYear}91231]`,
-        viewValue: `${startYearLabel}-${endYearLabel}`
-      })
-    };
+    if (this.criteria && this.criteria.date && this.criteria.date.fromDate) {
+      const currentYear = this.criteria.date.fromDate.substring(0, 3);
+      const startYearLabel = Number(`${currentYear}0`);
+      const endYearLabel = Number(`${currentYear}9`);
+      return {
+        to: 'YearChart',
+        date: new DateOption({
+          fromDate: `${currentYear}10101`,
+          toDate: `${currentYear}91231`,
+          value: `date:[${currentYear}00101 TO ${currentYear}91231]`,
+          viewValue: `${startYearLabel}-${endYearLabel}`,
+        }),
+      };
+    } else {
+      throw new Error('No date in criteria');
+    }
   }
 
   createQuery(selection: string): DateOption {
-    const currentYear = Number(this.criteria.date.fromDate.substring(0, 4));
-    const monthIndex = Number(this.monthNameToIndex(selection));
-    const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
-    const daysInMonth = this.daysInMonth(monthIndex, currentYear);
-    const lastDay = ('' + daysInMonth).padStart(2, '0');
-    const fromDate = `${currentYear}${monthIndexPadded}01`;
-    const toDate = `${currentYear}${monthIndexPadded}${lastDay}`;
-    const value = `date:[${fromDate} TO ${toDate}]`;
-    const viewValue = this.capitalizeFirstLetter(`${selection} ${currentYear}`);
-    return new DateOption({
-      fromDate: `${fromDate}`,
-      toDate: `${toDate}`,
-      type: new DateOptions().customDate.type,
-      value: `${value}`,
-      viewValue: `${viewValue}`
-    });
+    if (this.criteria && this.criteria.date && this.criteria.date.fromDate) {
+      const currentYear = Number(this.criteria.date.fromDate.substring(0, 4));
+      const monthIndex = Number(this.monthNameToIndex(selection));
+      const monthIndexPadded = ('' + monthIndex).padStart(2, '0');
+      const daysInMonth = this.daysInMonth(monthIndex, currentYear);
+      const lastDay = ('' + daysInMonth).padStart(2, '0');
+      const fromDate = `${currentYear}${monthIndexPadded}01`;
+      const toDate = `${currentYear}${monthIndexPadded}${lastDay}`;
+      const value = `date:[${fromDate} TO ${toDate}]`;
+      const viewValue = this.capitalizeFirstLetter(
+        `${selection} ${currentYear}`
+      );
+      return new DateOption({
+        fromDate: `${fromDate}`,
+        toDate: `${toDate}`,
+        type: new DateOptions().customDate.type,
+        value: `${value}`,
+        viewValue: `${viewValue}`,
+      });
+    } else {
+      throw new Error('No date in criteria');
+    }
   }
 
   private monthIndexToName(year: number, index: number) {
@@ -124,11 +134,13 @@ export class MonthChartStrategy implements ChartStrategy {
         return 11;
       case 'desember':
         return 12;
+      default:
+        return -1;
     }
   }
 
-  private capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  private capitalizeFirstLetter(value: string) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 
   private daysInMonth(month: number, year: number): number {

@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FavoriteFacade } from '../../../+state/favorite/favorite.facade';
@@ -13,11 +13,11 @@ import { FavoriteList, Item } from '../../../core/models';
   selector: 'nbd-item-menu-button',
   templateUrl: './item-menu-button.component.html',
   styleUrls: ['./item-menu-button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemMenuButtonComponent implements OnInit {
-  @Input() item: Item;
-  @Input() list: FavoriteList;
+  @Input() item!: Item | undefined | null;
+  @Input() list!: FavoriteList | null;
   @Input() config = new ItemMenuButtonComponentConfig();
 
   constructor(
@@ -29,29 +29,34 @@ export class ItemMenuButtonComponent implements OnInit {
   ngOnInit() {}
 
   open(): void {
-    this.itemFacade.open(this.item);
+    if (this.item) {
+      this.itemFacade.open(this.item);
+    }
   }
 
   openItemDetails(): void {
-    this.itemFacade.openItemDetails(this.item);
+    if (this.item) {
+      this.itemFacade.openItemDetails(this.item);
+    }
   }
 
   addToFavorites(): void {
-    this.favoriteFacade.openAddToListDialog(this.item);
+    if (this.item) {
+      this.favoriteFacade.openAddToListDialog(this.item);
+    }
   }
 
   removeFromFavorites(): void {
-    this.favoriteFacade.removeFromList({
-      id: this.list.id,
-      items: [this.item]
-    });
+    if (this.list && this.list !== null) {
+      this.favoriteFacade.removeFromList(this.list);
+    }
   }
 }
 
 export class ItemMenuButtonComponentConfig {
-  direction = 'vert';
-  enableOpen = true;
-  enableShowDetails = true;
+  direction? = 'vert';
+  enableOpen? = true;
+  enableShowDetails? = true;
 
   constructor(fields?: {
     direction?: string;

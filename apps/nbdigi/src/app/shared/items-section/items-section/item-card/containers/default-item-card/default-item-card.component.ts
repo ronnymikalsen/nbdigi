@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppFacade } from '../../../../../../+state/app/app.facade';
@@ -13,14 +13,16 @@ import { FavoriteList, Item } from '../../../../../../core/models';
   selector: 'nbd-default-item-card',
   templateUrl: './default-item-card.component.html',
   styleUrls: ['./default-item-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultItemCardComponent implements OnInit {
-  @Input() item: Item;
-  @Input() list: FavoriteList;
-  isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
+  @Input() item!: Item;
+  @Input() list!: FavoriteList | null;
+  isDebugOn: Observable<boolean>;
 
-  constructor(private appFacade: AppFacade, private itemFacade: ItemFacade) {}
+  constructor(private appFacade: AppFacade, private itemFacade: ItemFacade) {
+    this.isDebugOn = this.appFacade.isDebugOn$;
+  }
 
   ngOnInit() {}
 

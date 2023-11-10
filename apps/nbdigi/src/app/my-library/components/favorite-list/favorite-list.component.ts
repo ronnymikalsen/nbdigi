@@ -7,12 +7,12 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
 @Component({
   selector: 'nbd-favorite-list',
   templateUrl: './favorite-list.component.html',
-  styleUrls: ['./favorite-list.component.scss']
+  styleUrls: ['./favorite-list.component.scss'],
 })
 export class FavoriteListComponent implements OnInit {
-  @Input() items: MediaTypeResults;
-  @Input() list: FavoriteList;
-  @Input() isDebugOn: boolean;
+  @Input() items!: MediaTypeResults | null;
+  @Input() list!: FavoriteList | null;
+  @Input() isDebugOn!: boolean | null;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
   constructor(public media: MediaObserver, private itemFacade: ItemFacade) {}

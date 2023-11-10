@@ -5,29 +5,29 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
-import { Authenticate, AuthError } from '../../../../core/models';
+import { AuthError, Authenticate } from '../../../../core/models';
 import { PasswordValidation } from './password.validation';
 
 @Component({
   selector: 'nbd-create-account',
   templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss']
+  styleUrls: ['./create-account.component.scss'],
 })
 export class CreateAccountComponent implements OnInit, OnChanges {
-  @Input() authError: AuthError;
+  @Input() authError: AuthError | null | undefined = null;
   @Output() signUpSelected = new EventEmitter<Authenticate>();
-  signUpForm: FormGroup;
-  email: FormControl;
-  password: FormControl;
-  confirmPassword: FormControl;
+  signUpForm!: FormGroup;
+  email!: FormControl;
+  password!: FormControl;
+  confirmPassword!: FormControl;
 
   constructor(private fb: FormBuilder) {
     this.createForm();
@@ -41,15 +41,15 @@ export class CreateAccountComponent implements OnInit, OnChanges {
       if (curr) {
         if (curr.code === 'auth/email-already-in-use') {
           this.email.setErrors({
-            emailAlreadyInUse: curr.message
+            emailAlreadyInUse: curr.message,
           });
         } else if (curr.code === 'auth/invalid-email') {
           this.email.setErrors({
-            invalidEmail: curr.message
+            invalidEmail: curr.message,
           });
         } else if (curr.code === 'auth/weak-password') {
           this.password.setErrors({
-            weakPassword: curr.message
+            weakPassword: curr.message,
           });
         }
       }
@@ -64,18 +64,18 @@ export class CreateAccountComponent implements OnInit, OnChanges {
       {
         email: this.email,
         password: this.password,
-        confirmPassword: this.confirmPassword
+        confirmPassword: this.confirmPassword,
       },
       {
-        validator: PasswordValidation.MatchPassword
+        validator: PasswordValidation.MatchPassword,
       }
     );
   }
 
   signUp(): void {
     this.signUpSelected.emit({
-      email: this.signUpForm.get('email').value,
-      password: this.signUpForm.get('password').value
+      email: this.signUpForm.get('email')?.value,
+      password: this.signUpForm.get('password')?.value,
     });
   }
 }

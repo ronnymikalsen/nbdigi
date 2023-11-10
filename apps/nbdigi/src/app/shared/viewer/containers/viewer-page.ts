@@ -8,17 +8,19 @@ import { Item } from '../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <nbd-viewer [item]="item | async" (change)="onChange($event)"> </nbd-viewer>
-  `
+  `,
 })
 export class ViewerPageComponent {
-  item: Observable<Item> = this.itemFacade.getCurrentItem$;
+  item: Observable<Item | undefined>;
 
   constructor(
     public dialogRef: MatDialogRef<ViewerPageComponent>,
     private itemFacade: ItemFacade
-  ) {}
+  ) {
+    this.item = this.itemFacade.getCurrentItem$;
+  }
 
-  onChange(currentItem: Item) {
+  onChange(currentItem: Item | undefined | null) {
     this.itemFacade.change(currentItem);
   }
 }

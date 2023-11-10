@@ -1,17 +1,17 @@
 export class QueryBuilder {
-  private q: string;
+  private q: string | undefined;
   private filters: string[] = [];
   private aggs: string[] = [];
   private digitalAccessibleOnly = false;
-  private mediaTypeOrder: string;
-  private mediaTypeSize: number;
-  private mediaType: string;
-  private size = 1;
-  private sort: string;
+  private mediaTypeOrder: string | undefined;
+  private mediaTypeSize: number = 0;
+  private mediaType: string | undefined;
+  private size: number = 1;
+  private sort: string | undefined;
 
   constructor() {}
 
-  withQ(value: string): QueryBuilder {
+  withQ(value: string | undefined): QueryBuilder {
     this.q = value;
     return this;
   }
@@ -45,13 +45,13 @@ export class QueryBuilder {
     return this;
   }
 
-  withMediaType(value: string): QueryBuilder {
+  withMediaType(value: string | undefined): QueryBuilder {
     this.mediaType = value !== 'alle' ? value : undefined;
     return this;
   }
 
-  withSize(value: number): QueryBuilder {
-    this.size = value;
+  withSize(value: number | undefined): QueryBuilder {
+    this.size = value ?? 1;
     return this;
   }
 
@@ -67,7 +67,7 @@ export class QueryBuilder {
     params.push(`q=${qParam}`);
 
     const filtersParams = this.filters.map(
-      f => `filter=${encodeURIComponent(f)}`
+      (f) => `filter=${encodeURIComponent(f)}`
     );
     params.push(...filtersParams);
 
@@ -93,7 +93,7 @@ export class QueryBuilder {
       params.push(`sort=${this.sort}`);
     }
 
-    const aggsParams = this.aggs.map(a => `aggs=${encodeURIComponent(a)}`);
+    const aggsParams = this.aggs.map((a) => `aggs=${encodeURIComponent(a)}`);
     params.push(...aggsParams);
 
     return '?' + params.join('&');

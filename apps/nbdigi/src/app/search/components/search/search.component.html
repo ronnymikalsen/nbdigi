@@ -1,4 +1,5 @@
 <div
+  *ngIf="search"
   id="search-container"
   fxLayout="column"
   fxLayoutAlign="start stretch"
@@ -71,8 +72,9 @@
         </div>
         <div *ngIf="!search.isLoading">
           <nbd-items-section
+            *ngIf="books"
             [label]="
-              createLabel(books?.mediaType, books?.counts | number: '':'nb_NO')
+              createLabel(books.mediaType, books.counts | number: '':'nb_NO')
             "
             [mediaTypeResults]="books"
             (mediaTypeChanged)="mediaTypeChanged.emit($event)"
@@ -81,7 +83,8 @@
             [showToolbar]="search.criteria.mediaType == 'alle'"
             [isDebugOn]="isDebugOn"
             tabindex="0"
-          ></nbd-items-section>
+          >
+          </nbd-items-section>
           <nbd-items-section
             [label]="
               createLabel(
@@ -171,7 +174,7 @@
 
           <nbd-items-section
             [label]="'andre'"
-            asList="true"
+            [asList]="true"
             [mediaTypeResults]="others"
             (mediaTypeChanged)="mediaTypeChanged.emit($event)"
             [selected]="search.criteria.mediaType === 'others'"

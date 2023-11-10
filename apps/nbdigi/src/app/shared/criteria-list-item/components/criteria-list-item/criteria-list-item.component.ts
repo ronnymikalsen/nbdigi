@@ -15,7 +15,7 @@ import { Criteria } from '../../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CriteriaListItemComponent implements OnInit {
-  @Input() criteria: Criteria;
+  @Input() criteria!: Criteria;
   @Output() changeCriteria = new EventEmitter<Criteria>();
 
   constructor() {}

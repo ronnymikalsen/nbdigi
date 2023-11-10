@@ -1,5 +1,5 @@
 export class YearCount {
-  year: string;
+  year: string = '';
   count? = 0;
 
   constructor(fields?: { year: string; count?: number }) {

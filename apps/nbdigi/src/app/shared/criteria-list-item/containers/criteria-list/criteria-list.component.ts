@@ -1,23 +1,23 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Firestore } from '@angular/fire/firestore';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { AuthFacade } from '../../../../+state/auth/auth.facade';
 import { SearchFacade } from '../../../../+state/search/search.facade';
-import { Criteria, User } from '../../../../core/models';
+import { Criteria } from '../../../../core/models';
 
 @Component({
   selector: 'nbd-criteria-list',
   templateUrl: './criteria-list.component.html',
-  styleUrls: ['./criteria-list.component.scss']
+  styleUrls: ['./criteria-list.component.scss'],
 })
 export class CriteriaListComponent implements OnInit, OnDestroy {
   @Input() limit = 1000;
-  criterias: Observable<Criteria[]>;
+  criterias!: Observable<Criteria[]>;
   private destroyed: Subject<void> = new Subject();
 
   constructor(
-    private afs: AngularFirestore,
+    private afs: Firestore,
     private searchFacade: SearchFacade,
     private authFacade: AuthFacade
   ) {}
@@ -26,16 +26,18 @@ export class CriteriaListComponent implements OnInit, OnDestroy {
     this.authFacade.currentUser$
       .pipe(
         takeUntil(this.destroyed),
-        filter(user => user !== null)
+        filter((user) => user !== null && user !== undefined)
       )
-      .subscribe((user: User) => {
+      .subscribe((user: any) => {
+        /*
         this.criterias = this.afs
           .collection('users')
           .doc(user.uid)
-          .collection<Criteria>('searchs', ref =>
+          .collection<Criteria>('searchs', (ref: any) =>
             ref.orderBy('timestamp', 'desc').limit(this.limit)
           )
           .valueChanges();
+          */
       });
   }
 

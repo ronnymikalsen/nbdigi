@@ -20,7 +20,7 @@ export class TypeaheadService {
         }/catalog/v1/typeahead/namecreators${this.buildQuery(sc)}`
       )
       .pipe(
-        map(resp => {
+        map((resp) => {
           const creators: Hint[] = [];
           const items = resp._embedded.items;
           if (items) {
@@ -29,7 +29,7 @@ export class TypeaheadService {
                 new Hint({
                   type: 'person',
                   label: item.label,
-                  value: `namecreators:"${item.value}"`
+                  value: `namecreators:"${item.value}"`,
                 })
               );
             }
@@ -47,7 +47,7 @@ export class TypeaheadService {
         }/catalog/v1/typeahead/subjectgeographic${this.buildQuery(sc)}`
       )
       .pipe(
-        map(resp => {
+        map((resp) => {
           const creators: Hint[] = [];
           const items = resp._embedded.items;
           if (items) {
@@ -56,7 +56,7 @@ export class TypeaheadService {
                 new Hint({
                   type: 'place',
                   label: item.label,
-                  value: `subjectgeographic:"${item.value}"`
+                  value: `subjectgeographic:"${item.value}"`,
                 })
               );
             }
@@ -67,13 +67,16 @@ export class TypeaheadService {
   }
 
   private buildQuery(sc: SearchCriteria): string {
+    if (!sc) {
+      throw new Error('SearchCriteria is undefined');
+    }
     let builder = new QueryBuilder()
       .withQ(sc.q)
       .withSize(3)
       .withDigitalAccessibleOnly(true)
       .withMediaType(sc.mediaType);
 
-    sc.filters.forEach(f => {
+    sc.filters?.forEach((f) => {
       builder = builder.addFilter(f);
     });
 

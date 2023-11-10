@@ -2,19 +2,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Item } from '../../../core/models';
 
 @Component({
   selector: 'nbd-item-activity',
   templateUrl: './item-activity.component.html',
   styleUrls: ['./item-activity.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemActivityComponent implements OnInit {
-  @Input() items: Observable<Item[]>;
+  @Input() items!: Item[] | null;
 
   constructor() {}
 

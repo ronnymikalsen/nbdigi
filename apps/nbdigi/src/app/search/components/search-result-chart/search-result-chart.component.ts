@@ -6,34 +6,32 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { Criteria, DateOption, YearCount } from '../../../core/models';
 import {
   ChartRangeToOption,
   ChartStrategy,
-  ChartStrategyFactory
+  ChartStrategyFactory,
 } from './chart-strategy-factory';
 @Component({
   selector: 'nbd-search-result-chart',
   templateUrl: './search-result-chart.component.html',
   styleUrls: ['./search-result-chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultChartComponent implements OnInit, OnChanges {
-  @Input() criteria: Criteria;
-  @Input() years: YearCount[];
-  @Input() months: YearCount[];
+  @Input() criteria!: Criteria | undefined;
+  @Input() years!: YearCount[] | null;
+  @Input() months!: YearCount[] | null;
   @Output() previousChartRange = new EventEmitter<ChartRangeToOption>();
   @Output() chartDateChanged = new EventEmitter<DateOption>();
   @Output() currentChartChanged = new EventEmitter<string>();
-  backDateOption: ChartRangeToOption;
-  data = [];
-  colorScheme = {
-    domain: ['#00bcd4']
-  };
-  private chartStrategy: ChartStrategy;
-  private force: string;
+  backDateOption!: ChartRangeToOption | undefined;
+  data: any[] = [];
+  colorScheme = '#00bcd4';
+  private chartStrategy!: ChartStrategy | undefined;
+  private force: string | undefined;
 
   ngOnInit() {}
 
@@ -54,13 +52,15 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
     }
   }
 
-  onSelect(event) {
-    this.force = null;
-    this.chartDateChanged.emit(this.chartStrategy.createQuery(event.name));
+  onSelect(event: any) {
+    if (this.chartStrategy) {
+      this.force = undefined;
+      this.chartDateChanged.emit(this.chartStrategy.createQuery(event.name));
+    }
   }
 
   back() {
-    this.force = this.backDateOption.to;
+    this.force = this.backDateOption?.to;
     this.previousChartRange.emit(this.backDateOption);
   }
 }

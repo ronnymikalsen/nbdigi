@@ -21,7 +21,7 @@ import { FavoriteListMenuModule } from './shared/favorite-list-menu/favorite-lis
     FormsModule,
     ItemsSectionModule,
     FavoriteListMenuModule,
-    ItemDetailsModule
+    ItemDetailsModule,
   ],
   declarations: [
     MyLibraryPageComponent,
@@ -31,9 +31,9 @@ import { FavoriteListMenuModule } from './shared/favorite-list-menu/favorite-lis
     FavoriteListPageComponent,
     FavoriteListComponent,
     RenameFavoriteDialogComponent,
-    RemoveFavoriteDialogComponent
+    RemoveFavoriteDialogComponent,
   ],
   providers: [],
-  exports: [AddToFavoriteListDialogComponent, CreateFavoriteListComponent]
+  exports: [AddToFavoriteListDialogComponent, CreateFavoriteListComponent],
 })
 export class MyLibraryModule {}

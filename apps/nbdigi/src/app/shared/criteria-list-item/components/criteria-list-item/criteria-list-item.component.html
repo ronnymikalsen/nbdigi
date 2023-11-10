@@ -1,20 +1,20 @@
 <mat-list-item>
   <div class="query" *ngIf="criteria.q" matLine>{{ criteria.q }}</div>
-  <div class="mediaType" *ngIf="criteria.mediaType" matLine>{{
-    criteria.mediaType
-  }}</div>
+  <div class="mediaType" *ngIf="criteria.mediaType" matLine>
+    {{ criteria.mediaType }}
+  </div>
   <div class="genre" matLine>{{ criteria.genre?.viewValue }}</div>
   <div class="date" matLine>{{ criteria.date?.viewValue }}</div>
   <div class="sort" matLine>{{ criteria.sort?.viewValue }}</div>
   <div matLine *ngFor="let hint of criteria.filters">
-    <mat-chip-list>
-      <mat-chip color="accent" [selected]="hint.enabled" disabled="true">
+    <mat-chip-listbox>
+      <mat-chip-option color="accent" [selected]="hint.enabled" disabled="true">
         <div fxLayout="row" fxLayoutAlign="start center">
           <mat-icon>{{ hint.type }}</mat-icon>
-          <div> {{ hint.label }} </div>
+          <div>{{ hint.label }}</div>
         </div>
-      </mat-chip>
-    </mat-chip-list>
+      </mat-chip-option>
+    </mat-chip-listbox>
   </div>
   <mat-divider></mat-divider>
 </mat-list-item>

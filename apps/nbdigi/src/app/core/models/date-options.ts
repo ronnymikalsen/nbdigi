@@ -4,30 +4,30 @@ export class DateOptions {
     fromDate: '00000101',
     toDate: '49991231',
     value: null,
-    viewValue: 'Når som helst'
+    viewValue: 'Når som helst',
   });
   public twentyFirstCentury = new DateOption({
     fromDate: '20010101',
     toDate: '20991231',
     value: 'date:[20000101 TO 20991231]',
-    viewValue: '2000-'
+    viewValue: '2000-',
   });
   public twentiethCentury = new DateOption({
     fromDate: '19010101',
     toDate: '19991231',
     value: 'date:[19000101 TO 19991231]',
-    viewValue: '1900-tallet'
+    viewValue: '1900-tallet',
   });
   public nineteenthCentury = new DateOption({
     fromDate: '18010101',
     toDate: '18991231',
     value: 'date:[18000101 TO 18991231]',
-    viewValue: '1800-tallet'
+    viewValue: '1800-tallet',
   });
   public customDate = new DateOption({
     type: 'custom',
     value: 'select',
-    viewValue: 'Egendefinert datoområde'
+    viewValue: 'Egendefinert datoområde',
   });
 
   constructor() {
@@ -36,7 +36,7 @@ export class DateOptions {
       this.twentyFirstCentury,
       this.twentiethCentury,
       this.nineteenthCentury,
-      this.customDate
+      this.customDate,
     ];
   }
 }
@@ -45,15 +45,15 @@ export class DateOption {
   type?: string;
   fromDate?: string;
   toDate?: string;
-  value? = null;
-  viewValue? = null;
+  value?: string | null = null;
+  viewValue?: string | null = null;
 
   constructor(fields?: {
     type?: string;
     fromDate?: any;
     toDate?: any;
-    value?: string;
-    viewValue?: string;
+    value?: string | null;
+    viewValue?: string | null;
   }) {
     if (fields) {
       this.type = fields.type || this.type;

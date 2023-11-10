@@ -5,11 +5,11 @@ import { User } from '../../../../core/models';
 @Component({
   selector: 'nbd-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  @Input() user: User;
-  @Input() currentTheme: string;
+  @Input() user!: User | null | undefined;
+  @Input() currentTheme!: string | null;
 
   @Output() signOut = new EventEmitter<void>();
   @Output() themeChange = new EventEmitter<string>();

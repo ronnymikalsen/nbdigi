@@ -1,5 +1,5 @@
 export class MediaTypeCount {
-  mediaType: string;
+  mediaType: string = '';
   count? = 0;
 
   constructor(fields?: { mediaType: string; count?: number }) {

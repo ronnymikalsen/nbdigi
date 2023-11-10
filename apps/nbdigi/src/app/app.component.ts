@@ -11,10 +11,10 @@ import { SessionService } from './core/services/session.service';
 @Component({
   selector: 'nbd-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  currentTheme: string;
+  currentTheme = 'light-theme';
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
 
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this.mobileQueryListener);
-    this.appFacade.currentTheme$.subscribe(theme => {
+    this.appFacade.currentTheme$.subscribe((theme) => {
       const previousTheme = this.currentTheme;
       this.currentTheme = theme;
       this.overlayContainer

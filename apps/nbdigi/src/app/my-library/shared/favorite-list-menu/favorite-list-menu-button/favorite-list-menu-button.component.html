@@ -1,8 +1,8 @@
-<div>
+<div *ngIf="favorite">
   <mat-menu #appMenu="matMenu">
-    <button mat-menu-item (click)="renameFavorite(favorite)"
-      >Gi nytt navn</button
-    >
+    <button mat-menu-item (click)="renameFavorite(favorite)">
+      Gi nytt navn
+    </button>
     <button mat-menu-item (click)="removeFavorite(favorite)">Slett</button>
   </mat-menu>
 

@@ -1,47 +1,48 @@
 import firebase from 'firebase/app';
 import { YearCount } from './year-count';
+import { Timestamp } from 'firebase/firestore';
 export class SuperSearchResult {
   totalElements = 0;
-  selfLink: string;
+  selfLink: string = '';
   public books = new MediaTypeResults({
-    mediaType: 'bøker'
+    mediaType: 'bøker',
   });
   public newspapers = new MediaTypeResults({
-    mediaType: 'aviser'
+    mediaType: 'aviser',
   });
   public photos = new MediaTypeResults({
-    mediaType: 'bilder'
+    mediaType: 'bilder',
   });
   public periodicals = new MediaTypeResults({
-    mediaType: 'tidsskrift'
+    mediaType: 'tidsskrift',
   });
   public maps = new MediaTypeResults({
-    mediaType: 'kart'
+    mediaType: 'kart',
   });
   public musicBooks = new MediaTypeResults({
-    mediaType: 'noter'
+    mediaType: 'noter',
   });
   public musicManuscripts = new MediaTypeResults({
-    mediaType: 'musikkmanuskripter'
+    mediaType: 'musikkmanuskripter',
   });
   public posters = new MediaTypeResults({
-    mediaType: 'plakater'
+    mediaType: 'plakater',
   });
   public privateArchives = new MediaTypeResults({
-    mediaType: 'privatarkivmateriale'
+    mediaType: 'privatarkivmateriale',
   });
   public programReports = new MediaTypeResults({
-    mediaType: 'programrapporter'
+    mediaType: 'programrapporter',
   });
   public others = new MediaTypeResults({
-    mediaType: 'andre'
+    mediaType: 'andre',
   });
 
   public years: YearCount[] = [];
   public months: YearCount[] = [];
 
   constructor(fields?: {
-    selfLink?: string;
+    selfLink?: null | string;
     books?: MediaTypeResults;
     newspapers?: MediaTypeResults;
     photos?: MediaTypeResults;
@@ -76,11 +77,11 @@ export class SuperSearchResult {
 }
 
 export class MediaTypeResults {
-  public mediaType = null;
+  public mediaType: null | string | undefined = null;
   public totalElements = 0;
   public counts = 0;
-  public selfLink? = null;
-  public nextLink? = null;
+  public selfLink?: null | string | undefined = null;
+  public nextLink?: null | string = null;
   public items: Item[] = [];
 
   constructor(fields?: {
@@ -103,32 +104,32 @@ export class MediaTypeResults {
 }
 
 export class Item {
-  public id: string = null;
-  public mediaType: string = null;
-  public title: string = null;
-  public creator: string = null;
-  public issued: string = null;
-  public thumbnail: string = null;
-  public manifestUri: string = null;
+  public id: null | string = null;
+  public mediaType: null | string = null;
+  public title: string = '';
+  public creator: string = '';
+  public issued: string = '';
+  public thumbnail: string = '';
+  public manifestUri: null | string = null;
   public currentCanvasId = 0;
-  public timestamp: firebase.firestore.Timestamp;
-  public selfLink? = null;
-  public urn: string = null;
-  public oaiId: string = null;
+  public timestamp: Timestamp | null = null;
+  public selfLink?: null | string = null;
+  public urn: null | string = null;
+  public oaiId: null | string = null;
 
   constructor(fields?: {
     id?: string;
-    mediaType?: string;
+    mediaType?: string | null;
     title?: string;
-    creator?: string;
-    issued?: string;
-    thumbnail?: string;
-    manifestUri?: string;
+    creator?: string | null;
+    issued?: string | null;
+    thumbnail?: string | null;
+    manifestUri?: string | null;
     currentCanvasId?: number;
-    timestamp?: firebase.firestore.Timestamp;
-    selfLink?: string;
-    urn?: string;
-    oaiId?: string;
+    timestamp?: Timestamp;
+    selfLink?: null | string;
+    urn?: string | null;
+    oaiId?: string | null;
   }) {
     if (fields) {
       this.id = fields.id || this.id;

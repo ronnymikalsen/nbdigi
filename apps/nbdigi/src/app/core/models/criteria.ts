@@ -1,28 +1,27 @@
-import firebase from 'firebase/app';
 import { Md5 } from 'ts-md5';
-import { Hint } from './hints.model';
 import { DateOption, DateOptions } from './date-options';
 import { Genre } from './genre-options.model';
+import { Hint } from './hints.model';
 import { Sort, SortOptions } from './sort-options';
 
 export class Criteria {
-  q? = '';
-  mediaType? = 'alle';
-  filters?: Hint[] = [];
-  genre?: Genre;
-  date? = new DateOptions().anytime;
-  sort?: Sort = new SortOptions().relevance;
-  timestamp?: firebase.firestore.FieldValue;
-  hash?: string = null;
+  q: string = '';
+  mediaType: string = 'alle';
+  filters: Hint[] = [];
+  genre?: Genre = new Genre();
+  date = new DateOptions().anytime;
+  sort: Sort = new SortOptions().relevance;
+  timestamp: any;
+  hash: string | null = null;
 
   constructor(fields?: {
     q?: string;
-    mediaType?: string;
+    mediaType?: string | null;
     filters?: Hint[];
     genre?: Genre;
     date?: DateOption;
     sort?: Sort;
-    timestamp?: firebase.firestore.FieldValue;
+    timestamp?: any;
     hash?: string;
   }) {
     if (fields) {
@@ -41,7 +40,7 @@ export class Criteria {
             this.sort.value +
             this.date.value +
             this.mediaType +
-            this.filters.join()
+            this.filters?.join()
         )
       );
     }

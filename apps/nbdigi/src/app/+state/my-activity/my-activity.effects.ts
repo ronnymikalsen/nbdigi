@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
-import { createEffect, Actions } from '@ngrx/effects';
-import { DataPersistence } from '@nrwl/angular';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { MyActivityPartialState } from './my-activity.reducer';
+import { fetch } from '@nrwl/angular';
 import {
   LoadMyActivity,
-  MyActivityLoaded,
+  MyActivityActionTypes,
   MyActivityLoadError,
-  MyActivityActionTypes
+  MyActivityLoaded,
 } from './my-activity.actions';
+import { MyActivityPartialState } from './my-activity.reducer';
 
 @Injectable()
 export class MyActivityEffects {
-   loadMyActivity$ = createEffect(() => this.dataPersistence.fetch(
-    MyActivityActionTypes.LoadMyActivity,
-    {
-      run: (action: LoadMyActivity, state: MyActivityPartialState) => {
-        // Your custom REST 'load' logic goes here. For now just return an empty list...
-        return new MyActivityLoaded([]);
-      },
+  loadMyActivity$ = createEffect((): any =>
+    this.actions$.pipe(
+      ofType(MyActivityActionTypes.LoadMyActivity),
+      fetch({
+        run: (action: LoadMyActivity, state: MyActivityPartialState) => {
+          // Your custom REST 'load' logic goes here. For now just return an empty list...
+          return new MyActivityLoaded([]);
+        },
 
-      onError: (action: LoadMyActivity, error) => {
-        console.error('Error', error);
-        return new MyActivityLoadError(error);
-      }
-    }
-  ));
+        onError: (action: LoadMyActivity, error) => {
+          console.error('Error', error);
+          return new MyActivityLoadError(error);
+        },
+      })
+    )
+  );
 
-  constructor(
-    private actions$: Actions,
-    private dataPersistence: DataPersistence<MyActivityPartialState>
-  ) {}
+  constructor(private actions$: Actions) {}
 }

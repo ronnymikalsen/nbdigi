@@ -7,7 +7,7 @@ import {
   OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { NguCarouselConfig } from '@ngu/carousel';
 import { Subscription } from 'rxjs';
@@ -17,28 +17,28 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
   selector: 'nbd-items-section',
   templateUrl: './items-section.component.html',
   styleUrls: ['./items-section.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemsSectionComponent implements OnChanges, OnDestroy {
-  @Input() mediaTypeResults = new MediaTypeResults();
+  @Input() mediaTypeResults: MediaTypeResults | null = new MediaTypeResults();
   @Input() selected = false;
-  @Input() label: string;
+  @Input() label!: string;
   @Input() showMoreButton = false;
   @Input() showToolbar = true;
   @Input() showIfEmpty = false;
-  @Input() isDebugOn: boolean;
-  @Output() mediaTypeChanged = new EventEmitter<MediaTypeResults>();
-  @Input() list: FavoriteList;
-  @Input() asList: boolean;
-  private watcher: Subscription;
+  @Input() isDebugOn: boolean | null = false;
+  @Output() mediaTypeChanged = new EventEmitter<string | null | undefined>();
+  @Input() list!: FavoriteList | null;
+  @Input() asList!: boolean;
+  private watcher!: Subscription;
 
   carouselItems: Array<any> = [];
   carouselConfig: NguCarouselConfig = {
     grid: { xs: 3, sm: 5, md: 5, lg: 8, all: 0 },
     point: {
-      visible: true
+      visible: true,
     },
-    touch: true
+    touch: true,
   };
 
   constructor(private cdr: ChangeDetectorRef) {}

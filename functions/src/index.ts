@@ -1,3 +1,4 @@
+import { serverTimestamp } from '@angular/fire/firestore';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
@@ -12,25 +13,25 @@ export const updateFavorite = functions.firestore
     return change.after.ref.parent.parent
       .collection('favorites')
       .get()
-      .then(favorites => {
-        favorites.forEach(favorite => {
+      .then((favorites) => {
+        favorites.forEach((favorite) => {
           favorite.ref
             .collection('items')
             .get()
-            .then(items => {
-              items.forEach(item => {
+            .then((items) => {
+              items.forEach((item) => {
                 if (item.id === updatedItem.id) {
                   item.ref
                     .update({
                       currentCanvasId: currentCanvasId,
-                      timestamp: admin.firestore.FieldValue.serverTimestamp()
+                      timestamp: serverTimestamp(),
                     })
-                    .catch(err => console.error(err));
+                    .catch((err) => console.error(err));
                 }
               });
             })
-            .catch(err => console.error(err));
+            .catch((err) => console.error(err));
         });
       })
-      .catch(err => console.error(err));
+      .catch((err) => console.error(err));
   });

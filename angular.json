@@ -21,7 +21,7 @@
             "outputPath": "dist/apps/nbdigi",
             "index": "apps/nbdigi/src/index.html",
             "main": "apps/nbdigi/src/main.ts",
-            "polyfills": "apps/nbdigi/src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "apps/nbdigi/tsconfig.app.json",
             "assets": [
               "apps/nbdigi/src/favicon.ico",

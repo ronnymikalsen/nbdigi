@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   MimeManifest,
-  MimeViewerConfig
+  MimeViewerConfig,
 } from '@nationallibraryofnorway/ngx-mime';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -10,31 +10,30 @@ import { Item } from '../../../../core/models';
 @Component({
   selector: 'nbd-viewer',
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit {
-  @Input() item: Item;
+  @Input() item: Item | undefined | null;
   config = new MimeViewerConfig({
     attributionDialogHideTimeout: 3,
     navigationControlEnabled: false,
-    preserveZoomOnCanvasGroupChange: true
+    preserveZoomOnCanvasGroupChange: true,
   });
-  @Output() change = new EventEmitter<Item>();
-  private itemSubject: Subject<Item> = new Subject();
+  @Output() change = new EventEmitter<Item | undefined | null>();
+  private itemSubject: Subject<Item | undefined | null> = new Subject();
 
   constructor() {}
 
   ngOnInit() {
-    this.onItemChange.subscribe((item: Item) => {
+    this.onItemChange.subscribe((item: Item | undefined | null) => {
       this.change.emit(item);
     });
   }
 
-  get onItemChange(): Observable<Item> {
-    return this.itemSubject.asObservable().pipe(
-      distinctUntilChanged(),
-      debounceTime(2000)
-    );
+  get onItemChange(): Observable<Item | undefined | null> {
+    return this.itemSubject
+      .asObservable()
+      .pipe(distinctUntilChanged(), debounceTime(2000));
   }
 
   onManifestChange(manifest: MimeManifest) {
@@ -42,9 +41,11 @@ export class ViewerComponent implements OnInit {
   }
 
   onCanvasChange(canvasId: number) {
-    this.itemSubject.next({
-      ...this.item,
-      currentCanvasId: canvasId
-    });
+    if (this.item) {
+      this.itemSubject.next({
+        ...this.item,
+        currentCanvasId: canvasId,
+      });
+    }
   }
 }

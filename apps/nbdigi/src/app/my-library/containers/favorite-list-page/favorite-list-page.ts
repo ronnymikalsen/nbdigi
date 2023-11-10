@@ -9,11 +9,11 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
 
 @Component({
   templateUrl: './favorite-list-page.html',
-  styleUrls: ['./favorite-list-page.scss']
+  styleUrls: ['./favorite-list-page.scss'],
 })
 export class FavoriteListPageComponent implements OnInit, OnDestroy {
-  items: Observable<MediaTypeResults>;
-  listId: string;
+  items!: Observable<MediaTypeResults>;
+  listId: string | null = null;
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   currentList: Observable<FavoriteList> = this.favoriteFacade.getCurrentList$;
 
@@ -27,11 +27,14 @@ export class FavoriteListPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.listId = params.get('id');
-      this.favoriteFacade.openList(this.listId);
+
+      if (this.listId) {
+        this.favoriteFacade.openList(this.listId);
+      }
     });
 
     this.items = this.favoriteFacade.getCurrentList$.pipe(
-      filter(l => l !== undefined),
+      filter((l) => l !== undefined),
       map((l: FavoriteList) => new MediaTypeResults({ items: l.items }))
     );
   }

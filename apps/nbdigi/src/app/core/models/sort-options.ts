@@ -7,7 +7,7 @@ export class SortOptions {
   public dateDesc = new Sort({ value: 'date,desc', viewValue: 'nyeste først' });
   public newArrivals = new Sort({
     value: 'firstDigitalContentTime,desc',
-    viewValue: 'Nyankommet'
+    viewValue: 'Nyankommet',
   });
 
   constructor() {
@@ -17,16 +17,16 @@ export class SortOptions {
       this.titleDesc,
       this.dateAsc,
       this.dateDesc,
-      this.newArrivals
+      this.newArrivals,
     ];
   }
 }
 
 export class Sort {
-  value? = null;
-  viewValue? = null;
+  value: string | null = null;
+  viewValue: string | null = null;
 
-  constructor(fields?: { value?: string; viewValue?: string }) {
+  constructor(fields?: { value: string; viewValue: string }) {
     if (fields) {
       this.value = fields.value || this.value;
       this.viewValue = fields.viewValue || this.viewValue;

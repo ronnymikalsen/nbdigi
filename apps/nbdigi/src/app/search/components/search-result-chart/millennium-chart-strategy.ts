@@ -18,7 +18,7 @@ export class MillenniumChartStrategy implements ChartStrategy {
   }
 
   createChart(): any[] {
-    const newResult = [];
+    const newResult: any[] = [];
     const r = [];
     this.aggs.forEach((y) => {
       const first = Math.floor(Number(y.year) / 1000) + '000';
@@ -50,7 +50,9 @@ export class MillenniumChartStrategy implements ChartStrategy {
         const y = x;
         const first = Math.floor(Number(x) / 1000) + '000';
 
-        const index = r.findIndex((va) => Number(va.first) === Number(first));
+        const index: number = r.findIndex(
+          (va) => Number(va.first) === Number(first)
+        );
         try {
           r[index] = {
             ...r[index],
@@ -64,8 +66,8 @@ export class MillenniumChartStrategy implements ChartStrategy {
     return r;
   }
 
-  createBack(): ChartRangeToOption {
-    return {};
+  createBack(): ChartRangeToOption | undefined {
+    return undefined;
   }
 
   createQuery(selection: string): DateOption {

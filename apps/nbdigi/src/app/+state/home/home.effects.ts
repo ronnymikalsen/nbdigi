@@ -8,33 +8,34 @@ import { SearchService } from '../../core/services';
 import {
   HomeActionTypes,
   LoadError,
-  LoadNewItemsSuccess
+  LoadNewItemsSuccess,
 } from './home.actions';
 import { HomePartialState } from './home.reducer';
 
 @Injectable()
 export class HomeEffects {
-  
-  loadNewItems: Observable<Action> = createEffect(() => this.actions.pipe(
-    ofType(HomeActionTypes.LoadNewItems),
-    withLatestFrom(this.store),
-    switchMap(([action, storeState]) => {
-      const filters = this.addAllFilters(storeState);
-      return this.searchService
-        .super({
-          q: '-pleasecacheme',
-          size: 20,
-          filters: filters,
-          sort: new SortOptions().newArrivals
-        })
-        .pipe(
-          map(searchResult => {
-            return new LoadNewItemsSuccess(searchResult);
-          }),
-          catchError(err => of(new LoadError(err)))
-        );
-    })
-  ));
+  loadNewItems: Observable<Action> = createEffect(() =>
+    this.actions.pipe(
+      ofType(HomeActionTypes.LoadNewItems),
+      withLatestFrom(this.store),
+      switchMap(([action, storeState]) => {
+        const filters = this.addAllFilters(storeState);
+        return this.searchService
+          .super({
+            q: '-pleasecacheme',
+            size: 20,
+            filters: filters,
+            sort: new SortOptions().newArrivals,
+          })
+          .pipe(
+            map((searchResult) => {
+              return new LoadNewItemsSuccess(searchResult);
+            }),
+            catchError((err) => of(new LoadError(err)))
+          );
+      })
+    )
+  );
 
   constructor(
     private store: Store<HomePartialState>,
@@ -42,13 +43,13 @@ export class HomeEffects {
     private searchService: SearchService
   ) {}
 
-  private addAllFilters(storeState): string[] {
-    let filters = [];
+  private addAllFilters(storeState: any): string[] {
+    let filters: string[] = [];
 
     if (storeState.auth.user.email !== 'ronny.mikalsen@gmail.com') {
       filters = [
         ...filters,
-        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync'
+        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync',
       ];
     }
     filters = [...filters, 'digital:Ja'];

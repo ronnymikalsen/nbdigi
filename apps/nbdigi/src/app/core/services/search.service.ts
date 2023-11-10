@@ -12,7 +12,7 @@ import {
   MediaTypeResults,
   SearchCriteria,
   SuperSearchResult,
-  YearCount
+  YearCount,
 } from '../../core/models';
 import { QueryBuilder } from '../builders/query-builder';
 
@@ -26,16 +26,19 @@ export class SearchService {
       .withSize(sc.size)
       .withDigitalAccessibleOnly(true)
       .withMediaTypeOrder('bøker,aviser,bilder,tidsskrift,other')
-      .withMediaTypeSize(5)
-      .withSort(sc.sort.value);
+      .withMediaTypeSize(5);
+
+    if (sc.sort?.value) {
+      builder.withSort(sc.sort.value);
+    }
 
     if (aggs) {
-      aggs.forEach(a => {
+      aggs.forEach((a) => {
         builder = builder.addAggs(a);
       });
     }
 
-    sc.filters.forEach(f => {
+    sc.filters?.forEach((f) => {
       builder = builder.addFilter(f);
     });
 
@@ -44,7 +47,7 @@ export class SearchService {
         `${environment.nb.apiURL}/catalog/v1/search${builder.build()}`
       )
       .pipe(
-        map(resp => {
+        map((resp) => {
           const searchResult = new SuperSearchResult();
           const mediaTypeResponses = resp._embedded.mediaTypeResults;
 
@@ -101,16 +104,18 @@ export class SearchService {
       .withSize(sc.size)
       .addAggs('mediatype')
       .withDigitalAccessibleOnly(true)
-      .withMediaType(sc.mediaType)
-      .withSort(sc.sort.value);
+      .withMediaType(sc.mediaType);
 
+    if (sc.sort?.value) {
+      builder.withSort(sc.sort.value);
+    }
     if (aggs) {
-      aggs.forEach(a => {
+      aggs.forEach((a) => {
         builder = builder.addAggs(a);
       });
     }
 
-    sc.filters.forEach(f => {
+    sc.filters?.forEach((f) => {
       builder = builder.addFilter(f);
     });
 
@@ -119,7 +124,7 @@ export class SearchService {
         `${environment.nb.apiURL}/catalog/v1/items${builder.build()}`
       )
       .pipe(
-        map(resp => {
+        map((resp) => {
           return this.extractItemsSearch(sc.mediaType, resp);
         })
       );
@@ -127,7 +132,7 @@ export class SearchService {
 
   searchByUrl(mediaType: string, url: string): Observable<SuperSearchResult> {
     return this.http.get<ItemsResponse>(url).pipe(
-      map(resp => {
+      map((resp) => {
         return this.extractItemsSearch(mediaType, resp);
       })
     );
@@ -136,8 +141,8 @@ export class SearchService {
   private findMediatypeResponse(
     mediaType: string,
     mediaTypeResponses: MediaTypeResponse[]
-  ): MediaTypeResponse {
-    return mediaTypeResponses.find(m => m.mediaType === mediaType);
+  ): MediaTypeResponse | undefined {
+    return mediaTypeResponses.find((m) => m.mediaType === mediaType);
   }
 
   private extractMediaTypeResponse(resp: MediaTypeResponse) {
@@ -154,7 +159,7 @@ export class SearchService {
     mediaTypeResults.nextLink = resp._links.next ? resp._links.next.href : null;
     mediaTypeResults.totalElements = resp.page.totalElements;
     if (resp._embedded.items) {
-      resp._embedded.items.forEach(i => {
+      resp._embedded.items.forEach((i) => {
         mediaTypeResults.items.push(this.extractItem(i));
       });
     }
@@ -163,7 +168,7 @@ export class SearchService {
   }
 
   private extractItemsSearch(
-    mediaType: string,
+    mediaType: string | undefined,
     resp: ItemsResponse
   ): SuperSearchResult {
     const searchResult = new SuperSearchResult();
@@ -218,7 +223,7 @@ export class SearchService {
       manifestUri: i._links.presentation ? i._links.presentation.href : null,
       selfLink: i._links.self ? i._links.self.href : null,
       urn: i.metadata.identifiers ? i.metadata.identifiers.urn : null,
-      oaiId: i.metadata.identifiers ? i.metadata.identifiers.oaiId : null
+      oaiId: i.metadata.identifiers ? i.metadata.identifiers.oaiId : null,
     });
   }
 
@@ -229,7 +234,7 @@ export class SearchService {
       return;
     }
 
-    const mediatypes = aggregations.find(a => a.name === 'mediatype');
+    const mediatypes = aggregations.find((a) => a.name === 'mediatype');
     if (mediatypes) {
       const mediatypeBuckets = mediatypes.buckets;
       searchResult.books.counts = this.extractCount(
@@ -275,23 +280,26 @@ export class SearchService {
     }
 
     if (aggregations) {
-      const yearBuckets = aggregations.find(a => a.name === 'year');
+      const yearBuckets = aggregations.find((a) => a.name === 'year');
       if (yearBuckets) {
         searchResult.years = this.extractYears(yearBuckets.buckets);
       }
-      const monthBuckets = aggregations.find(a => a.name === 'month');
+      const monthBuckets = aggregations.find((a) => a.name === 'month');
       if (monthBuckets) {
         searchResult.months = this.extractYears(monthBuckets.buckets);
       }
     }
   }
 
-  private extractCount(buckets: BucketResponse[], mediaType: string): number {
+  private extractCount(
+    buckets: BucketResponse[],
+    mediaType: string | null | undefined
+  ): number {
     if (!buckets) {
       return 0;
     }
 
-    const bucket = buckets.find(b => b.key === mediaType);
+    const bucket = buckets.find((b) => b.key === mediaType);
     return bucket ? bucket.count : 0;
   }
 
@@ -300,12 +308,12 @@ export class SearchService {
       return [];
     }
 
-    const bucket = [];
-    years.forEach(year => {
+    const bucket: any[] = [];
+    years.forEach((year) => {
       bucket.push(
         new YearCount({
           year: year.key,
-          count: year.count
+          count: year.count,
         })
       );
     });

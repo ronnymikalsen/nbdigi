@@ -5,18 +5,18 @@ import { MediaTypeResults } from '../../../core/models';
 @Component({
   selector: 'nbd-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  @Input() items: MediaTypeResults;
-  @Input() newBooks: MediaTypeResults;
-  @Input() newPeriodicals: MediaTypeResults;
-  @Input() newPhotos: MediaTypeResults;
-  @Input() newNewspapers: MediaTypeResults;
-  @Input() newOthers: MediaTypeResults;
-  @Input() showItemDetails: boolean;
-  @Input() isDebugOn: boolean;
-  @Output() searchSelected = new EventEmitter<void>();
+  @Input() items!: MediaTypeResults | null;
+  @Input() newBooks!: MediaTypeResults | null;
+  @Input() newPeriodicals!: MediaTypeResults | null;
+  @Input() newPhotos!: MediaTypeResults | null;
+  @Input() newNewspapers!: MediaTypeResults | null;
+  @Input() newOthers!: MediaTypeResults | null;
+  @Input() showItemDetails!: boolean | null;
+  @Input() isDebugOn!: boolean | null;
+  @Output() searchSelected = new EventEmitter<string>();
   @Output() showMoreBooks = new EventEmitter<void>();
   @Output() showMorePeriodicals = new EventEmitter<void>();
   @Output() showMorePhotos = new EventEmitter<void>();

@@ -13,7 +13,7 @@ import { Item } from '../../../../core/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemDetailsHeadComponent implements OnInit {
-  @Input() item: Item;
+  @Input() item!: Item;
 
   constructor(private itemFacade: ItemFacade) {}
 
