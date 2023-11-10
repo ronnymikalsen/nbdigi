@@ -15,7 +15,10 @@ export class FavoriteListComponent implements OnInit {
   @Input() isDebugOn!: boolean | null;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
 
-  constructor(public media: MediaObserver, private itemFacade: ItemFacade) {}
+  constructor(
+    public media: MediaObserver,
+    private itemFacade: ItemFacade,
+  ) {}
 
   ngOnInit() {}
 }

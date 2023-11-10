@@ -7,7 +7,10 @@ import {
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class CenturyChartStrategy implements ChartStrategy {
-  constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(
+    private criteria: Criteria,
+    private aggs: YearCount[],
+  ) {}
 
   getName() {
     return 'CenturyChart';
@@ -51,7 +54,7 @@ export class CenturyChartStrategy implements ChartStrategy {
       const first = Math.floor(Number(x) / 100) + '00';
 
       const index: number = r.findIndex(
-        (va) => Number(va.first) === Number(first)
+        (va) => Number(va.first) === Number(first),
       );
       try {
         r[index] = {

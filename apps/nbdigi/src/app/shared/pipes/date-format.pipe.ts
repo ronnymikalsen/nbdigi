@@ -3,7 +3,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import moment from 'moment';
 
 @Pipe({
-  name: 'dateFormat'
+  name: 'dateFormat',
 })
 export class DateFormatPipe implements PipeTransform {
   constructor(@Inject(MAT_DATE_LOCALE) public locale: any) {
@@ -13,7 +13,7 @@ export class DateFormatPipe implements PipeTransform {
   transform(
     date: string,
     fromFormat: string = 'YYYYMMDD',
-    toFormat: string = 'll'
+    toFormat: string = 'll',
   ): string {
     if (date && date.length === 8) {
       return moment(date, fromFormat).format(toFormat);

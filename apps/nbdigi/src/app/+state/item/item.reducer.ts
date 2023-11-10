@@ -25,7 +25,7 @@ export const initialState: ItemState = {
 
 export function itemReducer(
   state: ItemState = initialState,
-  action: ItemAction
+  action: ItemAction,
 ): ItemState {
   switch (action.type) {
     case ItemActionTypes.Open: {

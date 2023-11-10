@@ -5,7 +5,7 @@ import { SearchService } from './search.service';
 describe('SearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SearchService]
+      providers: [SearchService],
     });
   });
 

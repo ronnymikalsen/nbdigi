@@ -1,5 +1,5 @@
-@import '~@angular/material/theming';
-@import '~@nationallibraryofnorway/ngx-mime/ngx-mime.theme';
+@use '@angular/material' as mat;
+@use '@nationallibraryofnorway/ngx-mime/ngx-mime.theme' as ngxMime;
 
 // Plus imports for other components in your app.
 @import './app/shared/debug/components/debug/debug.component-theme.scss';
@@ -12,50 +12,47 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+// @include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a ligth, lighter, and darker
 // hue.
 
-$dark-primary: mat-palette($mat-cyan, A200, A100, A400);
-$dark-accent: mat-palette($mat-light-green, A200, A100, A400);
-$dark-warn: mat-palette($mat-deep-orange);
-$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+$dark-primary: mat.define-palette(mat.$cyan-palette, A200, A100, A400);
+$dark-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
+$dark-warn: mat.define-palette(mat.$deep-orange-palette);
+$dark-theme: mat.define-dark-theme($dark-primary, $dark-accent, $dark-warn);
 // Our dark theme
-@include angular-material-theme($dark-theme);
+@include mat.all-component-themes($dark-theme);
 @include nbd-debug-theme($dark-theme);
 @include nbd-app-theme($dark-theme);
 @include nbd-login-theme($dark-theme);
 @include nbd-ids-debug-theme($dark-theme);
 @include styles-theme($dark-theme);
 @include nbd-divider-theme($dark-theme);
-@include ngx-mime-theme($dark-theme);
+@include ngxMime.ngx-mime-theme($dark-theme);
 
-$ligth-primary: mat-palette($mat-cyan);
-$ligth-accent: mat-palette($mat-light-green, A200, A100, A400);
-$ligth-warn: mat-palette($mat-deep-orange);
+$ligth-primary: mat.define-palette(mat.$cyan-palette);
+$ligth-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
+$ligth-warn: mat.define-palette(mat.$deep-orange-palette);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$ligth-theme: mat-light-theme($ligth-primary, $ligth-accent, $ligth-warn);
+$ligth-theme: mat.define-light-theme(
+  $ligth-primary,
+  $ligth-accent,
+  $ligth-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 .ligth-theme {
-  @include angular-material-theme($ligth-theme);
+  @include mat.all-component-themes($ligth-theme);
   @include nbd-debug-theme($ligth-theme);
   @include nbd-app-theme($ligth-theme);
   @include nbd-login-theme($ligth-theme);
   @include nbd-ids-debug-theme($ligth-theme);
   @include styles-theme($ligth-theme);
   @include nbd-divider-theme($ligth-theme);
-  @include ngx-mime-theme($ligth-theme);
+  @include ngxMime.ngx-mime-theme($ligth-theme);
 }
-
-$custom-typography: mat-typography-config(
-  $font-family: 'Roboto, "Helvetica Neue", sans-serif;'
-);
-
-// Override the typography in the core CSS.
-@include mat-core($custom-typography);

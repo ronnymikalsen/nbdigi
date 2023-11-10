@@ -5,7 +5,7 @@ import { SessionService } from './session.service';
 describe('SessionService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SessionService]
+      providers: [SessionService],
     });
   });
 
@@ -13,6 +13,6 @@ describe('SessionService', () => {
     [SessionService],
     (service: SessionService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

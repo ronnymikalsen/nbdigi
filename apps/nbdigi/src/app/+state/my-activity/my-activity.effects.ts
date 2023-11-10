@@ -25,8 +25,8 @@ export class MyActivityEffects {
           console.error('Error', error);
           return new MyActivityLoadError(error);
         },
-      })
-    )
+      }),
+    ),
   );
 
   constructor(private actions$: Actions) {}

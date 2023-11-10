@@ -68,7 +68,7 @@ export class CreateAccountComponent implements OnInit, OnChanges {
       },
       {
         validator: PasswordValidation.MatchPassword,
-      }
+      },
     );
   }
 

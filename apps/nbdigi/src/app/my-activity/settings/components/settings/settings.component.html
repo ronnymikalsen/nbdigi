@@ -1,11 +1,11 @@
 <mat-toolbar>
-  <mat-toolbar-row> <div fxFlex> Innstillinger </div> </mat-toolbar-row>
+  <mat-toolbar-row> <div fxFlex>Innstillinger</div> </mat-toolbar-row>
 </mat-toolbar>
 <section class="settings-container">
   <div *ngIf="user" fxLayout="column">
     <div fxLayout="row" class="person">
       <mat-icon>person</mat-icon>
-      <div> {{ user.email }} </div>
+      <div>{{ user.email }}</div>
     </div>
     <div class="theme">
       <mat-slide-toggle
@@ -15,9 +15,9 @@
       >
     </div>
     <div class="logout">
-      <button mat-raised-button color="primary" (click)="signOut.emit()"
-        >Logg ut</button
-      >
+      <button mat-raised-button color="primary" (click)="signOut.emit()">
+        Logg ut
+      </button>
     </div>
   </div>
 </section>

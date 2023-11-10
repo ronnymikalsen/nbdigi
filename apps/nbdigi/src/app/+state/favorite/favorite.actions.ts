@@ -24,7 +24,7 @@ export enum FavoriteActionTypes {
   RemoveFromListConfirmed = '[Favorite] Remove from list confirmed',
   RemoveFromListSuccess = '[Favorite] Remove from list success',
   RemoveFromListCancelled = '[Favorite] Remove from list cancelled',
-  Error = '[Favorite] Error'
+  Error = '[Favorite] Error',
 }
 
 export class OpenAddToListDialog implements Action {
@@ -82,7 +82,7 @@ export class RenameList implements Action {
     public payload: {
       favoriteList: FavoriteList;
       newName: string;
-    }
+    },
   ) {}
 }
 
@@ -208,5 +208,5 @@ export const fromFavoriteActions = {
   RemoveFromListConfirmed,
   RemoveFromListSuccess,
   RemoveFromListCancelled,
-  Error
+  Error,
 };

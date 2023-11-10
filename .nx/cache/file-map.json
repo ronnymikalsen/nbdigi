@@ -22,17 +22,19 @@
     "@ngrx/entity": "16.3.0",
     "@ngrx/router-store": "16.3.0",
     "@ngrx/store": "16.3.0",
-    "@ngu/carousel": "^7.0.0",
+    "@ngu/carousel": "^8.0.0",
     "@nrwl/angular": "16.0.0",
     "@swimlane/ngx-charts": "^20.4.1",
     "d3": "^7.8.5",
     "firebase": "9.17.1",
+    "hammerjs": "^2.0.8",
     "moment": "^2.29.4",
     "ng-lazyload-image": "^9.1.3",
-    "ngx-clipboard": "^15.1.0",
-    "ngx-infinite-scroll": "^15.0.0",
+    "ngx-clipboard": "^16.0.0",
+    "ngx-infinite-scroll": "^16.0.0",
     "openseadragon": "^4.0.0",
     "rxjs": "~7.5.0",
+    "timers": "^0.1.1",
     "ts-md5": "^1.3.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.3",
@@ -50,6 +52,7 @@
     "@nrwl/cli": "15.5.0",
     "@nrwl/tao": "16.0.0",
     "@nrwl/workspace": "16.0.0",
+    "@nx/jest": "16.10.0",
     "@types/d3-scale": "^4.0.4",
     "@types/d3-selection": "^3.0.6",
     "@types/d3-shape": "^3.1.2",
@@ -75,17 +78,143 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "nx": "16",
     "open": "^7.0.3",
-    "prettier": "2.1.2",
+    "prettier": "3.0.3",
     "protractor": "7.0.0",
-    "ts-node": "~7.0.0",
+    "ts-node": "~10.9.1",
     "typescript": "5.1.6",
-    "webpack-bundle-analyzer": "^4.4.1",
-    "@nx/jest": "16.10.0"
+    "webpack-bundle-analyzer": "^4.4.1"
   },
   "pathMappings": {},
   "nxJsonPlugins": [],
   "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "1386794184928924535"
+      },
+      {
+        "file": ".firebaserc",
+        "hash": "1451473961806069953"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "18320900249120208000"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "16819973998363987872"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "14271308802273453309"
+      },
+      {
+        "file": "README.md",
+        "hash": "10688251343603312752"
+      },
+      {
+        "file": "apps/.gitkeep",
+        "hash": "4055606894390288348"
+      },
+      {
+        "file": "decorate-angular-cli.js",
+        "hash": "6314526958333683127"
+      },
+      {
+        "file": "firebase.json",
+        "hash": "13342441783632533330"
+      },
+      {
+        "file": "firestore.indexes.json",
+        "hash": "10542213039203975875"
+      },
+      {
+        "file": "firestore.rules",
+        "hash": "17205232573933232803"
+      },
+      {
+        "file": "functions/.gitignore",
+        "hash": "5198141455268716895"
+      },
+      {
+        "file": "functions/package.json",
+        "hash": "16507430703699661133"
+      },
+      {
+        "file": "functions/src/index.ts",
+        "hash": "14763988661039785658"
+      },
+      {
+        "file": "functions/tsconfig.json",
+        "hash": "9373376994123266608"
+      },
+      {
+        "file": "functions/tslint.json",
+        "hash": "1215262225326528602"
+      },
+      {
+        "file": "functions/yarn.lock",
+        "hash": "2248436805744864545"
+      },
+      {
+        "file": "jest.config.js",
+        "hash": "9169455699748463728"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "17816028855787049582"
+      },
+      {
+        "file": "karma.conf.js",
+        "hash": "13776934290123946039"
+      },
+      {
+        "file": "libs/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "migrations.json",
+        "hash": "981614265439385246"
+      },
+      {
+        "file": "nx.json",
+        "hash": "13801106943720840707"
+      },
+      {
+        "file": "package.json",
+        "hash": "12943251010862761686"
+      },
+      {
+        "file": "tools/generators/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "tools/tsconfig.tools.json",
+        "hash": "13838365502592869885"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "1492614078984545491"
+      },
+      {
+        "file": "webpack.config.ts",
+        "hash": "17377584118938241852"
+      },
+      {
+        "file": "yarn.lock",
+        "hash": "18364415344229120580"
+      }
+    ],
     "projectFileMap": {
       "nbdigi-e2e": [
         {
@@ -108,11 +237,11 @@
         },
         {
           "file": "apps/nbdigi/project.json",
-          "hash": "2224920304048894875"
+          "hash": "10804690744414853818"
         },
         {
           "file": "apps/nbdigi/src/app/+state/app/app.actions.ts",
-          "hash": "12462178430805563376",
+          "hash": "2706675088217457079",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -123,7 +252,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/app/app.effects.ts",
-          "hash": "15904602253429443294",
+          "hash": "17187438366978024087",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/effects",
@@ -137,7 +266,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/app/app.facade.ts",
-          "hash": "8823555613594032583",
+          "hash": "7312535526953298245",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -160,14 +289,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/app/app.selectors.ts",
-          "hash": "11546896863431200398",
+          "hash": "3728047295181132133",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.actions.ts",
-          "hash": "976015537417019348",
+          "hash": "2936734795271571342",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -178,7 +307,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.effects.ts",
-          "hash": "3861682558216698154",
+          "hash": "8938390121370335821",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router",
@@ -193,7 +322,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.facade.ts",
-          "hash": "13457845665990338114",
+          "hash": "14301443777702890833",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -205,7 +334,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.reducer.ts",
-          "hash": "1546180803934902234"
+          "hash": "77605385273244597"
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.selectors.spec.ts",
@@ -213,14 +342,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/auth/auth.selectors.ts",
-          "hash": "16395927497201294992",
+          "hash": "15797381605577970025",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.actions.ts",
-          "hash": "6247133454138408195",
+          "hash": "18023376214050248336",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -231,7 +360,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.effects.ts",
-          "hash": "1861380497333097962",
+          "hash": "13011782891955893704",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material",
@@ -247,7 +376,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.facade.ts",
-          "hash": "4303585536134307921",
+          "hash": "15432036568192313563",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -259,7 +388,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.reducer.ts",
-          "hash": "5404636602952844753"
+          "hash": "6015101056520155556"
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.selectors.spec.ts",
@@ -267,14 +396,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/favorite/favorite.selectors.ts",
-          "hash": "7551380293437491091",
+          "hash": "16424484300463342453",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/home/home.actions.ts",
-          "hash": "7196703388563921526",
+          "hash": "5377194943933560039",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -285,7 +414,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/home/home.effects.ts",
-          "hash": "11435122911476102163",
+          "hash": "559597776059686385",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/effects",
@@ -311,7 +440,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/home/home.reducer.ts",
-          "hash": "4837725487683661030"
+          "hash": "9753694179669349023"
         },
         {
           "file": "apps/nbdigi/src/app/+state/home/home.selectors.spec.ts",
@@ -319,7 +448,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/home/home.selectors.ts",
-          "hash": "232471282537579537",
+          "hash": "3027820453619616515",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -337,7 +466,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/item/item.effects.ts",
-          "hash": "12948017408221772071",
+          "hash": "7004867263515013559",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -352,7 +481,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/item/item.facade.ts",
-          "hash": "11814962591816238715",
+          "hash": "13242314318176057955",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -364,7 +493,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/item/item.reducer.ts",
-          "hash": "10424911813800633004"
+          "hash": "2590417740718727023"
         },
         {
           "file": "apps/nbdigi/src/app/+state/item/item.selectors.spec.ts",
@@ -372,28 +501,28 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/item/item.selectors.ts",
-          "hash": "10195510820350499881",
+          "hash": "17837796915521223724",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/metaReducer.ts",
-          "hash": "1268257535595258061",
+          "hash": "13014437118542390489",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.actions.ts",
-          "hash": "3540165846353798442",
+          "hash": "15516732763721921152",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.effects.spec.ts",
-          "hash": "5372621860239146986",
+          "hash": "9698932488680786810",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs",
@@ -404,7 +533,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.effects.ts",
-          "hash": "6704092521769318754",
+          "hash": "4767116558492893651",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/effects",
@@ -413,7 +542,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.facade.spec.ts",
-          "hash": "12015746359326079939",
+          "hash": "14985073248053304576",
           "deps": [
             "npm:@angular/core",
             "npm:@nrwl/angular",
@@ -423,7 +552,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.facade.ts",
-          "hash": "5713207520370838043",
+          "hash": "3035051627914592856",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -431,26 +560,26 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.reducer.spec.ts",
-          "hash": "15346903810387535689"
+          "hash": "17027175999045955923"
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.reducer.ts",
-          "hash": "6324667684782789217"
+          "hash": "8283793789979693120"
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.selectors.spec.ts",
-          "hash": "7750648729893516523"
+          "hash": "7327852357816697356"
         },
         {
           "file": "apps/nbdigi/src/app/+state/my-activity/my-activity.selectors.ts",
-          "hash": "13835666589055066067",
+          "hash": "9986404954270571494",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.actions.ts",
-          "hash": "17433411617747746090",
+          "hash": "3956490552075469014",
           "deps": [
             "npm:@ngrx/store"
           ]
@@ -461,7 +590,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.effects.ts",
-          "hash": "11479043750090097065",
+          "hash": "1283914697790038433",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -475,7 +604,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.facade.spec.ts",
-          "hash": "11092805244767599381",
+          "hash": "13552575810285933544",
           "deps": [
             "npm:@angular/core",
             "npm:@nrwl/angular",
@@ -485,7 +614,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.facade.ts",
-          "hash": "14296887933328392964",
+          "hash": "17886815388326710339",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store"
@@ -497,7 +626,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.reducer.ts",
-          "hash": "3560935983183168273"
+          "hash": "17192867840218570921"
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.selectors.spec.ts",
@@ -505,14 +634,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/+state/search/search.selectors.ts",
-          "hash": "10712944101593930560",
+          "hash": "15712107382273744276",
           "deps": [
             "npm:@ngrx/store"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/app-routing.module.ts",
-          "hash": "10852346796919124095",
+          "hash": "13928240168751373349",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -520,11 +649,11 @@
         },
         {
           "file": "apps/nbdigi/src/app/app.component-theme.scss",
-          "hash": "6332936082040529378"
+          "hash": "8952984419582919253"
         },
         {
           "file": "apps/nbdigi/src/app/app.component.html",
-          "hash": "6063043256935801387"
+          "hash": "14105286579726321107"
         },
         {
           "file": "apps/nbdigi/src/app/app.component.scss",
@@ -532,7 +661,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/app.component.spec.ts",
-          "hash": "17471514783259455916",
+          "hash": "12209475150882061239",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -540,7 +669,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/app.component.ts",
-          "hash": "4256291315683649613",
+          "hash": "13862505569552694255",
           "deps": [
             "npm:@angular/cdk",
             "npm:@angular/core",
@@ -550,7 +679,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/app.module.ts",
-          "hash": "16889888358523107225",
+          "hash": "2537678304889004113",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -567,7 +696,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/auth-routing.module.ts",
-          "hash": "7709288346608612232",
+          "hash": "1830480727889724205",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -575,14 +704,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/auth.module.ts",
-          "hash": "8313243855693613910",
+          "hash": "13891701569675011356",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/components/create-account/create-account.component.html",
-          "hash": "5808701638762351383"
+          "hash": "4483588501808452870"
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/components/create-account/create-account.component.scss",
@@ -590,14 +719,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/components/create-account/create-account.component.spec.ts",
-          "hash": "6265229915832537716",
+          "hash": "14716866039048848905",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/components/create-account/create-account.component.ts",
-          "hash": "12088749163886308097",
+          "hash": "15609963292514795589",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms"
@@ -612,14 +741,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/containers/create-account-page.ts",
-          "hash": "6395713744660570830",
+          "hash": "5858292491866112648",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/create-account-routing.module.ts",
-          "hash": "15282825028026269764",
+          "hash": "17575419038097978441",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -627,18 +756,18 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/create-account/create-account.module.ts",
-          "hash": "9528713123715275851",
+          "hash": "9903791715379781938",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/divider/divider.component-theme.scss",
-          "hash": "13633207927937419968"
+          "hash": "611132727358354408"
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/divider/divider.component.html",
-          "hash": "5703551644724068036"
+          "hash": "8126056487843883151"
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/divider/divider.component.scss",
@@ -646,7 +775,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/divider/divider.component.spec.ts",
-          "hash": "12187291808296276408",
+          "hash": "15478529517237470310",
           "deps": [
             "npm:@angular/core"
           ]
@@ -660,11 +789,11 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/login.component-theme.scss",
-          "hash": "610966828618205481"
+          "hash": "1661264684244118562"
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/login.component.html",
-          "hash": "1589418613828253391"
+          "hash": "706228935796509620"
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/login.component.scss",
@@ -672,7 +801,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/components/login.component.spec.ts",
-          "hash": "14806853015574917294",
+          "hash": "17783463906249137809",
           "deps": [
             "npm:@angular/core"
           ]
@@ -687,14 +816,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/containers/login-page.ts",
-          "hash": "133964744856112180",
+          "hash": "17466811632693657956",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/login-routing.module.ts",
-          "hash": "12244862822385193705",
+          "hash": "3783846654655084977",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -702,7 +831,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/login/login.module.ts",
-          "hash": "4592496937879766563",
+          "hash": "10776423514969374433",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -710,7 +839,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/reset-password/components/reset-password/reset-password.component.html",
-          "hash": "14195690377654425067"
+          "hash": "16192595618580742932"
         },
         {
           "file": "apps/nbdigi/src/app/auth/reset-password/components/reset-password/reset-password.component.scss",
@@ -718,7 +847,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/reset-password/components/reset-password/reset-password.component.spec.ts",
-          "hash": "7967826701413376882",
+          "hash": "13919623375747142729",
           "deps": [
             "npm:@angular/core"
           ]
@@ -740,7 +869,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/reset-password/reset-password-routing.module.ts",
-          "hash": "504492042458139053",
+          "hash": "8053408388169344355",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -748,18 +877,18 @@
         },
         {
           "file": "apps/nbdigi/src/app/auth/reset-password/reset-password.module.ts",
-          "hash": "15476689098317923697",
+          "hash": "14367164538136022704",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/builders/query-builder.ts",
-          "hash": "4260055529176518361"
+          "hash": "10574425393053736460"
         },
         {
           "file": "apps/nbdigi/src/app/core/core.module.ts",
-          "hash": "9815643360100272764",
+          "hash": "3856424489369710817",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -769,7 +898,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/custom-http.ts",
-          "hash": "1704020043892465765",
+          "hash": "11864634226546878884",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs",
@@ -787,14 +916,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/guards/auth.guard.spec.ts",
-          "hash": "8410603140191242123",
+          "hash": "4985766627823145990",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/guards/auth.guard.ts",
-          "hash": "10349575925756778307",
+          "hash": "4585262426475652968",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -808,7 +937,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/interceptors/auth.interceptor.ts",
-          "hash": "7752033061698651167",
+          "hash": "13856228645766135224",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -833,7 +962,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/models/criteria.ts",
-          "hash": "4527529500914386091",
+          "hash": "13233969960276497346",
           "deps": [
             "npm:ts-md5"
           ]
@@ -906,7 +1035,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/auth.service.spec.ts",
-          "hash": "6364542515750760163",
+          "hash": "5801154535016205027",
           "deps": [
             "npm:@angular/core"
           ]
@@ -923,7 +1052,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/check-for-update.service.spec.ts",
-          "hash": "287339750885900891",
+          "hash": "9460990254929859286",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/service-worker",
@@ -932,7 +1061,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/check-for-update.service.ts",
-          "hash": "3959580267120279405",
+          "hash": "14085190862817924430",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/service-worker",
@@ -942,14 +1071,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/favorite.service.spec.ts",
-          "hash": "4054603725087598422",
+          "hash": "9792067389825415716",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/favorite.service.ts",
-          "hash": "5514353137401747712",
+          "hash": "14306223098675215540",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -963,14 +1092,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/item-details.service.spec.ts",
-          "hash": "11216997143281709377",
+          "hash": "14223575010187815",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/item-details.service.ts",
-          "hash": "14046481889779944966",
+          "hash": "14503844111827239200",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/flex-layout",
@@ -980,14 +1109,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/presentation.service.spec.ts",
-          "hash": "1013668502072069516",
+          "hash": "6105220781719580100",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/presentation.service.ts",
-          "hash": "4683661752071342111",
+          "hash": "11449723653643508495",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -996,14 +1125,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/search.service.spec.ts",
-          "hash": "16131296346204950480",
+          "hash": "15040334832469392696",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/search.service.ts",
-          "hash": "1123106664421564081",
+          "hash": "5119879322836360229",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -1012,14 +1141,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/session.service.spec.ts",
-          "hash": "13389364207684552216",
+          "hash": "1822685043454902701",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/session.service.ts",
-          "hash": "1318803748287694375",
+          "hash": "10450423640003411410",
           "deps": [
             "npm:@angular/fire",
             "npm:rxjs",
@@ -1028,7 +1157,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/typeahead.service.spec.ts",
-          "hash": "5308271565916293264",
+          "hash": "12861878735060284153",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -1036,7 +1165,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/typeahead.service.ts",
-          "hash": "17426416325053007287",
+          "hash": "641507778254582479",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -1052,7 +1181,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/user.service.ts",
-          "hash": "12271919375888207579",
+          "hash": "3276190115650388199",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -1061,14 +1190,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/services/viewer.service.spec.ts",
-          "hash": "16765904561538536055",
+          "hash": "1611013915884804423",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/core/services/viewer.service.ts",
-          "hash": "8141073169967206550",
+          "hash": "1394861075361027121",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -1084,7 +1213,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/sw-update-message/sw-update-message.component.spec.ts",
-          "hash": "165973801272966954",
+          "hash": "11393383400475764974",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/service-worker"
@@ -1092,7 +1221,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/core/sw-update-message/sw-update-message.component.ts",
-          "hash": "5573164613940144177",
+          "hash": "3460535644840720446",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/service-worker",
@@ -1101,7 +1230,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/custom-serializer.ts",
-          "hash": "5588589662578104718",
+          "hash": "15923030236052415208",
           "deps": [
             "npm:@angular/router",
             "npm:@ngrx/router-store",
@@ -1110,7 +1239,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/explore/components/explore/explore.component.html",
-          "hash": "15786827712666925724"
+          "hash": "18427571311996259006"
         },
         {
           "file": "apps/nbdigi/src/app/explore/components/explore/explore.component.scss",
@@ -1118,28 +1247,28 @@
         },
         {
           "file": "apps/nbdigi/src/app/explore/components/explore/explore.component.spec.ts",
-          "hash": "17152350826905567739",
+          "hash": "5796385237957688553",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/explore/components/explore/explore.component.ts",
-          "hash": "10839436204654659110",
+          "hash": "12057645808128534222",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/explore/containers/explore-page.ts",
-          "hash": "17508157640053607626",
+          "hash": "750807962051935894",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/explore/explore-routing.module.ts",
-          "hash": "11235199249963886936",
+          "hash": "10319916210289461341",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1147,7 +1276,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/explore/explore.module.ts",
-          "hash": "8149088311992280405",
+          "hash": "10388826151074361494",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1162,7 +1291,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/home/components/home/home.component.spec.ts",
-          "hash": "13150725559247242238",
+          "hash": "9096149819779832782",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1177,7 +1306,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/home/containers/home-page.ts",
-          "hash": "4072987819187712379",
+          "hash": "6263237829094172619",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -1186,7 +1315,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/home/home-routing.module.ts",
-          "hash": "6258872998892709935",
+          "hash": "6615641140863937022",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1194,7 +1323,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/home/home.module.ts",
-          "hash": "13212052910229458278",
+          "hash": "15588239936992444689",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1209,7 +1338,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/item-activity/item-activity.component.spec.ts",
-          "hash": "9395656059607219522",
+          "hash": "13449939918291778254",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1223,7 +1352,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/my-activity/my-activity.component.html",
-          "hash": "13340098231035285088"
+          "hash": "15783838171255150056"
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/my-activity/my-activity.component.scss",
@@ -1231,7 +1360,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/my-activity/my-activity.component.spec.ts",
-          "hash": "16328321516271790912",
+          "hash": "1357775521205631155",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1253,21 +1382,21 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/search-activity/search-activity.component.spec.ts",
-          "hash": "10388555905671467425",
+          "hash": "10580630094040344270",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/components/search-activity/search-activity.component.ts",
-          "hash": "8351252477764794439",
+          "hash": "4116068655901597274",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/containers/my-activity-page.ts",
-          "hash": "12711959549534316579",
+          "hash": "7947211301802598223",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -1276,7 +1405,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/my-activity-routing.module.ts",
-          "hash": "995535929650675531",
+          "hash": "8993619494595387006",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1284,7 +1413,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/my-activity.module.ts",
-          "hash": "126006975393163011",
+          "hash": "7572406004330468942",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1292,7 +1421,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/components/settings/settings.component.html",
-          "hash": "8181504963561039171"
+          "hash": "3574761250575505223"
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/components/settings/settings.component.scss",
@@ -1300,7 +1429,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/components/settings/settings.component.spec.ts",
-          "hash": "2068975568891690238",
+          "hash": "15651984189592544287",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1315,7 +1444,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/containers/settings-page.ts",
-          "hash": "12508732565508918251",
+          "hash": "11376106697181534680",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs"
@@ -1323,7 +1452,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/settings-routing.module.ts",
-          "hash": "6930911279014742933",
+          "hash": "13504796852221011911",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1331,14 +1460,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-activity/settings/settings.module.ts",
-          "hash": "15422960990903370639",
+          "hash": "982572459082094684",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/create-favorite-list/create-favorite-list.component.html",
-          "hash": "16532364484630327951"
+          "hash": "7593871257392771705"
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/create-favorite-list/create-favorite-list.component.scss",
@@ -1346,14 +1475,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/create-favorite-list/create-favorite-list.component.spec.ts",
-          "hash": "12523306382553557814",
+          "hash": "8397338496575867784",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/create-favorite-list/create-favorite-list.component.ts",
-          "hash": "3228896775426939254",
+          "hash": "15391101735308462332",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms",
@@ -1362,7 +1491,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/favorite-list/favorite-list.component.html",
-          "hash": "5125565055357926943"
+          "hash": "16833336526835161882"
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/favorite-list/favorite-list.component.scss",
@@ -1370,14 +1499,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/favorite-list/favorite-list.component.spec.ts",
-          "hash": "2400706603114419098",
+          "hash": "13391638047848023176",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/favorite-list/favorite-list.component.ts",
-          "hash": "4334255454379158012",
+          "hash": "8755537065457997075",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/flex-layout",
@@ -1394,14 +1523,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/remove-warning-dialog/remove-warning-dialog.component.spec.ts",
-          "hash": "17362620830628399572",
+          "hash": "11875673097219072032",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/components/remove-warning-dialog/remove-warning-dialog.component.ts",
-          "hash": "9104793621387552646",
+          "hash": "12287063429852199203",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -1409,7 +1538,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component.html",
-          "hash": "1500126338355431546"
+          "hash": "13685475741690287902"
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component.scss",
@@ -1417,14 +1546,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component.spec.ts",
-          "hash": "14807752893201307667",
+          "hash": "3086088132986867171",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/add-to-favorite-list-dialog/add-to-favorite-list-dialog.component.ts",
-          "hash": "9835563712902945452",
+          "hash": "6367563863333580794",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material",
@@ -1441,14 +1570,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/favorite-list-page/favorite-list-page.spec.ts",
-          "hash": "2400706603114419098",
+          "hash": "13391638047848023176",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/favorite-list-page/favorite-list-page.ts",
-          "hash": "3248840563180206520",
+          "hash": "2170390301543012910",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router",
@@ -1465,14 +1594,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/my-library/my-library.component.spec.ts",
-          "hash": "16511128587622472187",
+          "hash": "4307852827310165276",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/my-library/my-library.component.ts",
-          "hash": "11774040163539410926",
+          "hash": "8751739431535220847",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/flex-layout",
@@ -1481,14 +1610,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/containers/my-library-page.ts",
-          "hash": "14637390800150088736",
+          "hash": "1840855622530572225",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/my-library-routing.module.ts",
-          "hash": "6060421018392446862",
+          "hash": "14387348215287675450",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1512,7 +1641,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu-button/favorite-list-menu-button.component.spec.ts",
-          "hash": "1425848056403705900",
+          "hash": "7360291329890310589",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1534,14 +1663,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu-button/remove-favorite-dialog/remove-favorite-dialog.component.spec.ts",
-          "hash": "16774098200258086211",
+          "hash": "8780687868372001407",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu-button/remove-favorite-dialog/remove-favorite-dialog.component.ts",
-          "hash": "15819934412184470607",
+          "hash": "16763558758288464954",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -1557,14 +1686,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu-button/rename-favorite-dialog/rename-favorite-dialog.component.spec.ts",
-          "hash": "16418562819957762227",
+          "hash": "15059840213289560641",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu-button/rename-favorite-dialog/rename-favorite-dialog.component.ts",
-          "hash": "3487581271525235464",
+          "hash": "10982528048595935482",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms",
@@ -1577,14 +1706,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/my-library/shared/favorite-list-menu/favorite-list-menu.module.ts",
-          "hash": "17910884855717898245",
+          "hash": "11227765239406692957",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/search/components/media-type-button/media-type-button.component.html",
-          "hash": "12389521597081180165"
+          "hash": "12361246103198008294"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/media-type-button/media-type-button.component.scss",
@@ -1592,7 +1721,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/media-type-button/media-type-button.component.spec.ts",
-          "hash": "7986586456683425639",
+          "hash": "17530224580391318087",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1606,15 +1735,15 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search/search.component.html",
-          "hash": "2541981652571264763"
+          "hash": "5338824159912013881"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search/search.component.scss",
-          "hash": "6992158987491650851"
+          "hash": "6468125494998340351"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search/search.component.spec.ts",
-          "hash": "2211655701035872278",
+          "hash": "6807176191302675212",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/platform-browser",
@@ -1623,7 +1752,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search/search.component.ts",
-          "hash": "17905034788221154936",
+          "hash": "16295484731241829997",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/flex-layout"
@@ -1631,27 +1760,27 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/century-chart-strategy.ts",
-          "hash": "5132492095326729292"
+          "hash": "12115019442635492633"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/chart-strategy-factory.ts",
-          "hash": "4992647476842412096"
+          "hash": "1863531293684500480"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/day-char-strategy.ts",
-          "hash": "7570357344470014625"
+          "hash": "15608424900683238517"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/decade-chart-strategy.ts",
-          "hash": "17463862674423383198"
+          "hash": "709654956953169623"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/millennium-chart-strategy.ts",
-          "hash": "14291774315746774367"
+          "hash": "13528987999945348828"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/month-chart-strategy.ts",
-          "hash": "7657924351382311268"
+          "hash": "5302831935943086791"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/search-result-chart.component.html",
@@ -1663,33 +1792,33 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/search-result-chart.component.spec.ts",
-          "hash": "11942099541118038759",
+          "hash": "3650331976182345421",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/search-result-chart.component.ts",
-          "hash": "15227643998340486721",
+          "hash": "10548368852001918982",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/search/components/search-result-chart/year-chart-strategy..ts",
-          "hash": "295373081186533490"
+          "hash": "6545189474699213441"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/media-type-option/media-type-option.component.html",
-          "hash": "1616001107820667779"
+          "hash": "3862868482453571775"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/media-type-option/media-type-option.component.scss",
-          "hash": "5450087899656203951"
+          "hash": "631299515101578735"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/media-type-option/media-type-option.component.spec.ts",
-          "hash": "14020373163770264686",
+          "hash": "17752737139718570771",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1703,15 +1832,15 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/toolbar.component.html",
-          "hash": "10365712178122408813"
+          "hash": "1957477415798989156"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/toolbar.component.scss",
-          "hash": "17945195248296107965"
+          "hash": "17526935815240052589"
         },
         {
           "file": "apps/nbdigi/src/app/search/components/toolbar/toolbar.component.spec.ts",
-          "hash": "587302152641830545",
+          "hash": "12500935513668352414",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1735,14 +1864,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/containers/date-picker-dialog/date-picker-dialog.component.spec.ts",
-          "hash": "16511304103733996422",
+          "hash": "17255392127141395434",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/search/containers/date-picker-dialog/date-picker-dialog.component.ts",
-          "hash": "11172178057317649634",
+          "hash": "10407717577594942976",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms",
@@ -1752,7 +1881,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/containers/search-page.ts",
-          "hash": "2268137564336415807",
+          "hash": "594695446006086785",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs"
@@ -1760,7 +1889,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/search-routing.module.ts",
-          "hash": "11742568369403545209",
+          "hash": "11071721630842305982",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router"
@@ -1768,7 +1897,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/search/search.module.ts",
-          "hash": "5178771048786997771",
+          "hash": "5494574116612670381",
           "deps": [
             "npm:@angular/core",
             "npm:ngx-infinite-scroll"
@@ -1784,21 +1913,21 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/components/criteria-list-item/criteria-list-item.component.spec.ts",
-          "hash": "8603823574878904220",
+          "hash": "11119390513377246280",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/components/criteria-list-item/criteria-list-item.component.ts",
-          "hash": "5095940836863104249",
+          "hash": "8928422563238150435",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/containers/criteria-list/criteria-list.component.html",
-          "hash": "17785604382900515526"
+          "hash": "528536372808910325"
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/containers/criteria-list/criteria-list.component.scss",
@@ -1806,14 +1935,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/containers/criteria-list/criteria-list.component.spec.ts",
-          "hash": "940007754303392514",
+          "hash": "12967569551822268215",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/containers/criteria-list/criteria-list.component.ts",
-          "hash": "2384981262303895066",
+          "hash": "3835545044195675027",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/fire",
@@ -1822,14 +1951,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/criteria-list-item/criteria-list-item.module.ts",
-          "hash": "15422516117641389722",
+          "hash": "3026295433980693808",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/debug/debug.component-theme.scss",
-          "hash": "9766776871583114041"
+          "hash": "1725418689525241284"
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/debug/debug.component.html",
@@ -1841,7 +1970,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/debug/debug.component.spec.ts",
-          "hash": "16580305786541779059",
+          "hash": "12525255814850194515",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1856,7 +1985,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/id-copy-value/id-copy-value.component.html",
-          "hash": "6673396250506994074"
+          "hash": "3726205350824458263"
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/id-copy-value/id-copy-value.component.scss",
@@ -1864,7 +1993,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/id-copy-value/id-copy-value.component.spec.ts",
-          "hash": "10909052808331815071",
+          "hash": "4971572315412505518",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1879,7 +2008,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss",
-          "hash": "4333260578587567284"
+          "hash": "6828776662037458957"
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component.html",
@@ -1891,14 +2020,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component.spec.ts",
-          "hash": "9161362427821496974",
+          "hash": "4613021047436719055",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component.ts",
-          "hash": "9760238880744024741",
+          "hash": "4464460747712497126",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -1906,7 +2035,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/debug/debug.module.ts",
-          "hash": "351080244463382831",
+          "hash": "4393594509107846646",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1921,7 +2050,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details-head/item-details-head.component.spec.ts",
-          "hash": "13366621875981415260",
+          "hash": "1511950324547156673",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/platform-browser"
@@ -1929,7 +2058,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details-head/item-details-head.component.ts",
-          "hash": "12993481430245848607",
+          "hash": "5875073772397352880",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1944,7 +2073,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details-metadata/item-details-metadata.component.spec.ts",
-          "hash": "13312789128210730106",
+          "hash": "3574245039269644290",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/platform-browser"
@@ -1959,15 +2088,15 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details.component.html",
-          "hash": "17165527702534550504"
+          "hash": "7453497605392834264"
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details.component.scss",
-          "hash": "10979380627576970692"
+          "hash": "2674298442928376200"
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details/item-details.component.spec.ts",
-          "hash": "10274531303243439754",
+          "hash": "6047172771606875459",
           "deps": [
             "npm:@angular/core",
             "npm:@ngrx/store",
@@ -1988,7 +2117,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details/item-details.module.ts",
-          "hash": "17833091916784250736",
+          "hash": "17256524086320377556",
           "deps": [
             "npm:@angular/core"
           ]
@@ -1999,7 +2128,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-details-drawer.directive.ts",
-          "hash": "1127804459195404259",
+          "hash": "2648142996096440995",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/flex-layout",
@@ -2012,18 +2141,18 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-list/containers/default-item-list/default-item-list.component.scss",
-          "hash": "17994705597081155878"
+          "hash": "317508730064429258"
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-list/containers/default-item-list/default-item-list.component.spec.ts",
-          "hash": "6019592681045544676",
+          "hash": "17602152473290702281",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-list/containers/default-item-list/default-item-list.component.ts",
-          "hash": "15543999545228248846",
+          "hash": "1955193745337142498",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs"
@@ -2031,7 +2160,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-list/item-list.module.ts",
-          "hash": "1688051073014241484",
+          "hash": "15333116150736158423",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/common"
@@ -2047,14 +2176,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-menu/item-menu-button/item-menu-button.component.spec.ts",
-          "hash": "14243866038238120090",
+          "hash": "14401611956816256909",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-menu/item-menu-button/item-menu-button.component.ts",
-          "hash": "11329372763405747128",
+          "hash": "14683221172598772517",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -2066,29 +2195,29 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/item-menu/item-menu.module.ts",
-          "hash": "15591466830614698630",
+          "hash": "2608469737870093073",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/item-card/containers/default-item-card/default-item-card.component.html",
-          "hash": "12728037374094758933"
+          "hash": "8198937652959304166"
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/item-card/containers/default-item-card/default-item-card.component.scss",
-          "hash": "4177486649639817588"
+          "hash": "7410374771052892226"
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/item-card/containers/default-item-card/default-item-card.component.spec.ts",
-          "hash": "5171522296708136022",
+          "hash": "4423164344243653957",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/item-card/containers/default-item-card/default-item-card.component.ts",
-          "hash": "8373596635503848091",
+          "hash": "18312409681309352081",
           "deps": [
             "npm:@angular/core",
             "npm:rxjs"
@@ -2096,14 +2225,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/item-card/item-card.module.ts",
-          "hash": "17872264450561848967",
+          "hash": "17671404071928880863",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/items-section.component.html",
-          "hash": "12257403831775840162"
+          "hash": "13028037411183127390"
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/items-section.component.scss",
@@ -2111,7 +2240,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section/items-section.component.spec.ts",
-          "hash": "16785826707008337238",
+          "hash": "8847877311283785636",
           "deps": [
             "npm:@angular/core"
           ]
@@ -2127,14 +2256,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/items-section/items-section.module.ts",
-          "hash": "1414193553456129722",
+          "hash": "12756548312104496637",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/material.module.ts",
-          "hash": "8847871156579273028",
+          "hash": "6670393239473108747",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material"
@@ -2146,7 +2275,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/pipes/date-format.pipe.ts",
-          "hash": "7615985992426449613",
+          "hash": "14845404813911158848",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material",
@@ -2163,7 +2292,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/search-box/components/search-box/search-box.component.spec.ts",
-          "hash": "16684522138555492954",
+          "hash": "16677414900288603638",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/platform-browser",
@@ -2172,7 +2301,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/search-box/components/search-box/search-box.component.ts",
-          "hash": "16277381296036319555",
+          "hash": "12004308008247650518",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/forms",
@@ -2183,7 +2312,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/search-box/containers/search-box-page.ts",
-          "hash": "402985513837269877",
+          "hash": "15681922458956672361",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/router",
@@ -2192,14 +2321,14 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/search-box/search-box.module.ts",
-          "hash": "8459402355881394554",
+          "hash": "10728643385668369461",
           "deps": [
             "npm:@angular/core"
           ]
         },
         {
           "file": "apps/nbdigi/src/app/shared/shared.module.ts",
-          "hash": "12226069406300645603",
+          "hash": "9405352432846803425",
           "deps": [
             "npm:@angular/common",
             "npm:@angular/core",
@@ -2223,7 +2352,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/viewer/components/viewer/viewer.component.spec.ts",
-          "hash": "16406246609945199730",
+          "hash": "16745696525432445404",
           "deps": [
             "npm:@angular/core"
           ]
@@ -2239,7 +2368,7 @@
         },
         {
           "file": "apps/nbdigi/src/app/shared/viewer/containers/viewer-page.ts",
-          "hash": "2333559061066505434",
+          "hash": "16810878151300983937",
           "deps": [
             "npm:@angular/core",
             "npm:@angular/material",
@@ -2336,11 +2465,11 @@
         },
         {
           "file": "apps/nbdigi/src/environments/environment.prod.ts",
-          "hash": "5001841213757468959"
+          "hash": "17746018075933348839"
         },
         {
           "file": "apps/nbdigi/src/environments/environment.ts",
-          "hash": "1662597984744079963"
+          "hash": "9883500981929944435"
         },
         {
           "file": "apps/nbdigi/src/favicon.ico",
@@ -2348,7 +2477,7 @@
         },
         {
           "file": "apps/nbdigi/src/index.html",
-          "hash": "8299634936526957799"
+          "hash": "9432464544525080462"
         },
         {
           "file": "apps/nbdigi/src/main.ts",
@@ -2368,11 +2497,11 @@
         },
         {
           "file": "apps/nbdigi/src/styles-theme.scss",
-          "hash": "2738059661983365375"
+          "hash": "1276013197436313968"
         },
         {
           "file": "apps/nbdigi/src/styles.scss",
-          "hash": "11974888280349702787"
+          "hash": "6854307163749443559"
         },
         {
           "file": "apps/nbdigi/src/test-setup.ts",
@@ -2383,7 +2512,7 @@
         },
         {
           "file": "apps/nbdigi/src/theme.scss",
-          "hash": "3048116707597500679"
+          "hash": "3063955925325508213"
         },
         {
           "file": "apps/nbdigi/tsconfig.app.json",
@@ -2410,148 +2539,6 @@
           "hash": "14058950571753099052"
         }
       ]
-    },
-    "nonProjectFiles": [
-      {
-        "file": ".editorconfig",
-        "hash": "5443105041930014821"
-      },
-      {
-        "file": ".eslintrc.json",
-        "hash": "1386794184928924535"
-      },
-      {
-        "file": ".firebaserc",
-        "hash": "1451473961806069953"
-      },
-      {
-        "file": ".gitignore",
-        "hash": "15440511333134521093"
-      },
-      {
-        "file": ".nx/cache/file-map.json",
-        "hash": "7056618959094427473"
-      },
-      {
-        "file": ".nx/cache/lockfile.hash",
-        "hash": "18078973478862252480"
-      },
-      {
-        "file": ".nx/cache/parsed-lock-file.json",
-        "hash": "1114312007057770931"
-      },
-      {
-        "file": ".nx/cache/project-graph.json",
-        "hash": "1022560799552988821"
-      },
-      {
-        "file": ".prettierignore",
-        "hash": "16819973998363987872"
-      },
-      {
-        "file": ".prettierrc",
-        "hash": "16267754514737964994"
-      },
-      {
-        "file": ".vscode/extensions.json",
-        "hash": "14271308802273453309"
-      },
-      {
-        "file": "README.md",
-        "hash": "10688251343603312752"
-      },
-      {
-        "file": "apps/.gitkeep",
-        "hash": "4055606894390288348"
-      },
-      {
-        "file": "decorate-angular-cli.js",
-        "hash": "12627382994622398531"
-      },
-      {
-        "file": "firebase.json",
-        "hash": "13342441783632533330"
-      },
-      {
-        "file": "firestore.indexes.json",
-        "hash": "10542213039203975875"
-      },
-      {
-        "file": "firestore.rules",
-        "hash": "17205232573933232803"
-      },
-      {
-        "file": "functions/.gitignore",
-        "hash": "5198141455268716895"
-      },
-      {
-        "file": "functions/package.json",
-        "hash": "16507430703699661133"
-      },
-      {
-        "file": "functions/src/index.ts",
-        "hash": "14763988661039785658"
-      },
-      {
-        "file": "functions/tsconfig.json",
-        "hash": "9373376994123266608"
-      },
-      {
-        "file": "functions/tslint.json",
-        "hash": "1215262225326528602"
-      },
-      {
-        "file": "functions/yarn.lock",
-        "hash": "2248436805744864545"
-      },
-      {
-        "file": "jest.config.js",
-        "hash": "9169455699748463728"
-      },
-      {
-        "file": "jest.preset.js",
-        "hash": "17816028855787049582"
-      },
-      {
-        "file": "karma.conf.js",
-        "hash": "1417113731427432971"
-      },
-      {
-        "file": "libs/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "migrations.json",
-        "hash": "981614265439385246"
-      },
-      {
-        "file": "nx.json",
-        "hash": "13801106943720840707"
-      },
-      {
-        "file": "package.json",
-        "hash": "16525349091720086935"
-      },
-      {
-        "file": "tools/generators/.gitkeep",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "tools/tsconfig.tools.json",
-        "hash": "13838365502592869885"
-      },
-      {
-        "file": "tsconfig.base.json",
-        "hash": "1492614078984545491"
-      },
-      {
-        "file": "webpack.config.ts",
-        "hash": "17377584118938241852"
-      },
-      {
-        "file": "yarn.lock",
-        "hash": "2389489983714894942"
-      }
-    ]
+    }
   }
 }

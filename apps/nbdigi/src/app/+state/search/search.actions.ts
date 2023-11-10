@@ -4,7 +4,7 @@ import {
   DateOption,
   Hint,
   Hints,
-  SuperSearchResult
+  SuperSearchResult,
 } from '../../core/models';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 
@@ -30,7 +30,7 @@ export enum SearchActionTypes {
   SetDateCriteriaConfirmed = '[Search] Set date criteria confimred',
   SetDateCriteriaCancelled = '[Search] Set date criteria cancelled',
   ToChartRange = '[Search] Go back to previous chart range',
-  SetCurrentChartRange = '[Search] Set current chart range'
+  SetCurrentChartRange = '[Search] Set current chart range',
 }
 
 export class Search implements Action {
@@ -202,5 +202,5 @@ export const fromSearchActions = {
   SetDateCriteriaConfirmed,
   SetDateCriteriaCancelled,
   ToChartRange,
-  SetCurrentChartName
+  SetCurrentChartName,
 };

@@ -8,7 +8,7 @@ describe('SearchResultChartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SearchResultChartComponent]
+      declarations: [SearchResultChartComponent],
     }).compileComponents();
   }));
 

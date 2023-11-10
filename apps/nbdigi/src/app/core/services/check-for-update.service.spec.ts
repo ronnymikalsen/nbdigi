@@ -12,8 +12,8 @@ describe('CheckForUpdateService', () => {
       providers: [
         CheckForUpdateService,
         { provide: SwUpdate, useValue: swUpdateSpy },
-        { provide: MatSnackBar, useClass: matSnackBarSpy }
-      ]
+        { provide: MatSnackBar, useClass: matSnackBarSpy },
+      ],
     });
   });
 
@@ -21,6 +21,6 @@ describe('CheckForUpdateService', () => {
     [CheckForUpdateService],
     (service: CheckForUpdateService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

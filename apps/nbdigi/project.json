@@ -29,6 +29,9 @@
           "apps/nbdigi/src/apple-touch-icon-precomposed.png"
         ],
         "styles": ["apps/nbdigi/src/styles.scss", "apps/nbdigi/src/theme.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["src/styles", "node_modules"]
+        },
         "scripts": [
           "node_modules/openseadragon/build/openseadragon/openseadragon.min.js"
         ],

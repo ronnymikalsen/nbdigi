@@ -11,7 +11,7 @@ export class MyActivityFacade {
   loaded$ = this.store.pipe(select(myActivityQuery.getLoaded));
   allMyActivity$ = this.store.pipe(select(myActivityQuery.getAllMyActivity));
   selectedMyActivity$ = this.store.pipe(
-    select(myActivityQuery.getSelectedMyActivity)
+    select(myActivityQuery.getSelectedMyActivity),
   );
 
   constructor(private store: Store<MyActivityPartialState>) {}

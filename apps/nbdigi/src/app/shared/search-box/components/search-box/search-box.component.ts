@@ -55,7 +55,7 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
   ) {
     this.createForm();
   }
@@ -67,7 +67,7 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
         filter((f) => f !== null),
         takeUntil(this.destroyed),
         skipWhile((val) => val.length < 2),
-        debounceTime(300)
+        debounceTime(300),
       )
       .subscribe((val) => this.query.emit(val));
   }

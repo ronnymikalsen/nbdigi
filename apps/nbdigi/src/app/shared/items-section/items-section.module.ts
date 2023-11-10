@@ -8,6 +8,6 @@ import { ItemsSectionComponent } from './items-section/items-section.component';
 @NgModule({
   imports: [SharedModule, DebugModule, ItemCardModule, ItemListModule],
   declarations: [ItemsSectionComponent],
-  exports: [ItemsSectionComponent]
+  exports: [ItemsSectionComponent],
 })
 export class ItemsSectionModule {}

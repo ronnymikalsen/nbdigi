@@ -17,14 +17,14 @@ import { SettingsModule } from './settings/settings.module';
     MyActivityRoutingModule,
     CriteriaListItemModule,
     ItemListModule,
-    SettingsModule
+    SettingsModule,
   ],
   declarations: [
     MyActivityPageComponent,
     MyActivityComponent,
     SearchActivityComponent,
-    ItemActivityComponent
+    ItemActivityComponent,
   ],
-  providers: []
+  providers: [],
 })
 export class MyActivityModule {}

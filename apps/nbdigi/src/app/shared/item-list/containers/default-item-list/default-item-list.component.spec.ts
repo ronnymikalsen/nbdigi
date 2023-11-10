@@ -8,7 +8,7 @@ describe('DefaultItemListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DefaultItemListComponent]
+      declarations: [DefaultItemListComponent],
     }).compileComponents();
   }));
 

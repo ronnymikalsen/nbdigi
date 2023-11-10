@@ -7,7 +7,7 @@ import {
   SignInWithEmailAndPassword,
   SignInWithGoogle,
   SignOut,
-  SignUpWithEmailAndPassword
+  SignUpWithEmailAndPassword,
 } from './auth.actions';
 import { AuthPartialState } from './auth.reducer';
 import { authQuery } from './auth.selectors';
@@ -32,8 +32,8 @@ export class AuthFacade {
     this.store.dispatch(
       new SignInWithEmailAndPassword({
         email: authenticate.email,
-        password: authenticate.password
-      })
+        password: authenticate.password,
+      }),
     );
   }
 
@@ -41,8 +41,8 @@ export class AuthFacade {
     this.store.dispatch(
       new SignUpWithEmailAndPassword({
         email: authenticate.email,
-        password: authenticate.password
-      })
+        password: authenticate.password,
+      }),
     );
   }
   signedIn(user: User): any {

@@ -25,7 +25,7 @@ export const initialState: HomeState = {
 
 export function homeReducer(
   state: HomeState = initialState,
-  action: HomeAction
+  action: HomeAction,
 ): HomeState {
   switch (action.type) {
     case HomeActionTypes.LoadNewItemsSuccess: {

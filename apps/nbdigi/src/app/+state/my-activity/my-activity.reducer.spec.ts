@@ -3,17 +3,17 @@ import {
   MyActivityState,
   Entity,
   initialState,
-  myActivityReducer
+  myActivityReducer,
 } from './my-activity.reducer';
 
 describe('MyActivity Reducer', () => {
-  const getMyActivityId = it => it['id'];
+  const getMyActivityId = (it) => it['id'];
   let createMyActivity;
 
   beforeEach(() => {
     createMyActivity = (id: string, name = ''): Entity => ({
       id,
-      name: name || `name-${id}`
+      name: name || `name-${id}`,
     });
   });
 
@@ -21,7 +21,7 @@ describe('MyActivity Reducer', () => {
     it('should return set the list of known MyActivity', () => {
       const myActivitys = [
         createMyActivity('PRODUCT-AAA'),
-        createMyActivity('PRODUCT-zzz')
+        createMyActivity('PRODUCT-zzz'),
       ];
       const action = new MyActivityLoaded(myActivitys);
       const result: MyActivityState = myActivityReducer(initialState, action);

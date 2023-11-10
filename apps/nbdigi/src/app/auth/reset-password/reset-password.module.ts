@@ -6,6 +6,6 @@ import { ResetPasswordRoutingModule } from './reset-password-routing.module';
 
 @NgModule({
   imports: [SharedModule, ResetPasswordRoutingModule],
-  declarations: [ResetPasswordPageComponent, ResetPasswordComponent]
+  declarations: [ResetPasswordPageComponent, ResetPasswordComponent],
 })
 export class ResetPasswordModule {}

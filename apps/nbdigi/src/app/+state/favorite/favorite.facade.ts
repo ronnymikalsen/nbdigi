@@ -8,7 +8,7 @@ import {
   OpenRenameListDialog,
   RemoveFromList,
   RemoveList,
-  SetList
+  SetList,
 } from './favorite.actions';
 import { FavoritePartialState } from './favorite.reducer';
 import { favoriteQuery } from './favorite.selectors';

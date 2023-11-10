@@ -5,8 +5,8 @@ import { ExplorePageComponent } from './containers/explore-page';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([{ path: '', component: ExplorePageComponent }])
+    RouterModule.forChild([{ path: '', component: ExplorePageComponent }]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ExploreRoutingModule {}

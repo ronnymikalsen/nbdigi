@@ -14,13 +14,17 @@ import { User } from '../../../core/models';
       (themeChange)="theme($event)"
     >
     </nbd-settings>
-  `
+  `,
 })
 export class SettingsPageComponent {
-  currentUser: Observable<User | null | undefined> = this.authFacade.currentUser$;
+  currentUser: Observable<User | null | undefined> =
+    this.authFacade.currentUser$;
   currentTheme: Observable<string> = this.appFacade.currentTheme$;
 
-  constructor(private authFacade: AuthFacade, private appFacade: AppFacade) {}
+  constructor(
+    private authFacade: AuthFacade,
+    private appFacade: AppFacade,
+  ) {}
 
   signOut(): void {
     this.authFacade.signOut();

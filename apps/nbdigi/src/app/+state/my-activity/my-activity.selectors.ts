@@ -3,16 +3,16 @@ import { MYACTIVITY_FEATURE_KEY, MyActivityState } from './my-activity.reducer';
 
 // Lookup the 'MyActivity' feature state managed by NgRx
 const getMyActivityState = createFeatureSelector<MyActivityState>(
-  MYACTIVITY_FEATURE_KEY
+  MYACTIVITY_FEATURE_KEY,
 );
 
 const getLoaded = createSelector(
   getMyActivityState,
-  (state: MyActivityState) => state.loaded
+  (state: MyActivityState) => state.loaded,
 );
 const getError = createSelector(
   getMyActivityState,
-  (state: MyActivityState) => state.error
+  (state: MyActivityState) => state.error,
 );
 
 const getAllMyActivity = createSelector(
@@ -20,11 +20,11 @@ const getAllMyActivity = createSelector(
   getLoaded,
   (state: MyActivityState, isLoaded) => {
     return isLoaded ? state.list : [];
-  }
+  },
 );
 const getSelectedId = createSelector(
   getMyActivityState,
-  (state: MyActivityState) => state.selectedId
+  (state: MyActivityState) => state.selectedId,
 );
 const getSelectedMyActivity = createSelector(
   getAllMyActivity,
@@ -32,12 +32,12 @@ const getSelectedMyActivity = createSelector(
   (myActivity, id) => {
     const result = myActivity.find((it: any) => it.id === id);
     return result ? Object.assign({}, result) : undefined;
-  }
+  },
 );
 
 export const myActivityQuery = {
   getLoaded,
   getError,
   getAllMyActivity,
-  getSelectedMyActivity
+  getSelectedMyActivity,
 };

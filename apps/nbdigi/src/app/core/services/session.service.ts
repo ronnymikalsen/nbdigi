@@ -6,7 +6,7 @@ import {
   serverTimestamp,
   updateDoc,
   DocumentReference,
-  doc
+  doc,
 } from '@angular/fire/firestore';
 import { filter } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
@@ -27,7 +27,7 @@ export class SessionService {
     private afs: Firestore,
     private userService: UserService,
     private authFacade: AuthFacade,
-    private appFacade: AppFacade
+    private appFacade: AppFacade,
   ) {}
 
   init() {
@@ -76,7 +76,7 @@ export class SessionService {
       */
     });
     const showDateGraph: boolean = Boolean(
-      localStorage.getItem('showDateGraph')
+      localStorage.getItem('showDateGraph'),
     );
     showDateGraph
       ? this.appFacade.showDateGraph()

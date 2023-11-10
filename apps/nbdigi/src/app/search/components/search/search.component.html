@@ -74,7 +74,7 @@
           <nbd-items-section
             *ngIf="books"
             [label]="
-              createLabel(books.mediaType, books.counts | number: '':'nb_NO')
+              createLabel(books.mediaType, books.counts | number: '' : 'nb_NO')
             "
             [mediaTypeResults]="books"
             (mediaTypeChanged)="mediaTypeChanged.emit($event)"
@@ -89,7 +89,7 @@
             [label]="
               createLabel(
                 newspapers?.mediaType,
-                newspapers?.counts | number: '':'nb_NO'
+                newspapers?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="newspapers"
@@ -104,7 +104,7 @@
             [label]="
               createLabel(
                 photos?.mediaType,
-                photos?.counts | number: '':'nb_NO'
+                photos?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="photos"
@@ -119,7 +119,7 @@
             [label]="
               createLabel(
                 periodicals?.mediaType,
-                periodicals?.counts | number: '':'nb_NO'
+                periodicals?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="periodicals"
@@ -183,7 +183,7 @@
           ></nbd-items-section>
           <nbd-items-section
             [label]="
-              createLabel(maps?.mediaType, maps?.counts | number: '':'nb_NO')
+              createLabel(maps?.mediaType, maps?.counts | number: '' : 'nb_NO')
             "
             [mediaTypeResults]="maps"
             (mediaTypeChanged)="mediaTypeChanged.emit($event)"
@@ -197,7 +197,7 @@
             [label]="
               createLabel(
                 musicBooks?.mediaType,
-                musicBooks?.counts | number: '':'nb_NO'
+                musicBooks?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="musicBooks"
@@ -212,7 +212,7 @@
             [label]="
               createLabel(
                 musicManuscripts?.mediaType,
-                musicManuscripts?.counts | number: '':'nb_NO'
+                musicManuscripts?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="musicManuscripts"
@@ -227,7 +227,7 @@
             [label]="
               createLabel(
                 posters?.mediaType,
-                posters?.counts | number: '':'nb_NO'
+                posters?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="posters"
@@ -242,7 +242,7 @@
             [label]="
               createLabel(
                 privateArchives?.mediaType,
-                privateArchives?.counts | number: '':'nb_NO'
+                privateArchives?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="privateArchives"
@@ -257,7 +257,7 @@
             [label]="
               createLabel(
                 programReports?.mediaType,
-                programReports?.counts | number: '':'nb_NO'
+                programReports?.counts | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="programReports"

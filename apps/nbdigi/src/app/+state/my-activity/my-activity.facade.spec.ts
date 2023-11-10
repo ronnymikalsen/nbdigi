@@ -16,7 +16,7 @@ import {
   MyActivityState,
   Entity,
   initialState,
-  myActivityReducer
+  myActivityReducer,
 } from './my-activity.reducer';
 
 interface TestSchema {
@@ -31,7 +31,7 @@ describe('MyActivityFacade', () => {
   beforeEach(() => {
     createMyActivity = (id: string, name = ''): Entity => ({
       id,
-      name: name || `name-${id}`
+      name: name || `name-${id}`,
     });
   });
 
@@ -40,11 +40,11 @@ describe('MyActivityFacade', () => {
       @NgModule({
         imports: [
           StoreModule.forFeature('myActivity', myActivityReducer, {
-            initialState
+            initialState,
           }),
-          EffectsModule.forFeature([MyActivityEffects])
+          EffectsModule.forFeature([MyActivityEffects]),
         ],
-        providers: [MyActivityFacade]
+        providers: [MyActivityFacade],
       })
       class CustomFeatureModule {}
 
@@ -53,8 +53,8 @@ describe('MyActivityFacade', () => {
           NxModule.forRoot(),
           StoreModule.forRoot({}),
           EffectsModule.forRoot([]),
-          CustomFeatureModule
-        ]
+          CustomFeatureModule,
+        ],
       })
       class RootModule {}
       TestBed.configureTestingModule({ imports: [RootModule] });
@@ -66,7 +66,7 @@ describe('MyActivityFacade', () => {
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async done => {
+    it('loadAll() should return empty list with loaded == true', async (done) => {
       try {
         let list = await readFirst(facade.allMyActivity$);
         let isLoaded = await readFirst(facade.loaded$);
@@ -91,7 +91,7 @@ describe('MyActivityFacade', () => {
     /**
      * Use `MyActivityLoaded` to manually submit list for state management
      */
-    it('allMyActivity$ should return the loaded list; and loaded flag == true', async done => {
+    it('allMyActivity$ should return the loaded list; and loaded flag == true', async (done) => {
       try {
         let list = await readFirst(facade.allMyActivity$);
         let isLoaded = await readFirst(facade.loaded$);
@@ -102,8 +102,8 @@ describe('MyActivityFacade', () => {
         store.dispatch(
           new MyActivityLoaded([
             createMyActivity('AAA'),
-            createMyActivity('BBB')
-          ])
+            createMyActivity('BBB'),
+          ]),
         );
 
         list = await readFirst(facade.allMyActivity$);

@@ -45,7 +45,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSidenavModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    MatDividerModule
-  ]
+    MatDividerModule,
+  ],
 })
 export class MaterialModule {}

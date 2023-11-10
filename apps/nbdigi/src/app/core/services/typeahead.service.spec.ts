@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { TypeaheadService } from './typeahead.service';
@@ -10,7 +10,7 @@ describe('TypeaheadService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [TypeaheadService]
+      providers: [TypeaheadService],
     });
   });
 
@@ -18,6 +18,6 @@ describe('TypeaheadService', () => {
     [TypeaheadService],
     (service: TypeaheadService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

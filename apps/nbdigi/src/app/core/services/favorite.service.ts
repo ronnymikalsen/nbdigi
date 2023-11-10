@@ -7,7 +7,7 @@ import {
   serverTimestamp,
   updateDoc,
   DocumentReference,
-  doc
+  doc,
 } from '@angular/fire/firestore';
 
 import { Observable } from 'rxjs';
@@ -18,14 +18,14 @@ import { FavoriteList } from '../../core/models';
 
 @Injectable()
 export class FavoriteService {
-  private favoritesRef: DocumentReference<FavoriteList>  | undefined;
+  private favoritesRef: DocumentReference<FavoriteList> | undefined;
 
   constructor(
     private afs: Firestore,
     private favoriteFacade: FavoriteFacade,
-    private authFacade: AuthFacade
+    private authFacade: AuthFacade,
   ) {
-      const test = serverTimestamp();
+    const test = serverTimestamp();
 
     /*
     this.authFacade.currentUser$
@@ -76,7 +76,7 @@ export class FavoriteService {
 
   public renameList(
     favoriteList: FavoriteList,
-    newName: string
+    newName: string,
   ): Observable<void> {
     return Observable.create((observer: any) => {
       /*

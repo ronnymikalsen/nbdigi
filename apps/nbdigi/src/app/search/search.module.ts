@@ -23,7 +23,7 @@ import { SearchRoutingModule } from './search-routing.module';
     ItemsSectionModule,
     DebugModule,
     CriteriaListItemModule,
-    ItemDetailsModule
+    ItemDetailsModule,
   ],
   declarations: [
     SearchPageComponent,
@@ -31,9 +31,9 @@ import { SearchRoutingModule } from './search-routing.module';
     ToolbarComponent,
     MediaTypeButtonComponent,
     MediaTypeOptionComponent,
-    SearchResultChartComponent
+    SearchResultChartComponent,
   ],
   exports: [],
-  providers: []
+  providers: [],
 })
 export class SearchModule {}

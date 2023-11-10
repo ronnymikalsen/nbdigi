@@ -17,7 +17,7 @@ export class ExplorePageComponent {
         new Criteria({
           genre: genre,
           mediaType: genre.mediaType,
-        })
+        }),
       );
     }
     this.searchFacade.search();

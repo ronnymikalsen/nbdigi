@@ -9,55 +9,55 @@ const getSearchState = createFeatureSelector<SearchState>(SEARCH_FEATURE_KEY);
 
 const getQ = createSelector(
   getSearchState,
-  (state: SearchState) => state.criteria.q
+  (state: SearchState) => state.criteria.q,
 );
 const getCriteria = createSelector(
   getSearchState,
-  (state: SearchState) => state.criteria
+  (state: SearchState) => state.criteria,
 );
 const getBooks = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.books
+  (state: SearchState) => state.searchResult.books,
 );
 const getNewspapers = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.newspapers
+  (state: SearchState) => state.searchResult.newspapers,
 );
 const getPhotos = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.photos
+  (state: SearchState) => state.searchResult.photos,
 );
 const getPeriodicals = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.periodicals
+  (state: SearchState) => state.searchResult.periodicals,
 );
 const getMaps = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.maps
+  (state: SearchState) => state.searchResult.maps,
 );
 const getMusicBooks = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.musicBooks
+  (state: SearchState) => state.searchResult.musicBooks,
 );
 const getMusicManuscripts = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.musicManuscripts
+  (state: SearchState) => state.searchResult.musicManuscripts,
 );
 const getPosters = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.posters
+  (state: SearchState) => state.searchResult.posters,
 );
 const getPrivateArchives = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.privateArchives
+  (state: SearchState) => state.searchResult.privateArchives,
 );
 const getProgramReports = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.programReports
+  (state: SearchState) => state.searchResult.programReports,
 );
 const getOthers = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.others
+  (state: SearchState) => state.searchResult.others,
 );
 
 const getMoreUrl = createSelector(getSearchState, (state: SearchState) => {
@@ -120,17 +120,17 @@ const getCurrentMediaTypeCount = createSelector(
     }
 
     return counts;
-  }
+  },
 );
 
 const getYears = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.years
+  (state: SearchState) => state.searchResult.years,
 );
 
 const getMonths = createSelector(
   getSearchState,
-  (state: SearchState) => state.searchResult.months
+  (state: SearchState) => state.searchResult.months,
 );
 
 const pristine = createSelector(getSearchState, (state: SearchState) => {

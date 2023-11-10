@@ -35,9 +35,9 @@ export class ItemEffects {
       this.actions.pipe(
         ofType(ItemActionTypes.Open),
         map((action) => action),
-        tap((action: Open) => this.viewerService.open(action.payload))
+        tap((action: Open) => this.viewerService.open(action.payload)),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   change: Observable<Action> = createEffect(
@@ -48,7 +48,7 @@ export class ItemEffects {
         tap((action: Change) => {
           const c = collection(
             this.afs,
-            `users/${this.user?.uid})/items${action.payload?.id}`
+            `users/${this.user?.uid})/items${action.payload?.id}`,
           );
           /*
           getDoc(c, action.payload?.id).then((doc) => {
@@ -57,9 +57,9 @@ export class ItemEffects {
             timestamp: serverTimestamp(),
           });
           */
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   openItemDetails$: Observable<Action> = createEffect(() =>
@@ -74,10 +74,10 @@ export class ItemEffects {
           .getManifest(item.manifestUri, ['metadata'])
           .pipe(
             map((manifest: Manifest) => new LoadItemDetailsSuccess(manifest)),
-            catchError((err) => of(new LoadItemDetailsFailure(err)))
+            catchError((err) => of(new LoadItemDetailsFailure(err))),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
@@ -85,7 +85,7 @@ export class ItemEffects {
     private viewerService: ViewerService,
     private presentationService: PresentationService,
     private authFacade: AuthFacade,
-    private afs: Firestore
+    private afs: Firestore,
   ) {
     this.authFacade.currentUser$.subscribe((user: User | null | undefined) => {
       if (user) {

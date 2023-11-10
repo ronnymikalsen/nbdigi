@@ -8,7 +8,7 @@ describe('ItemMenuButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemMenuButtonComponent]
+      declarations: [ItemMenuButtonComponent],
     }).compileComponents();
   }));
 

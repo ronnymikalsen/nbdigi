@@ -67,7 +67,7 @@ export class QueryBuilder {
     params.push(`q=${qParam}`);
 
     const filtersParams = this.filters.map(
-      (f) => `filter=${encodeURIComponent(f)}`
+      (f) => `filter=${encodeURIComponent(f)}`,
     );
     params.push(...filtersParams);
 

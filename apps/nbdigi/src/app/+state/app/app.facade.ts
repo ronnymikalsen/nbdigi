@@ -5,7 +5,7 @@ import {
   DebugOn,
   HideDateGraph,
   SetTheme,
-  ShowDateGraph
+  ShowDateGraph,
 } from './app.actions';
 import { AppPartialState } from './app.reducer';
 import { appQuery } from './app.selectors';

@@ -8,7 +8,7 @@ describe('IdCopyValueComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IdCopyValueComponent]
+      declarations: [IdCopyValueComponent],
     }).compileComponents();
   }));
 

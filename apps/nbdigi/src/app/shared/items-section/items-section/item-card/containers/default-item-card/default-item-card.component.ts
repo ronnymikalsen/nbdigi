@@ -20,7 +20,10 @@ export class DefaultItemCardComponent implements OnInit {
   @Input() list!: FavoriteList | null;
   isDebugOn: Observable<boolean>;
 
-  constructor(private appFacade: AppFacade, private itemFacade: ItemFacade) {
+  constructor(
+    private appFacade: AppFacade,
+    private itemFacade: ItemFacade,
+  ) {
     this.isDebugOn = this.appFacade.isDebugOn$;
   }
 

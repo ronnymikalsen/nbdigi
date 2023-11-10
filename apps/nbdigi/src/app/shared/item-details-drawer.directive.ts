@@ -25,7 +25,7 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     public renderer: Renderer2,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {}
 
   ngOnInit() {
@@ -64,24 +64,24 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'position',
-          'sticky'
+          'sticky',
         );
         this.renderer.setStyle(this.elementRef.nativeElement, 'float', 'right');
         this.renderer.setStyle(this.elementRef.nativeElement, 'width', 'width');
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'height',
-          'calc(100vh - 5px)'
+          'calc(100vh - 5px)',
         );
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'overflow-x',
-          'hidden'
+          'hidden',
         );
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'overflow-y',
-          'visible'
+          'visible',
         );
       } else {
         this.renderer.addClass(this.elementRef.nativeElement, 'not-sticky');
@@ -89,7 +89,7 @@ export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
         this.renderer.setStyle(
           this.elementRef.nativeElement,
           'position',
-          'absolute'
+          'absolute',
         );
       }
       this.cdr.markForCheck();

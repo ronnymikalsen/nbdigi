@@ -44,11 +44,11 @@ import {
 export class HomePageComponent implements OnInit, OnDestroy {
   items!: Observable<MediaTypeResults>;
   newBooks: Observable<MediaTypeResults> = this.homeFacade.getNewBooks$;
-  newPeriodicals: Observable<MediaTypeResults> = this.homeFacade
-    .getNewPeriodicals$;
+  newPeriodicals: Observable<MediaTypeResults> =
+    this.homeFacade.getNewPeriodicals$;
   newPhotos: Observable<MediaTypeResults> = this.homeFacade.getNewPhotos$;
-  newNewspapers: Observable<MediaTypeResults> = this.homeFacade
-    .getNewNewspapers$;
+  newNewspapers: Observable<MediaTypeResults> =
+    this.homeFacade.getNewNewspapers$;
   newOthers: Observable<MediaTypeResults> = this.homeFacade.getNewOthers$;
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   showItemDetails: Observable<boolean> = this.itemFacade.showItemDetails$;
@@ -59,7 +59,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private appFacade: AppFacade,
     private authFacade: AuthFacade,
     private itemFacade: ItemFacade,
-    private afs: Firestore
+    private afs: Firestore,
   ) {
     this.authFacade.currentUser$
       .pipe(filter((user) => user !== null))
@@ -111,7 +111,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.searchFacade.setCriteria(
       new Criteria({
         q: q,
-      })
+      }),
     );
     this.searchFacade.search();
   }
@@ -121,7 +121,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       new Criteria({
         mediaType: mediaType,
         sort: new SortOptions().newArrivals,
-      })
+      }),
     );
     this.searchFacade.search();
   }

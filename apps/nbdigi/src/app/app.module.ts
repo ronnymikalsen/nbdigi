@@ -99,7 +99,7 @@ registerLocaleData(localeNo);
           strictStateImmutability: true,
           strictActionImmutability: true,
         },
-      }
+      },
     ),
     EffectsModule.forRoot([AppEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

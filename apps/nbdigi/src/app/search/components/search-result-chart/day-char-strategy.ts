@@ -2,8 +2,10 @@ import { DateOption, DateOptions } from '../../../core/models';
 import { ChartStrategy } from './chart-strategy-factory';
 import { MonthChartStrategy } from './month-chart-strategy';
 
-export class DayChartStrategy extends MonthChartStrategy
-  implements ChartStrategy {
+export class DayChartStrategy
+  extends MonthChartStrategy
+  implements ChartStrategy
+{
   override getName() {
     return 'DayChart';
   }
@@ -24,8 +26,8 @@ export class DayChartStrategy extends MonthChartStrategy
           toDate: `${currentYear}1231`,
           type: new DateOptions().customDate.type,
           value: `date:[${currentYear}0101 TO ${currentYear}1231]`,
-          viewValue: `${currentYear}`
-        })
+          viewValue: `${currentYear}`,
+        }),
       };
     } else {
       throw new Error('No from date');

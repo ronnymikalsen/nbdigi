@@ -15,7 +15,7 @@ export class ItemDetailsService {
   constructor(
     public dialog: MatDialog,
     private media: MediaObserver,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {}
 
   init() {

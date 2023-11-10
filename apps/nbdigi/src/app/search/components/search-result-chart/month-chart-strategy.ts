@@ -7,7 +7,10 @@ import {
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class MonthChartStrategy implements ChartStrategy {
-  constructor(protected criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(
+    protected criteria: Criteria,
+    private aggs: YearCount[],
+  ) {}
 
   getName() {
     return 'MonthChart';
@@ -89,7 +92,7 @@ export class MonthChartStrategy implements ChartStrategy {
       const toDate = `${currentYear}${monthIndexPadded}${lastDay}`;
       const value = `date:[${fromDate} TO ${toDate}]`;
       const viewValue = this.capitalizeFirstLetter(
-        `${selection} ${currentYear}`
+        `${selection} ${currentYear}`,
       );
       return new DateOption({
         fromDate: `${fromDate}`,

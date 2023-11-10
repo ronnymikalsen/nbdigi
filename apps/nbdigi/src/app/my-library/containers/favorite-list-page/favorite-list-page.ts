@@ -21,7 +21,7 @@ export class FavoriteListPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private favoriteFacade: FavoriteFacade,
     private appFacade: AppFacade,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class FavoriteListPageComponent implements OnInit, OnDestroy {
 
     this.items = this.favoriteFacade.getCurrentList$.pipe(
       filter((l) => l !== undefined),
-      map((l: FavoriteList) => new MediaTypeResults({ items: l.items }))
+      map((l: FavoriteList) => new MediaTypeResults({ items: l.items })),
     );
   }
 

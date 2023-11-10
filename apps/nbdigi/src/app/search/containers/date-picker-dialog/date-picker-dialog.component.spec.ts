@@ -8,7 +8,7 @@ describe('DatePickerDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DatePickerDialogComponent]
+      declarations: [DatePickerDialogComponent],
     }).compileComponents();
   }));
 

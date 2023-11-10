@@ -11,7 +11,7 @@ export class CheckForUpdateService {
   constructor(
     private ngZone: NgZone,
     private updates: SwUpdate,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   public init() {
@@ -23,7 +23,7 @@ export class CheckForUpdateService {
             this.updates.checkForUpdate();
           });
       });
-      this.updates.available.subscribe(event => {
+      this.updates.available.subscribe((event) => {
         const ref = this.snackBar.openFromComponent(SwUpdateMessageComponent);
 
         ref.instance.onAction.subscribe((action: string) => {

@@ -6,6 +6,6 @@ import { FavoriteListMenuButtonComponent } from './favorite-list-menu-button/fav
 @NgModule({
   imports: [SharedModule, MaterialModule],
   declarations: [FavoriteListMenuButtonComponent],
-  exports: [FavoriteListMenuButtonComponent]
+  exports: [FavoriteListMenuButtonComponent],
 })
 export class FavoriteListMenuModule {}

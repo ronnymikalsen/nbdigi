@@ -8,7 +8,7 @@ describe('CreateAccountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CreateAccountComponent]
+      declarations: [CreateAccountComponent],
     }).compileComponents();
   }));
 

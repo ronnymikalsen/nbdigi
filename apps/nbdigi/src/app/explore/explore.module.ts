@@ -8,6 +8,6 @@ import { ExploreComponent } from './components/explore/explore.component';
 @NgModule({
   imports: [SharedModule, ExploreRoutingModule],
   declarations: [ExplorePageComponent, ExploreComponent],
-  providers: []
+  providers: [],
 })
 export class ExploreModule {}

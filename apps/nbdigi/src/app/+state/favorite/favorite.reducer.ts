@@ -19,7 +19,7 @@ export const initialState: FavoriteState = {
 
 export function favoriteReducer(
   state: FavoriteState = initialState,
-  action: FavoriteAction
+  action: FavoriteAction,
 ): FavoriteState {
   switch (action.type) {
     case FavoriteActionTypes.OpenList: {
@@ -45,12 +45,12 @@ export function favoriteReducer(
       items.sort(
         (a, b) =>
           (b.timestamp ? b.timestamp.toMillis() : 0) -
-          (a.timestamp ? a.timestamp.toMillis() : 0)
+          (a.timestamp ? a.timestamp.toMillis() : 0),
       );
       payload.items = items;
       const newLists = [...state.lists];
       const foundIndex = newLists.findIndex(
-        (element) => element.id === payload.id
+        (element) => element.id === payload.id,
       );
       if (foundIndex !== -1) {
         newLists.splice(foundIndex, 1, payload);

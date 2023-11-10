@@ -22,13 +22,13 @@ describe('MyActivityEffects', () => {
       imports: [
         NxModule.forRoot(),
         StoreModule.forRoot({}),
-        EffectsModule.forRoot([])
+        EffectsModule.forRoot([]),
       ],
       providers: [
         MyActivityEffects,
         DataPersistence,
-        provideMockActions(() => actions)
-      ]
+        provideMockActions(() => actions),
+      ],
     });
 
     effects = TestBed.get(MyActivityEffects);
@@ -38,7 +38,7 @@ describe('MyActivityEffects', () => {
     it('should work', () => {
       actions = hot('-a-|', { a: new LoadMyActivity() });
       expect(effects.loadMyActivity$).toBeObservable(
-        hot('-a-|', { a: new MyActivityLoaded([]) })
+        hot('-a-|', { a: new MyActivityLoaded([]) }),
       );
     });
   });

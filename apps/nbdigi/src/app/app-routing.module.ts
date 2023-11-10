@@ -31,7 +31,7 @@ const routes: Routes = [
     path: 'myactivity',
     loadChildren: () =>
       import('./my-activity/my-activity.module').then(
-        (m) => m.MyActivityModule
+        (m) => m.MyActivityModule,
       ),
     canActivate: [AuthGuard],
   },

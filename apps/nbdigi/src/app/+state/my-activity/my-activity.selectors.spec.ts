@@ -3,26 +3,26 @@ import { myActivityQuery } from './my-activity.selectors';
 
 describe('MyActivity Selectors', () => {
   const ERROR_MSG = 'No Error Available';
-  const getMyActivityId = it => it['id'];
+  const getMyActivityId = (it) => it['id'];
 
   let storeState;
 
   beforeEach(() => {
     const createMyActivity = (id: string, name = ''): Entity => ({
       id,
-      name: name || `name-${id}`
+      name: name || `name-${id}`,
     });
     storeState = {
       myActivity: {
         list: [
           createMyActivity('PRODUCT-AAA'),
           createMyActivity('PRODUCT-BBB'),
-          createMyActivity('PRODUCT-CCC')
+          createMyActivity('PRODUCT-CCC'),
         ],
         selectedId: 'PRODUCT-BBB',
         error: ERROR_MSG,
-        loaded: true
-      }
+        loaded: true,
+      },
     };
   });
 

@@ -8,7 +8,7 @@ describe('CriteriaListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CriteriaListComponent]
+      declarations: [CriteriaListComponent],
     }).compileComponents();
   }));
 

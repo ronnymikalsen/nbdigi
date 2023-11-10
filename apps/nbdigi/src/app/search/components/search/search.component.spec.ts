@@ -14,7 +14,7 @@ describe('SearchComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [NoopAnimationsModule, SharedModule, StoreModule.forRoot({})],
-      declarations: [SearchComponent]
+      declarations: [SearchComponent],
     }).compileComponents();
   }));
 

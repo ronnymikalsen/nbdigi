@@ -5,8 +5,8 @@ import { SettingsPageComponent } from './containers/settings-page';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([{ path: '', component: SettingsPageComponent }])
+    RouterModule.forChild([{ path: '', component: SettingsPageComponent }]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class SettingsRoutingModule {}

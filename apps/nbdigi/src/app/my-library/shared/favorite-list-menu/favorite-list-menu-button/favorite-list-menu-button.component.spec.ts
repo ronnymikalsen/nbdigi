@@ -8,7 +8,7 @@ describe('FavoriteListMenuButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [FavoriteListMenuButtonComponent]
+      declarations: [FavoriteListMenuButtonComponent],
     }).compileComponents();
   }));
 

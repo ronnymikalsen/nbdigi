@@ -5,8 +5,8 @@ import { LoginPageComponent } from './containers/login-page';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([{ path: '', component: LoginPageComponent }])
+    RouterModule.forChild([{ path: '', component: LoginPageComponent }]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class LoginRoutingModule {}

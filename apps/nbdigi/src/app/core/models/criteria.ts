@@ -40,7 +40,7 @@ export class Criteria {
             this.sort.value +
             this.date.value +
             this.mediaType +
-            this.filters?.join()
+            this.filters?.join(),
         )
       );
     }

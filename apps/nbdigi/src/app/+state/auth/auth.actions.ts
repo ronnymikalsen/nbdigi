@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import {
   Authenticate,
   AuthError as AuthErrorModel,
-  User
+  User,
 } from '../../core/models';
 
 export enum AuthActionTypes {
@@ -18,7 +18,7 @@ export enum AuthActionTypes {
   SignUpError = '[Auth] Sign up error',
   SignUpSuccess = '[Auth] Sign up success',
   SendPasswordResetEmail = '[Auth] Send password reset email',
-  SendPasswordResetEmaildSuccess = '[Auth] Password reset email sendt'
+  SendPasswordResetEmaildSuccess = '[Auth] Password reset email sendt',
 }
 
 export class SignUpWithEmailAndPassword implements Action {
@@ -111,5 +111,5 @@ export const fromAuthActions = {
   SignInWithGoogleSuccess,
   SignInWithEmailAndPasswordSuccess,
   SendPasswordResetEmail,
-  SendPasswordResetEmaildSuccess
+  SendPasswordResetEmaildSuccess,
 };

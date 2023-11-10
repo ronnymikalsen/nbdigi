@@ -15,7 +15,7 @@ export class ViewerPageComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ViewerPageComponent>,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {
     this.item = this.itemFacade.getCurrentItem$;
   }

@@ -10,9 +10,6 @@ export class CustomHttp extends HttpClient {
   }
 
   override get<T>(url: string, options?: any): Observable<any> {
-    return super.get<T>(url, options).pipe(
-      retry(2),
-      delay(100)
-    );
+    return super.get<T>(url, options).pipe(retry(2), delay(100));
   }
 }

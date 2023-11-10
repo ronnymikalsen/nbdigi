@@ -8,7 +8,7 @@ describe('AddToFavoriteListDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AddToFavoriteListDialogComponent]
+      declarations: [AddToFavoriteListDialogComponent],
     }).compileComponents();
   }));
 

@@ -8,7 +8,7 @@ describe('MediaTypeOptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MediaTypeOptionComponent]
+      declarations: [MediaTypeOptionComponent],
     }).compileComponents();
   }));
 

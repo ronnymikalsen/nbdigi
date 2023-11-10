@@ -8,9 +8,9 @@ import { FavoriteListPageComponent } from './containers/favorite-list-page/favor
   imports: [
     RouterModule.forChild([
       { path: '', component: MyLibraryPageComponent },
-      { path: ':id', component: FavoriteListPageComponent }
-    ])
+      { path: ':id', component: FavoriteListPageComponent },
+    ]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MyLibraryRoutingModule {}

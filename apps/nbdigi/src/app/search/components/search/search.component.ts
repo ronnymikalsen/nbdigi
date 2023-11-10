@@ -106,7 +106,7 @@ export class SearchComponent implements OnInit, OnChanges {
 
   createLabel(
     mediaType: string | null | undefined,
-    counts: string | null
+    counts: string | null,
   ): string {
     return mediaType ? `${mediaType} (${counts})` : '';
   }

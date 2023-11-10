@@ -31,16 +31,16 @@ export class HomeEffects {
             map((searchResult) => {
               return new LoadNewItemsSuccess(searchResult);
             }),
-            catchError((err) => of(new LoadError(err)))
+            catchError((err) => of(new LoadError(err))),
           );
-      })
-    )
+      }),
+    ),
   );
 
   constructor(
     private store: Store<HomePartialState>,
     private actions: Actions,
-    private searchService: SearchService
+    private searchService: SearchService,
   ) {}
 
   private addAllFilters(storeState: any): string[] {

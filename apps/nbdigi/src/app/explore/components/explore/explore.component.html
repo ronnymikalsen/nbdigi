@@ -10,7 +10,11 @@
     fxLayoutGap="8px"
   >
     <div *ngFor="let genreOption of genreOptions">
-      <mat-card (click)="genreChanged.emit(genreOption)" class="genre-card">
+      <mat-card
+        appearance="outlined"
+        (click)="genreChanged.emit(genreOption)"
+        class="genre-card"
+      >
         <mat-card-header>
           <img mat-card-avatar [src]="genreOption.avatar" />
           <mat-card-title>{{ genreOption.viewValue }}</mat-card-title>

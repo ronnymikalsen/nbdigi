@@ -68,7 +68,7 @@
     <ng-container *ngIf="asList">
       <div id="item-activity-component" fxLayout="column">
         <nbd-default-item-list
-          *ngFor="let item of mediaTypeResults?.items | slice: 0:10"
+          *ngFor="let item of mediaTypeResults?.items | slice: 0 : 10"
           [item]="item"
           [config]="{ showMediaType: true }"
         ></nbd-default-item-list>

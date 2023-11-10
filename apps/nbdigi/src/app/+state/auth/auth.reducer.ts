@@ -14,33 +14,33 @@ export interface AuthPartialState {
 
 export const initialState: AuthState = {
   user: undefined,
-  error: undefined
+  error: undefined,
 };
 
 export function authReducer(
   state: AuthState = initialState,
-  action: AuthAction
+  action: AuthAction,
 ): AuthState {
   switch (action.type) {
     case AuthActionTypes.SignedIn: {
       state = {
         ...state,
         user: action.payload,
-        error: undefined
+        error: undefined,
       };
       break;
     }
     case AuthActionTypes.AuthError: {
       state = {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
       break;
     }
     case AuthActionTypes.AuthError: {
       state = {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
       break;
     }

@@ -3,7 +3,9 @@
 @font-face {
   font-family: 'Roboto';
   font-display: optional;
-  src: local('Roboto'), local('Roboto-Regular'),
+  src:
+    local('Roboto'),
+    local('Roboto-Regular'),
     url('/assets/fonts/roboto-v18-latin-regular.woff2') format('woff2'),
     url('/assets/fonts/roboto-v18-latin-regular.woff') format('woff');
 }
@@ -11,7 +13,9 @@
 @font-face {
   font-family: 'Roboto Condensed';
   font-display: optional;
-  src: local('Roboto Condensed'), local('RobotoCondensed-Regular'),
+  src:
+    local('Roboto Condensed'),
+    local('RobotoCondensed-Regular'),
     url('/assets/fonts/roboto-condensed-v16-latin-regular.woff2')
       format('woff2'),
     url('/assets/fonts/roboto-condensed-v16-latin-regular.woff') format('woff');
@@ -19,7 +23,9 @@
 @font-face {
   font-family: 'Material Icons';
   font-display: block;
-  src: local('Material Icons'), local('MaterialIcons-Regular'),
+  src:
+    local('Material Icons'),
+    local('MaterialIcons-Regular'),
     url('/assets/fonts/MaterialIcons-Regular.woff2') format('woff2'),
     url('/assets/fonts/MaterialIcons-Regular.woff') format('woff');
 }

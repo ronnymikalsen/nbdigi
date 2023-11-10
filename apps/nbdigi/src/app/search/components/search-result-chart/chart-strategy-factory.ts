@@ -11,7 +11,7 @@ export class ChartStrategyFactory {
     criteria: Criteria | undefined,
     yearAggs: YearCount[] | null,
     monthAggs: YearCount[] | null,
-    force?: string
+    force?: string,
   ): ChartStrategy | undefined {
     if (!criteria || !yearAggs || !monthAggs) {
       return undefined;

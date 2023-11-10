@@ -17,7 +17,7 @@ describe('ItemDetailsComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [StoreModule.forRoot(fromRoot.reducers, {})],
-      declarations: [ItemDetailsComponent]
+      declarations: [ItemDetailsComponent],
     }).compileComponents();
   }));
 

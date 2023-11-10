@@ -7,6 +7,6 @@ import { SettingsPageComponent } from './containers/settings-page';
 
 @NgModule({
   imports: [SharedModule, SettingsRoutingModule],
-  declarations: [SettingsComponent, SettingsPageComponent]
+  declarations: [SettingsComponent, SettingsPageComponent],
 })
 export class SettingsModule {}

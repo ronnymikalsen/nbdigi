@@ -4,7 +4,7 @@ import { Genre, GenreOptions } from '../../../core/models';
 @Component({
   selector: 'nbd-explore',
   templateUrl: './explore.component.html',
-  styleUrls: ['./explore.component.scss']
+  styleUrls: ['./explore.component.scss'],
 })
 export class ExploreComponent implements OnInit {
   @Output() genreChanged = new EventEmitter<Genre>();

@@ -8,11 +8,11 @@ import { FavoriteList } from '../../../core/models';
 @Component({
   selector: 'nbd-add-to-favorite-list-dialog',
   templateUrl: './add-to-favorite-list-dialog.component.html',
-  styleUrls: ['./add-to-favorite-list-dialog.component.scss']
+  styleUrls: ['./add-to-favorite-list-dialog.component.scss'],
 })
 export class AddToFavoriteListDialogComponent implements OnInit {
-  favoriteLists: Observable<FavoriteList[]> = this.favoriteFacade
-    .getFavoriteList$;
+  favoriteLists: Observable<FavoriteList[]> =
+    this.favoriteFacade.getFavoriteList$;
 
   showCreate = false;
 
@@ -20,7 +20,7 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddToFavoriteListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public snackBar: MatSnackBar,
-    private favoriteFacade: FavoriteFacade
+    private favoriteFacade: FavoriteFacade,
   ) {}
 
   ngOnInit() {}
@@ -33,7 +33,7 @@ export class AddToFavoriteListDialogComponent implements OnInit {
     this.dialogRef.close({
       id: list.id,
       name: list.name,
-      items: [{ ...this.data.item }]
+      items: [{ ...this.data.item }],
     });
   }
 

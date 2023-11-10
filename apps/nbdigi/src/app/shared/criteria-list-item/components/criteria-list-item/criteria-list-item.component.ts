@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { Criteria } from '../../../../core/models';
 
@@ -12,7 +12,7 @@ import { Criteria } from '../../../../core/models';
   selector: 'nbd-criteria-list-item',
   templateUrl: './criteria-list-item.component.html',
   styleUrls: ['./criteria-list-item.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CriteriaListItemComponent implements OnInit {
   @Input() criteria!: Criteria;

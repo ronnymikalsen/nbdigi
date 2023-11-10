@@ -13,9 +13,9 @@ import { HomeRoutingModule } from './home-routing.module';
     HomeRoutingModule,
     SearchBoxModule,
     ItemsSectionModule,
-    ItemDetailsModule
+    ItemDetailsModule,
   ],
   declarations: [HomePageComponent, HomeComponent],
-  providers: []
+  providers: [],
 })
 export class HomeModule {}

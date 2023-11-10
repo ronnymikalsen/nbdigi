@@ -5,7 +5,7 @@ import { PresentationService } from './presentation.service';
 describe('PresentationService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PresentationService]
+      providers: [PresentationService],
     });
   });
 
@@ -13,6 +13,6 @@ describe('PresentationService', () => {
     [PresentationService],
     (service: PresentationService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

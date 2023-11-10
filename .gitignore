@@ -49,3 +49,4 @@ functions/lib
 .directory
 firebase-debug.log
 .angular
+.nx

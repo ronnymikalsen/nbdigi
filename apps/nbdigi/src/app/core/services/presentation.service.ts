@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { Manifest } from '../models/manifest';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PresentationService {
   constructor(private http: HttpClient) {}
 
   public getManifest(
     urlToManifest: string,
-    fields?: string[]
+    fields?: string[],
   ): Observable<Manifest> {
     const url = fields
       ? `${urlToManifest}?fields=${fields.join(',')}`

@@ -10,8 +10,8 @@ import { ItemMenuModule } from '../item-menu/item-menu.module';
   declarations: [
     ItemDetailsComponent,
     ItemDetailsHeadComponent,
-    ItemDetailsMetadataComponent
+    ItemDetailsMetadataComponent,
   ],
-  exports: [ItemDetailsComponent]
+  exports: [ItemDetailsComponent],
 })
 export class ItemDetailsModule {}

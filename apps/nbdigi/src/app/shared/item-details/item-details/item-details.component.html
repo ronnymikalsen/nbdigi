@@ -1,7 +1,7 @@
 <div class="item-details-container">
   <ng-container *ngIf="!(loading$ | async)">
-    <ng-container *ngIf="(item$ | async) as item">
-      <mat-card>
+    <ng-container *ngIf="item$ | async as item">
+      <mat-card appearance="outlined">
         <mat-card-content>
           <div class="close">
             <nbd-item-menu-button
@@ -10,8 +10,8 @@
             ></nbd-item-menu-button>
             <button mat-icon-button (click)="close()">
               <mat-icon>close</mat-icon>
-            </button></div
-          >
+            </button>
+          </div>
           <div class="head">
             <nbd-item-details-head [item]="item"></nbd-item-details-head>
           </div>

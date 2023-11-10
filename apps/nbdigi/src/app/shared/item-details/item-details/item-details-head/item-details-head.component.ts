@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { ItemFacade } from '../../../../+state/item/item.facade';
 import { Item } from '../../../../core/models';
@@ -10,7 +10,7 @@ import { Item } from '../../../../core/models';
   selector: 'nbd-item-details-head',
   templateUrl: './item-details-head.component.html',
   styleUrls: ['./item-details-head.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemDetailsHeadComponent implements OnInit {
   @Input() item!: Item;

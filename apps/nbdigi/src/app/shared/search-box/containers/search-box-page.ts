@@ -31,7 +31,7 @@ export class SearchBoxPageComponent {
     private ngZone: NgZone,
     private router: Router,
     private searchFacade: SearchFacade,
-    private appFacade: AppFacade
+    private appFacade: AppFacade,
   ) {}
 
   onSearchSelected(query: string): void {
@@ -46,7 +46,7 @@ export class SearchBoxPageComponent {
     this.searchFacade.updateCriteria(
       new Criteria({
         q: '',
-      })
+      }),
     );
     this.searchFacade.addFilter(filter);
     this.searchFacade.search();

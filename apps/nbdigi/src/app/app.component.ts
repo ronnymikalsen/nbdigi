@@ -27,15 +27,15 @@ export class AppComponent implements OnInit, OnDestroy {
     private overlayContainer: OverlayContainer,
     media: MediaMatcher,
     changeDetectorRef: ChangeDetectorRef,
-    private appFacade: AppFacade
+    private appFacade: AppFacade,
   ) {
     iconRegistry.addSvgIcon(
       'logo',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg')
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/logo.svg'),
     );
     iconRegistry.addSvgIcon(
       'google',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg')
+      sanitizer.bypassSecurityTrustResourceUrl('assets/images/google-logo.svg'),
     );
     this.mobileQuery = media.matchMedia('screen and (max-width: 1279px)');
     this.mobileQueryListener = () => changeDetectorRef.detectChanges();

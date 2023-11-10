@@ -4,7 +4,7 @@ import { SuperSearchResult } from '../../core/models';
 export enum HomeActionTypes {
   LoadNewItems = '[Home] Load new items',
   LoadNewItemsSuccess = '[Home] Load new items success',
-  LoadError = '[Home] Error loading'
+  LoadError = '[Home] Error loading',
 }
 
 export class LoadNewItems implements Action {
@@ -28,5 +28,5 @@ export type HomeAction = LoadNewItems | LoadNewItemsSuccess | LoadError;
 export const fromHomeActions = {
   LoadNewItems,
   LoadNewItemsSuccess,
-  LoadError
+  LoadError,
 };

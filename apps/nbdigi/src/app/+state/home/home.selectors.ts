@@ -5,23 +5,23 @@ const getHomeState = createFeatureSelector<HomeState>(HOME_FEATURE_KEY);
 
 const getNewBooks = createSelector(
   getHomeState,
-  (state: HomeState) => state.books
+  (state: HomeState) => state.books,
 );
 const getNewPeriodicals = createSelector(
   getHomeState,
-  (state: HomeState) => state.periodicals
+  (state: HomeState) => state.periodicals,
 );
 const getNewPhotos = createSelector(
   getHomeState,
-  (state: HomeState) => state.photos
+  (state: HomeState) => state.photos,
 );
 const getNewNewspapers = createSelector(
   getHomeState,
-  (state: HomeState) => state.newspapers
+  (state: HomeState) => state.newspapers,
 );
 const getNewOthers = createSelector(
   getHomeState,
-  (state: HomeState) => state.others
+  (state: HomeState) => state.others,
 );
 
 export const homeQuery = {
@@ -29,5 +29,5 @@ export const homeQuery = {
   getNewPeriodicals,
   getNewPhotos,
   getNewNewspapers,
-  getNewOthers
+  getNewOthers,
 };

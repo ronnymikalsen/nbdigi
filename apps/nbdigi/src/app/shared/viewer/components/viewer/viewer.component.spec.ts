@@ -8,7 +8,7 @@ describe('ViewerDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ViewerDialogComponent]
+      declarations: [ViewerDialogComponent],
     }).compileComponents();
   }));
 

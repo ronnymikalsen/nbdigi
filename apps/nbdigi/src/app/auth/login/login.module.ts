@@ -9,6 +9,6 @@ import { DividerComponent } from './components/divider/divider.component';
 @NgModule({
   imports: [SharedModule, RouterModule, LoginRoutingModule],
   declarations: [LoginComponent, LoginPageComponent, DividerComponent],
-  providers: []
+  providers: [],
 })
 export class LoginModule {}

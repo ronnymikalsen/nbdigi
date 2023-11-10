@@ -8,7 +8,7 @@ describe('RemoveFavoriteDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RemoveFavoriteDialogComponent]
+      declarations: [RemoveFavoriteDialogComponent],
     }).compileComponents();
   }));
 

@@ -5,7 +5,7 @@ import { FavoriteService } from './favorite.service';
 describe('FavoriteService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FavoriteService]
+      providers: [FavoriteService],
     });
   });
 
@@ -13,6 +13,6 @@ describe('FavoriteService', () => {
     [FavoriteService],
     (service: FavoriteService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

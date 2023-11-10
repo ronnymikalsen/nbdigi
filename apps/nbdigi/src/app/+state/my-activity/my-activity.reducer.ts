@@ -26,19 +26,19 @@ export interface MyActivityPartialState {
 
 export const initialState: MyActivityState = {
   list: [],
-  loaded: false
+  loaded: false,
 };
 
 export function myActivityReducer(
   state: MyActivityState = initialState,
-  action: MyActivityAction
+  action: MyActivityAction,
 ): MyActivityState {
   switch (action.type) {
     case MyActivityActionTypes.MyActivityLoaded: {
       state = {
         ...state,
         list: action.payload,
-        loaded: true
+        loaded: true,
       };
       break;
     }

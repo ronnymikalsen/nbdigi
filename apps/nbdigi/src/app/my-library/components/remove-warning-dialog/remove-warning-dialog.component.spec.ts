@@ -8,7 +8,7 @@ describe('RemoveWarningDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RemoveWarningDialogComponent]
+      declarations: [RemoveWarningDialogComponent],
     }).compileComponents();
   }));
 

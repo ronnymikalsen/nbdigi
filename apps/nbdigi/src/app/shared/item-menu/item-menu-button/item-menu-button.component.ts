@@ -23,7 +23,7 @@ export class ItemMenuButtonComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private favoriteFacade: FavoriteFacade,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {}
 
   ngOnInit() {}

@@ -13,7 +13,7 @@ describe('ItemDetailsHeadComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
-      declarations: [ItemDetailsHeadComponent, TestHostComponent]
+      declarations: [ItemDetailsHeadComponent, TestHostComponent],
     }).compileComponents();
   }));
 
@@ -32,14 +32,14 @@ describe('ItemDetailsHeadComponent', () => {
       const newspaper = {
         ...TestItems.aDefaultItem(),
         mediaType: MediaType.NEWSPAPER,
-        issuedDate: '20010101'
+        issuedDate: '20010101',
       };
       testHost.item = newspaper;
       fixture.detectChanges();
 
       expect(
         fixture.debugElement.query(By.css('.issuedDate')).nativeElement
-          .textContent
+          .textContent,
       ).toEqual('01.01.2001');
     });
   });
@@ -49,23 +49,21 @@ describe('ItemDetailsHeadComponent', () => {
       const book = {
         ...TestItems.aDefaultItem(),
         mediaType: MediaType.BOOK,
-        issuedDate: 'summer of 69'
+        issuedDate: 'summer of 69',
       };
       testHost.item = book;
       fixture.detectChanges();
 
       expect(
         fixture.debugElement.query(By.css('.issuedDate')).nativeElement
-          .textContent
+          .textContent,
       ).toEqual('summer of 69');
     });
   });
 });
 
 @Component({
-  template: `
-    <nb-item-details-head [item]="item"></nb-item-details-head>
-  `
+  template: ` <nb-item-details-head [item]="item"></nb-item-details-head> `,
 })
 class TestHostComponent {
   item = TestItems.aDefaultItem();

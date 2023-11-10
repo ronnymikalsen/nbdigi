@@ -8,6 +8,6 @@ import { DebugModule } from '../debug/debug.module';
 @NgModule({
   imports: [SharedModule, DebugModule],
   declarations: [DefaultItemListComponent],
-  exports: [DefaultItemListComponent]
+  exports: [DefaultItemListComponent],
 })
 export class ItemListModule {}

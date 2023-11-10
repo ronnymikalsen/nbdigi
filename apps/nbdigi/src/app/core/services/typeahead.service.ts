@@ -17,7 +17,7 @@ export class TypeaheadService {
       .get<TypeaheadResponse>(
         `${
           environment.nb.apiURL
-        }/catalog/v1/typeahead/namecreators${this.buildQuery(sc)}`
+        }/catalog/v1/typeahead/namecreators${this.buildQuery(sc)}`,
       )
       .pipe(
         map((resp) => {
@@ -30,12 +30,12 @@ export class TypeaheadService {
                   type: 'person',
                   label: item.label,
                   value: `namecreators:"${item.value}"`,
-                })
+                }),
               );
             }
           }
           return creators;
-        })
+        }),
       );
   }
 
@@ -44,7 +44,7 @@ export class TypeaheadService {
       .get<TypeaheadResponse>(
         `${
           environment.nb.apiURL
-        }/catalog/v1/typeahead/subjectgeographic${this.buildQuery(sc)}`
+        }/catalog/v1/typeahead/subjectgeographic${this.buildQuery(sc)}`,
       )
       .pipe(
         map((resp) => {
@@ -57,12 +57,12 @@ export class TypeaheadService {
                   type: 'place',
                   label: item.label,
                   value: `subjectgeographic:"${item.value}"`,
-                })
+                }),
               );
             }
           }
           return creators;
-        })
+        }),
       );
   }
 

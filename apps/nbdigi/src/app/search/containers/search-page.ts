@@ -64,26 +64,26 @@ import { ChartRangeToOption } from '../components/search-result-chart/chart-stra
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
   search: Observable<SearchState> = this.searchFacade.state$;
-  currentMediaTypeCount: Observable<number> = this.searchFacade
-    .getCurrentMediaTypeCount$;
+  currentMediaTypeCount: Observable<number> =
+    this.searchFacade.getCurrentMediaTypeCount$;
   books: Observable<MediaTypeResults> = this.searchFacade.getBooks$;
   newspapers: Observable<MediaTypeResults> = this.searchFacade.getNewspapers$;
   photos: Observable<MediaTypeResults> = this.searchFacade.getPhotos$;
   periodicals: Observable<MediaTypeResults> = this.searchFacade.getPeriodicals$;
   maps: Observable<MediaTypeResults> = this.searchFacade.getMaps$;
   musicBooks: Observable<MediaTypeResults> = this.searchFacade.getMusicBooks$;
-  musicManuscripts: Observable<MediaTypeResults> = this.searchFacade
-    .getMusicManuscripts$;
+  musicManuscripts: Observable<MediaTypeResults> =
+    this.searchFacade.getMusicManuscripts$;
   posters: Observable<MediaTypeResults> = this.searchFacade.getPosters$;
-  privateArchives: Observable<MediaTypeResults> = this.searchFacade
-    .getPrivateArchives$;
-  programReports: Observable<MediaTypeResults> = this.searchFacade
-    .getProgramReports$;
+  privateArchives: Observable<MediaTypeResults> =
+    this.searchFacade.getPrivateArchives$;
+  programReports: Observable<MediaTypeResults> =
+    this.searchFacade.getProgramReports$;
   others: Observable<MediaTypeResults> = this.searchFacade.getOthers$;
   years: Observable<YearCount[]> = this.searchFacade.getYears$;
   months: Observable<YearCount[]> = this.searchFacade.getMonths$;
-  moreUrl: Observable<string | null | undefined> = this.searchFacade
-    .getMoreUrl$;
+  moreUrl: Observable<string | null | undefined> =
+    this.searchFacade.getMoreUrl$;
   pristine: Observable<boolean> = this.searchFacade.pristine$;
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;
   showDateGraph: Observable<boolean> = this.appFacade.showDateGraph$;
@@ -92,7 +92,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   constructor(
     private searchFacade: SearchFacade,
     private appFacade: AppFacade,
-    private itemFacade: ItemFacade
+    private itemFacade: ItemFacade,
   ) {}
 
   ngOnInit() {
@@ -122,7 +122,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.searchFacade.updateCriteria(
       new Criteria({
         q: query,
-      })
+      }),
     );
     this.searchFacade.search();
   }
@@ -131,7 +131,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.searchFacade.updateCriteria(
       new Criteria({
         mediaType: mediaType,
-      })
+      }),
     );
     this.searchFacade.search();
   }
@@ -140,7 +140,7 @@ export class SearchPageComponent implements OnInit, OnDestroy {
     this.searchFacade.updateCriteria(
       new Criteria({
         sort: sort,
-      })
+      }),
     );
     this.searchFacade.search();
   }
@@ -151,13 +151,13 @@ export class SearchPageComponent implements OnInit, OnDestroy {
         new Criteria({
           genre: genre,
           mediaType: genre.mediaType,
-        })
+        }),
       );
     } else {
       this.searchFacade.updateCriteria(
         new Criteria({
           genre: new Genre(),
-        })
+        }),
       );
     }
     this.searchFacade.search();

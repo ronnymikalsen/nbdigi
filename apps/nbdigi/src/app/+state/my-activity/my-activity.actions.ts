@@ -4,7 +4,7 @@ import { Entity } from './my-activity.reducer';
 export enum MyActivityActionTypes {
   LoadMyActivity = '[MyActivity] Load MyActivity',
   MyActivityLoaded = '[MyActivity] MyActivity Loaded',
-  MyActivityLoadError = '[MyActivity] MyActivity Load Error'
+  MyActivityLoadError = '[MyActivity] MyActivity Load Error',
 }
 
 export class LoadMyActivity implements Action {
@@ -29,5 +29,5 @@ export type MyActivityAction =
 export const fromMyActivityActions = {
   LoadMyActivity,
   MyActivityLoaded,
-  MyActivityLoadError
+  MyActivityLoadError,
 };

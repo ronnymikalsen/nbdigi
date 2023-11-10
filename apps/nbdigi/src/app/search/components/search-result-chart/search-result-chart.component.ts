@@ -41,7 +41,7 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
         this.criteria,
         this.years,
         this.months,
-        this.force
+        this.force,
       );
 
       if (this.chartStrategy) {

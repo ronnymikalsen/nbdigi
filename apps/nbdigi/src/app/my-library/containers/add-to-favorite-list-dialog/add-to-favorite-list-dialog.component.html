@@ -2,7 +2,7 @@
   <h3>Legg til i liste</h3>
   <mat-nav-list>
     <mat-list-item
-      *ngFor="let favorite of (favoriteLists | async)"
+      *ngFor="let favorite of favoriteLists | async"
       (click)="addToList(favorite)"
     >
       {{ favorite.name }}

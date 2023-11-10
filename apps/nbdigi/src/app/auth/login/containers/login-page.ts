@@ -11,7 +11,7 @@ import { Authenticate } from '../../../core/models';
       (signInWithEmailAndPasswordSelected)="signInWithEmailAndPassword($event)"
     >
     </nbd-login>
-  `
+  `,
 })
 export class LoginPageComponent {
   authError = this.authFacade.getError$;

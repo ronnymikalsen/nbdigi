@@ -109,13 +109,13 @@ export class SearchEffects {
                 filters: filters,
                 sort: storeState.search.criteria.sort,
               },
-              [chartAggs]
+              [chartAggs],
             )
             .pipe(
               map((searchResult) => {
                 return new SearchSuccess(searchResult);
               }),
-              catchError((err) => of(new SearchError(err)))
+              catchError((err) => of(new SearchError(err))),
             );
         } else {
           return this.searchService
@@ -127,17 +127,17 @@ export class SearchEffects {
                 filters: filters,
                 sort: storeState.search.criteria.sort,
               },
-              [chartAggs]
+              [chartAggs],
             )
             .pipe(
               map((searchResult) => {
                 return new SearchSuccess(searchResult);
               }),
-              catchError((err) => of(new SearchError(err)))
+              catchError((err) => of(new SearchError(err))),
             );
         }
-      })
-    )
+      }),
+    ),
   );
 
   searchAggregator: Observable<Action> = createEffect(() =>
@@ -166,16 +166,16 @@ export class SearchEffects {
               filters: filters.filter((f) => !f.startsWith('mediatype')),
               sort: storeState.search.criteria.sort,
             },
-            chartAggs
+            chartAggs,
           )
           .pipe(
             map((searchResult) => {
               return new SearchAggsSuccess(searchResult);
             }),
-            catchError((err) => of(new SearchError(err)))
+            catchError((err) => of(new SearchError(err))),
           );
-      })
-    )
+      }),
+    ),
   );
 
   loadMore: Observable<Action> = createEffect(() =>
@@ -224,10 +224,10 @@ export class SearchEffects {
             }),
             catchError((err) => {
               return of(new SearchError(err));
-            })
+            }),
           );
-      })
-    )
+      }),
+    ),
   );
 
   backToPreviousChartRange: Observable<Action> = createEffect(() =>
@@ -235,10 +235,10 @@ export class SearchEffects {
       ofType<ToChartRange>(SearchActionTypes.ToChartRange),
       map((action) => action.payload),
       map(
-        (date: ChartRangeToOption) => new SetDateCriteriaConfirmed(date.date)
+        (date: ChartRangeToOption) => new SetDateCriteriaConfirmed(date.date),
       ),
-      catchError((err) => of(new SearchError(err)))
-    )
+      catchError((err) => of(new SearchError(err))),
+    ),
   );
 
   setCustomDate: Observable<Action> = createEffect(() =>
@@ -275,7 +275,7 @@ export class SearchEffects {
                   let dateViewLabel: string;
                   if (result.fromDate && result.toDate) {
                     dateViewLabel = `${fromDate.format(
-                      viewFormat
+                      viewFormat,
                     )} - ${toDate.format(viewFormat)}`;
                   } else if (result.fromDate) {
                     dateViewLabel = `Etter ${fromDate.format(viewFormat)}`;
@@ -293,23 +293,23 @@ export class SearchEffects {
                 } else {
                   return new SetDateCriteriaCancelled();
                 }
-              })
+              }),
             );
         }
       }),
-      catchError((err) => of(new SearchError(err)))
-    )
+      catchError((err) => of(new SearchError(err))),
+    ),
   );
 
   setDateCriteriaConfirmed: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType<SetDateCriteriaConfirmed>(
-        SearchActionTypes.SetDateCriteriaConfirmed
+        SearchActionTypes.SetDateCriteriaConfirmed,
       ),
       map((action) => action.payload),
       map((date: DateOption) => new Search()),
-      catchError((err) => of(new SearchError(err)))
-    )
+      catchError((err) => of(new SearchError(err))),
+    ),
   );
 
   error: Observable<Action> = createEffect(
@@ -321,9 +321,9 @@ export class SearchEffects {
             duration: 2000,
             panelClass: 'error',
           });
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   loadHints: Observable<Action> = createEffect(() =>
@@ -347,17 +347,17 @@ export class SearchEffects {
           map((h: Hint[]) => (hints.places = h)),
           map(() => {
             return new HintsLoaded(hints);
-          })
+          }),
         );
-      })
-    )
+      }),
+    ),
   );
 
   clearAll: Observable<Action> = createEffect(() =>
     this.actions.pipe(
       ofType(SearchActionTypes.ClearAll),
-      map(() => new CloseItemDetails())
-    )
+      map(() => new CloseItemDetails()),
+    ),
   );
 
   constructor(
@@ -371,7 +371,7 @@ export class SearchEffects {
     public snackBar: MatSnackBar,
     private afs: Firestore,
     private dateAdapter: DateAdapter<MomentDateAdapter>,
-    private authFacade: AuthFacade
+    private authFacade: AuthFacade,
   ) {
     this.authFacade.currentUser$
       .pipe(filter((user) => user !== null))

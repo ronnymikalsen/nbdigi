@@ -18,13 +18,16 @@ export class MyActivityPageComponent implements OnInit, OnDestroy {
   items!: Observable<Item[]>;
   private destroyed: Subject<void> = new Subject();
 
-  constructor(private authFacade: AuthFacade, private afs: Firestore) {}
+  constructor(
+    private authFacade: AuthFacade,
+    private afs: Firestore,
+  ) {}
 
   ngOnInit() {
     this.authFacade.currentUser$
       .pipe(
         takeUntil(this.destroyed),
-        filter((user) => user !== null)
+        filter((user) => user !== null),
       )
       .subscribe((user: any) => {
         /*

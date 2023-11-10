@@ -5,7 +5,7 @@ import { ViewerService } from './viewer.service';
 describe('ViewerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ViewerService]
+      providers: [ViewerService],
     });
   });
 

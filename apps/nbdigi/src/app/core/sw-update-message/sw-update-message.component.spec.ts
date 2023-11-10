@@ -13,7 +13,7 @@ describe('SwUpdateMessageComponent', () => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [SwUpdateMessageComponent],
-      providers: [{ provide: SwUpdate, useValue: swUpdateSpy }]
+      providers: [{ provide: SwUpdate, useValue: swUpdateSpy }],
     }).compileComponents();
   }));
 

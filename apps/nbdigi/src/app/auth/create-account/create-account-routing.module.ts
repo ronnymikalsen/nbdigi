@@ -5,8 +5,10 @@ import { CreateAccountPageComponent } from './containers/create-account-page';
 
 @NgModule({
   imports: [
-    RouterModule.forChild([{ path: '', component: CreateAccountPageComponent }])
+    RouterModule.forChild([
+      { path: '', component: CreateAccountPageComponent },
+    ]),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class CreateAccountRoutingModule {}

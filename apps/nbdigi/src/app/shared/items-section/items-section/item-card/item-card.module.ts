@@ -7,6 +7,6 @@ import { DefaultItemCardComponent } from './containers/default-item-card/default
 @NgModule({
   imports: [SharedModule, DebugModule, ItemMenuModule],
   declarations: [DefaultItemCardComponent],
-  exports: [DefaultItemCardComponent]
+  exports: [DefaultItemCardComponent],
 })
 export class ItemCardModule {}

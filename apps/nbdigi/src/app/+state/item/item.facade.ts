@@ -5,7 +5,7 @@ import {
   Change,
   CloseItemDetails,
   Open,
-  OpenItemDetails
+  OpenItemDetails,
 } from './item.actions';
 import { ItemPartialState } from './item.reducer';
 import { itemQuery } from './item.selectors';
@@ -14,10 +14,10 @@ import { itemQuery } from './item.selectors';
 export class ItemFacade {
   getCurrentItem$ = this.store.pipe(select(itemQuery.getCurrentItem));
   getCurrentItemDetails$ = this.store.pipe(
-    select(itemQuery.getCurrentItemDetails)
+    select(itemQuery.getCurrentItemDetails),
   );
   getItemCurrentManifest$ = this.store.pipe(
-    select(itemQuery.getCurrentItemDetailsManifest)
+    select(itemQuery.getCurrentItemDetailsManifest),
   );
   getItemLoading$ = this.store.pipe(select(itemQuery.getLoading));
   showItemDetails$ = this.store.pipe(select(itemQuery.showItemDetails));
@@ -36,7 +36,7 @@ export class ItemFacade {
     this.store.dispatch(new CloseItemDetails());
   }
 
-  change(item: Item| undefined | null): void {
+  change(item: Item | undefined | null): void {
     this.store.dispatch(new Change(item));
   }
 }

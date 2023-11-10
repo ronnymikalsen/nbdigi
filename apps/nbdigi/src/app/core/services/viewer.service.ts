@@ -12,7 +12,7 @@ export class ViewerService {
       width: '100%',
       height: '100%',
       data: item,
-      panelClass: ['viewer-panel']
+      panelClass: ['viewer-panel'],
     });
   }
 }

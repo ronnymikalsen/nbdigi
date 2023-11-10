@@ -7,6 +7,6 @@ import { SearchBoxPageComponent } from './containers/search-box-page';
   imports: [SharedModule],
   declarations: [SearchBoxComponent, SearchBoxPageComponent],
   exports: [SearchBoxPageComponent],
-  providers: []
+  providers: [],
 })
 export class SearchBoxModule {}

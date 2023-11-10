@@ -6,6 +6,6 @@ import { CriteriaListComponent } from './containers/criteria-list/criteria-list.
 @NgModule({
   imports: [SharedModule],
   declarations: [CriteriaListComponent, CriteriaListItemComponent],
-  exports: [CriteriaListComponent]
+  exports: [CriteriaListComponent],
 })
 export class CriteriaListItemModule {}

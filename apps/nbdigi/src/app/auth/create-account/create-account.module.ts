@@ -7,6 +7,6 @@ import { CreateAccountRoutingModule } from './create-account-routing.module';
 @NgModule({
   imports: [SharedModule, CreateAccountRoutingModule],
   declarations: [CreateAccountPageComponent, CreateAccountComponent],
-  providers: []
+  providers: [],
 })
 export class CreateAccountModule {}

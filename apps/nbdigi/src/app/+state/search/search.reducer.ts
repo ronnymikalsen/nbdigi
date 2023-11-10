@@ -68,7 +68,7 @@ export const initialState: SearchState = {
 
 export function searchReducer(
   state: SearchState = initialState,
-  action: SearchAction
+  action: SearchAction,
 ): SearchState {
   switch (action.type) {
     case SearchActionTypes.ClearAll: {
@@ -170,7 +170,7 @@ export function searchReducer(
     }
     case SearchActionTypes.ToggleFilter: {
       const index = state.criteria.filters.findIndex(
-        (f) => f === action.payload
+        (f) => f === action.payload,
       );
       state = {
         ...state,

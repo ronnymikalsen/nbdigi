@@ -8,7 +8,7 @@ describe('MyActivityComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MyActivityComponent]
+      declarations: [MyActivityComponent],
     }).compileComponents();
   }));
 

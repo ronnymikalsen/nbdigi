@@ -7,13 +7,14 @@ const routes: Routes = [
   { path: '', component: MyActivityPageComponent },
   {
     path: 'settings',
-    loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
-    canActivate: [AuthGuard]
-  }
+    loadChildren: () =>
+      import('./settings/settings.module').then((m) => m.SettingsModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class MyActivityRoutingModule {}

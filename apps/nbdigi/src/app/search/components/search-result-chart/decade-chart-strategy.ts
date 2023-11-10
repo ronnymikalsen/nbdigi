@@ -2,7 +2,10 @@ import { Criteria, DateOption, YearCount } from '../../../core/models';
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class DecadeChartStrategy implements ChartStrategy {
-  constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(
+    private criteria: Criteria,
+    private aggs: YearCount[],
+  ) {}
 
   getName() {
     return 'DecadeChart';
@@ -25,7 +28,7 @@ export class DecadeChartStrategy implements ChartStrategy {
     });
     if (this.aggs.length > 0) {
       const min = Number(
-        this.aggs[0].year.padStart(4, '0').substring(0, 3) + '0'
+        this.aggs[0].year.padStart(4, '0').substring(0, 3) + '0',
       );
       const max = Number(this.aggs[this.aggs.length - 1].year);
 
@@ -50,7 +53,7 @@ export class DecadeChartStrategy implements ChartStrategy {
         const first = Math.floor(Number(x) / 10) + '0';
 
         const index: number = r.findIndex(
-          (va) => Number(va.first) === Number(first)
+          (va) => Number(va.first) === Number(first),
         );
         try {
           r[index] = {

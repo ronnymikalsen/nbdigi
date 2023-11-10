@@ -10,7 +10,7 @@ import { Authenticate } from '../../../core/models';
       (signUpSelected)="signUp($event)"
     >
     </nbd-create-account>
-  `
+  `,
 })
 export class CreateAccountPageComponent {
   authError = this.authFacade.getError$;

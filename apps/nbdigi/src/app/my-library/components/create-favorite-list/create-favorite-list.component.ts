@@ -24,7 +24,10 @@ export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
   listForm!: FormGroup;
   listName!: FormControl;
 
-  constructor(public snackBar: MatSnackBar, private fb: FormBuilder) {
+  constructor(
+    public snackBar: MatSnackBar,
+    private fb: FormBuilder,
+  ) {
     this.createForm();
   }
 

@@ -19,14 +19,14 @@ export class CriteriaListComponent implements OnInit, OnDestroy {
   constructor(
     private afs: Firestore,
     private searchFacade: SearchFacade,
-    private authFacade: AuthFacade
+    private authFacade: AuthFacade,
   ) {}
 
   ngOnInit() {
     this.authFacade.currentUser$
       .pipe(
         takeUntil(this.destroyed),
-        filter((user) => user !== null && user !== undefined)
+        filter((user) => user !== null && user !== undefined),
       )
       .subscribe((user: any) => {
         /*

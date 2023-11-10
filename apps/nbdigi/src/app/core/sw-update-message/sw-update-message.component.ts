@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 @Component({
   selector: 'nbd-sw-update-message',
   templateUrl: './sw-update-message.component.html',
-  styleUrls: ['./sw-update-message.component.scss']
+  styleUrls: ['./sw-update-message.component.scss'],
 })
 export class SwUpdateMessageComponent implements OnInit {
   private action: Subject<string> = new Subject<string>();

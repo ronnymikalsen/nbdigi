@@ -10,7 +10,10 @@ import { User } from '../models';
 export class UserService {
   private userRef: DocumentReference<User> | undefined;
 
-  constructor(private afs: Firestore, private afAuth: Auth) {
+  constructor(
+    private afs: Firestore,
+    private afAuth: Auth,
+  ) {
     const auth = getAuth();
     const user = auth.currentUser;
     if (user) {

@@ -16,7 +16,7 @@ import {
   SearchState,
   Entity,
   initialState,
-  searchReducer
+  searchReducer,
 } from './search.reducer';
 
 interface TestSchema {
@@ -31,7 +31,7 @@ describe('SearchFacade', () => {
   beforeEach(() => {
     createSearch = (id: string, name = ''): Entity => ({
       id,
-      name: name || `name-${id}`
+      name: name || `name-${id}`,
     });
   });
 
@@ -40,9 +40,9 @@ describe('SearchFacade', () => {
       @NgModule({
         imports: [
           StoreModule.forFeature('search', searchReducer, { initialState }),
-          EffectsModule.forFeature([SearchEffects])
+          EffectsModule.forFeature([SearchEffects]),
         ],
-        providers: [SearchFacade]
+        providers: [SearchFacade],
       })
       class CustomFeatureModule {}
 
@@ -51,8 +51,8 @@ describe('SearchFacade', () => {
           NxModule.forRoot(),
           StoreModule.forRoot({}),
           EffectsModule.forRoot([]),
-          CustomFeatureModule
-        ]
+          CustomFeatureModule,
+        ],
       })
       class RootModule {}
       TestBed.configureTestingModule({ imports: [RootModule] });
@@ -64,7 +64,7 @@ describe('SearchFacade', () => {
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async done => {
+    it('loadAll() should return empty list with loaded == true', async (done) => {
       try {
         let list = await readFirst(facade.allSearch$);
         let isLoaded = await readFirst(facade.loaded$);
@@ -89,7 +89,7 @@ describe('SearchFacade', () => {
     /**
      * Use `SearchLoaded` to manually submit list for state management
      */
-    it('allSearch$ should return the loaded list; and loaded flag == true', async done => {
+    it('allSearch$ should return the loaded list; and loaded flag == true', async (done) => {
       try {
         let list = await readFirst(facade.allSearch$);
         let isLoaded = await readFirst(facade.loaded$);
@@ -98,7 +98,7 @@ describe('SearchFacade', () => {
         expect(isLoaded).toBe(false);
 
         store.dispatch(
-          new SearchLoaded([createSearch('AAA'), createSearch('BBB')])
+          new SearchLoaded([createSearch('AAA'), createSearch('BBB')]),
         );
 
         list = await readFirst(facade.allSearch$);

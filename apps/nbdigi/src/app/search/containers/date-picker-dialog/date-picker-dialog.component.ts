@@ -9,7 +9,7 @@ import { DateOptions } from '../../../core/models';
 @Component({
   selector: 'nbd-date-picker-dialog',
   templateUrl: './date-picker-dialog.component.html',
-  styleUrls: ['./date-picker-dialog.component.scss']
+  styleUrls: ['./date-picker-dialog.component.scss'],
 })
 export class DatePickerDialogComponent implements OnInit {
   dateForm!: FormGroup;
@@ -20,7 +20,7 @@ export class DatePickerDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<DatePickerDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
-    private dateAdapter: DateAdapter<MomentDateAdapter>
+    private dateAdapter: DateAdapter<MomentDateAdapter>,
   ) {
     this.createForm();
   }
@@ -30,7 +30,7 @@ export class DatePickerDialogComponent implements OnInit {
   onSubmit() {
     this.dialogRef.close({
       fromDate: this.fromDate.value,
-      toDate: this.toDate.value
+      toDate: this.toDate.value,
     });
   }
 
@@ -61,7 +61,7 @@ export class DatePickerDialogComponent implements OnInit {
 
     this.dateForm = this.fb.group({
       fromDate: this.fromDate,
-      toDate: this.toDate
+      toDate: this.toDate,
     });
   }
 
@@ -70,7 +70,7 @@ export class DatePickerDialogComponent implements OnInit {
     const reg = new RegExp(/^\d{4}$/);
     if (reg.test(value)) {
       this.fromDate.patchValue(
-        this.dateAdapter.createDate(parseInt(value, 10), 0, 1)
+        this.dateAdapter.createDate(parseInt(value, 10), 0, 1),
       );
     }
   }
@@ -80,7 +80,7 @@ export class DatePickerDialogComponent implements OnInit {
     const reg = new RegExp(/^\d{4}$/);
     if (reg.test(value)) {
       this.toDate.patchValue(
-        this.dateAdapter.createDate(parseInt(value, 10), 11, 31)
+        this.dateAdapter.createDate(parseInt(value, 10), 11, 31),
       );
     }
   }

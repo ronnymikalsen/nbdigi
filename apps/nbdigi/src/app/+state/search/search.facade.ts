@@ -15,7 +15,7 @@ import {
   SetDateCriteria,
   ToChartRange,
   ToggleFilter,
-  UpdateCriteria
+  UpdateCriteria,
 } from './search.actions';
 import { SearchPartialState } from './search.reducer';
 import { searchQuery } from './search.selectors';
@@ -32,7 +32,7 @@ export class SearchFacade {
   getMaps$ = this.store.pipe(select(searchQuery.getMaps));
   getMusicBooks$ = this.store.pipe(select(searchQuery.getMusicBooks));
   getMusicManuscripts$ = this.store.pipe(
-    select(searchQuery.getMusicManuscripts)
+    select(searchQuery.getMusicManuscripts),
   );
   getPosters$ = this.store.pipe(select(searchQuery.getPosters));
   getPrivateArchives$ = this.store.pipe(select(searchQuery.getPrivateArchives));
@@ -40,7 +40,7 @@ export class SearchFacade {
   getOthers$ = this.store.pipe(select(searchQuery.getOthers));
   getMoreUrl$ = this.store.pipe(select(searchQuery.getMoreUrl));
   getCurrentMediaTypeCount$ = this.store.pipe(
-    select(searchQuery.getCurrentMediaTypeCount)
+    select(searchQuery.getCurrentMediaTypeCount),
   );
   getYears$ = this.store.pipe(select(searchQuery.getYears));
   getMonths$ = this.store.pipe(select(searchQuery.getMonths));

@@ -7,7 +7,10 @@ import {
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class MillenniumChartStrategy implements ChartStrategy {
-  constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(
+    private criteria: Criteria,
+    private aggs: YearCount[],
+  ) {}
 
   getName() {
     return 'MillenniumChart';
@@ -51,7 +54,7 @@ export class MillenniumChartStrategy implements ChartStrategy {
         const first = Math.floor(Number(x) / 1000) + '000';
 
         const index: number = r.findIndex(
-          (va) => Number(va.first) === Number(first)
+          (va) => Number(va.first) === Number(first),
         );
         try {
           r[index] = {

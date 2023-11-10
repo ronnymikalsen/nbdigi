@@ -1,15 +1,16 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@use 'sass:map';
 
 @mixin nbd-divider-theme($theme) {
-  $primary: map-get($theme, primary);
+  $primary: map.get($theme, primary);
 
   nbd-divider {
     .mat-primary {
-      color: mat-color($primary);
+      color: mat.get-color-from-palette($primary);
     }
 
     .mat-divider {
-      border-top-color: mat-color($primary) !important;
+      border-top-color: mat.get-color-from-palette($primary) !important;
     }
   }
 }

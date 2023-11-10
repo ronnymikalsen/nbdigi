@@ -2,7 +2,8 @@
   <a routerLink="/home"
     ><mat-icon class="mat-h2 logo" svgIcon="logo"></mat-icon
   ></a>
-  <div class="mat-h1">NBDIGI</div> <div class="mat-h2">Opprett konto</div>
+  <div class="mat-h1">NBDIGI</div>
+  <div class="mat-h2">Opprett konto</div>
   <form
     class="sign-up-form"
     [formGroup]="signUpForm"
@@ -17,7 +18,9 @@
           formControlName="email"
           placeholder="E-post"
         />
-        <mat-error *ngIf="email.errors?.['invalidEmail']">Ugyldig e-post</mat-error>
+        <mat-error *ngIf="email.errors?.['invalidEmail']"
+          >Ugyldig e-post</mat-error
+        >
         <mat-error *ngIf="email.errors?.['emailAlreadyInUse']"
           >E-post adressen er registret fra før</mat-error
         >
@@ -40,8 +43,7 @@
           formControlName="confirmPassword"
           placeholder="Bekreft passord"
         />
-        <mat-error
-          *ngIf="confirmPassword.errors?.['MatchPassword']"
+        <mat-error *ngIf="confirmPassword.errors?.['MatchPassword']"
           >Passordene stemmer ikke overens</mat-error
         >
       </mat-form-field>
@@ -50,8 +52,9 @@
         mat-raised-button
         color="primary"
         [disabled]="signUpForm.pristine || !signUpForm.valid"
-        >Opprett konto</button
       >
+        Opprett konto
+      </button>
     </div>
   </form>
 </div>

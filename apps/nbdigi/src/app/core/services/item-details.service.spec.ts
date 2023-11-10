@@ -5,7 +5,7 @@ import { ItemDetailsService } from './item-details.service';
 describe('ItemDetailsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ItemDetailsService]
+      providers: [ItemDetailsService],
     });
   });
 
@@ -13,6 +13,6 @@ describe('ItemDetailsService', () => {
     [ItemDetailsService],
     (service: ItemDetailsService) => {
       expect(service).toBeTruthy();
-    }
+    },
   ));
 });

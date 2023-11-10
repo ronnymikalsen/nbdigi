@@ -8,7 +8,7 @@ describe('ItemDetailsMetadataComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemDetailsMetadataComponent]
+      declarations: [ItemDetailsMetadataComponent],
     }).compileComponents();
   }));
 
@@ -32,7 +32,7 @@ describe('ItemDetailsMetadataComponent', () => {
   function aDefaultManifest() {
     return {
       id: '1',
-      metadata: [{ label: 'test-label', value: 'test-value' }]
+      metadata: [{ label: 'test-label', value: 'test-value' }],
     };
   }
 });

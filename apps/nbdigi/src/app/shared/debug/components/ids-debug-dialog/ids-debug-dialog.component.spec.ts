@@ -8,7 +8,7 @@ describe('IdsDebugDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [IdsDebugDialogComponent]
+      declarations: [IdsDebugDialogComponent],
     }).compileComponents();
   }));
 

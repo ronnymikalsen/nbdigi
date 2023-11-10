@@ -7,7 +7,10 @@ import {
 import { ChartRangeToOption, ChartStrategy } from './chart-strategy-factory';
 
 export class YearChartStrategy implements ChartStrategy {
-  constructor(private criteria: Criteria, private aggs: YearCount[]) {}
+  constructor(
+    private criteria: Criteria,
+    private aggs: YearCount[],
+  ) {}
 
   getName() {
     return 'YearChart';

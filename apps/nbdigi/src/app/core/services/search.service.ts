@@ -44,7 +44,7 @@ export class SearchService {
 
     return this.http
       .get<ItemsResponse>(
-        `${environment.nb.apiURL}/catalog/v1/search${builder.build()}`
+        `${environment.nb.apiURL}/catalog/v1/search${builder.build()}`,
       )
       .pipe(
         map((resp) => {
@@ -58,7 +58,7 @@ export class SearchService {
 
           const newspapers = this.findMediatypeResponse(
             'aviser',
-            mediaTypeResponses
+            mediaTypeResponses,
           );
           if (newspapers) {
             searchResult.newspapers = this.extractMediaTypeResponse(newspapers);
@@ -66,7 +66,7 @@ export class SearchService {
 
           const photos = this.findMediatypeResponse(
             'bilder',
-            mediaTypeResponses
+            mediaTypeResponses,
           );
           if (photos) {
             searchResult.photos = this.extractMediaTypeResponse(photos);
@@ -74,17 +74,16 @@ export class SearchService {
 
           const periodicals = this.findMediatypeResponse(
             'tidsskrift',
-            mediaTypeResponses
+            mediaTypeResponses,
           );
           if (periodicals) {
-            searchResult.periodicals = this.extractMediaTypeResponse(
-              periodicals
-            );
+            searchResult.periodicals =
+              this.extractMediaTypeResponse(periodicals);
           }
 
           const others = this.findMediatypeResponse(
             'other',
-            mediaTypeResponses
+            mediaTypeResponses,
           );
           if (others) {
             searchResult.others = this.extractMediaTypeResponse(others);
@@ -94,7 +93,7 @@ export class SearchService {
           searchResult.totalElements = resp.totalElements;
           searchResult.selfLink = resp._links.self.href;
           return searchResult;
-        })
+        }),
       );
   }
 
@@ -121,12 +120,12 @@ export class SearchService {
 
     return this.http
       .get<ItemsResponse>(
-        `${environment.nb.apiURL}/catalog/v1/items${builder.build()}`
+        `${environment.nb.apiURL}/catalog/v1/items${builder.build()}`,
       )
       .pipe(
         map((resp) => {
           return this.extractItemsSearch(sc.mediaType, resp);
-        })
+        }),
       );
   }
 
@@ -134,13 +133,13 @@ export class SearchService {
     return this.http.get<ItemsResponse>(url).pipe(
       map((resp) => {
         return this.extractItemsSearch(mediaType, resp);
-      })
+      }),
     );
   }
 
   private findMediatypeResponse(
     mediaType: string,
-    mediaTypeResponses: MediaTypeResponse[]
+    mediaTypeResponses: MediaTypeResponse[],
   ): MediaTypeResponse | undefined {
     return mediaTypeResponses.find((m) => m.mediaType === mediaType);
   }
@@ -169,7 +168,7 @@ export class SearchService {
 
   private extractItemsSearch(
     mediaType: string | undefined,
-    resp: ItemsResponse
+    resp: ItemsResponse,
   ): SuperSearchResult {
     const searchResult = new SuperSearchResult();
     const mediaTypeResult = this.extractItemsResponse(resp);
@@ -239,43 +238,43 @@ export class SearchService {
       const mediatypeBuckets = mediatypes.buckets;
       searchResult.books.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.books.mediaType
+        searchResult.books.mediaType,
       );
       searchResult.newspapers.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.newspapers.mediaType
+        searchResult.newspapers.mediaType,
       );
       searchResult.photos.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.photos.mediaType
+        searchResult.photos.mediaType,
       );
       searchResult.periodicals.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.periodicals.mediaType
+        searchResult.periodicals.mediaType,
       );
       searchResult.maps.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.maps.mediaType
+        searchResult.maps.mediaType,
       );
       searchResult.musicBooks.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.musicBooks.mediaType
+        searchResult.musicBooks.mediaType,
       );
       searchResult.musicManuscripts.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.musicManuscripts.mediaType
+        searchResult.musicManuscripts.mediaType,
       );
       searchResult.posters.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.posters.mediaType
+        searchResult.posters.mediaType,
       );
       searchResult.privateArchives.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.privateArchives.mediaType
+        searchResult.privateArchives.mediaType,
       );
       searchResult.programReports.counts = this.extractCount(
         mediatypeBuckets,
-        searchResult.programReports.mediaType
+        searchResult.programReports.mediaType,
       );
     }
 
@@ -293,7 +292,7 @@ export class SearchService {
 
   private extractCount(
     buckets: BucketResponse[],
-    mediaType: string | null | undefined
+    mediaType: string | null | undefined,
   ): number {
     if (!buckets) {
       return 0;
@@ -314,12 +313,12 @@ export class SearchService {
         new YearCount({
           year: year.key,
           count: year.count,
-        })
+        }),
       );
     });
 
     const sortedArray: YearCount[] = bucket.sort(
-      (n1, n2) => Number(n1.year) - Number(n2.year)
+      (n1, n2) => Number(n1.year) - Number(n2.year),
     );
     return sortedArray;
   }

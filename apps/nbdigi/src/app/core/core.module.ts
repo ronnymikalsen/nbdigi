@@ -2,10 +2,14 @@ import {
   HttpClient,
   HttpClientModule,
   HttpHandler,
-  HTTP_INTERCEPTORS
+  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 import { DatePickerDialogComponent } from '../search/containers/date-picker-dialog/date-picker-dialog.component';
 import { ItemDetailsModule } from '../shared/item-details/item-details.module';
@@ -39,7 +43,7 @@ export function httpFactory(handler: HttpHandler) {
     {
       provide: DateAdapter,
       useClass: CustomDateAdapter,
-      deps: [MAT_DATE_LOCALE]
+      deps: [MAT_DATE_LOCALE],
     },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
     AuthService,
@@ -50,7 +54,7 @@ export function httpFactory(handler: HttpHandler) {
     ViewerService,
     CheckForUpdateService,
     PresentationService,
-    ItemDetailsService
-  ]
+    ItemDetailsService,
+  ],
 })
 export class CoreModule {}

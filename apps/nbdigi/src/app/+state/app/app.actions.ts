@@ -5,7 +5,7 @@ export enum AppActionTypes {
   DebugOff = '[App] Debug off',
   SetTheme = '[App] Set theme',
   ShowDateGraph = '[App] Show date graph',
-  HideDateGraph = '[App] Hide date graph'
+  HideDateGraph = '[App] Hide date graph',
 }
 
 export class DebugOn implements Action {
@@ -42,5 +42,5 @@ export const fromAppActions = {
   DebugOff,
   SetTheme,
   ShowDateGraph,
-  HideDateGraph
+  HideDateGraph,
 };
