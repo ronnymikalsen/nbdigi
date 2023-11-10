@@ -1,0 +1,27 @@
+{
+  "name": "nbdigi-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "",
+  "targets": {
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "apps/nbdigi-e2e/protractor.conf.js",
+        "devServerTarget": "nbdigi:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "nbdigi:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@angular-devkit/build-angular:tslint",
+      "options": {
+        "tsConfig": "apps/nbdigi-e2e/tsconfig.e2e.json",
+        "exclude": ["**/node_modules/**"]
+      }
+    }
+  }
+}
