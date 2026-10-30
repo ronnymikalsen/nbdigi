@@ -114,7 +114,8 @@
       "outputs": ["coverage/apps/nbdigi/"],
       "options": {
         "jestConfig": "apps/nbdigi/jest.config.js",
-        "passWithNoTests": true
+        "passWithNoTests": true,
+        "tsConfig": "apps/nbdigi/tsconfig.spec.json"
       }
     },
     "deploy": {
