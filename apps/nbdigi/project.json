@@ -110,12 +110,9 @@
       }
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["coverage/apps/nbdigi/"],
+      "outputs": ["{workspaceRoot}/coverage/apps/nbdigi"],
       "options": {
-        "jestConfig": "apps/nbdigi/jest.config.js",
-        "passWithNoTests": true,
-        "tsConfig": "apps/nbdigi/tsconfig.spec.json"
+        "passWithNoTests": true
       }
     },
     "deploy": {
