@@ -12,6 +12,7 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser-esbuild",
+      "outputs": ["{options.outputPath}"],
       "options": {
         "aot": true,
         "outputPath": "dist/apps/nbdigi",
@@ -78,8 +79,7 @@
             }
           ]
         }
-      },
-      "outputs": ["{options.outputPath}"]
+      }
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
@@ -90,7 +90,8 @@
         "production": {
           "browserTarget": "nbdigi:build:production"
         }
-      }
+      },
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -110,11 +111,11 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
+      "outputs": ["coverage/apps/nbdigi/"],
       "options": {
         "jestConfig": "apps/nbdigi/jest.config.js",
         "passWithNoTests": true
-      },
-      "outputs": ["coverage/apps/nbdigi/"]
+      }
     },
     "deploy": {
       "executor": "@angular/fire:deploy",
