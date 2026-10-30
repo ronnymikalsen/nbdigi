@@ -1,24 +1,19 @@
 @if (!showCreate) {
-<div fxLayout="column">
-  <h3>Legg til i liste</h3>
-  <mat-nav-list>
-    @for (favorite of favoriteLists | async; track favorite) {
-    <mat-list-item (click)="addToList(favorite)">
-      {{ favorite.name }}
-    </mat-list-item>
+<h2 mat-dialog-title>Legg til i liste</h2>
+<mat-dialog-content>
+  <mat-action-list aria-label="Velg liste">
+    @for (favorite of favoriteLists | async; track favorite.id) {
+    <button mat-list-item type="button" (click)="addToList(favorite)">
+      <span matListItemTitle>{{ favorite.name }}</span>
+    </button>
     }
-  </mat-nav-list>
-  <div
-    class="actions"
-    fxLayout="row"
-    fxLayoutAlign="end center"
-    fxLayoutGap="10px"
-  >
-    <button mat-button mat-dialog-close>Avbryt</button>
-    <button mat-button (click)="toggleCreate()">Lag ny liste</button>
-  </div>
-</div>
-} @if (showCreate) {
+  </mat-action-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Avbryt</button>
+  <button mat-button (click)="toggleCreate()">Lag ny liste</button>
+</mat-dialog-actions>
+} @else {
 <nbd-create-favorite-list
   (cancelSelected)="toggleCreate()"
   (listNameSelected)="addList($event)"

@@ -1,3 +1,22 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+#searchbox-container {
+  display: flex;
+  justify-content: center;
+  padding-block: 16px;
+}
+
+.search-box-content {
+  width: 100%;
+  max-width: 700px;
+  min-width: 0;
+}
+
 .input-icon {
   font-size: 20px;
   top: 3px;
@@ -7,4 +26,10 @@
 
 mat-form-field {
   width: 100%;
+
+  @include mat.form-field-overrides(
+    (
+      outlined-container-shape: 28px,
+    )
+  );
 }

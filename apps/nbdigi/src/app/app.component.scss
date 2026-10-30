@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 :host {
   display: block;
   height: 100%;
@@ -39,6 +41,12 @@
 .app-sidenav {
   width: 240px;
   border-right: 1px solid var(--mat-sys-outline-variant);
+
+  @include mat.sidenav-overrides(
+    (
+      container-shape: 0,
+    )
+  );
 }
 
 .content-column {

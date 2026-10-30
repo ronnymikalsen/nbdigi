@@ -1,7 +1,20 @@
+.chart-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  row-gap: 8px;
+  padding-inline: 16px;
+}
+
+:host {
+  display: block;
+}
+
 .no-data {
   opacity: 0.67;
 }
 
-.chart-container {
+.chart-viewport {
   height: 150px;
+  min-width: 0;
 }

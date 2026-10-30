@@ -1,18 +1,16 @@
-<div
-  id="searchbox-container"
-  fxFill
-  fxLayout="row"
-  fxLayoutAlign="start center"
-  fxLayoutGap="16px"
->
-  <div fxFlex="100" fxFlex.gt-sm="700px">
+<div id="searchbox-container">
+  <div class="search-box-content">
     <form
       class="search-form"
       [formGroup]="searchForm"
       (ngSubmit)="onSubmit()"
       novalidate
     >
-      <mat-form-field color="accent">
+      <mat-form-field
+        color="accent"
+        appearance="outline"
+        subscriptSizing="dynamic"
+      >
         <button
           matIconPrefix
           type="submit"

@@ -88,7 +88,8 @@
         "signal": true
       },
       "options": {
-        "buildTarget": "nbdigi:build"
+        "buildTarget": "nbdigi:build",
+        "host": "127.0.0.1"
       },
       "configurations": {
         "production": {

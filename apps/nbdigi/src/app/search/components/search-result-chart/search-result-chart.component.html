@@ -1,6 +1,6 @@
-<div fxLayout="row" fxLayoutAlign="start center" class="chart-container">
-  <div fxFlex="60px">
-    @if (backDateOption) {
+<div class="chart-container">
+  @if (backDateOption) {
+  <div class="chart-navigation">
     <button
       [disabled]="backDateOption.to === undefined"
       mat-icon-button
@@ -12,10 +12,10 @@
     >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    }
   </div>
+  }
   @if ((years && years.length > 0) || (months && months.length > 0)) {
-  <div fxFlex="1 1 calc(20em-100px)">
+  <div class="chart-viewport">
     <ngx-charts-bar-vertical
       [results]="data"
       [scheme]="colorScheme"
