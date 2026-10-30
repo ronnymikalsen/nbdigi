@@ -50,3 +50,5 @@ functions/lib
 firebase-debug.log
 .angular
 .nx
+
+.claude/worktrees
