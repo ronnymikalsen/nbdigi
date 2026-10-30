@@ -44,5 +44,6 @@
     "@nrwl/angular:component": {
       "style": "scss"
     }
-  }
+  },
+  "useInferencePlugins": false
 }
