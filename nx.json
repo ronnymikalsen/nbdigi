@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "nbdigi",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
