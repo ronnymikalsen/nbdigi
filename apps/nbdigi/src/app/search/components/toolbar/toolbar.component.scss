@@ -1,29 +1,27 @@
-/* TODO(mdc-migration): The following rule targets internal classes of chips that may no longer apply for the MDC version. */
-mat-chip {
-  cursor: pointer !important;
+.filter-chip {
+  cursor: pointer;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
-::ng-deep .mat-select-value-text {
-  font-family: 'Roboto Condensed' !important;
-}
-
-/* TODO(mdc-migration): The following rule targets internal classes of option that may no longer apply for the MDC version. */
-::ng-deep .mat-option-text {
+button[mat-menu-item],
+.search-options-container {
   font-family: 'Roboto Condensed';
 }
 
-.mediaType:first-letter,
-.sortOption:first-letter {
-  text-transform: capitalize;
+.filter-trigger {
+  white-space: nowrap;
 }
 
-.genre-container,
-.sort-container {
-  margin-left: 8px;
+.mediaType {
+  display: inline-block;
+}
+
+.mediaType::first-letter,
+.sortOption::first-letter {
+  text-transform: uppercase;
 }
 
 .search-options-container {
+  gap: 8px;
   overflow-x: auto;
   overflow-y: hidden;
 }

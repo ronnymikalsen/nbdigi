@@ -1,18 +1,19 @@
+@if (item) {
 <div
-  *ngIf="item"
   class="item-details-head-container"
   fxLayout="row"
   fxLayoutAlign="start center"
   fxLayoutGap="10px"
 >
   <div class="thumbnail-container" (click)="open(item)">
+    @if (item?.thumbnail) {
     <img
-      *ngIf="item?.thumbnail"
       nbLazyLoad
       class="thumbnail"
       [alt]="item.title"
       [src]="item.thumbnail"
     />
+    }
   </div>
   <div class="metadata-container">
     <label class="title bold-xtra" [matTooltip]="item.title">{{
@@ -26,3 +27,4 @@
     }}</label>
   </div>
 </div>
+}

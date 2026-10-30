@@ -1,7 +1,12 @@
-<mat-nav-list>
-  <nbd-criteria-list-item
-    *ngFor="let criteria of criterias | async"
-    [criteria]="criteria"
-    (click)="changeCriteria(criteria)"
-  ></nbd-criteria-list-item>
-</mat-nav-list>
+@if (criterias | async; as criteriaList) {
+  <mat-card appearance="outlined">
+    <mat-action-list aria-label="Nylige søk">
+      @for (criteria of criteriaList; track criteria) {
+        <nbd-criteria-list-item
+          [criteria]="criteria"
+          (changeCriteria)="changeCriteria($event)"
+        ></nbd-criteria-list-item>
+      }
+    </mat-action-list>
+  </mat-card>
+}

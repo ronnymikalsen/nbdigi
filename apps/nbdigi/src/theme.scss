@@ -1,74 +1,95 @@
 @use '@angular/material' as mat;
-@use '@nationallibraryofnorway/ngx-mime/ngx-mime.theme' as ngxMime;
+@use '@nationallibraryofnorway/ngx-mime/ngx-mime-theme' as ngxMime;
 
-// Plus imports for other components in your app.
 @use './app/shared/debug/components/debug/debug.component-theme.scss' as debug;
 @use './app/app.component-theme.scss' as app;
 @use './app/auth/login/components/login.component-theme.scss' as login;
-@use './app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss' as idsDebug;
-@use './app/auth/login/components/divider/divider.component-theme.scss' as divider;
+@use './app/shared/debug/components/ids-debug-dialog/ids-debug-dialog.component-theme.scss'
+  as idsDebug;
+@use './app/auth/login/components/divider/divider.component-theme.scss' as
+  divider;
 @use './styles-theme.scss' as styles;
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-// @include mat.core();
+@include mat.app-background();
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a ligth, lighter, and darker
-// hue.
-$app-typography: mat.define-typography-config();
-
-$dark-primary: mat.define-palette(mat.$cyan-palette, A200, A100, A400);
-$dark-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
-$dark-warn: mat.define-palette(mat.$deep-orange-palette);
-$dark-theme: mat.define-dark-theme(
+$light-theme: mat.define-theme(
   (
     color: (
-      primary: $dark-primary,
-      accent: $dark-accent,
-      warn: $dark-warn,
+      theme-type: light,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$green-palette,
     ),
-    typography: $app-typography,
+    typography: (
+      plain-family: Roboto,
+      brand-family: Roboto,
+    ),
+    density: (
+      scale: 0,
+    ),
   )
 );
 
-// Our dark theme
-@include mat.all-component-themes($dark-theme);
-@include debug.theme($dark-theme);
-@include app.theme($dark-theme);
-@include login.theme($dark-theme);
-@include idsDebug.theme($dark-theme);
-@include divider.theme($dark-theme);
-@include ngxMime.ngx-mime-theme($dark-theme);
-@include styles.theme($dark-theme);
-
-$ligth-primary: mat.define-palette(mat.$cyan-palette);
-$ligth-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
-$ligth-warn: mat.define-palette(mat.$deep-orange-palette);
-
-// Create the theme object (a Sass map containing all of the palettes).
-$ligth-theme: mat.define-light-theme(
+$dark-theme: mat.define-theme(
   (
     color: (
-      primary: $ligth-primary,
-      accent: $ligth-accent,
-      warn: $ligth-warn,
+      theme-type: dark,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$green-palette,
     ),
-    typography: $app-typography,
+    typography: (
+      plain-family: Roboto,
+      brand-family: Roboto,
+    ),
+    density: (
+      scale: 0,
+    ),
   )
 );
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
-.ligth-theme {
-  @include mat.all-component-colors($ligth-theme);
-  @include debug.color($ligth-theme);
-  @include app.color($ligth-theme);
-  @include login.color($ligth-theme);
-  @include idsDebug.color($ligth-theme);
-  @include divider.color($ligth-theme);
-  @include ngxMime.ngx-mime-theme($ligth-theme);
-  @include styles.color($ligth-theme);
+// Material 3 light theme is the application default. `mat.theme` emits the
+// system color, typography, shape, elevation and state tokens used by M3.
+html {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: light,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$green-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+  @include mat.typography-hierarchy($light-theme);
+  @include debug.theme($light-theme);
+  @include app.theme($light-theme);
+  @include login.theme($light-theme);
+  @include idsDebug.theme($light-theme);
+  @include divider.theme($light-theme);
+  @include ngxMime.theme($light-theme);
+  @include styles.theme($light-theme);
+
+  color-scheme: light;
+}
+
+// This class is applied to both the app shell and the CDK overlay container.
+.dark-theme {
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$cyan-palette,
+        tertiary: mat.$green-palette,
+      ),
+    )
+  );
+  @include debug.color($dark-theme);
+  @include app.color($dark-theme);
+  @include login.color($dark-theme);
+  @include idsDebug.color($dark-theme);
+  @include divider.color($dark-theme);
+  @include ngxMime.color($dark-theme);
+  @include styles.color($dark-theme);
+
+  color-scheme: dark;
 }

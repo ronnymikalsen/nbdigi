@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { SwUpdate } from '@angular/service-worker';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { interval } from 'rxjs';
+import { filter, interval } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
 import { SwUpdateMessageComponent } from '../sw-update-message/sw-update-message.component';
@@ -23,19 +23,26 @@ export class CheckForUpdateService {
             this.updates.checkForUpdate();
           });
       });
-      this.updates.available.subscribe((event) => {
-        const ref = this.snackBar.openFromComponent(SwUpdateMessageComponent);
+      this.updates.versionUpdates
+        .pipe(
+          filter(
+            (event): event is VersionReadyEvent =>
+              event.type === 'VERSION_READY',
+          ),
+        )
+        .subscribe(() => {
+          const ref = this.snackBar.openFromComponent(SwUpdateMessageComponent);
 
-        ref.instance.onAction.subscribe((action: string) => {
-          if (action === 'UPDATE') {
-            this.updates
-              .activateUpdate()
-              .then(() => document.location.reload());
-          } else {
-            ref.dismiss();
-          }
+          ref.instance.onAction.subscribe((action: string) => {
+            if (action === 'UPDATE') {
+              this.updates
+                .activateUpdate()
+                .then(() => document.location.reload());
+            } else {
+              ref.dismiss();
+            }
+          });
         });
-      });
     }
   }
 }

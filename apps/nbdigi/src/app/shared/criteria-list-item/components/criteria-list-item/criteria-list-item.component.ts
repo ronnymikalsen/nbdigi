@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { Criteria } from '../../../../core/models';
@@ -13,12 +12,9 @@ import { Criteria } from '../../../../core/models';
   templateUrl: './criteria-list-item.component.html',
   styleUrls: ['./criteria-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class CriteriaListItemComponent implements OnInit {
+export class CriteriaListItemComponent {
   @Input() criteria!: Criteria;
   @Output() changeCriteria = new EventEmitter<Criteria>();
-
-  constructor() {}
-
-  ngOnInit() {}
 }

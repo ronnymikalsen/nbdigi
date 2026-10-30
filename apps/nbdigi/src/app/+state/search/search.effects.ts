@@ -1,7 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 import {
-  DocumentReference,
+  CollectionReference,
   Firestore,
+  collection,
   doc,
   serverTimestamp,
   setDoc,
@@ -25,7 +26,12 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { DateOption, DateOptions, Genre, User } from '../../core/models';
+import {
+  Criteria,
+  DateOption,
+  DateOptions,
+  User,
+} from '../../core/models';
 import { Hint, Hints } from '../../core/models/hints.model';
 import { SearchService } from '../../core/services/search.service';
 import { TypeaheadService } from '../../core/services/typeahead.service';
@@ -50,7 +56,7 @@ import { SearchPartialState } from './search.reducer';
 
 @Injectable()
 export class SearchEffects {
-  private criteriasRef: DocumentReference | undefined;
+  private criteriasRef: CollectionReference | undefined;
   private user: User | null | undefined;
 
   search: Observable<Action> = createEffect(() =>
@@ -79,16 +85,39 @@ export class SearchEffects {
               }
             : undefined,
           genre: storeState.search.criteria.genre
-            ? new Genre({
+            ? {
                 value: storeState.search.criteria.genre.value,
                 viewValue: storeState.search.criteria.genre.viewValue,
-              })
+                mediaType: storeState.search.criteria.genre.mediaType,
+                avatar: storeState.search.criteria.genre.avatar,
+              }
             : undefined,
           timestamp: serverTimestamp(),
         };
-        const createHash = hint;
-        if (this.criteriasRef) {
-          setDoc(this.criteriasRef, hint);
+        const criteria = new Criteria({
+          q: hint.q,
+          mediaType: hint.mediaType,
+          filters: hint.filters,
+          genre: hint.genre,
+          date: hint.date,
+          sort: hint.sort,
+          timestamp: hint.timestamp,
+        });
+        if (this.criteriasRef && criteria.hash) {
+          void setDoc(doc(this.criteriasRef, criteria.hash), {
+            ...hint,
+            date: hint.date
+              ? {
+                  value: hint.date.value ?? null,
+                  viewValue: hint.date.viewValue ?? null,
+                  fromDate: hint.date.fromDate ?? null,
+                  toDate: hint.date.toDate ?? null,
+                }
+              : null,
+            genre: hint.genre ?? null,
+          }).catch((error) =>
+            console.error('Could not save search criteria', error),
+          );
         }
 
         const isyearsearch =
@@ -377,8 +406,13 @@ export class SearchEffects {
       .pipe(filter((user) => user !== null))
       .subscribe((user: User | null | undefined) => {
         this.user = user;
-        if (user) {
-          this.criteriasRef = doc(afs, `users/${user.uid})/searchs`);
+        if (user?.uid) {
+          this.criteriasRef = collection(
+            afs,
+            'users',
+            user.uid,
+            'searchs',
+          );
         }
       });
   }

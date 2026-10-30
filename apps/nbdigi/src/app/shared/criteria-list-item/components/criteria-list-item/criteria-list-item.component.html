@@ -1,20 +1,44 @@
-<mat-list-item>
-  <div class="query" *ngIf="criteria.q" matLine>{{ criteria.q }}</div>
-  <div class="mediaType" *ngIf="criteria.mediaType" matLine>
-    {{ criteria.mediaType }}
-  </div>
-  <div class="genre" matLine>{{ criteria.genre?.viewValue }}</div>
-  <div class="date" matLine>{{ criteria.date.viewValue }}</div>
-  <div class="sort" matLine>{{ criteria.sort.viewValue }}</div>
-  <div matLine *ngFor="let hint of criteria.filters">
-    <mat-chip-listbox>
-      <mat-chip-option color="accent" [selected]="hint.enabled" disabled="true">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <mat-icon>{{ hint.type }}</mat-icon>
-          <div>{{ hint.label }}</div>
-        </div>
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-  <mat-divider></mat-divider>
-</mat-list-item>
+<button
+  mat-list-item
+  type="button"
+  [attr.aria-label]="'Bruk søket ' + (criteria.q || 'uten fritekst')"
+  (click)="changeCriteria.emit(criteria)"
+>
+  <mat-icon matListItemIcon aria-hidden="true">history</mat-icon>
+
+  <span matListItemTitle>{{ criteria.q || 'Alle materialer' }}</span>
+
+  <span matListItemLine class="criteria-item__metadata">
+    @if (criteria.mediaType) {
+      <span class="criteria-item__media-type">
+        {{ criteria.mediaType }}
+      </span>
+    }
+    @if (criteria.genre?.viewValue) {
+      <span>{{ criteria.genre.viewValue }}</span>
+    }
+    @if (criteria.date?.viewValue) {
+      <span>{{ criteria.date.viewValue }}</span>
+    }
+    @if (criteria.sort?.viewValue) {
+      <span>{{ criteria.sort.viewValue }}</span>
+    }
+  </span>
+
+  @if (criteria.filters.length) {
+    <span matListItemLine class="criteria-item__filter-line">
+      <mat-chip-set aria-label="Aktive filtre">
+        @for (hint of criteria.filters; track hint) {
+          <mat-chip>
+            <mat-icon matChipAvatar aria-hidden="true">{{ hint.type }}</mat-icon>
+            {{ hint.label }}
+          </mat-chip>
+        }
+      </mat-chip-set>
+    </span>
+  }
+
+  <mat-icon matListItemMeta aria-hidden="true">chevron_right</mat-icon>
+</button>
+
+<mat-divider></mat-divider>

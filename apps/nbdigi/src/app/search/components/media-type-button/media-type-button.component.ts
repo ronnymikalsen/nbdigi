@@ -12,6 +12,7 @@ import {
   templateUrl: './media-type-button.component.html',
   styleUrls: ['./media-type-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class MediaTypeButtonComponent implements OnInit {
   @Input() mediaType!: string | null | undefined;

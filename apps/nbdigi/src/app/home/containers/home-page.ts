@@ -4,9 +4,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
+import {
+  CollectionReference,
+  Firestore,
+  collection,
+  collectionData,
+  limit,
+  orderBy,
+  query,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { HomeFacade } from '../../+state/home/home.facade';
@@ -40,9 +48,27 @@ import {
     >
     </nbd-home>
   `,
+  standalone: false,
 })
 export class HomePageComponent implements OnInit, OnDestroy {
-  items!: Observable<MediaTypeResults>;
+  items: Observable<MediaTypeResults> = this.authFacade.currentUser$.pipe(
+    filter((user): user is User & { uid: string } => Boolean(user?.uid)),
+    switchMap((user) => {
+      const itemsRef = collection(
+        this.afs,
+        'users',
+        user.uid,
+        'items',
+      ) as CollectionReference<Item>;
+      const recentItems = query(
+        itemsRef,
+        orderBy('timestamp', 'desc'),
+        limit(20),
+      );
+      return collectionData(recentItems) as Observable<Item[]>;
+    }),
+    map((items) => new MediaTypeResults({ items })),
+  );
   newBooks: Observable<MediaTypeResults> = this.homeFacade.getNewBooks$;
   newPeriodicals: Observable<MediaTypeResults> =
     this.homeFacade.getNewPeriodicals$;
@@ -60,28 +86,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     private authFacade: AuthFacade,
     private itemFacade: ItemFacade,
     private afs: Firestore,
-  ) {
-    this.authFacade.currentUser$
-      .pipe(filter((user) => user !== null))
-      .subscribe((user: User | null | undefined) => {
-        /*
-        this.items = this.afs
-          .collection('users')
-          .doc(user.uid)
-          .collection<Item>('items', (ref: any) =>
-            ref.orderBy('timestamp', 'desc').limit(20)
-          )
-          .valueChanges()
-          .pipe(
-            map((i: Item[]) => {
-              return new MediaTypeResults({
-                items: i,
-              });
-            })
-          );
-          */
-      });
-  }
+  ) {}
 
   ngOnInit() {
     this.homeFacade.loadNewItems();

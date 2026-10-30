@@ -18,6 +18,7 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
   templateUrl: './items-section.component.html',
   styleUrls: ['./items-section.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ItemsSectionComponent implements OnChanges, OnDestroy {
   @Input() mediaTypeResults: MediaTypeResults | null = new MediaTypeResults();

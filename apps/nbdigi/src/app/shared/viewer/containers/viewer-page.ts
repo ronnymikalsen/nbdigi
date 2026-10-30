@@ -7,8 +7,18 @@ import { Item } from '../../../core/models';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <nbd-viewer [item]="item | async" (change)="onChange($event)"> </nbd-viewer>
+    <div class="viewer-page">
+      <nbd-viewer [item]="item | async" (change)="onChange($event)">
+      </nbd-viewer>
+    </div>
   `,
+  styles: `
+    .viewer-page {
+      height: 100%;
+      min-height: 0;
+    }
+  `,
+  standalone: false,
 })
 export class ViewerPageComponent {
   item: Observable<Item | undefined>;

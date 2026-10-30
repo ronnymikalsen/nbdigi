@@ -15,9 +15,12 @@
   overflow: hidden;
 }
 
-.mat-mdc-card {
-  padding: 0px !important;
-  margin: 8px !important;
+.item-card {
+  margin: 8px;
+}
+
+.item-card > .item-card__content {
+  padding: 0;
 }
 
 .title {
@@ -28,8 +31,4 @@
 .issued {
   font-size: 10px;
   line-height: 16px;
-}
-
-:ng-deep mat-card {
-  padding: 0px !important;
 }

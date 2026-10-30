@@ -1,66 +1,74 @@
-<div [ngClass]="currentTheme" class="nbd-container">
+<div [ngClass]="currentTheme" class="nbd-container mat-app-background">
+  <mat-toolbar class="app-header">
+    <a class="brand" routerLink="/home" aria-label="NBDigi hjem">
+      <mat-icon class="brand-logo" svgIcon="logo"></mat-icon>
+      <span>NBDigi</span>
+    </a>
+  </mat-toolbar>
+
   <mat-sidenav-container class="main-container">
+    @if (!mobileQuery.matches) {
     <mat-sidenav
-      *ngIf="!mobileQuery.matches"
+      class="app-sidenav"
       mode="side"
       opened
       [disableClose]="true"
+      aria-label="Hovednavigasjon"
     >
-      <mat-nav-list>
-        <a mat-list-item routerLink="/home">
-          <mat-icon
-            class="logo mat-icon material-icons"
-            svgIcon="logo"
-          ></mat-icon
-          >NBDigi</a
-        >
-        <mat-divider></mat-divider>
+      <mat-nav-list aria-label="Hovednavigasjon">
         <a
           mat-list-item
           routerLink="/home"
           routerLinkActive="active"
           class="inactive"
         >
-          <mat-icon>home</mat-icon>Hjem</a
-        >
+          <mat-icon matListItemIcon>home</mat-icon>
+          <span matListItemTitle>Hjem</span>
+        </a>
         <a
           mat-list-item
           routerLink="/explore"
           routerLinkActive="active"
           class="inactive"
         >
-          <mat-icon>explore</mat-icon>Utforsk</a
-        >
+          <mat-icon matListItemIcon>explore</mat-icon>
+          <span matListItemTitle>Utforsk</span>
+        </a>
         <a
           mat-list-item
           routerLink="/search"
           routerLinkActive="active"
           class="inactive"
         >
-          <mat-icon>search</mat-icon>Søk</a
-        >
+          <mat-icon matListItemIcon>search</mat-icon>
+          <span matListItemTitle>Søk</span>
+        </a>
         <a
           mat-list-item
           routerLink="/mylibrary"
           routerLinkActive="active"
           class="inactive"
         >
-          <mat-icon>favorite</mat-icon>Mitt bibliotek</a
-        >
+          <mat-icon matListItemIcon>favorite</mat-icon>
+          <span matListItemTitle>Mitt bibliotek</span>
+        </a>
         <a
           mat-list-item
           routerLink="/myactivity"
           routerLinkActive="active"
           class="inactive"
         >
-          <mat-icon>person</mat-icon>Min aktivitet</a
-        >
+          <mat-icon matListItemIcon>person</mat-icon>
+          <span matListItemTitle>Min aktivitet</span>
+        </a>
       </mat-nav-list>
     </mat-sidenav>
+    }
     <mat-sidenav-content>
-      <div fxFill fxLayout="column" fxLayoutAlign="start stretch">
+      <div class="content-column">
         <div class="main-content"><router-outlet></router-outlet></div>
-        <mat-toolbar *ngIf="mobileQuery.matches" class="menu-toolbar">
+        @if (mobileQuery.matches) {
+        <mat-toolbar class="menu-toolbar">
           <div
             fxFill
             fxLayout="row"
@@ -120,6 +128,7 @@
             </button>
           </div>
         </mat-toolbar>
+        }
       </div>
     </mat-sidenav-content>
   </mat-sidenav-container>

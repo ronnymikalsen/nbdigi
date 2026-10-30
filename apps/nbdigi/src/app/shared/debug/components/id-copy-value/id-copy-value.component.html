@@ -1,4 +1,5 @@
-<div *ngIf="value" fxLayout="row" fxLayoutAlign="space-between center">
+@if (value) {
+<div fxLayout="row" fxLayoutAlign="space-between center">
   <div fxLayout="row">
     <label>{{ label }}</label>
     <div>{{ value }}</div>
@@ -15,3 +16,4 @@
     </button>
   </div>
 </div>
+}

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { MediaTypeResults } from '../../../core/models';
 
@@ -6,6 +13,8 @@ import { MediaTypeResults } from '../../../core/models';
   selector: 'nbd-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class HomeComponent implements OnInit {
   @Input() items!: MediaTypeResults | null;

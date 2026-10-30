@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold } from 'jasmine-marbles';
 import { ItemActions, PresentationApiActions } from '../../../core/actions';
@@ -13,7 +13,7 @@ describe('ItemDetailsComponent', () => {
   let fixture: ComponentFixture<ItemDetailsComponent>;
   let store: Store<fromRoot.State>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [StoreModule.forRoot(fromRoot.reducers, {})],
@@ -24,7 +24,7 @@ describe('ItemDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemDetailsComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 

@@ -1,22 +1,28 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Firestore } from '@angular/fire/firestore';
-import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import {
+  CollectionReference,
+  Firestore,
+  collection,
+  collectionData,
+  orderBy,
+  query,
+} from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 import { AuthFacade } from '../../+state/auth/auth.facade';
-import { Item } from '../../core/models';
+import { Item, User } from '../../core/models';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <nbd-my-activity [items]="items | async"></nbd-my-activity> `,
+  standalone: false,
 })
-export class MyActivityPageComponent implements OnInit, OnDestroy {
+export class MyActivityPageComponent implements OnInit {
   items!: Observable<Item[]>;
-  private destroyed: Subject<void> = new Subject();
 
   constructor(
     private authFacade: AuthFacade,
@@ -24,26 +30,20 @@ export class MyActivityPageComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.authFacade.currentUser$
+    this.items = this.authFacade.currentUser$
       .pipe(
-        takeUntil(this.destroyed),
-        filter((user) => user !== null),
-      )
-      .subscribe((user: any) => {
-        /*
-        this.items = this.afs
-          .collection('users')
-          .doc(user.uid)
-          .collection<Item>('items', (ref: any) =>
-            ref.orderBy('timestamp', 'desc')
-          )
-          .valueChanges();
-          */
-      });
-  }
-
-  ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
+        filter((user): user is User & { uid: string } => Boolean(user?.uid)),
+        switchMap((user) => {
+          const itemsRef = collection(
+            this.afs,
+            'users',
+            user.uid,
+            'items',
+          ) as CollectionReference<Item>;
+          return collectionData(
+            query(itemsRef, orderBy('timestamp', 'desc')),
+          ) as Observable<Item[]>;
+        }),
+      );
   }
 }

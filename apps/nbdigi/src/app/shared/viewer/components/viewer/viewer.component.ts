@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import {
   MimeManifest,
   MimeViewerConfig,
@@ -11,6 +18,8 @@ import { Item } from '../../../../core/models';
   selector: 'nbd-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ViewerComponent implements OnInit {
   @Input() item: Item | undefined | null;

@@ -1,18 +1,30 @@
-::ng-deep mat-list-item .query {
-  font-size: 16px !important;
+:host {
+  display: block;
 }
 
-::ng-deep mat-list-item .mediaType,
-::ng-deep mat-list-item .sort,
-::ng-deep mat-list-item .genre {
-  font-size: 13px !important;
-  line-height: 16px !important;
+.criteria-item__metadata {
+  display: flex;
+  gap: 0;
 }
 
-:host ::ng-deep mat-chip {
-  margin-top: 8px !important;
+.criteria-item__metadata span + span::before {
+  content: '•';
+  margin: 0 8px;
 }
 
-::ng-deep mat-list-item .mediaType:first-letter {
-  text-transform: capitalize;
+.criteria-item__media-type::first-letter {
+  text-transform: uppercase;
+}
+
+.criteria-item__filter-line,
+.criteria-item__filter-line mat-chip-set {
+  overflow: hidden;
+}
+
+mat-chip {
+  --mat-chip-container-height: 24px;
+}
+
+:host(:last-child) mat-divider {
+  display: none;
 }

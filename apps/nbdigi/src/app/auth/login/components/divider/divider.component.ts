@@ -1,30 +1,13 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChange,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'nbd-divider',
   templateUrl: './divider.component.html',
   styleUrls: ['./divider.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class DividerComponent implements OnChanges, OnInit {
+export class DividerComponent {
   @Input()
-  color: string = 'primary';
-  className: string | null = '';
-
-  constructor() {}
-
-  ngOnInit() {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    const color: SimpleChange = changes['color'];
-    this.className = color.currentValue === 'primary' ? 'mat-primary' : null;
-  }
+  color = 'primary';
 }

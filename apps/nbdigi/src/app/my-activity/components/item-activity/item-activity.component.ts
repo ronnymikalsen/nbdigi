@@ -11,6 +11,7 @@ import { Item } from '../../../core/models';
   templateUrl: './item-activity.component.html',
   styleUrls: ['./item-activity.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ItemActivityComponent implements OnInit {
   @Input() items!: Item[] | null;

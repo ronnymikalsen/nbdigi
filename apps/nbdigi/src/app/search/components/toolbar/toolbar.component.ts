@@ -7,10 +7,8 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatMenuTrigger } from '@angular/material/menu';
 import { SearchState } from '../../../+state/search/search.reducer';
 import {
   DateOption,
@@ -27,6 +25,7 @@ import { Hint } from '../../../core/models/hints.model';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ToolbarComponent implements OnInit, OnChanges {
   @Input() search!: SearchState | null;
@@ -44,9 +43,6 @@ export class ToolbarComponent implements OnInit, OnChanges {
   @Output() openDatePicker = new EventEmitter<boolean>();
   @Output() dateGraphChanged = new EventEmitter<boolean>();
   @Output() dateChanged = new EventEmitter<DateOption>();
-  @ViewChild('mediatypeMenuButton', { static: true })
-  mediatypeMenu!: MatMenuTrigger;
-
   mediatypeControl = new FormControl();
   sortControl = new FormControl();
   sortOptions = new SortOptions().all;
@@ -69,7 +65,6 @@ export class ToolbarComponent implements OnInit, OnChanges {
   }
 
   changeMediatype(selected: string | undefined | null) {
-    this.mediatypeMenu.closeMenu();
     if (selected) {
       this.mediaTypeChanged.emit(selected);
     }

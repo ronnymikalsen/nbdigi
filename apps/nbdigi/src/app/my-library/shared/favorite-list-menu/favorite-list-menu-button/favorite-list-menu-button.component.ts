@@ -12,6 +12,7 @@ import { FavoriteList } from '../../../../core/models';
   templateUrl: './favorite-list-menu-button.component.html',
   styleUrls: ['./favorite-list-menu-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class FavoriteListMenuButtonComponent implements OnInit {
   @Input() favorite!: FavoriteList | null;

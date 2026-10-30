@@ -13,6 +13,7 @@ import { ItemFacade } from '../+state/item/item.facade';
 
 @Directive({
   selector: '[appItemDetailsDrawer]',
+  standalone: false,
 })
 export class ItemDetailsDrawerDirective implements OnInit, OnDestroy {
   @HostBinding('style.width') width = '375px';

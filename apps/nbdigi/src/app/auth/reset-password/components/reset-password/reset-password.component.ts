@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AuthError } from '../../../../core/models';
@@ -14,6 +15,8 @@ import { AuthError } from '../../../../core/models';
   selector: 'nbd-reset-password',
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ResetPasswordComponent implements OnInit, OnChanges {
   @Input() authError: AuthError | null | undefined = null;

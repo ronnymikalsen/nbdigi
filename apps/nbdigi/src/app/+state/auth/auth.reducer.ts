@@ -37,11 +37,8 @@ export function authReducer(
       };
       break;
     }
-    case AuthActionTypes.AuthError: {
-      state = {
-        ...state,
-        error: action.payload,
-      };
+    case AuthActionTypes.SignedOut: {
+      state = initialState;
       break;
     }
   }

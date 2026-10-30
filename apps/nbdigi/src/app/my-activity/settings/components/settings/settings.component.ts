@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { User } from '../../../../core/models';
 
@@ -6,6 +13,8 @@ import { User } from '../../../../core/models';
   selector: 'nbd-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SettingsComponent implements OnInit {
   @Input() user!: User | null | undefined;
@@ -19,7 +28,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {}
 
   theme(change: MatSlideToggleChange) {
-    const selectedTheme = change.checked ? 'dark-theme' : 'ligth-theme';
+    const selectedTheme = change.checked ? 'dark-theme' : 'light-theme';
     this.themeChange.emit(selectedTheme);
   }
 }

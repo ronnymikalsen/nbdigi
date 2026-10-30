@@ -13,11 +13,8 @@
       </mat-drawer>
       <mat-drawer-content>
         <mat-nav-list>
-          <a
-            mat-list-item
-            *ngFor="let favorite of favoriteLists | async"
-            (click)="openFavorite(favorite)"
-          >
+          @for (favorite of favoriteLists | async; track favorite) {
+          <a mat-list-item (click)="openFavorite(favorite)">
             <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
               <div>{{ favorite.name }}</div>
               <nbd-favorite-list-menu-button
@@ -25,6 +22,7 @@
               ></nbd-favorite-list-menu-button>
             </div>
           </a>
+          }
         </mat-nav-list>
         <mat-toolbar>Nylig aktivitet</mat-toolbar>
         <nbd-items-section

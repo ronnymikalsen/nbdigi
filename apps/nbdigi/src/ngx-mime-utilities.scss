@@ -1,0 +1,114 @@
+// ngx-mime 22.1 uses a small set of Tailwind utility class names internally,
+// but the published package does not include their CSS. Keep the compatibility
+// rules scoped to the viewer and its overlay dialogs so they cannot affect the
+// rest of the application.
+mime-viewer,
+.mime-dialog {
+  .flex {
+    display: flex;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .flex-col {
+    flex-direction: column;
+  }
+
+  .grow {
+    flex-grow: 1;
+  }
+
+  .items-center {
+    align-items: center;
+  }
+
+  .items-start {
+    align-items: flex-start;
+  }
+
+  .justify-between {
+    justify-content: space-between;
+  }
+
+  .justify-center {
+    justify-content: center;
+  }
+
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  .gap-2 {
+    gap: 0.5rem;
+  }
+
+  .gap-y-2 {
+    row-gap: 0.5rem;
+  }
+
+  .h-full {
+    height: 100%;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+
+  .min-w-\[275px\] {
+    min-width: 275px;
+  }
+
+  .ml-2 {
+    margin-left: 0.5rem;
+  }
+
+  .mr-4 {
+    margin-right: 1rem;
+  }
+}
+
+// ngx-mime configures this overlay at 180px, while Material 22 applies a
+// 280px dialog minimum and the library makes the MDC surface transparent.
+// Normalize the floating attribution card with Material theme tokens.
+.cdk-overlay-pane.mime-dialog.attribution-panel {
+  --mat-dialog-container-min-width: 0px;
+
+  max-width: calc(100vw - 32px) !important;
+  width: min(320px, calc(100vw - 32px)) !important;
+
+  .mat-mdc-dialog-surface {
+    background: var(
+      --mat-dialog-container-color,
+      var(--mat-sys-surface-container-high)
+    ) !important;
+    overflow: hidden;
+  }
+
+  .attribution-container {
+    background: transparent !important;
+  }
+
+  .attribution-toolbar {
+    margin: 0;
+    padding: 4px 8px 0 16px;
+  }
+
+  .attribution-toolbar .mat-mdc-dialog-title {
+    flex: 1 1 auto;
+    margin: 0;
+    padding: 12px 0;
+  }
+
+  .attribution-toolbar .mat-mdc-dialog-title::before {
+    display: none;
+  }
+
+  .attribution-container > .mat-mdc-dialog-content {
+    margin: 0;
+    max-height: min(40vh, 240px);
+    overflow-wrap: anywhere;
+    padding: 0 16px 16px;
+  }
+}

@@ -1,13 +1,20 @@
-.checked {
-  min-width: 32px;
+:host {
+  display: block;
+  width: 100%;
 }
 
-.checked:after {
-  content: '.';
-  visibility: hidden;
+.checked {
+  display: inline-flex;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 24px;
+  line-height: 24px;
 }
 
 .mediatype-container {
+  width: 100%;
   font-family: 'Roboto Condensed';
 }
 
@@ -16,12 +23,9 @@
   margin-right: 8px;
 }
 
-.mat-mdc-chip {
+.count-chip {
+  --mat-chip-container-height: 24px;
+
   overflow: initial;
   font-size: 12px;
-  cursor: pointer;
-}
-
-.mat-mdc-standard-chip {
-  min-height: 18px;
 }

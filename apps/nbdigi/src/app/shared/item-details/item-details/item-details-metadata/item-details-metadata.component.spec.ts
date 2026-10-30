@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ItemDetailsMetadataComponent } from './item-details-metadata.component';
 
@@ -6,7 +6,7 @@ describe('ItemDetailsMetadataComponent', () => {
   let component: ItemDetailsMetadataComponent;
   let fixture: ComponentFixture<ItemDetailsMetadataComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ItemDetailsMetadataComponent],
     }).compileComponents();

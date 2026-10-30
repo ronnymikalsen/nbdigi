@@ -12,6 +12,7 @@ import { Authenticate } from '../../../core/models';
     >
     </nbd-login>
   `,
+  standalone: false,
 })
 export class LoginPageComponent {
   authError = this.authFacade.getError$;

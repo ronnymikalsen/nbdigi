@@ -14,6 +14,7 @@ import { Item } from '../../../../core/models';
   templateUrl: './default-item-list.component.html',
   styleUrls: ['./default-item-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DefaultItemListComponent implements OnInit {
   @Input() item!: Item;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ItemFacade } from '../../../+state/item/item.facade';
 import { Item } from '../../../core/models';
@@ -9,6 +9,8 @@ import { ItemMenuButtonComponentConfig } from '../../item-menu/item-menu-button/
   selector: 'nbd-item-details',
   templateUrl: './item-details.component.html',
   styleUrls: ['./item-details.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class ItemDetailsComponent implements OnInit {
   item$!: Observable<Item | undefined>;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdCopyValueComponent } from './id-copy-value.component';
 
@@ -6,7 +6,7 @@ describe('IdCopyValueComponent', () => {
   let component: IdCopyValueComponent;
   let fixture: ComponentFixture<IdCopyValueComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [IdCopyValueComponent],
     }).compileComponents();

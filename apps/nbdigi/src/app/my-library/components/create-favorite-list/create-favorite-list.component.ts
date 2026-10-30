@@ -16,6 +16,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './create-favorite-list.component.html',
   styleUrls: ['./create-favorite-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class CreateFavoriteListComponent implements OnInit, AfterViewInit {
   @ViewChild('listname', { static: true }) listNameEl!: ElementRef;

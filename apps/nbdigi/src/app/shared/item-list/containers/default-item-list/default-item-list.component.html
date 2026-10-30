@@ -1,31 +1,41 @@
-<mat-list-item (click)="open(item)">
-  <div matLine>
-    <div fxLayout="row">
-      <div fxFlex="100px">
-        <img class="thumbnail" [lazyLoad]="item.thumbnail" />
-      </div>
-      <div class="truncate">
-        <div class="metadata-container" fxLayout="column">
-          <div class="title truncate" [matTooltip]="item.title">
-            {{ item.title }}
-          </div>
-          <div
-            *ngIf="config.showMediaType && item.mediaType"
-            class="truncate mediaType"
-            [matTooltip]="item.mediaType"
-          >
-            {{ item.mediaType }}
-          </div>
-          <div class="truncate creator" [matTooltip]="item.creator">
-            {{ item.creator }}
-          </div>
-          <div class="truncate issued" [matTooltip]="item.issued">
-            {{ item.issued | dateFormat }}
-          </div>
-        </div>
-        <nbd-debug [isDebugOn]="isDebugOn | async" [item]="item"></nbd-debug>
-      </div>
-    </div>
-  </div>
-  <mat-divider></mat-divider>
-</mat-list-item>
+<button
+  mat-list-item
+  type="button"
+  lines="3"
+  class="item-list-entry"
+  [attr.aria-label]="'Åpne ' + item.title"
+  (click)="open(item)"
+>
+  <img
+    matListItemAvatar
+    class="thumbnail"
+    [lazyLoad]="item.thumbnail"
+    alt=""
+  />
+
+  <span matListItemTitle class="title" [matTooltip]="item.title">{{
+    item.title
+  }}</span>
+
+  <span matListItemLine class="creator" [matTooltip]="item.creator">{{
+    item.creator
+  }}</span>
+
+  <span matListItemLine class="details">
+    @if (config.showMediaType && item.mediaType) {
+    <span class="media-type" [matTooltip]="item.mediaType">{{
+      item.mediaType
+    }}</span>
+    } @if (item.issued) {
+    <span [matTooltip]="item.issued">{{ item.issued | dateFormat }}</span>
+    }
+  </span>
+
+  @if (isDebugOn | async) {
+  <span matListItemMeta class="debug-meta">
+    <nbd-debug [isDebugOn]="true" [item]="item"></nbd-debug>
+  </span>
+  }
+</button>
+
+<mat-divider inset></mat-divider>

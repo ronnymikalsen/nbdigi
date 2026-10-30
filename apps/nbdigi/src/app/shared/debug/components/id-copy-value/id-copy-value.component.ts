@@ -1,10 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'nbd-id-copy-value',
   templateUrl: './id-copy-value.component.html',
   styleUrls: ['./id-copy-value.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class IdCopyValueComponent implements OnInit {
   @Input() label!: string;

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FavoriteListMenuButtonComponent } from './favorite-list-menu-button.component';
 
@@ -6,7 +6,7 @@ describe('FavoriteListMenuButtonComponent', () => {
   let component: FavoriteListMenuButtonComponent;
   let fixture: ComponentFixture<FavoriteListMenuButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [FavoriteListMenuButtonComponent],
     }).compileComponents();

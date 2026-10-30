@@ -12,6 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   templateUrl: './rename-favorite-dialog.component.html',
   styleUrls: ['./rename-favorite-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RenameFavoriteDialogComponent implements OnInit {
   listForm!: FormGroup;

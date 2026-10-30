@@ -1,29 +1,29 @@
 <div fxLayout="row" fxLayoutAlign="start center" class="chart-container">
   <div fxFlex="60px">
+    @if (backDateOption) {
     <button
-      *ngIf="backDateOption"
       [disabled]="backDateOption.to === undefined"
       mat-icon-button
       [matTooltip]="
-        'Utvid til ' + backDateOption.date.viewValue?.toLowerCase()
+        'Utvid til ' +
+        $safeNavigationMigration(backDateOption.date.viewValue?.toLowerCase())
       "
       (click)="back()"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>
+    }
   </div>
-  <ng-container
-    *ngIf="(years && years.length > 0) || (months && months.length > 0)"
-  >
-    <div fxFlex="1 1 calc(20em-100px)">
-      <ngx-charts-bar-vertical
-        [results]="data"
-        [scheme]="colorScheme"
-        [xAxis]="true"
-        [yAxis]="true"
-        (select)="onSelect($event)"
-      >
-      </ngx-charts-bar-vertical>
-    </div>
-  </ng-container>
+  @if ((years && years.length > 0) || (months && months.length > 0)) {
+  <div fxFlex="1 1 calc(20em-100px)">
+    <ngx-charts-bar-vertical
+      [results]="data"
+      [scheme]="colorScheme"
+      [xAxis]="true"
+      [yAxis]="true"
+      (select)="onSelect($event)"
+    >
+    </ngx-charts-bar-vertical>
+  </div>
+  }
 </div>

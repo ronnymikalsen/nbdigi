@@ -1,10 +1,17 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'nbd-remove-warning-dialog',
   templateUrl: './remove-warning-dialog.component.html',
   styleUrls: ['./remove-warning-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class RemoveWarningDialogComponent implements OnInit {
   constructor(

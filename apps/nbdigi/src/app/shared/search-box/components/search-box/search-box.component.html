@@ -13,22 +13,25 @@
       novalidate
     >
       <mat-form-field color="accent">
-        <div matPrefix>
-          <button type="submit" mat-icon-button>
-            <mat-icon class="input-icon">search</mat-icon>
-          </button>
-        </div>
-        <div matSuffix>
-          <button type="button" mat-icon-button>
-            <mat-icon
-              class="input-icon"
-              (click)="clear()"
-              (dblclick)="onClearAll()"
-              matTooltip="Dobbeltklikk for å nullstille hele søket"
-              >clear</mat-icon
-            >
-          </button>
-        </div>
+        <button
+          matIconPrefix
+          type="submit"
+          mat-icon-button
+          aria-label="Søk"
+        >
+          <mat-icon class="input-icon">search</mat-icon>
+        </button>
+        <button
+          matIconSuffix
+          type="button"
+          mat-icon-button
+          aria-label="Tøm søk"
+          matTooltip="Dobbeltklikk for å nullstille hele søket"
+          (click)="clear()"
+          (dblclick)="onClearAll()"
+        >
+          <mat-icon class="input-icon">clear</mat-icon>
+        </button>
         <input
           type="text"
           aria-label="Søk"
@@ -42,18 +45,21 @@
           [displayWith]="displayFn"
           (optionSelected)="optionSelected($event)"
         >
-          <mat-option *ngFor="let hint of hints?.creators" [value]="hint">
+          @for (hint of hints?.creators; track hint) {
+          <mat-option [value]="hint">
             <div fxLayout="row" fxLayoutAlign="start center">
               <mat-icon>{{ hint.type }}</mat-icon>
               <div>{{ hint.label }}</div>
             </div>
           </mat-option>
-          <mat-option *ngFor="let hint of hints?.places" [value]="hint">
+          } @for (hint of hints?.places; track hint) {
+          <mat-option [value]="hint">
             <div fxLayout="row" fxLayoutAlign="start center">
               <mat-icon>{{ hint.type }}</mat-icon>
               <div>{{ hint.label }}</div>
             </div>
           </mat-option>
+          }
         </mat-autocomplete>
       </mat-form-field>
     </form>

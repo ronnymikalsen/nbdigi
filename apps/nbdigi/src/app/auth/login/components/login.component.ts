@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AuthError, Authenticate } from '../../../core/models';
@@ -14,6 +15,8 @@ import { AuthError, Authenticate } from '../../../core/models';
   selector: 'nbd-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class LoginComponent implements OnInit, OnChanges {
   @Input() authError: AuthError | null | undefined = null;

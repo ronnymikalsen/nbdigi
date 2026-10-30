@@ -1,4 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -10,6 +15,8 @@ import { DateOptions } from '../../../core/models';
   selector: 'nbd-date-picker-dialog',
   templateUrl: './date-picker-dialog.component.html',
   styleUrls: ['./date-picker-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DatePickerDialogComponent implements OnInit {
   dateForm!: FormGroup;

@@ -11,13 +11,14 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser-esbuild",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "aot": true,
-        "outputPath": "dist/apps/nbdigi",
+        "outputPath": {
+          "base": "dist/apps/nbdigi"
+        },
         "index": "apps/nbdigi/src/index.html",
-        "main": "apps/nbdigi/src/main.ts",
         "polyfills": ["zone.js"],
         "tsConfig": "apps/nbdigi/tsconfig.app.json",
         "assets": [
@@ -48,7 +49,8 @@
           "events",
           "timers",
           "stream"
-        ]
+        ],
+        "browser": "apps/nbdigi/src/main.ts"
       },
       "configurations": {
         "production": {
@@ -64,9 +66,7 @@
           "namedChunks": false,
           "aot": true,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "serviceWorker": true,
+          "serviceWorker": "apps/nbdigi/ngsw-config.json",
           "budgets": [
             {
               "type": "initial",
@@ -82,34 +82,24 @@
       }
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "continuous": true,
+      "readyWhen": {
+        "signal": true
+      },
       "options": {
-        "browserTarget": "nbdigi:build"
+        "buildTarget": "nbdigi:build"
       },
       "configurations": {
         "production": {
-          "browserTarget": "nbdigi:build:production"
+          "buildTarget": "nbdigi:build:production"
         }
-      },
-      "readyWhen": {
-        "signal": true
       }
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
-        "browserTarget": "nbdigi:build"
-      }
-    },
-    "lint": {
-      "executor": "@angular-devkit/build-angular:tslint",
-      "options": {
-        "tsConfig": [
-          "apps/nbdigi/tsconfig.app.json",
-          "apps/nbdigi/tsconfig.spec.json"
-        ],
-        "exclude": ["**/node_modules/**"]
+        "buildTarget": "nbdigi:build"
       }
     },
     "test": {

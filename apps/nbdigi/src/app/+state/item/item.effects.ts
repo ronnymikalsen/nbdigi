@@ -3,9 +3,9 @@ import {
   CollectionReference,
   Firestore,
   collection,
-  getDoc,
+  doc,
   serverTimestamp,
-  updateDoc,
+  setDoc,
 } from '@angular/fire/firestore';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -27,8 +27,7 @@ import {
 
 @Injectable()
 export class ItemEffects {
-  private itemsRef: CollectionReference | undefined;
-  private user: User | null | undefined;
+  private itemsRef: CollectionReference<Item> | undefined;
 
   open: Observable<Action> = createEffect(
     () =>
@@ -46,17 +45,12 @@ export class ItemEffects {
         ofType(ItemActionTypes.Change),
         map((action) => action),
         tap((action: Change) => {
-          const c = collection(
-            this.afs,
-            `users/${this.user?.uid})/items${action.payload?.id}`,
-          );
-          /*
-          getDoc(c, action.payload?.id).then((doc) => {
-          updateDoc(c, {
-            ...action.payload,
-            timestamp: serverTimestamp(),
-          });
-          */
+          if (this.itemsRef && action.payload?.id) {
+            void setDoc(doc(this.itemsRef, action.payload.id), {
+              ...action.payload,
+              timestamp: serverTimestamp(),
+            });
+          }
         }),
       ),
     { dispatch: false },
@@ -85,11 +79,16 @@ export class ItemEffects {
     private viewerService: ViewerService,
     private presentationService: PresentationService,
     private authFacade: AuthFacade,
-    private afs: Firestore,
+    afs: Firestore,
   ) {
     this.authFacade.currentUser$.subscribe((user: User | null | undefined) => {
-      if (user) {
-        this.itemsRef = collection(afs, `users/${user.uid})/items`);
+      if (user?.uid) {
+        this.itemsRef = collection(
+          afs,
+          'users',
+          user.uid,
+          'items',
+        ) as CollectionReference<Item>;
       }
     });
   }

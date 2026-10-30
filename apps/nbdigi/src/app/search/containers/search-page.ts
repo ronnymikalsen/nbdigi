@@ -61,6 +61,7 @@ import { ChartRangeToOption } from '../components/search-result-chart/chart-stra
     >
     </nbd-search>
   `,
+  standalone: false,
 })
 export class SearchPageComponent implements OnInit, OnDestroy {
   search: Observable<SearchState> = this.searchFacade.state$;
@@ -164,7 +165,11 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   debugChanged(debug: boolean): void {
-    debug ? this.appFacade.debugOn() : this.appFacade.debugOff();
+    if (debug) {
+      this.appFacade.debugOn();
+    } else {
+      this.appFacade.debugOff();
+    }
     this.searchFacade.search();
   }
 
@@ -173,7 +178,11 @@ export class SearchPageComponent implements OnInit, OnDestroy {
   }
 
   dateGraphChanged(value: boolean): void {
-    value ? this.appFacade.showDateGraph() : this.appFacade.hideDateGraph();
+    if (value) {
+      this.appFacade.showDateGraph();
+    } else {
+      this.appFacade.hideDateGraph();
+    }
   }
 
   chartDateChanged(dateOption: DateOption): void {

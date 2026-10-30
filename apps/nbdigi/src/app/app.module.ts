@@ -2,7 +2,9 @@ import { registerLocaleData } from '@angular/common';
 import localeNo from '@angular/common/locales/nb';
 import { NgModule } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { BrowserModule, HammerModule } from '@angular/platform-browser';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EffectsModule } from '@ngrx/effects';
@@ -62,17 +64,15 @@ registerLocaleData(localeNo);
 
 @NgModule({
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     BrowserAnimationsModule,
-    HammerModule,
     AppRoutingModule,
     CoreModule,
     StoreDevtoolsModule.instrument({
       maxAge: 25,
+      connectInZone: true,
     }),
     StoreRouterConnectingModule.forRoot(),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-
     ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production,
     }),
@@ -102,7 +102,9 @@ registerLocaleData(localeNo);
       },
     ),
     EffectsModule.forRoot([AppEffects]),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({ connectInZone: true })
+      : [],
     StoreModule.forFeature(MYACTIVITY_FEATURE_KEY, myActivityReducer, {
       initialState: myActivityInitialState,
     }),
@@ -111,6 +113,9 @@ registerLocaleData(localeNo);
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   providers: [
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
     AuthGuard,
     {
       provide: RouterStateSerializer,

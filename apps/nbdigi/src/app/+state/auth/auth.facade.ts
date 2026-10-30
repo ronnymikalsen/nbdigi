@@ -4,6 +4,7 @@ import { Authenticate, User } from '../../core/models';
 import {
   SendPasswordResetEmail,
   SignedIn,
+  SignedOut,
   SignInWithEmailAndPassword,
   SignInWithGoogle,
   SignOut,
@@ -47,6 +48,10 @@ export class AuthFacade {
   }
   signedIn(user: User): any {
     this.store.dispatch(new SignedIn(user));
+  }
+
+  signedOut(): void {
+    this.store.dispatch(new SignedOut());
   }
 
   signOut(): any {

@@ -1,25 +1,13 @@
 @use '@angular/material' as mat;
-@use 'sass:map';
 
 @mixin color($theme) {
-  $warn: map.get($theme, accent);
-
   .debug {
-    color: mat.get-color-from-palette($warn);
+    color: mat.get-theme-color($theme, tertiary);
   }
-}
-
-@mixin typography($theme) {
 }
 
 @mixin theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
+  @if mat.theme-has($theme, color) {
     @include color($theme);
-  }
-
-  $typography-config: mat.get-typography-config($theme);
-  @if $typography-config != null {
-    @include typography($theme);
   }
 }

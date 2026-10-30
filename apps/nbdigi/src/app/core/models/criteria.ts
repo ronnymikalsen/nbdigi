@@ -5,8 +5,8 @@ import { Hint } from './hints.model';
 import { Sort, SortOptions } from './sort-options';
 
 export class Criteria {
-  q: string = '';
-  mediaType: string = 'alle';
+  q = '';
+  mediaType = 'alle';
   filters: Hint[] = [];
   genre?: Genre = new Genre();
   date = new DateOptions().anytime;

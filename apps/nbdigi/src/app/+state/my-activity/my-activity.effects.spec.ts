@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { Observable } from 'rxjs';
 
@@ -6,9 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { NxModule } from '@nrwl/angular';
-import { DataPersistence } from '@nrwl/angular';
-import { hot } from '@nrwl/angular/testing';
+import { hot } from 'jasmine-marbles';
 
 import { MyActivityEffects } from './my-activity.effects';
 import { LoadMyActivity, MyActivityLoaded } from './my-activity.actions';
@@ -19,19 +17,11 @@ describe('MyActivityEffects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NxModule.forRoot(),
-        StoreModule.forRoot({}),
-        EffectsModule.forRoot([]),
-      ],
-      providers: [
-        MyActivityEffects,
-        DataPersistence,
-        provideMockActions(() => actions),
-      ],
+      imports: [StoreModule.forRoot({}), EffectsModule.forRoot([])],
+      providers: [MyActivityEffects, provideMockActions(() => actions)],
     });
 
-    effects = TestBed.get(MyActivityEffects);
+    effects = TestBed.inject(MyActivityEffects);
   });
 
   describe('loadMyActivity$', () => {

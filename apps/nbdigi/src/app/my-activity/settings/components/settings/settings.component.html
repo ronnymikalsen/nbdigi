@@ -2,7 +2,8 @@
   <mat-toolbar-row> <div fxFlex>Innstillinger</div> </mat-toolbar-row>
 </mat-toolbar>
 <section class="settings-container">
-  <div *ngIf="user" fxLayout="column">
+  @if (user) {
+  <div fxLayout="column">
     <div fxLayout="row" class="person">
       <mat-icon>person</mat-icon>
       <div>{{ user.email }}</div>
@@ -20,4 +21,5 @@
       </button>
     </div>
   </div>
+  }
 </section>

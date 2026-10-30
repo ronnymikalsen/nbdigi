@@ -3,9 +3,9 @@
   "compilerOptions": {
     "outDir": "../dist/out-tsc",
     "rootDir": ".",
-    "module": "commonjs",
-    "target": "es5",
-    "types": ["jasmine", "node"]
+    "module": "ES2022",
+    "target": "ES2022",
+    "types": ["node"]
   },
   "include": ["**/*.ts"]
 }

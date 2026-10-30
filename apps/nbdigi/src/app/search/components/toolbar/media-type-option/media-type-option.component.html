@@ -4,12 +4,14 @@
   fxLayoutAlign="space-between center"
 >
   <div class="checked">
-    <mat-icon matListIcon *ngIf="checked">check</mat-icon>
+    @if (checked) {
+    <mat-icon>check</mat-icon>
+    }
   </div>
   <div fxFlex="grow" class="mediaType">{{ mediaType }}</div>
-  <mat-chip-listbox>
-    <mat-chip-option (click)="selected.emit()" color="primary" selected>{{
+  <mat-chip-set>
+    <mat-chip class="count-chip">{{
       count | number: '' : 'nb_NO'
-    }}</mat-chip-option>
-  </mat-chip-listbox>
+    }}</mat-chip>
+  </mat-chip-set>
 </div>

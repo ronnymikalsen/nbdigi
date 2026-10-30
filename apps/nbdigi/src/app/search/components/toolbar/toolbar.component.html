@@ -1,324 +1,307 @@
-<ng-container *ngIf="search">
-  <mat-toolbar>
-    <mat-toolbar-row class="search-box-container">
-      <nbd-search-box
-        fxFlex="100"
-        (searchSelected)="searchSelected.emit($event)"
-      ></nbd-search-box>
-    </mat-toolbar-row>
-    <mat-toolbar-row
-      *ngIf="search.criteria.filters.length > 0"
-      class="filters-container"
-    >
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
-        <mat-chip-listbox *ngFor="let filter of search.criteria.filters">
-          <mat-chip-option
-            color="accent"
-            [selected]="filter.enabled"
-            (click)="toggleFilter.emit(filter)"
-            (removed)="removeFilter.emit(filter)"
-          >
-            <div fxLayout="row" fxLayoutAlign="start center">
-              <mat-icon>{{ filter.type }}</mat-icon>
-              <div>{{ filter.label }}</div>
-            </div>
-            <mat-icon matChipRemove>cancel</mat-icon>
-          </mat-chip-option>
-        </mat-chip-listbox>
-      </div>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <mat-divider></mat-divider>
-  <mat-toolbar>
-    <div
-      class="search-options-container"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-    >
-      <nbd-debug
-        [isDebugOn]="isDebugOn"
-        [href]="search.searchResult.selfLink"
-      ></nbd-debug>
-      <div>
-        <button
-          #mediatypeMenuButton="matMenuTrigger"
-          mat-menu-item
-          [matMenuTriggerFor]="mediatypeMenu"
+@if (search) {
+<mat-toolbar>
+  <mat-toolbar-row class="search-box-container">
+    <nbd-search-box
+      fxFlex="100"
+      (searchSelected)="searchSelected.emit($event)"
+    ></nbd-search-box>
+  </mat-toolbar-row>
+  @if (search.criteria.filters.length > 0) {
+  <mat-toolbar-row class="filters-container">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+      @for (filter of search.criteria.filters; track filter) {
+      <mat-chip-listbox>
+        <mat-chip-option
+          class="filter-chip"
+          color="accent"
+          [selected]="filter.enabled"
+          (click)="toggleFilter.emit(filter)"
+          (removed)="removeFilter.emit(filter)"
         >
-          <div class="mediaType">
-            {{
-              mediatypeControl.value !== 'alle'
-                ? mediatypeControl.value
-                : 'Alle medietyper'
-            }}
-            ({{ currentMediaTypeCount | number: '' : 'nb_NO' }})
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>{{ filter.type }}</mat-icon>
+            <div>{{ filter.label }}</div>
           </div>
-        </button>
-        <mat-menu #mediatypeMenu="matMenu">
-          <button mat-menu-item (click)="changeMediatype('alle')">
-            <nbd-media-type-option
-              [mediaType]="'Alle medietyper'"
-              [count]="search.searchResult.totalElements"
-              [checked]="mediatypeControl.value === 'alle'"
-              (selected)="changeMediatype('alle')"
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.books.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.books.mediaType"
-              [count]="search.searchResult.books.counts"
-              [checked]="
-                mediatypeControl.value === search.searchResult.books.mediaType
-              "
-              (selected)="changeMediatype(search.searchResult.books.mediaType)"
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.newspapers.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.newspapers.mediaType"
-              [count]="search.searchResult.newspapers.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.newspapers.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.newspapers.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.photos.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.photos.mediaType"
-              [count]="search.searchResult.photos.counts"
-              [checked]="
-                mediatypeControl.value === search.searchResult.photos.mediaType
-              "
-              (selected)="changeMediatype(search.searchResult.photos.mediaType)"
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.periodicals.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.periodicals.mediaType"
-              [count]="search.searchResult.periodicals.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.periodicals.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.periodicals.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.maps.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.maps.mediaType"
-              [count]="search.searchResult.maps.counts"
-              [checked]="
-                mediatypeControl.value === search.searchResult.maps.mediaType
-              "
-              (selected)="changeMediatype(search.searchResult.maps.mediaType)"
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.musicBooks.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.musicBooks.mediaType"
-              [count]="search.searchResult.musicBooks.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.musicBooks.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.musicBooks.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="
-              changeMediatype(search.searchResult.musicManuscripts.mediaType)
-            "
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.musicManuscripts.mediaType"
-              [count]="search.searchResult.musicManuscripts.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.musicManuscripts.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.musicManuscripts.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="changeMediatype(search.searchResult.posters.mediaType)"
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.posters.mediaType"
-              [count]="search.searchResult.posters.counts"
-              [checked]="
-                mediatypeControl.value === search.searchResult.posters.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.posters.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="
-              changeMediatype(search.searchResult.privateArchives.mediaType)
-            "
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.privateArchives.mediaType"
-              [count]="search.searchResult.privateArchives.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.privateArchives.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.privateArchives.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-          <button
-            mat-menu-item
-            (click)="
-              changeMediatype(search.searchResult.programReports.mediaType)
-            "
-          >
-            <nbd-media-type-option
-              [mediaType]="search.searchResult.programReports.mediaType"
-              [count]="search.searchResult.programReports.counts"
-              [checked]="
-                mediatypeControl.value ===
-                search.searchResult.programReports.mediaType
-              "
-              (selected)="
-                changeMediatype(search.searchResult.programReports.mediaType)
-              "
-            ></nbd-media-type-option>
-          </button>
-        </mat-menu>
-      </div>
-      <div class="genre-container">
-        <button mat-menu-item [matMenuTriggerFor]="genreMenu">
-          <div>
-            {{
-              genreControl.value?.viewValue
-                ? genreControl.value.viewValue
-                : 'Alle sjangrer'
-            }}
-          </div>
-        </button>
-        <mat-menu #genreMenu="matMenu">
-          <button mat-menu-item (click)="genreChanged.emit()">
-            <div class="checked">
-              <mat-icon matListIcon *ngIf="genreControl.value?.value === null"
-                >check</mat-icon
-              >
-            </div>
-            <div fxFlex="grow">Alle sjangrer</div>
-          </button>
-          <button
-            mat-menu-item
-            *ngFor="let genreOption of genreOptions"
-            (click)="genreChanged.emit(genreOption)"
-          >
-            <div class="checked">
-              <mat-icon
-                matListIcon
-                *ngIf="genreOption.value === search.criteria.genre?.value"
-                >check</mat-icon
-              >
-            </div>
-            <div fxFlex="grow">{{ genreOption.viewValue }}</div>
-          </button>
-        </mat-menu>
-      </div>
-      <div class="date-container">
-        <button mat-menu-item [matMenuTriggerFor]="dateMenu">
-          <div>
-            {{
-              dateControl.value?.viewValue !== ''
-                ? dateControl.value.viewValue
-                : 'Når som helst'
-            }}
-          </div>
-        </button>
-        <mat-menu #dateMenu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let dateOption of dateOptions"
-            (click)="dateChanged.emit(dateOption)"
-          >
-            <div class="checked">
-              <mat-icon
-                matListIcon
-                *ngIf="
-                  (search.criteria.date?.type === 'custom' &&
-                    dateOption.type === search.criteria.date?.type) ||
-                  dateOption.value === search.criteria.date?.value
-                "
-                >check</mat-icon
-              >
-            </div>
-            <div fxFlex="grow">{{ dateOption.viewValue }}</div>
-          </button>
-          <mat-divider></mat-divider>
-
-          <button mat-menu-item (click)="dateGraphChanged.emit(!showDateGraph)">
-            <div class="checked">
-              <mat-icon matListIcon *ngIf="showDateGraph">check</mat-icon> Vis
-              datograf
-            </div>
-          </button>
-        </mat-menu>
-      </div>
-      <div class="sort-container">
-        <button mat-menu-item [matMenuTriggerFor]="sortMenu">
-          <div>Sortert på {{ sortControl.value?.viewValue }}</div>
-        </button>
-        <mat-menu #sortMenu="matMenu">
-          <button
-            mat-menu-item
-            *ngFor="let sortOption of sortOptions"
-            (click)="sortChanged.emit(sortOption)"
-          >
-            <div class="checked">
-              <mat-icon
-                matListIcon
-                *ngIf="sortOption.value === search.criteria.sort?.value"
-                >check</mat-icon
-              >
-            </div>
-            <div fxFlex="grow" class="sortOption">
-              {{ sortOption.viewValue }}
-            </div>
-          </button>
-        </mat-menu>
-      </div>
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip-option>
+      </mat-chip-listbox>
+      }
     </div>
-  </mat-toolbar>
-  <mat-divider></mat-divider>
-</ng-container>
+  </mat-toolbar-row>
+  }
+</mat-toolbar>
+<mat-divider></mat-divider>
+<mat-toolbar>
+  <div
+    class="search-options-container"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+  >
+    <nbd-debug
+      [isDebugOn]="isDebugOn"
+      [href]="search.searchResult.selfLink"
+    ></nbd-debug>
+    <div>
+      <button
+        mat-button
+        type="button"
+        class="filter-trigger"
+        [matMenuTriggerFor]="mediatypeMenu"
+      >
+        <span class="mediaType">
+          {{
+            mediatypeControl.value !== 'alle'
+              ? mediatypeControl.value
+              : 'Alle medietyper'
+          }}
+          ({{ currentMediaTypeCount | number: '' : 'nb_NO' }})
+        </span>
+        <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #mediatypeMenu="matMenu">
+        <button mat-menu-item (click)="changeMediatype('alle')">
+          <nbd-media-type-option
+            [mediaType]="'Alle medietyper'"
+            [count]="search.searchResult.totalElements"
+            [checked]="mediatypeControl.value === 'alle'"
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.books.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.books.mediaType"
+            [count]="search.searchResult.books.counts"
+            [checked]="
+              mediatypeControl.value === search.searchResult.books.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.newspapers.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.newspapers.mediaType"
+            [count]="search.searchResult.newspapers.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.newspapers.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.photos.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.photos.mediaType"
+            [count]="search.searchResult.photos.counts"
+            [checked]="
+              mediatypeControl.value === search.searchResult.photos.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.periodicals.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.periodicals.mediaType"
+            [count]="search.searchResult.periodicals.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.periodicals.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.maps.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.maps.mediaType"
+            [count]="search.searchResult.maps.counts"
+            [checked]="
+              mediatypeControl.value === search.searchResult.maps.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.musicBooks.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.musicBooks.mediaType"
+            [count]="search.searchResult.musicBooks.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.musicBooks.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.musicManuscripts.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.musicManuscripts.mediaType"
+            [count]="search.searchResult.musicManuscripts.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.musicManuscripts.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="changeMediatype(search.searchResult.posters.mediaType)"
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.posters.mediaType"
+            [count]="search.searchResult.posters.counts"
+            [checked]="
+              mediatypeControl.value === search.searchResult.posters.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.privateArchives.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.privateArchives.mediaType"
+            [count]="search.searchResult.privateArchives.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.privateArchives.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+        <button
+          mat-menu-item
+          (click)="
+            changeMediatype(search.searchResult.programReports.mediaType)
+          "
+        >
+          <nbd-media-type-option
+            [mediaType]="search.searchResult.programReports.mediaType"
+            [count]="search.searchResult.programReports.counts"
+            [checked]="
+              mediatypeControl.value ===
+              search.searchResult.programReports.mediaType
+            "
+          ></nbd-media-type-option>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="genre-container">
+      <button
+        mat-button
+        type="button"
+        class="filter-trigger"
+        [matMenuTriggerFor]="genreMenu"
+      >
+        <span>
+          {{
+            genreControl.value?.viewValue
+              ? genreControl.value.viewValue
+              : 'Alle sjangrer'
+          }}
+        </span>
+        <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #genreMenu="matMenu">
+        <button mat-menu-item (click)="genreChanged.emit()">
+          <div class="checked">
+            @if ($safeNavigationMigration(genreControl.value?.value) === null) {
+            <mat-icon>check</mat-icon>
+            }
+          </div>
+          <div fxFlex="grow">Alle sjangrer</div>
+        </button>
+        @for (genreOption of genreOptions; track genreOption) {
+        <button mat-menu-item (click)="genreChanged.emit(genreOption)">
+          <div class="checked">
+            @if (genreOption.value === search.criteria.genre?.value) {
+            <mat-icon>check</mat-icon>
+            }
+          </div>
+          <div fxFlex="grow">{{ genreOption.viewValue }}</div>
+        </button>
+        }
+      </mat-menu>
+    </div>
+    <div class="date-container">
+      <button
+        mat-button
+        type="button"
+        class="filter-trigger"
+        [matMenuTriggerFor]="dateMenu"
+      >
+        <span>
+          {{
+            dateControl.value?.viewValue !== ''
+              ? dateControl.value.viewValue
+              : 'Når som helst'
+          }}
+        </span>
+        <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #dateMenu="matMenu">
+        @for (dateOption of dateOptions; track dateOption) {
+        <button mat-menu-item (click)="dateChanged.emit(dateOption)">
+          <div class="checked">
+            @if ( (search.criteria.date?.type === 'custom' && dateOption.type
+            === search.criteria.date?.type) || dateOption.value ===
+            search.criteria.date?.value ) {
+            <mat-icon>check</mat-icon>
+            }
+          </div>
+          <div fxFlex="grow">{{ dateOption.viewValue }}</div>
+        </button>
+        }
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="dateGraphChanged.emit(!showDateGraph)">
+          <div class="checked">
+            @if (showDateGraph) {
+            <mat-icon>check</mat-icon>
+            } Vis datograf
+          </div>
+        </button>
+      </mat-menu>
+    </div>
+    <div class="sort-container">
+      <button
+        mat-button
+        type="button"
+        class="filter-trigger"
+        [matMenuTriggerFor]="sortMenu"
+      >
+        <span>Sortert på {{ sortControl.value?.viewValue }}</span>
+        <mat-icon iconPositionEnd>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #sortMenu="matMenu">
+        @for (sortOption of sortOptions; track sortOption) {
+        <button mat-menu-item (click)="sortChanged.emit(sortOption)">
+          <div class="checked">
+            @if (sortOption.value === search.criteria.sort?.value) {
+            <mat-icon>check</mat-icon>
+            }
+          </div>
+          <div fxFlex="grow" class="sortOption">
+            {{ sortOption.viewValue }}
+          </div>
+        </button>
+        }
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-divider></mat-divider>
+}

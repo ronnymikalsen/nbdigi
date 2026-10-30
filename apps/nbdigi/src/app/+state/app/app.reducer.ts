@@ -15,11 +15,14 @@ export interface AppPartialState {
 
 export const initialState: AppState = {
   debug: false,
-  theme: 'light',
+  theme: 'light-theme',
   showDateGraph: true,
 };
 
-export function appReducer(state: any, action: any): AppState {
+export function appReducer(
+  state: AppState = initialState,
+  action: any,
+): AppState {
   switch (action.type) {
     case AppActionTypes.DebugOn: {
       state = {

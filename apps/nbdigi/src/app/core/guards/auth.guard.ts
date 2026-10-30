@@ -1,43 +1,20 @@
-import { Injectable, NgZone } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Auth, authState } from '@angular/fire/auth';
+import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthFacade } from '../../+state/auth/auth.facade';
+import { map, take } from 'rxjs/operators';
 
 @Injectable()
 export class AuthGuard {
   constructor(
-    public afAuth: Auth,
-    private ngZone: NgZone,
-    private afs: Firestore,
+    private auth: Auth,
     private router: Router,
-    private authFacade: AuthFacade,
   ) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    return Observable.create((observer: any) => {
-      this.authFacade.state$.pipe().subscribe(
-        (authState) => {
-          if (authState.user) {
-            observer.next(true);
-          } else if (authState.error) {
-            observer.next(
-              this.ngZone.run(() => this.router.navigate(['/auth'])),
-            );
-          }
-        },
-        (err) => {
-          observer.next(false);
-        },
-      );
-    });
+  canActivate(): Observable<boolean | UrlTree> {
+    return authState(this.auth).pipe(
+      take(1),
+      map((user) => (user ? true : this.router.createUrlTree(['/auth']))),
+    );
   }
 }

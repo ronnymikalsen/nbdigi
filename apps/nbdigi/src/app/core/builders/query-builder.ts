@@ -4,9 +4,9 @@ export class QueryBuilder {
   private aggs: string[] = [];
   private digitalAccessibleOnly = false;
   private mediaTypeOrder: string | undefined;
-  private mediaTypeSize: number = 0;
+  private mediaTypeSize = 0;
   private mediaType: string | undefined;
-  private size: number = 1;
+  private size = 1;
   private sort: string | undefined;
 
   constructor() {}

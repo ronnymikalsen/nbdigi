@@ -5,6 +5,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
   templateUrl: './search-activity.component.html',
   styleUrls: ['./search-activity.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchActivityComponent implements OnInit {
   constructor() {}

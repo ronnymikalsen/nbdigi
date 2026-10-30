@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { Observable, Subject } from 'rxjs';
 
@@ -6,6 +6,8 @@ import { Observable, Subject } from 'rxjs';
   selector: 'nbd-sw-update-message',
   templateUrl: './sw-update-message.component.html',
   styleUrls: ['./sw-update-message.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SwUpdateMessageComponent implements OnInit {
   private action: Subject<string> = new Subject<string>();

@@ -11,6 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './remove-favorite-dialog.component.html',
   styleUrls: ['./remove-favorite-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RemoveFavoriteDialogComponent implements OnInit {
   constructor(

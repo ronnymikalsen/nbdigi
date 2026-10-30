@@ -14,6 +14,7 @@ import { FavoriteList, Item } from '../../../core/models';
   templateUrl: './item-menu-button.component.html',
   styleUrls: ['./item-menu-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ItemMenuButtonComponent implements OnInit {
   @Input() item!: Item | undefined | null;

@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { Criteria, DateOption, YearCount } from '../../../core/models';
 import {
   ChartRangeToOption,
@@ -19,6 +20,7 @@ import {
   templateUrl: './search-result-chart.component.html',
   styleUrls: ['./search-result-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchResultChartComponent implements OnInit, OnChanges {
   @Input() criteria!: Criteria | undefined;
@@ -29,7 +31,12 @@ export class SearchResultChartComponent implements OnInit, OnChanges {
   @Output() currentChartChanged = new EventEmitter<string>();
   backDateOption!: ChartRangeToOption | undefined;
   data: any[] = [];
-  colorScheme = '#00bcd4';
+  readonly colorScheme: Color = {
+    name: 'nbdigi',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#00bcd4'],
+  };
   private chartStrategy!: ChartStrategy | undefined;
   private force: string | undefined;
 

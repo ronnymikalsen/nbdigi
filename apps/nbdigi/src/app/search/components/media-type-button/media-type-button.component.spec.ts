@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MediaTypeButtonComponent } from './media-type-button.component';
 
@@ -6,7 +6,7 @@ describe('MediaTypeButtonComponent', () => {
   let component: MediaTypeButtonComponent;
   let fixture: ComponentFixture<MediaTypeButtonComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [MediaTypeButtonComponent],
     }).compileComponents();

@@ -15,6 +15,7 @@ import { User } from '../../../core/models';
     >
     </nbd-settings>
   `,
+  standalone: false,
 })
 export class SettingsPageComponent {
   currentUser: Observable<User | null | undefined> =

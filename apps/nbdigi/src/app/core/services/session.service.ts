@@ -1,29 +1,31 @@
+import { Injectable } from '@angular/core';
+import { Auth, authState } from '@angular/fire/auth';
 import {
-  CollectionReference,
+  DocumentReference,
   Firestore,
   collection,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-  DocumentReference,
   doc,
+  docData,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { filter } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
 import { AppFacade } from '../../+state/app/app.facade';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { Item, User } from '../../core/models';
 import { UserService } from './user.service';
-import { Injectable, NgZone } from '@angular/core';
 
 @Injectable()
 export class SessionService {
   private userRef: DocumentReference<User> | undefined;
-  private currentTheme: string = 'light';
-  private debugon: boolean = false;
+  private currentTheme = 'light-theme';
+  private debugon = false;
+  private hadAuthenticatedUser = false;
 
   constructor(
-    private ngZone: NgZone,
-    //private afAuth: AngularFireAuth,
+    private auth: Auth,
     private afs: Firestore,
     private userService: UserService,
     private authFacade: AuthFacade,
@@ -39,69 +41,86 @@ export class SessionService {
       this.debugon = debugon;
     });
 
-    this.ngZone.runOutsideAngular(() => {
-      /*
-      this.afAuth.authState.pipe().subscribe(
-        (authState: any) => {
-          if (authState) {
-            const user = {
-              uid: authState.uid,
-              displayName: authState.displayName,
-              email: authState.email,
-            };
-            this.userService.createUserIfNotExists(user);
-            this.userRef = doc<User>(this.afs, `users/${authState.uid}`);
-            this.userRef
-              .valueChanges()
-              .pipe(filter((u) => u !== null))
-              .subscribe((u: User) => {
-                this.authFacade.signedIn({
-                  ...user,
-                });
-                if (u.theme && u.theme !== this.currentTheme) {
-                  this.appFacade.setTheme(u.theme);
-                }
-                if (u.isDebugOn !== this.debugon) {
-                  u.isDebugOn
-                    ? this.appFacade.debugOn()
-                    : this.appFacade.debugOff();
-                }
-              });
-          } else {
-            this.authFacade.signOut();
+    authState(this.auth)
+      .pipe(
+        switchMap((firebaseUser) => {
+          if (!firebaseUser) {
+            this.userRef = undefined;
+            if (this.hadAuthenticatedUser) {
+              this.authFacade.signedOut();
+            }
+            this.hadAuthenticatedUser = false;
+            return of(undefined);
           }
-        },
-        (err: Error) => console.log('errr', err)
-      );
-      */
-    });
-    const showDateGraph: boolean = Boolean(
-      localStorage.getItem('showDateGraph'),
-    );
-    showDateGraph
-      ? this.appFacade.showDateGraph()
-      : this.appFacade.hideDateGraph();
+
+          this.hadAuthenticatedUser = true;
+
+          const user: User = { uid: firebaseUser.uid };
+          if (firebaseUser.displayName) {
+            user.displayName = firebaseUser.displayName;
+          }
+          if (firebaseUser.email) {
+            user.email = firebaseUser.email;
+          }
+
+          this.authFacade.signedIn(user);
+          this.userService.createUserIfNotExists(user);
+          this.userRef = doc(
+            this.afs,
+            `users/${firebaseUser.uid}`,
+          ) as DocumentReference<User>;
+
+          return docData(this.userRef).pipe(
+            catchError((error) => {
+              console.error('Could not load user settings', error);
+              return of(undefined);
+            }),
+          );
+        }),
+      )
+      .subscribe((userSettings) => {
+        if (!userSettings) {
+          return;
+        }
+
+        if (userSettings.theme) {
+          const theme =
+            userSettings.theme === 'dark-theme'
+              ? 'dark-theme'
+              : 'light-theme';
+          if (theme !== this.currentTheme) {
+            this.appFacade.setTheme(theme);
+          }
+        }
+        if (userSettings.isDebugOn !== this.debugon) {
+          if (userSettings.isDebugOn) {
+            this.appFacade.debugOn();
+          } else {
+            this.appFacade.debugOff();
+          }
+        }
+      });
+    const showDateGraph = Boolean(localStorage.getItem('showDateGraph'));
+    if (showDateGraph) {
+      this.appFacade.showDateGraph();
+    } else {
+      this.appFacade.hideDateGraph();
+    }
   }
 
   updateTheme(theme: string) {
-    if (theme) {
-      /*
-      this.userRef.update({
-        theme: theme,
-      });
-      */
+    if (theme && this.userRef) {
+      void updateDoc(this.userRef, { theme });
     }
   }
 
   updateItem(item: Item) {
-    /*
-    this.userRef
-      .collection('items')
-      .doc(item.id)
-      .set({
+    if (this.userRef && item.id) {
+      const itemRef = doc(collection(this.userRef, 'items'), item.id);
+      void setDoc(itemRef, {
         ...item,
         timestamp: serverTimestamp(),
       });
-      */
+    }
   }
 }

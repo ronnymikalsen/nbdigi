@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { readFirst } from '@nrwl/angular/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
-
-import { NxModule } from '@nrwl/angular';
 
 import { SearchEffects } from './search.effects';
 import { SearchFacade } from './search.facade';
@@ -48,7 +46,6 @@ describe('SearchFacade', () => {
 
       @NgModule({
         imports: [
-          NxModule.forRoot(),
           StoreModule.forRoot({}),
           EffectsModule.forRoot([]),
           CustomFeatureModule,
@@ -57,60 +54,48 @@ describe('SearchFacade', () => {
       class RootModule {}
       TestBed.configureTestingModule({ imports: [RootModule] });
 
-      store = TestBed.get(Store);
-      facade = TestBed.get(SearchFacade);
+      store = TestBed.inject(Store);
+      facade = TestBed.inject(SearchFacade);
     });
 
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async (done) => {
-      try {
-        let list = await readFirst(facade.allSearch$);
-        let isLoaded = await readFirst(facade.loaded$);
+    it('loadAll() should return empty list with loaded == true', async () => {
+      let list = await firstValueFrom(facade.allSearch$);
+      let isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(false);
 
-        facade.loadAll();
+      facade.loadAll();
 
-        list = await readFirst(facade.allSearch$);
-        isLoaded = await readFirst(facade.loaded$);
+      list = await firstValueFrom(facade.allSearch$);
+      isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(true);
-
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(true);
     });
 
     /**
      * Use `SearchLoaded` to manually submit list for state management
      */
-    it('allSearch$ should return the loaded list; and loaded flag == true', async (done) => {
-      try {
-        let list = await readFirst(facade.allSearch$);
-        let isLoaded = await readFirst(facade.loaded$);
+    it('allSearch$ should return the loaded list; and loaded flag == true', async () => {
+      let list = await firstValueFrom(facade.allSearch$);
+      let isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(false);
 
-        store.dispatch(
-          new SearchLoaded([createSearch('AAA'), createSearch('BBB')]),
-        );
+      store.dispatch(
+        new SearchLoaded([createSearch('AAA'), createSearch('BBB')]),
+      );
 
-        list = await readFirst(facade.allSearch$);
-        isLoaded = await readFirst(facade.loaded$);
+      list = await firstValueFrom(facade.allSearch$);
+      isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(2);
-        expect(isLoaded).toBe(true);
-
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
+      expect(list.length).toBe(2);
+      expect(isLoaded).toBe(true);
     });
   });
 });

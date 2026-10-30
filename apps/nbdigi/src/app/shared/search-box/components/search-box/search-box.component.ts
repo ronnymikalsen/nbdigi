@@ -33,6 +33,7 @@ import { Hint, Hints } from '../../../../core/models/hints.model';
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() q!: string | null;

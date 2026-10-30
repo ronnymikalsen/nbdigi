@@ -92,7 +92,7 @@ const getMoreUrl = createSelector(getSearchState, (state: SearchState) => {
 const getCurrentMediaTypeCount = createSelector(
   getSearchState,
   (state: SearchState) => {
-    let counts: number = 0;
+    let counts = 0;
     if (state.criteria.mediaType === 'alle') {
       counts = state.searchResult.totalElements;
     } else if (state.criteria.mediaType === 'bøker') {

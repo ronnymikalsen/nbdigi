@@ -1,12 +1,12 @@
-<div *ngIf="!showCreate" fxLayout="column">
+@if (!showCreate) {
+<div fxLayout="column">
   <h3>Legg til i liste</h3>
   <mat-nav-list>
-    <mat-list-item
-      *ngFor="let favorite of favoriteLists | async"
-      (click)="addToList(favorite)"
-    >
+    @for (favorite of favoriteLists | async; track favorite) {
+    <mat-list-item (click)="addToList(favorite)">
       {{ favorite.name }}
     </mat-list-item>
+    }
   </mat-nav-list>
   <div
     class="actions"
@@ -18,8 +18,9 @@
     <button mat-button (click)="toggleCreate()">Lag ny liste</button>
   </div>
 </div>
+} @if (showCreate) {
 <nbd-create-favorite-list
-  *ngIf="showCreate"
   (cancelSelected)="toggleCreate()"
   (listNameSelected)="addList($event)"
 ></nbd-create-favorite-list>
+}

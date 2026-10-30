@@ -1,31 +1,23 @@
 @use '@angular/material' as mat;
-@use 'sass:map';
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-
   nbd-divider {
-    .mat-primary {
-      color: mat.get-color-from-palette($primary);
-    }
+    .divider-primary {
+      color: mat.get-theme-color($theme, primary);
 
-    .mat-divider {
-      border-top-color: mat.get-color-from-palette($primary) !important;
+      mat-divider {
+        @include mat.divider-overrides(
+          (
+            color: mat.get-theme-color($theme, primary),
+          )
+        );
+      }
     }
   }
-}
-
-@mixin typography($theme) {
 }
 
 @mixin theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
+  @if mat.theme-has($theme, color) {
     @include color($theme);
-  }
-
-  $typography-config: mat.get-typography-config($theme);
-  @if $typography-config != null {
-    @include typography($theme);
   }
 }

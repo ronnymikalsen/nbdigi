@@ -11,6 +11,7 @@ import { Authenticate } from '../../../core/models';
     >
     </nbd-create-account>
   `,
+  standalone: false,
 })
 export class CreateAccountPageComponent {
   authError = this.authFacade.getError$;

@@ -3,142 +3,160 @@ import {
   CollectionReference,
   Firestore,
   collection,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-  DocumentReference,
+  collectionData,
   doc,
+  serverTimestamp,
+  setDoc,
+  updateDoc,
+  writeBatch,
 } from '@angular/fire/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, from, of, throwError } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Md5 } from 'ts-md5';
 import { AuthFacade } from '../../+state/auth/auth.facade';
 import { FavoriteFacade } from '../../+state/favorite/favorite.facade';
-import { FavoriteList } from '../../core/models';
+import { FavoriteList, Item } from '../../core/models';
 
 @Injectable()
 export class FavoriteService {
-  private favoritesRef: DocumentReference<FavoriteList> | undefined;
+  private favoritesRef: CollectionReference | undefined;
 
   constructor(
     private afs: Firestore,
     private favoriteFacade: FavoriteFacade,
     private authFacade: AuthFacade,
   ) {
-    const test = serverTimestamp();
-
-    /*
     this.authFacade.currentUser$
-      .pipe(filter((user) => user !== null))
-      .subscribe((user: User) => {
-        this.favoritesRef = afs
-          .collection('users')
-          .doc(user.uid)
-          .collection('favorites');
-        this.favoritesRef
-          .valueChanges()
-          .pipe(
-            tap((lists: FavoriteList[]) => {
-              for (const list of lists) {
-                this.favoritesRef
-                  .doc(list.id)
-                  .collection('items')
-                  .valueChanges()
-                  .subscribe((i: Item[]) => {
-                    this.favoriteFacade.setList({
-                      id: list.id,
-                      name: list.name,
-                      items: i,
-                    });
-                  });
-              }
-            })
-          )
-          .subscribe();
+      .pipe(
+        switchMap((user) => {
+          if (!user?.uid) {
+            this.favoritesRef = undefined;
+            return of([] as FavoriteList[]);
+          }
+
+          this.favoritesRef = collection(
+            afs,
+            'users',
+            user.uid,
+            'favorites',
+          );
+
+          return collectionData(this.favoritesRef, {
+            idField: 'id',
+          }) as Observable<FavoriteList[]>;
+        }),
+        switchMap((lists) => {
+          if (!this.favoritesRef || lists.length === 0) {
+            return of([] as FavoriteList[]);
+          }
+
+          return combineLatest(
+            lists.map((list) => {
+              const itemsRef = collection(
+                doc(this.favoritesRef!, list.id),
+                'items',
+              );
+              return (
+                collectionData(itemsRef, {
+                  idField: 'id',
+                }) as Observable<Item[]>
+              ).pipe(
+                map((items) => ({
+                  ...list,
+                  items,
+                  timestamp: list.timestamp ?? null,
+                })),
+              );
+            }),
+          );
+        }),
+      )
+      .subscribe((lists) => {
+        for (const list of lists) {
+          this.favoriteFacade.setList(list);
+        }
       });
-      */
   }
 
   public addList(name: string): Observable<void> {
-    return Observable.create((observer: any) => {
-      const id = <string>Md5.hashStr(name);
-      /*
-      this.favoritesRef
-        .doc(id)
-        .set({
-          id: id,
-          name: name,
-        })
-        .then(() => observer.next());
-        */
-    });
+    if (!this.favoritesRef) {
+      return this.notSignedIn();
+    }
+
+    const id = <string>Md5.hashStr(name);
+    return from(
+      setDoc(doc(this.favoritesRef, id), {
+        id,
+        name,
+        timestamp: serverTimestamp(),
+      }),
+    );
   }
 
   public renameList(
     favoriteList: FavoriteList,
     newName: string,
   ): Observable<void> {
-    return Observable.create((observer: any) => {
-      /*
-      this.favoritesRef
-        .doc(favoriteList.id)
-        .update({
-          name: newName,
-        })
-        .then(() => observer.next());
-        */
-    });
+    if (!this.favoritesRef) {
+      return this.notSignedIn();
+    }
+
+    return from(
+      updateDoc(doc(this.favoritesRef, favoriteList.id), { name: newName }),
+    );
   }
 
   public removeList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create((observer: any) => {
-      /*
-      const batch = this.afs.firestore.batch();
-      favoriteList.items.forEach((i) => {
-        batch.delete(
-          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
-            .ref
-        );
-      });
-      batch.delete(this.favoritesRef.doc(favoriteList.id).ref);
-      batch.commit().then(() => observer.next());
-      */
-    });
+    if (!this.favoritesRef) {
+      return this.notSignedIn();
+    }
+
+    const batch = writeBatch(this.afs);
+    const favoriteRef = doc(this.favoritesRef, favoriteList.id);
+    for (const item of favoriteList.items) {
+      if (item.id) {
+        batch.delete(doc(collection(favoriteRef, 'items'), item.id));
+      }
+    }
+    batch.delete(favoriteRef);
+    return from(batch.commit());
   }
 
   public addToList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create((observer: any) => {
-      /*
-      const batch = this.afs.firestore.batch();
+    if (!this.favoritesRef) {
+      return this.notSignedIn();
+    }
 
-      favoriteList.items.forEach((i) => {
-        batch.set(
-          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
-            .ref,
-          {
-            ...i,
-            timestamp: serverTimestamp(),
-          }
-        );
-      });
-      batch.commit().then(() => observer.next());
-      */
-    });
+    const batch = writeBatch(this.afs);
+    const favoriteRef = doc(this.favoritesRef, favoriteList.id);
+    for (const item of favoriteList.items) {
+      if (item.id) {
+        batch.set(doc(collection(favoriteRef, 'items'), item.id), {
+          ...item,
+          timestamp: serverTimestamp(),
+        });
+      }
+    }
+    return from(batch.commit());
   }
 
   public removeFromList(favoriteList: FavoriteList): Observable<void> {
-    return Observable.create((observer: any) => {
-      /*
-      const batch = this.afs.firestore.batch();
+    if (!this.favoritesRef) {
+      return this.notSignedIn();
+    }
 
-      favoriteList.items.forEach((i) => {
-        batch.delete(
-          this.favoritesRef.doc(favoriteList.id).collection('items').doc(i.id)
-            .ref
-        );
-      });
-      batch.commit().then(() => observer.next());
-      */
-    });
+    const batch = writeBatch(this.afs);
+    const favoriteRef = doc(this.favoritesRef, favoriteList.id);
+    for (const item of favoriteList.items) {
+      if (item.id) {
+        batch.delete(doc(collection(favoriteRef, 'items'), item.id));
+      }
+    }
+    return from(batch.commit());
+  }
+
+  private notSignedIn(): Observable<never> {
+    return throwError(() => new Error('A signed-in user is required'));
   }
 }

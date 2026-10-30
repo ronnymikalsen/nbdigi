@@ -1,4 +1,10 @@
-import { Component, EventEmitter, NgZone, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  NgZone,
+  Output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AppFacade } from '../../../+state/app/app.facade';
@@ -12,7 +18,7 @@ import { Hint } from '../../../core/models/hints.model';
   template: `
     <nbd-search-box-container
       [q]="q | async"
-      [hints]="(search | async)?.hints"
+      [hints]="$safeNavigationMigration((search | async)?.hints)"
       (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
@@ -21,6 +27,8 @@ import { Hint } from '../../../core/models/hints.model';
     >
     </nbd-search-box-container>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class SearchBoxPageComponent {
   @Output() searchSelected = new EventEmitter<string>();
@@ -59,6 +67,10 @@ export class SearchBoxPageComponent {
   }
 
   debugChanged(debug: boolean): void {
-    debug ? this.appFacade.debugOn() : this.appFacade.debugOff();
+    if (debug) {
+      this.appFacade.debugOn();
+    } else {
+      this.appFacade.debugOff();
+    }
   }
 }

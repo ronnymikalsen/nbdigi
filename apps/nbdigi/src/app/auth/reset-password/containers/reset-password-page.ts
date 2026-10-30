@@ -10,6 +10,7 @@ import { AuthFacade } from '../../../+state/auth/auth.facade';
     >
     </nbd-reset-password>
   `,
+  standalone: false,
 })
 export class ResetPasswordPageComponent {
   authError = this.authFacade.getError$;

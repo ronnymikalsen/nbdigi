@@ -14,6 +14,7 @@ import { FavoriteList, Item } from '../../../../../../core/models';
   templateUrl: './default-item-card.component.html',
   styleUrls: ['./default-item-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DefaultItemCardComponent implements OnInit {
   @Input() item!: Item;

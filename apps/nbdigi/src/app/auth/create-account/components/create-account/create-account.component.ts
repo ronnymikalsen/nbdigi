@@ -6,6 +6,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -20,6 +21,8 @@ import { PasswordValidation } from './password.validation';
   selector: 'nbd-create-account',
   templateUrl: './create-account.component.html',
   styleUrls: ['./create-account.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class CreateAccountComponent implements OnInit, OnChanges {
   @Input() authError: AuthError | null | undefined = null;

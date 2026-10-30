@@ -11,6 +11,7 @@ import { Manifest } from '../../../../core/models/manifest';
   templateUrl: './item-details-metadata.component.html',
   styleUrls: ['./item-details-metadata.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ItemDetailsMetadataComponent implements OnInit {
   @Input() manifest: Manifest | null | undefined;

@@ -1,24 +1,63 @@
-.nbd-container,
+:host {
+  display: block;
+  height: 100%;
+}
+
+.nbd-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.app-header {
+  flex: 0 0 auto;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  position: relative;
+  z-index: 2;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  font: var(--mat-sys-title-large);
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+}
+
 .main-container {
-  height: calc(100%);
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.app-sidenav {
+  width: 240px;
+  border-right: 1px solid var(--mat-sys-outline-variant);
+}
+
+.content-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
 }
 
 .main-content {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  @media (max-width: 600px) {
-    height: calc(100% - 56px);
-  }
-  @media (min-width: 601px) {
-    height: calc(100% - 64px);
-  }
-  @media (min-width: 1279px) {
-    height: calc(100%);
-  }
 }
 
 .menu-toolbar {
-  border-style: solid;
+  flex: 0 0 auto;
+  border-top: 1px solid var(--mat-sys-outline-variant);
 }
 
 .inactive {
@@ -26,13 +65,6 @@
 }
 
 .active {
-  color: #18ffff !important;
+  color: var(--mat-sys-primary) !important;
   opacity: 1 !important;
-}
-
-.logo {
-  margin-top: 0px !important;
-  height: 24px !important;
-  width: 20px !important;
-  margin-right: 4px;
 }

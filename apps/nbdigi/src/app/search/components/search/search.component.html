@@ -1,5 +1,5 @@
+@if (search) {
 <div
-  *ngIf="search"
   id="search-container"
   fxLayout="column"
   fxLayoutAlign="start stretch"
@@ -28,8 +28,8 @@
     [showDateGraph]="showDateGraph"
   >
   </nbd-toolbar>
+  @if (showDateGraph) {
   <nbd-search-result-chart
-    *ngIf="showDateGraph"
     [criteria]="search.criteria"
     [years]="years"
     [months]="months"
@@ -37,9 +37,11 @@
     (previousChartRange)="previousChartRange.emit($event)"
     (chartDateChanged)="chartDateChanged.emit($event)"
   ></nbd-search-result-chart>
-  <div *ngIf="search.isLoading || search.isLoadingMore" class="progress-bar">
+  } @if (search.isLoading || search.isLoadingMore) {
+  <div class="progress-bar">
     <mat-progress-bar mode="query" color="accent"></mat-progress-bar>
   </div>
+  }
   <section
     #searchResultContainer
     class="search-result-container drawer-container"
@@ -57,22 +59,18 @@
         <nbd-item-details></nbd-item-details>
       </mat-drawer>
       <mat-drawer-content>
-        <div
-          *ngIf="
-            !pristine &&
-            !search.isLoading &&
-            search.searchResult.totalElements === 0
-          "
-        >
-          Fant ingen resultater
-        </div>
-        <div *ngIf="pristine">
+        @if ( !pristine && !search.isLoading &&
+        search.searchResult.totalElements === 0 ) {
+        <div>Fant ingen resultater</div>
+        } @if (pristine) {
+        <div>
           <mat-toolbar> <h3>Nylige søk</h3> </mat-toolbar>
           <nbd-criteria-list [limit]="20"></nbd-criteria-list>
         </div>
-        <div *ngIf="!search.isLoading">
+        } @if (!search.isLoading) {
+        <div>
+          @if (books) {
           <nbd-items-section
-            *ngIf="books"
             [label]="
               createLabel(books.mediaType, books.counts | number: '' : 'nb_NO')
             "
@@ -85,11 +83,13 @@
             tabindex="0"
           >
           </nbd-items-section>
+          }
           <nbd-items-section
             [label]="
               createLabel(
-                newspapers?.mediaType,
-                newspapers?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(newspapers?.mediaType),
+                $safeNavigationMigration(newspapers?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="newspapers"
@@ -103,8 +103,8 @@
           <nbd-items-section
             [label]="
               createLabel(
-                photos?.mediaType,
-                photos?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(photos?.mediaType),
+                $safeNavigationMigration(photos?.counts) | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="photos"
@@ -118,8 +118,9 @@
           <nbd-items-section
             [label]="
               createLabel(
-                periodicals?.mediaType,
-                periodicals?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(periodicals?.mediaType),
+                $safeNavigationMigration(periodicals?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="periodicals"
@@ -130,48 +131,43 @@
             [isDebugOn]="isDebugOn"
             tabindex="0"
           ></nbd-items-section>
-
-          <div
-            *ngIf="
-              !pristine &&
-              search.criteria.mediaType === 'alle' &&
-              search.searchResult.totalElements > 0
-            "
-            class="others-mediatype-container"
-            fxLayout="row"
-          >
+          @if ( !pristine && search.criteria.mediaType === 'alle' &&
+          search.searchResult.totalElements > 0 ) {
+          <div class="others-mediatype-container" fxLayout="row">
             <nbd-media-type-button
-              [mediaType]="maps?.mediaType"
-              [counts]="maps?.counts"
+              [mediaType]="$safeNavigationMigration(maps?.mediaType)"
+              [counts]="$safeNavigationMigration(maps?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
             <nbd-media-type-button
-              [mediaType]="musicBooks?.mediaType"
-              [counts]="musicBooks?.counts"
+              [mediaType]="$safeNavigationMigration(musicBooks?.mediaType)"
+              [counts]="$safeNavigationMigration(musicBooks?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
             <nbd-media-type-button
-              [mediaType]="musicManuscripts?.mediaType"
-              [counts]="musicManuscripts?.counts"
+              [mediaType]="
+                $safeNavigationMigration(musicManuscripts?.mediaType)
+              "
+              [counts]="$safeNavigationMigration(musicManuscripts?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
             <nbd-media-type-button
-              [mediaType]="posters?.mediaType"
-              [counts]="posters?.counts"
+              [mediaType]="$safeNavigationMigration(posters?.mediaType)"
+              [counts]="$safeNavigationMigration(posters?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
             <nbd-media-type-button
-              [mediaType]="privateArchives?.mediaType"
-              [counts]="privateArchives?.counts"
+              [mediaType]="$safeNavigationMigration(privateArchives?.mediaType)"
+              [counts]="$safeNavigationMigration(privateArchives?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
             <nbd-media-type-button
-              [mediaType]="programReports?.mediaType"
-              [counts]="programReports?.counts"
+              [mediaType]="$safeNavigationMigration(programReports?.mediaType)"
+              [counts]="$safeNavigationMigration(programReports?.counts)"
               (selected)="mediaTypeChanged.emit($event)"
             ></nbd-media-type-button>
           </div>
-
+          }
           <nbd-items-section
             [label]="'andre'"
             [asList]="true"
@@ -183,7 +179,10 @@
           ></nbd-items-section>
           <nbd-items-section
             [label]="
-              createLabel(maps?.mediaType, maps?.counts | number: '' : 'nb_NO')
+              createLabel(
+                $safeNavigationMigration(maps?.mediaType),
+                $safeNavigationMigration(maps?.counts) | number: '' : 'nb_NO'
+              )
             "
             [mediaTypeResults]="maps"
             (mediaTypeChanged)="mediaTypeChanged.emit($event)"
@@ -196,8 +195,9 @@
           <nbd-items-section
             [label]="
               createLabel(
-                musicBooks?.mediaType,
-                musicBooks?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(musicBooks?.mediaType),
+                $safeNavigationMigration(musicBooks?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="musicBooks"
@@ -211,8 +211,9 @@
           <nbd-items-section
             [label]="
               createLabel(
-                musicManuscripts?.mediaType,
-                musicManuscripts?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(musicManuscripts?.mediaType),
+                $safeNavigationMigration(musicManuscripts?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="musicManuscripts"
@@ -226,8 +227,8 @@
           <nbd-items-section
             [label]="
               createLabel(
-                posters?.mediaType,
-                posters?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(posters?.mediaType),
+                $safeNavigationMigration(posters?.counts) | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="posters"
@@ -241,8 +242,9 @@
           <nbd-items-section
             [label]="
               createLabel(
-                privateArchives?.mediaType,
-                privateArchives?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(privateArchives?.mediaType),
+                $safeNavigationMigration(privateArchives?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="privateArchives"
@@ -256,8 +258,9 @@
           <nbd-items-section
             [label]="
               createLabel(
-                programReports?.mediaType,
-                programReports?.counts | number: '' : 'nb_NO'
+                $safeNavigationMigration(programReports?.mediaType),
+                $safeNavigationMigration(programReports?.counts)
+                  | number: '' : 'nb_NO'
               )
             "
             [mediaTypeResults]="programReports"
@@ -269,7 +272,9 @@
             tabindex="0"
           ></nbd-items-section>
         </div>
+        }
       </mat-drawer-content>
     </mat-drawer-container>
   </section>
 </div>
+}

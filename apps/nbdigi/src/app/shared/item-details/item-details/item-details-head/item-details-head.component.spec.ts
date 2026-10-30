@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TestItems } from '../../../../item/metadata/shared/item.mock';
 import { MediaType } from '../../../mediatype/mediatype-utils';
@@ -10,7 +10,7 @@ describe('ItemDetailsHeadComponent', () => {
   let testHost: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [SharedModule],
       declarations: [ItemDetailsHeadComponent, TestHostComponent],

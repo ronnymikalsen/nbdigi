@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@use './ngx-mime-utilities';
+
 /* roboto-regular - latin */
 @font-face {
   font-family: 'Roboto';
@@ -67,17 +69,14 @@ body {
   width: 85px !important;
 }
 
-.cdk-overlay-pane {
-  max-width: none !important;
-  max-height: none !important;
+.viewer-panel .mat-mdc-dialog-container,
+.viewer-panel .mat-mdc-dialog-surface {
+  height: 100%;
 }
 
-.viewer-panel > mat-dialog-container {
-  padding: 0px !important;
-}
-
-.debug-ids-panel > mat-dialog-container {
-  padding: 0px !important;
+.viewer-panel .mat-mdc-dialog-surface {
+  border-radius: 0;
+  overflow: hidden;
 }
 
 .truncate {
@@ -88,13 +87,8 @@ body {
   user-select: auto !important;
 }
 
-.dark-theme .mat-toolbar {
-  background-color: #303030 !important;
-  color: white !important;
-}
-
-.dark-theme .ngx-charts {
+.ngx-charts {
   text {
-    fill: #fff !important;
+    fill: var(--mat-sys-on-surface) !important;
   }
 }

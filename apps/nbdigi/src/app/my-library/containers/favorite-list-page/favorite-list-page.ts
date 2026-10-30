@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,6 +15,8 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
 @Component({
   templateUrl: './favorite-list-page.html',
   styleUrls: ['./favorite-list-page.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class FavoriteListPageComponent implements OnInit, OnDestroy {
   items!: Observable<MediaTypeResults>;

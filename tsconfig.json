@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "moduleResolution": "bundler"
+  },
+  "compileOnSave": false,
+  "files": [],
+  "references": []
+}

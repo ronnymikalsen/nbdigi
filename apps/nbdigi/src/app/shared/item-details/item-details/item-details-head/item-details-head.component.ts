@@ -11,6 +11,7 @@ import { Item } from '../../../../core/models';
   templateUrl: './item-details-head.component.html',
   styleUrls: ['./item-details-head.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ItemDetailsHeadComponent implements OnInit {
   @Input() item!: Item;

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Auth, getAuth } from '@angular/fire/auth';
-import { DocumentReference, Firestore, doc } from '@angular/fire/firestore';
-import { filter } from 'rxjs/operators';
+import {
+  DocumentReference,
+  Firestore,
+  doc,
+  getDoc,
+  setDoc,
+} from '@angular/fire/firestore';
 import { User } from '../models';
 
 @Injectable({
@@ -10,36 +14,30 @@ import { User } from '../models';
 export class UserService {
   private userRef: DocumentReference<User> | undefined;
 
-  constructor(
-    private afs: Firestore,
-    private afAuth: Auth,
-  ) {
-    const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      this.userRef = doc(afs, `users/${user.uid}`);
-    }
-  }
+  constructor(private afs: Firestore) {}
 
   public createUserIfNotExists(user: User) {
-    if (this.userRef) {
-      /*
-      this.userRef.ref.get().then((u: any) => {
-        if (!u.exists) {
-          this.userRef.set(user);
-        }
-      });
-      */
+    if (!user.uid) {
+      return;
     }
+
+    this.userRef = doc(
+      this.afs,
+      'users',
+      user.uid,
+    ) as DocumentReference<User>;
+
+    void getDoc(this.userRef).then((snapshot) => {
+      if (!snapshot.exists()) {
+        return setDoc(this.userRef!, user);
+      }
+      return undefined;
+    });
   }
 
   public updateUser(user: User) {
     if (this.userRef) {
-      /*
-      this.userRef.ref.get().then((u: any) => {
-        this.userRef.update(user);
-      });
-      */
+      void setDoc(this.userRef, user, { merge: true });
     }
   }
 }

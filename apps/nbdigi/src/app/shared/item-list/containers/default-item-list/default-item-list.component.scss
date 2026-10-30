@@ -1,37 +1,38 @@
 :host {
-  cursor: pointer;
-  padding: 5px;
+  display: block;
 }
 
 .thumbnail {
-  height: 90px;
-  width: 100%;
   object-fit: contain;
 }
 
-.metadata-container {
-  font-family: 'Roboto Condensed';
-  min-height: 60px;
-  padding: 7px 10px 0;
-  overflow: hidden;
+.item-list-entry {
+  --mat-list-list-item-leading-avatar-size: 64px;
+  --mat-list-list-item-leading-avatar-shape: var(--mat-sys-corner-small);
+  --mat-list-list-item-three-line-container-height: 96px;
+
+  width: 100%;
 }
 
-.mat-mdc-card {
-  padding: 0px !important;
-  margin: 0px !important;
+.details {
+  display: flex;
+  gap: 0;
 }
 
-.title {
-  font-size: 16px;
+.details span + span::before {
+  content: '•';
+  margin: 0 8px;
 }
 
-.creator,
-.issued,
-.mediaType {
-  font-size: 13px;
-  line-height: 16px;
-}
-
-.mediaType:first-letter {
+.media-type::first-letter {
   text-transform: capitalize;
+}
+
+.debug-meta {
+  display: flex;
+  align-items: center;
+}
+
+:host(:last-child) mat-divider {
+  display: none;
 }

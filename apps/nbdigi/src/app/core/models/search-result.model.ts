@@ -3,7 +3,7 @@ import { YearCount } from './year-count';
 import { Timestamp } from 'firebase/firestore';
 export class SuperSearchResult {
   totalElements = 0;
-  selfLink: string = '';
+  selfLink = '';
   public books = new MediaTypeResults({
     mediaType: 'bøker',
   });
@@ -106,10 +106,10 @@ export class MediaTypeResults {
 export class Item {
   public id: null | string = null;
   public mediaType: null | string = null;
-  public title: string = '';
-  public creator: string = '';
-  public issued: string = '';
-  public thumbnail: string = '';
+  public title = '';
+  public creator = '';
+  public issued = '';
+  public thumbnail = '';
   public manifestUri: null | string = null;
   public currentCanvasId = 0;
   public timestamp: Timestamp | null = null;

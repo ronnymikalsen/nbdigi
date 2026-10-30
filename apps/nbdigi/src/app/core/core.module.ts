@@ -1,8 +1,10 @@
 import {
   HttpClient,
-  HttpClientModule,
   HttpHandler,
   HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
 } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
@@ -34,8 +36,8 @@ export function httpFactory(handler: HttpHandler) {
 }
 
 @NgModule({
-  imports: [HttpClientModule, SharedModule, ItemDetailsModule],
   declarations: [SwUpdateMessageComponent, DatePickerDialogComponent],
+  imports: [SharedModule, ItemDetailsModule],
   providers: [
     { provide: HttpClient, useFactory: httpFactory, deps: [HttpHandler] },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -55,6 +57,7 @@ export function httpFactory(handler: HttpHandler) {
     CheckForUpdateService,
     PresentationService,
     ItemDetailsService,
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
   ],
 })
 export class CoreModule {}

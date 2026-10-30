@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  padding: 12px 16px 24px;
+}
+
+mat-card {
+  overflow: hidden;
+}
+
+mat-action-list {
+  padding: 0;
+}
+
+@media (max-width: 599px) {
+  :host {
+    padding: 8px 8px 20px;
+  }
+}

@@ -19,13 +19,16 @@
     </div>
   </div>
 </mat-toolbar>
-<div *ngIf="item" class="viewer-container">
+@if (item) {
+<div class="viewer-container">
+  @if (item.manifestUri) {
   <mime-viewer
-    *ngIf="item.manifestUri"
     [manifestUri]="item.manifestUri"
     [canvasIndex]="item.currentCanvasId"
     [config]="config"
     (manifestChanged)="onManifestChange($event)"
     (canvasChanged)="onCanvasChange($event)"
   ></mime-viewer>
+  }
 </div>
+}

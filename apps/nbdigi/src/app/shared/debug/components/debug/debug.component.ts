@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Item } from '../../../../core/models';
 import { IdsDebugDialogComponent } from '../ids-debug-dialog/ids-debug-dialog.component';
@@ -7,6 +12,8 @@ import { IdsDebugDialogComponent } from '../ids-debug-dialog/ids-debug-dialog.co
   selector: 'nbd-debug',
   templateUrl: './debug.component.html',
   styleUrls: ['./debug.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class DebugComponent implements OnInit {
   @Input() isDebugOn: boolean | null = false;

@@ -1,27 +1,15 @@
 @use '@angular/material' as mat;
-@use 'sass:map';
 
 @mixin color($theme) {
-  $primary: map.get($theme, primary);
-
   .menu-toolbar {
-    border-style: solid;
-    border-color: mat.get-color-from-palette($primary) transparent transparent
+    border-color: mat.get-theme-color($theme, primary) transparent transparent
       transparent;
+    border-style: solid;
   }
-}
-
-@mixin typography($theme) {
 }
 
 @mixin theme($theme) {
-  $color-config: mat.get-color-config($theme);
-  @if $color-config != null {
+  @if mat.theme-has($theme, color) {
     @include color($theme);
-  }
-
-  $typography-config: mat.get-typography-config($theme);
-  @if $typography-config != null {
-    @include typography($theme);
   }
 }

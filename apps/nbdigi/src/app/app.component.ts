@@ -1,6 +1,12 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppFacade } from './+state/app/app.facade';
@@ -12,6 +18,8 @@ import { SessionService } from './core/services/session.service';
   selector: 'nbd-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   currentTheme = 'light-theme';
@@ -44,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this.mobileQueryListener);
     this.appFacade.currentTheme$.subscribe((theme) => {
       const previousTheme = this.currentTheme;
-      this.currentTheme = theme;
+      this.currentTheme = theme === 'dark-theme' ? 'dark-theme' : 'light-theme';
       this.overlayContainer
         .getContainerElement()
         .classList.remove(previousTheme);

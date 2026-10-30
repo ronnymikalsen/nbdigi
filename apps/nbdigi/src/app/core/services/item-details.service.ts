@@ -36,8 +36,10 @@ export class ItemDetailsService {
     if (this.showItemDetails && this.media.isActive('lt-md')) {
       if (!this.dialogRef) {
         this.dialogRef = this.dialog.open(ItemDetailsComponent, {
-          width: '100%',
-          height: '100%',
+          width: '100vw',
+          height: '100vh',
+          maxWidth: '100vw',
+          maxHeight: '100vh',
           data: null,
           panelClass: ['viewer-panel'],
         });

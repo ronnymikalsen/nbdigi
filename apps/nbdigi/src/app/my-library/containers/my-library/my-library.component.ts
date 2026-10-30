@@ -1,4 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,6 +16,8 @@ import { FavoriteList, Item, MediaTypeResults } from '../../../core/models';
   selector: 'nbd-my-library',
   templateUrl: './my-library.component.html',
   styleUrls: ['./my-library.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class MyLibraryComponent implements OnInit, OnDestroy {
   isDebugOn: Observable<boolean> = this.appFacade.isDebugOn$;

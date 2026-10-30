@@ -10,8 +10,7 @@ export const MYACTIVITY_FEATURE_KEY = 'myActivity';
  *  Note: replace if already defined in another module
  */
 
-/* tslint:disable:no-empty-interface */
-export interface Entity {}
+export type Entity = object;
 
 export interface MyActivityState {
   list: Entity[]; // list of MyActivity; analogous to a sql normalized table

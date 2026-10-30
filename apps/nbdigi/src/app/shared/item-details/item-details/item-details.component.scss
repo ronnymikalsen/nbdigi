@@ -13,14 +13,12 @@
   text-align: right;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-mat-card {
-  padding: 0px !important;
-  box-shadow: none !important;
+.item-details-card {
+  box-shadow: none;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-mat-card-content {
+.item-details-card > .item-details-card__content {
+  padding: 0;
   top: -40px;
   position: relative;
 }

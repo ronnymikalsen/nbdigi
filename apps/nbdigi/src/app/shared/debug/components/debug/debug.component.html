@@ -1,19 +1,22 @@
+@if (isDebugOn) {
 <div
   class="debug-container"
-  *ngIf="isDebugOn"
   fxLayout="row"
   fxLayoutAlign="start center"
   (click)="$event.stopPropagation()"
 >
   <a
     class="debug"
-    [href]="item?.selfLink ? item?.selfLink : href"
+    [href]="item?.selfLink ? $safeNavigationMigration(item?.selfLink) : href"
     target="_blank"
     matTooltip="api"
   >
     <div><mat-icon>link</mat-icon></div>
   </a>
-  <div *ngIf="item" class="debug" matTooltip="ID" (click)="openIds($event)">
+  @if (item) {
+  <div class="debug" matTooltip="ID" (click)="openIds($event)">
     <mat-icon>vpn_key</mat-icon>
   </div>
+  }
 </div>
+}

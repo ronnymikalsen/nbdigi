@@ -9,7 +9,8 @@
     fxLayoutAlign=" center"
     fxLayoutGap="8px"
   >
-    <div *ngFor="let genreOption of genreOptions">
+    @for (genreOption of genreOptions; track genreOption) {
+    <div>
       <mat-card
         appearance="outlined"
         (click)="genreChanged.emit(genreOption)"
@@ -24,5 +25,6 @@
         </mat-card-header>
       </mat-card>
     </div>
+    }
   </div>
 </div>

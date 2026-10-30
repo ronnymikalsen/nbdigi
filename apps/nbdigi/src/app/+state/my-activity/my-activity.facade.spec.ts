@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { readFirst } from '@nrwl/angular/testing';
+import { firstValueFrom } from 'rxjs';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
-
-import { NxModule } from '@nrwl/angular';
 
 import { MyActivityEffects } from './my-activity.effects';
 import { MyActivityFacade } from './my-activity.facade';
@@ -50,7 +48,6 @@ describe('MyActivityFacade', () => {
 
       @NgModule({
         imports: [
-          NxModule.forRoot(),
           StoreModule.forRoot({}),
           EffectsModule.forRoot([]),
           CustomFeatureModule,
@@ -59,63 +56,51 @@ describe('MyActivityFacade', () => {
       class RootModule {}
       TestBed.configureTestingModule({ imports: [RootModule] });
 
-      store = TestBed.get(Store);
-      facade = TestBed.get(MyActivityFacade);
+      store = TestBed.inject(Store);
+      facade = TestBed.inject(MyActivityFacade);
     });
 
     /**
      * The initially generated facade::loadAll() returns empty array
      */
-    it('loadAll() should return empty list with loaded == true', async (done) => {
-      try {
-        let list = await readFirst(facade.allMyActivity$);
-        let isLoaded = await readFirst(facade.loaded$);
+    it('loadAll() should return empty list with loaded == true', async () => {
+      let list = await firstValueFrom(facade.allMyActivity$);
+      let isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(false);
 
-        facade.loadAll();
+      facade.loadAll();
 
-        list = await readFirst(facade.allMyActivity$);
-        isLoaded = await readFirst(facade.loaded$);
+      list = await firstValueFrom(facade.allMyActivity$);
+      isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(true);
-
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(true);
     });
 
     /**
      * Use `MyActivityLoaded` to manually submit list for state management
      */
-    it('allMyActivity$ should return the loaded list; and loaded flag == true', async (done) => {
-      try {
-        let list = await readFirst(facade.allMyActivity$);
-        let isLoaded = await readFirst(facade.loaded$);
+    it('allMyActivity$ should return the loaded list; and loaded flag == true', async () => {
+      let list = await firstValueFrom(facade.allMyActivity$);
+      let isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(0);
-        expect(isLoaded).toBe(false);
+      expect(list.length).toBe(0);
+      expect(isLoaded).toBe(false);
 
-        store.dispatch(
-          new MyActivityLoaded([
-            createMyActivity('AAA'),
-            createMyActivity('BBB'),
-          ]),
-        );
+      store.dispatch(
+        new MyActivityLoaded([
+          createMyActivity('AAA'),
+          createMyActivity('BBB'),
+        ]),
+      );
 
-        list = await readFirst(facade.allMyActivity$);
-        isLoaded = await readFirst(facade.loaded$);
+      list = await firstValueFrom(facade.allMyActivity$);
+      isLoaded = await firstValueFrom(facade.loaded$);
 
-        expect(list.length).toBe(2);
-        expect(isLoaded).toBe(true);
-
-        done();
-      } catch (err) {
-        done.fail(err);
-      }
+      expect(list.length).toBe(2);
+      expect(isLoaded).toBe(true);
     });
   });
 });

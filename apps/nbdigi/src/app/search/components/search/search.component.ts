@@ -29,6 +29,7 @@ import { ChartRangeToOption } from '../search-result-chart/chart-strategy-factor
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SearchComponent implements OnInit, OnChanges {
   @Input() search!: SearchState | null;

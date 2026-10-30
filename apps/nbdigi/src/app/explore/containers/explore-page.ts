@@ -7,6 +7,7 @@ import { Criteria, Genre } from '../../core/models';
   template: `
     <nbd-explore (genreChanged)="genreChanged($event)"></nbd-explore>
   `,
+  standalone: false,
 })
 export class ExplorePageComponent {
   constructor(private searchFacade: SearchFacade) {}

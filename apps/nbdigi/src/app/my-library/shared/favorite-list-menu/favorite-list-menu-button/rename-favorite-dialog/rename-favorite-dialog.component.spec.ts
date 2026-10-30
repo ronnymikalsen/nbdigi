@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RenameFavoriteDialogComponent } from './rename-favorite-dialog.component';
 
@@ -6,7 +6,7 @@ describe('RenameFavoriteDialogComponent', () => {
   let component: RenameFavoriteDialogComponent;
   let fixture: ComponentFixture<RenameFavoriteDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [RenameFavoriteDialogComponent],
     }).compileComponents();

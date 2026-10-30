@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MediaObserver } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
 import { ItemFacade } from '../../../+state/item/item.facade';
@@ -8,6 +13,8 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
   selector: 'nbd-favorite-list',
   templateUrl: './favorite-list.component.html',
   styleUrls: ['./favorite-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class FavoriteListComponent implements OnInit {
   @Input() items!: MediaTypeResults | null;

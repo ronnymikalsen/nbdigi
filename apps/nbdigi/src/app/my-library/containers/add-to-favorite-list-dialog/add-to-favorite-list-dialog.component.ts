@@ -1,4 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
@@ -9,6 +14,8 @@ import { FavoriteList } from '../../../core/models';
   selector: 'nbd-add-to-favorite-list-dialog',
   templateUrl: './add-to-favorite-list-dialog.component.html',
   styleUrls: ['./add-to-favorite-list-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class AddToFavoriteListDialogComponent implements OnInit {
   favoriteLists: Observable<FavoriteList[]> =
