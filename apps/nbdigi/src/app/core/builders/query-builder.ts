@@ -64,7 +64,7 @@ export class QueryBuilder {
     const params = [];
 
     const qParam = this.q && this.q.length > 0 ? this.q : '-qwertyuiop';
-    params.push(`q=${qParam}`);
+    params.push(`q=${encodeURIComponent(qParam)}`);
 
     const filtersParams = this.filters.map(
       (f) => `filter=${encodeURIComponent(f)}`,

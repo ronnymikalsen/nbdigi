@@ -23,15 +23,11 @@ import {
   mergeMap,
   switchMap,
   take,
+  takeUntil,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import {
-  Criteria,
-  DateOption,
-  DateOptions,
-  User,
-} from '../../core/models';
+import { Criteria, DateOption, DateOptions, User } from '../../core/models';
 import { Hint, Hints } from '../../core/models/hints.model';
 import { SearchService } from '../../core/services/search.service';
 import { TypeaheadService } from '../../core/services/typeahead.service';
@@ -65,6 +61,7 @@ export class SearchEffects {
       tap(() => this.ngZone.run(() => this.router.navigate(['/search']))),
       withLatestFrom(this.store),
       switchMap(([action, storeState]) => {
+        const requestId = (action as Search).requestId;
         const filters = this.addAllFilters(storeState);
 
         const hint = {
@@ -142,9 +139,10 @@ export class SearchEffects {
             )
             .pipe(
               map((searchResult) => {
-                return new SearchSuccess(searchResult);
+                return new SearchSuccess(searchResult, requestId);
               }),
-              catchError((err) => of(new SearchError(err))),
+              catchError((err) => of(new SearchError(err, requestId))),
+              takeUntil(this.actions.pipe(ofType(SearchActionTypes.ClearAll))),
             );
         } else {
           return this.searchService
@@ -160,9 +158,10 @@ export class SearchEffects {
             )
             .pipe(
               map((searchResult) => {
-                return new SearchSuccess(searchResult);
+                return new SearchSuccess(searchResult, requestId);
               }),
-              catchError((err) => of(new SearchError(err))),
+              catchError((err) => of(new SearchError(err, requestId))),
+              takeUntil(this.actions.pipe(ofType(SearchActionTypes.ClearAll))),
             );
         }
       }),
@@ -407,12 +406,7 @@ export class SearchEffects {
       .subscribe((user: User | null | undefined) => {
         this.user = user;
         if (user?.uid) {
-          this.criteriasRef = collection(
-            afs,
-            'users',
-            user.uid,
-            'searchs',
-          );
+          this.criteriasRef = collection(afs, 'users', user.uid, 'searchs');
         }
       });
   }

@@ -12,6 +12,7 @@ import { SearchFacade } from '../../../+state/search/search.facade';
 import { SearchState } from '../../../+state/search/search.reducer';
 import { Criteria } from '../../../core/models';
 import { Hint } from '../../../core/models/hints.model';
+import { ChatSearchService } from '../../../core/services/chat-search.service';
 
 @Component({
   selector: 'nbd-search-box',
@@ -19,6 +20,16 @@ import { Hint } from '../../../core/models/hints.model';
     <nbd-search-box-container
       [q]="q | async"
       [hints]="$safeNavigationMigration((search | async)?.hints)"
+      [activeCriteria]="criteria | async"
+      [messages]="chat.messages()"
+      [pending]="chat.pending()"
+      [chatError]="chat.error()"
+      [canUndo]="chat.canUndo()"
+      [pendingLabel]="chat.pendingLabel()"
+      (chatSubmitted)="chat.send($event)"
+      (undoRequested)="chat.undo()"
+      (filterRemoved)="chat.removeFilter($event)"
+      (newestRequested)="chat.newestFirst()"
       (searchSelected)="onSearchSelected($event)"
       (query)="query($event)"
       (hintSelected)="addFilter($event)"
@@ -34,12 +45,14 @@ export class SearchBoxPageComponent {
   @Output() searchSelected = new EventEmitter<string>();
   search: Observable<SearchState> = this.searchFacade.state$;
   q: Observable<string> = this.searchFacade.getQ$;
+  criteria = this.searchFacade.getCriteria$;
 
   constructor(
     private ngZone: NgZone,
     private router: Router,
     private searchFacade: SearchFacade,
     private appFacade: AppFacade,
+    public chat: ChatSearchService,
   ) {}
 
   onSearchSelected(query: string): void {
@@ -61,6 +74,7 @@ export class SearchBoxPageComponent {
   }
 
   onClearAll(): void {
+    this.chat.reset();
     this.searchFacade.clearAll();
     this.searchFacade.searchAggs();
     this.ngZone.run(() => this.router.navigate(['/search']));

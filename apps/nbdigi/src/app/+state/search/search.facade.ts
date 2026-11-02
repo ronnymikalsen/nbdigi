@@ -56,8 +56,8 @@ export class SearchFacade {
     this.store.dispatch(new UpdateCriteria(criteria));
   }
 
-  search(): void {
-    this.store.dispatch(new Search());
+  search(requestId?: string): void {
+    this.store.dispatch(new Search(requestId));
   }
 
   searchAggs(): any {

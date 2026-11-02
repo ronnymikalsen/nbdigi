@@ -35,18 +35,26 @@ export enum SearchActionTypes {
 
 export class Search implements Action {
   readonly type = SearchActionTypes.Search;
+
+  constructor(public requestId?: string) {}
 }
 
 export class SearchSuccess implements Action {
   readonly type = SearchActionTypes.SearchSuccess;
 
-  constructor(public payload: SuperSearchResult) {}
+  constructor(
+    public payload: SuperSearchResult,
+    public requestId?: string,
+  ) {}
 }
 
 export class SearchError implements Action {
   readonly type = SearchActionTypes.SearchError;
 
-  constructor(public payload: any) {}
+  constructor(
+    public payload: any,
+    public requestId?: string,
+  ) {}
 }
 
 export class SearchAggs implements Action {

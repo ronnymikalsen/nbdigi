@@ -1,5 +1,92 @@
 <div id="searchbox-container">
   <div class="search-box-content">
+    <div class="search-mode" role="group" aria-label="Søkemodus">
+      <button
+        mat-button
+        type="button"
+        [attr.aria-pressed]="chatMode"
+        [disabled]="pending"
+        (click)="setChatMode(true)"
+      >
+        KI-søk
+      </button>
+      <button
+        mat-button
+        type="button"
+        [attr.aria-pressed]="!chatMode"
+        [disabled]="pending"
+        (click)="setChatMode(false)"
+      >
+        Vanlig søk
+      </button>
+      @if (chatMode) {
+      <button
+        mat-button
+        type="button"
+        [disabled]="!canUndo || pending"
+        (click)="undoRequested.emit()"
+        aria-label="Angre siste endring i søket"
+      >
+        Angre
+      </button>
+      <button
+        mat-button
+        type="button"
+        class="new-search"
+        (click)="onClearAll()"
+      >
+        Nytt søk
+      </button>
+      }
+    </div>
+    @if (chatMode) { @if (messages.length) {
+    <div
+      #chatHistory
+      class="chat-history"
+      role="log"
+      aria-label="Samtale om søket"
+      aria-live="polite"
+      aria-relevant="additions text"
+    >
+      @for (message of messages; track $index) {
+      <p class="chat-message" [class.user-message]="message.role === 'user'">
+        <strong>{{ message.role === 'user' ? 'Du' : 'Nbdigi' }}</strong>
+        <span>{{ message.text }}</span>
+      </p>
+      }
+    </div>
+    } @else {
+    <p class="chat-intro">
+      Hva leter du etter? Prøv «Vis bilder av hunder», og følg opp med «Bare
+      etter 2000».
+    </p>
+    }
+    <div class="active-search">
+      <strong>Aktivt søk:</strong>
+      @if (activeFilters.length) {
+      <mat-chip-set aria-label="Aktive søkefiltre">
+        @for (chip of activeFilters; track chip.type + ':' + (chip.value ??
+        chip.label)) {
+        <mat-chip [disabled]="pending" (removed)="filterRemoved.emit(chip)">
+          {{ chip.label }}
+          <button
+            matChipRemove
+            type="button"
+            [disabled]="pending"
+            [attr.aria-label]="'Fjern ' + chip.label"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        }
+      </mat-chip-set>
+      } @else { <span>Alle emner · Alle medietyper</span> }
+    </div>
+    @if (pending) {
+    <p class="chat-status" role="status">{{ pendingLabel }}</p>
+    } @if (chatError) {
+    <p class="chat-error" role="alert">{{ chatError }}</p>
+    } }
     <form
       class="search-form"
       [formGroup]="searchForm"
@@ -15,9 +102,12 @@
           matIconPrefix
           type="submit"
           mat-icon-button
-          aria-label="Søk"
+          [attr.aria-label]="chatMode ? 'Send melding' : 'Søk'"
+          [disabled]="chatMode && (pending || !queryControl.value?.trim())"
         >
-          <mat-icon class="input-icon">search</mat-icon>
+          <mat-icon class="input-icon">{{
+            chatMode ? 'send' : 'search'
+          }}</mat-icon>
         </button>
         <button
           matIconSuffix
@@ -30,7 +120,20 @@
         >
           <mat-icon class="input-icon">clear</mat-icon>
         </button>
+        @if (chatMode) {
         <input
+          #composer
+          type="text"
+          aria-label="Spør om bilder eller avgrens søket"
+          placeholder="Spør om bilder eller avgrens søket …"
+          matInput
+          [formControl]="queryControl"
+          maxlength="1000"
+          [readonly]="pending"
+        />
+        } @else {
+        <input
+          #composer
           type="text"
           aria-label="Søk"
           matInput
@@ -38,6 +141,7 @@
           [matAutocomplete]="auto"
           tabindex="1"
         />
+        }
         <mat-autocomplete
           #auto="matAutocomplete"
           [displayWith]="displayFn"
@@ -61,5 +165,57 @@
         </mat-autocomplete>
       </mat-form-field>
     </form>
+    @if (chatMode) {
+    <div
+      class="follow-up-suggestions"
+      role="group"
+      aria-label="Forslag til neste steg"
+    >
+      @if (activeCriteria?.sort?.value !== 'date,desc') {
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="pending"
+        (click)="newestRequested.emit()"
+      >
+        Nyeste først
+      </button>
+      }
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="pending"
+        (click)="draftFollowUp('Bare etter ')"
+      >
+        Avgrens årstall
+      </button>
+      @if (activeCriteria?.date?.value) {
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="pending"
+        (click)="filterRemoved.emit({ type: 'date', label: 'Dato' })"
+      >
+        Fjern datofilter
+      </button>
+      }
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="pending"
+        (click)="draftFollowUp('Bare fra ')"
+      >
+        Avgrens sted
+      </button>
+      <button
+        mat-stroked-button
+        type="button"
+        [disabled]="pending"
+        (click)="draftFollowUp('Fotografert av ')"
+      >
+        Velg fotograf
+      </button>
+    </div>
+    }
   </div>
 </div>
