@@ -22,7 +22,7 @@ import { SessionService } from './core/services/session.service';
   standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
-  currentTheme = 'light-theme';
+  currentTheme = 'dark-theme';
   mobileQuery: MediaQueryList;
   private mobileQueryListener: () => void;
 

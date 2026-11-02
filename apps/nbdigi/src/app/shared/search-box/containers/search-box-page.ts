@@ -1,9 +1,11 @@
 import {
   Component,
+  Input,
   EventEmitter,
   NgZone,
   Output,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,21 +14,24 @@ import { SearchFacade } from '../../../+state/search/search.facade';
 import { SearchState } from '../../../+state/search/search.reducer';
 import { Criteria } from '../../../core/models';
 import { Hint } from '../../../core/models/hints.model';
-import { ChatSearchService } from '../../../core/services/chat-search.service';
+import { AiSearchStore } from '../../../ai-search/ai-search.store';
 
 @Component({
   selector: 'nbd-search-box',
   template: `
     <nbd-search-box-container
+      #searchInput
       [q]="q | async"
+      [chatOnly]="chatOnly"
+      [showAiSearchLink]="showAiSearchLink"
       [hints]="$safeNavigationMigration((search | async)?.hints)"
-      [activeCriteria]="criteria | async"
+      [activeCriteria]="chatOnly ? chat.criteria() : (criteria | async)"
       [messages]="chat.messages()"
       [pending]="chat.pending()"
       [chatError]="chat.error()"
       [canUndo]="chat.canUndo()"
       [pendingLabel]="chat.pendingLabel()"
-      (chatSubmitted)="chat.send($event)"
+      (chatSubmitted)="chat.send($event, searchInput.defaultResultLimit())"
       (undoRequested)="chat.undo()"
       (filterRemoved)="chat.removeFilter($event)"
       (newestRequested)="chat.newestFirst()"
@@ -42,17 +47,19 @@ import { ChatSearchService } from '../../../core/services/chat-search.service';
   standalone: false,
 })
 export class SearchBoxPageComponent {
+  @Input() chatOnly = false;
+  @Input() showAiSearchLink = true;
   @Output() searchSelected = new EventEmitter<string>();
   search: Observable<SearchState> = this.searchFacade.state$;
   q: Observable<string> = this.searchFacade.getQ$;
   criteria = this.searchFacade.getCriteria$;
+  readonly chat = inject(AiSearchStore);
 
   constructor(
     private ngZone: NgZone,
     private router: Router,
     private searchFacade: SearchFacade,
     private appFacade: AppFacade,
-    public chat: ChatSearchService,
   ) {}
 
   onSearchSelected(query: string): void {
@@ -74,7 +81,10 @@ export class SearchBoxPageComponent {
   }
 
   onClearAll(): void {
-    this.chat.reset();
+    if (this.chatOnly) {
+      this.chat.reset();
+      return;
+    }
     this.searchFacade.clearAll();
     this.searchFacade.searchAggs();
     this.ngZone.run(() => this.router.navigate(['/search']));

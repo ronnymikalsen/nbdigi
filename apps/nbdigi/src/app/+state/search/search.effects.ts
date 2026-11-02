@@ -29,7 +29,10 @@ import {
 } from 'rxjs/operators';
 import { Criteria, DateOption, DateOptions, User } from '../../core/models';
 import { Hint, Hints } from '../../core/models/hints.model';
-import { SearchService } from '../../core/services/search.service';
+import {
+  buildCatalogueFilters,
+  SearchService,
+} from '../../core/services/search.service';
 import { TypeaheadService } from '../../core/services/typeahead.service';
 import { ChartRangeToOption } from '../../search/components/search-result-chart/chart-strategy-factory';
 import { DatePickerDialogComponent } from '../../search/containers/date-picker-dialog/date-picker-dialog.component';
@@ -412,41 +415,6 @@ export class SearchEffects {
   }
 
   private addAllFilters(storeState: SearchPartialState): string[] {
-    let filters = [
-      ...storeState.search.criteria.filters
-        .filter((h) => h.enabled)
-        .map((h) => h.value),
-    ];
-
-    if (
-      this.user &&
-      this.user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
-      this.user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2' &&
-      this.user.uid !== 'iHr3SCdKewU6M3bNGLMUwqxvDu73' &&
-      this.user.uid !== 'V9q3474Py0PfJx8zKeQ3DHlmklR2'
-    ) {
-      filters = [
-        ...filters,
-        'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync OR contentClasses:cc0',
-      ];
-    }
-    filters = [...filters, 'digital:Ja'];
-    filters = [...filters, 'contentClasses:jp2'];
-
-    if (
-      storeState.search.criteria.genre &&
-      storeState.search.criteria.genre.value
-    ) {
-      filters = [...filters, storeState.search.criteria.genre.value];
-    }
-
-    if (
-      storeState.search.criteria.date &&
-      storeState.search.criteria.date.value
-    ) {
-      filters = [...filters, storeState.search.criteria.date.value];
-    }
-
-    return filters;
+    return buildCatalogueFilters(storeState.search.criteria, this.user);
   }
 }

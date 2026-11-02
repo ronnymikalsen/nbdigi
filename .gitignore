@@ -48,6 +48,7 @@ functions/lib
 .sonarlint
 .directory
 firebase-debug.log
+firestore-debug.log
 .angular
 .nx
 

@@ -23,6 +23,7 @@ import { FavoriteList, MediaTypeResults } from '../../../core/models';
 export class ItemsSectionComponent implements OnChanges, OnDestroy {
   @Input() mediaTypeResults: MediaTypeResults | null = new MediaTypeResults();
   @Input() selected = false;
+  @Input() compactCards = false;
   @Input() label!: string;
   @Input() showMoreButton = false;
   @Input() showToolbar = true;

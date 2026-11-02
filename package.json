@@ -27,7 +27,8 @@
     "update:check": "ng update",
     "dep-graph": "nx graph",
     "help": "nx help",
-    "deploy": "firebase deploy",
+    "deploy": "yarn build:production && firebase deploy --only hosting --project nbdigi-9637d",
+    "test:firestore-rules": "firebase emulators:exec --only firestore --project demo-nbdigi-rules-test --config firebase.rules-test.json \"node --test tools/tests/firestore-rules.test.cjs\"",
     "affected": "nx affected",
     "bundle-report": "yarn build:production --stats-json && webpack-bundle-analyzer dist/apps/nbdigi/browser/stats.json"
   },
@@ -53,6 +54,7 @@
     "@ngrx/entity": "22.0.1",
     "@ngrx/operators": "22.0.1",
     "@ngrx/router-store": "22.0.1",
+    "@ngrx/signals": "22.0.1",
     "@ngrx/store": "22.0.1",
     "@ngu/carousel": "20.0.1",
     "@swimlane/ngx-charts": "25.0.3",

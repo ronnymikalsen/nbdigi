@@ -4594,6 +4594,13 @@
   resolved "https://registry.yarnpkg.com/@ngrx/schematics/-/schematics-22.0.1.tgz#9095c17c861fb07dbe98462575bc86b6d2910180"
   integrity sha512-MYMEOUokrBWYDhvsAsc+cFtaTQvXBIy2QQs4215JQTO9gnZKiVUOcNy03uZst15F64p1a3QjRYKpwJfI7vOuhA==
 
+"@ngrx/signals@22.0.1":
+  version "22.0.1"
+  resolved "https://registry.yarnpkg.com/@ngrx/signals/-/signals-22.0.1.tgz#5a48eded9f47ab634ef32fdd704a5bff45ae8813"
+  integrity sha512-R62VsPrnH54LgA3LAqw+GWA9FHii526CH1aqah8aiK1RZocp+3N9rS3g5wrrXU655eVH65jhN4k/k+EFyxO/RA==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngrx/store-devtools@22.0.1":
   version "22.0.1"
   resolved "https://registry.yarnpkg.com/@ngrx/store-devtools/-/store-devtools-22.0.1.tgz#11d2edccf3ca03b2d3d3cf1fe380cff9f7723386"

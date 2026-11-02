@@ -1,0 +1,16 @@
+<div class="result-grid">
+  @for (item of items(); track item.id ?? $index) {
+  <nbd-default-item-card [item]="item" [compact]="compact()" [list]="null" />
+  }
+</div>
+@if (canLoadMore()) {
+<button
+  mat-button
+  type="button"
+  class="more-results"
+  [disabled]="pending()"
+  (click)="moreRequested.emit('Vis flere ' + mediaLabel())"
+>
+  Flere {{ mediaLabel() }}
+</button>
+}

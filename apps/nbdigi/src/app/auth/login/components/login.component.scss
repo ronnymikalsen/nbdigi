@@ -1,17 +1,83 @@
+:host {
+  display: block;
+  min-height: 100%;
+}
+.login-page {
+  display: grid;
+  place-items: center;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: clamp(24px, 5vh, 64px) 16px;
+}
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  min-width: 0;
+}
+.login-header {
+  padding: 24px 24px 0;
+}
+h1 {
+  margin: 0 0 8px;
+  font: var(--mat-sys-headline-medium);
+}
+.login-content {
+  padding: 24px;
+}
+.google-login-button,
+.submit-button {
+  width: 100%;
+  min-height: 48px;
+}
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-block: 24px;
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-small);
+
+  mat-divider {
+    flex: 1;
+  }
+}
 .login-form {
-  width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-
-.forgottenPasswordLink {
-  margin-top: 16px;
+mat-form-field {
+  width: 100%;
 }
-
-.google-login-button {
-  height: 40px !important;
-  padding: 0px 8px !important;
+.forgot-password {
+  align-self: flex-end;
 }
+.login-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 8px;
+  color: var(--mat-sys-error);
+  font: var(--mat-sys-body-medium);
 
-.google-logo {
-  font-size: 18px;
-  margin-right: 18px;
+  mat-icon {
+    flex: 0 0 24px;
+  }
+}
+.create-account {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 16px;
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-medium);
+}
+@media (max-width: 360px) {
+  .login-header {
+    padding: 20px 16px 0;
+  }
+  .login-content {
+    padding: 20px 16px;
+  }
 }

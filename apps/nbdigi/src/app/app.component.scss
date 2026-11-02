@@ -76,3 +76,12 @@
   color: var(--mat-sys-primary) !important;
   opacity: 1 !important;
 }
+
+.new-feature {
+  @include mat.badge-overrides(
+    (
+      background-color: var(--mat-sys-primary-container),
+      text-color: var(--mat-sys-on-primary-container),
+    )
+  );
+}

@@ -45,6 +45,25 @@
         </a>
         <a
           mat-list-item
+          routerLink="/ai-search"
+          aria-label="KI-søk – nyhet"
+          ariaCurrentWhenActive="page"
+          routerLinkActive="active"
+          class="inactive"
+        >
+          <mat-icon matListItemIcon aria-hidden="true">chat</mat-icon>
+          <span matListItemTitle>
+            <span
+              class="new-feature"
+              matBadge="Ny"
+              [matBadgeOverlap]="false"
+              matBadgeDescription="Ny funksjon"
+              >KI-søk</span
+            >
+          </span>
+        </a>
+        <a
+          mat-list-item
           routerLink="/mylibrary"
           routerLinkActive="active"
           class="inactive"
@@ -74,7 +93,7 @@
             fxLayout="row"
             fxLayoutAlign="start center"
             fxLayoutAlign.lt-lg="space-between center"
-            fxLayoutGap="16px"
+            fxLayoutGap="4px"
           >
             <button
               routerLinkActive="active"
@@ -105,6 +124,23 @@
               class="inactive"
             >
               <mat-icon>search</mat-icon>
+            </button>
+            <button
+              routerLinkActive="active"
+              mat-icon-button
+              routerLink="/ai-search"
+              ariaCurrentWhenActive="page"
+              matTooltip="KI-søk – nyhet"
+              aria-label="KI-søk – nyhet"
+              class="inactive"
+            >
+              <mat-icon
+                class="new-feature"
+                matBadge="Ny"
+                matBadgeDescription="Ny funksjon"
+                aria-hidden="true"
+                >chat</mat-icon
+              >
             </button>
             <button
               routerLinkActive="active"

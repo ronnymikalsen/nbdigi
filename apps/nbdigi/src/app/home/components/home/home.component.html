@@ -1,5 +1,31 @@
+<section class="home-intro" aria-labelledby="ai-search-title">
+  <mat-card class="ai-search-card" appearance="outlined">
+    <mat-card-content class="ai-search-content">
+      <div class="ai-search-copy">
+        <div class="ai-search-label">
+          <mat-icon aria-hidden="true">chat</mat-icon>
+          <span>KI-søk</span>
+          <mat-chip-set aria-label="Ny funksjon"
+            ><mat-chip>Nyhet</mat-chip></mat-chip-set
+          >
+        </div>
+        <h1 id="ai-search-title">Finn bilder, bøker og mer med egne ord</h1>
+        <p>Beskriv hva du leter etter, og avgrens søket videre i samtalen.</p>
+        <p class="ai-search-example">
+          Prøv «Vis bilder og bøker om hunder», og følg opp med «Bare etter
+          2000».
+        </p>
+      </div>
+      <a mat-flat-button class="ai-search-link" routerLink="/ai-search">
+        Prøv KI-søk
+        <mat-icon iconPositionEnd aria-hidden="true">arrow_forward</mat-icon>
+      </a>
+    </mat-card-content>
+  </mat-card>
+</section>
 <mat-toolbar class="search-toolbar">
   <nbd-search-box
+    [showAiSearchLink]="false"
     fxFlex="100"
     (searchSelected)="searchSelected.emit($event)"
   ></nbd-search-box>

@@ -1,13 +1,17 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { By } from '@angular/platform-browser';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
+import localeNo from '@angular/common/locales/nb';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../material.module';
 
 import { SearchBoxComponent } from './search-box.component';
-import { Criteria, DateOption, Hint } from '../../../../core/models';
+import { Criteria, DateOption, Item } from '../../../../core/models';
+
+registerLocaleData(localeNo, 'nb_NO');
 
 describe('SearchBoxComponent', () => {
   let component: SearchBoxComponent;
@@ -30,11 +34,234 @@ describe('SearchBoxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchBoxComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('chatOnly', true);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('leaves the normal search input available outside the dedicated chat route', () => {
+    fixture.componentRef.setInput('chatOnly', false);
+    fixture.componentRef.setInput('q', 'hunder');
+    fixture.detectChanges();
+    expect(component.chatMode).toBe(false);
+    expect(fixture.nativeElement.querySelector('[role="log"]')).toBeNull();
+    expect(component.queryControl.value).toBe('hunder');
+    expect(
+      fixture.nativeElement.querySelector('a[routerLink="/ai-search"]'),
+    ).not.toBeNull();
+  });
+
+  it('renders result cards underneath their own answer without filter chips', () => {
+    fixture.componentRef.setInput('messages', [
+      { role: 'user', text: 'Bilder av hunder' },
+      {
+        role: 'assistant',
+        text: 'Fant 42 treff.',
+        total: 42,
+        resultGroups: [
+          {
+            mediaType: 'bilder',
+            label: 'Bilder',
+            totalElements: 42,
+            items: [new Item({ id: 'dog', title: 'Hund' })],
+          },
+        ],
+      },
+      { role: 'user', text: 'Etter 2000' },
+      {
+        role: 'assistant',
+        text: 'Fant 1 treff.',
+        total: 1,
+        resultGroups: [
+          {
+            mediaType: 'bilder',
+            label: 'Bilder',
+            totalElements: 1,
+            items: [new Item({ id: 'new-dog', title: 'Ny hund' })],
+          },
+        ],
+      },
+    ]);
+    fixture.detectChanges();
+    const turns = fixture.nativeElement.querySelectorAll('.chat-turn');
+    expect(turns[0].querySelector('nbd-chat-result-grid')).toBeNull();
+    expect(turns[1].querySelector('nbd-chat-result-grid').items[0].id).toBe(
+      'dog',
+    );
+    expect(turns[3].querySelector('nbd-chat-result-grid').items[0].id).toBe(
+      'new-dog',
+    );
+    expect(turns[1].querySelector('.result-heading').textContent).toContain(
+      '42 treff',
+    );
+    expect(fixture.nativeElement.querySelector('mat-chip-set')).toBeNull();
+  });
+
+  it('renders books and photos in separate named sections with their own counts', () => {
+    fixture.componentRef.setInput('messages', [
+      {
+        role: 'assistant',
+        text: 'Fant 207 treff.',
+        total: 207,
+        resultGroups: [
+          {
+            mediaType: 'bøker',
+            label: 'Bøker',
+            totalElements: 124,
+            items: [new Item({ id: 'book', title: 'Hundebok' })],
+          },
+          {
+            mediaType: 'bilder',
+            label: 'Bilder',
+            totalElements: 83,
+            items: [new Item({ id: 'photo', title: 'Hundebilde' })],
+          },
+        ],
+      },
+    ]);
+    fixture.detectChanges();
+    const sections =
+      fixture.nativeElement.querySelectorAll('.chat-result-group');
+    expect(sections).toHaveLength(2);
+    expect(fixture.nativeElement.querySelector('ngu-carousel')).toBeNull();
+    expect(
+      fixture.nativeElement.querySelectorAll('nbd-chat-result-grid'),
+    ).toHaveLength(2);
+    expect(sections[0].getAttribute('aria-label')).toBe('Bøker');
+    expect(sections[0].querySelector('h3').textContent).toContain('124 treff');
+    expect(sections[0].querySelector('nbd-chat-result-grid').items[0].id).toBe(
+      'book',
+    );
+    expect(sections[0].querySelector('nbd-chat-result-grid').compact).toBe(
+      false,
+    );
+    expect(sections[1].getAttribute('aria-label')).toBe('Bilder');
+    expect(sections[1].querySelector('h3').textContent).toContain('83 treff');
+    expect(sections[1].querySelector('nbd-chat-result-grid').items[0].id).toBe(
+      'photo',
+    );
+    expect(sections[1].querySelector('nbd-chat-result-grid').compact).toBe(
+      true,
+    );
+  });
+
+  it('scrolls to the beginning of the new answer so its results are visible', () => {
+    const original = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      'scrollIntoView',
+    );
+    const scroll = jest.fn();
+    Object.defineProperty(HTMLElement.prototype, 'scrollIntoView', {
+      configurable: true,
+      value: scroll,
+    });
+    try {
+      fixture.componentRef.setInput('messages', [
+        { role: 'user', text: 'Bilder' },
+      ]);
+      fixture.detectChanges();
+      fixture.componentRef.setInput('messages', [
+        { role: 'user', text: 'Bilder' },
+        { role: 'assistant', text: 'Fant 100 treff.' },
+      ]);
+      fixture.detectChanges();
+      expect(scroll).toHaveBeenLastCalledWith({ block: 'start' });
+      expect(scroll.mock.contexts.at(-1)).toBe(
+        fixture.nativeElement.querySelectorAll('.chat-turn')[1],
+      );
+    } finally {
+      if (original)
+        Object.defineProperty(
+          HTMLElement.prototype,
+          'scrollIntoView',
+          original,
+        );
+      else Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView');
+    }
+  });
+
+  it('submits the next-page request directly and preserves the current draft', () => {
+    const submit = jest.spyOn(component.chatSubmitted, 'emit');
+    fixture.componentRef.setInput('messages', [
+      {
+        role: 'assistant',
+        text: 'Bilder',
+        resultGroups: [
+          {
+            mediaType: 'bilder',
+            label: 'Bilder',
+            totalElements: 100,
+            nextLink: 'https://api.nb.no/catalog/v1/items?page=1',
+            items: [new Item({ id: 'photo' })],
+          },
+        ],
+      },
+    ]);
+    fixture.detectChanges();
+    const grid = fixture.nativeElement.querySelector('nbd-chat-result-grid');
+    expect(grid.canLoadMore).toBe(true);
+    component.queryControl.setValue('Mitt utkast');
+    fixture.debugElement
+      .query(By.css('nbd-chat-result-grid'))
+      .triggerEventHandler('moreRequested', 'Vis flere bilder');
+    expect(submit).toHaveBeenCalledWith('Vis flere bilder');
+    expect(component.queryControl.value).toBe('Mitt utkast');
+    fixture.componentRef.setInput('pending', true);
+    fixture.detectChanges();
+    fixture.debugElement
+      .query(By.css('nbd-chat-result-grid'))
+      .triggerEventHandler('moreRequested', 'Vis flere bilder');
+    expect(submit).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    [320, 4],
+    [800, 8],
+    [1100, 12],
+    [240, 2],
+  ])('requests two rows at a container width of %i', (width, count) => {
+    const area = component.resultArea?.nativeElement;
+    if (!area) throw new Error('Missing result area');
+    jest
+      .spyOn(area, 'getBoundingClientRect')
+      .mockReturnValue({ width } as DOMRect);
+    expect(component.defaultResultLimit()).toBe(count);
+  });
+
+  it('identifies the sender to screen readers without a visible user label', () => {
+    fixture.componentRef.setInput('messages', [
+      { role: 'user', text: 'Bilder av hunder' },
+      { role: 'assistant', text: 'Fant 4 treff.' },
+    ]);
+    fixture.detectChanges();
+    const turns = fixture.nativeElement.querySelectorAll('.chat-turn');
+    expect(turns[0].querySelector('.user-sender').textContent).toContain(
+      'Din melding:',
+    );
+    expect(turns[0].querySelector('strong')).toBeNull();
+    expect(turns[1].querySelector('strong').textContent).toBe('Nbdigi');
+  });
+
+  it('shows a Material spinner and a readable thinking status while pending', () => {
+    expect(fixture.nativeElement.querySelector('.chat-status')).toBeNull();
+    fixture.componentRef.setInput('pending', true);
+    fixture.detectChanges();
+    const status = fixture.nativeElement.querySelector('.chat-status');
+    expect(status.getAttribute('role')).toBe('status');
+    expect(status.textContent).toContain('Tenker …');
+    expect(
+      status.querySelector('mat-spinner').getAttribute('aria-hidden'),
+    ).toBe('true');
+    expect(status.querySelector('mat-icon.status-static')).not.toBeNull();
+    fixture.componentRef.setInput('pendingLabel', 'Søker i katalogen …');
+    fixture.detectChanges();
+    expect(status.textContent).toContain('Søker i katalogen …');
+    fixture.componentRef.setInput('pending', false);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.chat-status')).toBeNull();
   });
 
   it('submits a chat message without sending it as a raw catalogue query', () => {
@@ -88,33 +315,7 @@ describe('SearchBoxComponent', () => {
       fixture.nativeElement.querySelector('[role="log"]').textContent,
     ).toContain('<img src=x');
     expect(fixture.nativeElement.querySelector('[role="log"] img')).toBeNull();
-    expect(
-      fixture.nativeElement.querySelector('.active-search').textContent,
-    ).toContain('hunder');
-  });
-
-  it('removes only the selected place chip', () => {
-    const removed = jest.spyOn(component.filterRemoved, 'emit');
-    fixture.componentRef.setInput(
-      'activeCriteria',
-      new Criteria({
-        q: 'hunder',
-        mediaType: 'bilder',
-        filters: [
-          new Hint({ label: 'Oslo', value: 'subjectgeographic:"Oslo"' }),
-        ],
-      }),
-    );
-    fixture.detectChanges();
-    fixture.nativeElement
-      .querySelector('button[aria-label="Fjern Sted: Oslo"]')
-      .click();
-    expect(removed).toHaveBeenCalledWith({
-      type: 'hint',
-      label: 'Sted: Oslo',
-      value: 'subjectgeographic:"Oslo"',
-    });
-    expect(removed).toHaveBeenCalledTimes(1);
+    expect(fixture.nativeElement.querySelector('.active-search')).toBeNull();
   });
 
   it('lets the user draft a place refinement without submitting it', () => {

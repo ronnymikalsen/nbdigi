@@ -15,7 +15,7 @@ export interface AppPartialState {
 
 export const initialState: AppState = {
   debug: false,
-  theme: 'light-theme',
+  theme: 'dark-theme',
   showDateGraph: true,
 };
 

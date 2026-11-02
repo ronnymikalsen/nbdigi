@@ -1,37 +1,100 @@
-import {
-  computed,
-  inject,
-  Injectable,
-  InjectionToken,
-  signal,
-} from '@angular/core';
+import { inject, Injectable, InjectionToken } from '@angular/core';
 import { FirebaseApp } from '@angular/fire/app';
 import type { GenerativeModel } from 'firebase/ai';
 import type { AppCheck } from 'firebase/app-check';
-import { Actions, ofType } from '@ngrx/effects';
-import { firstValueFrom, merge, Subject } from 'rxjs';
-import { filter, map, take, timeout } from 'rxjs/operators';
+import { firstValueFrom, forkJoin, Observable, of } from 'rxjs';
+import { filter, map, switchMap, take, timeout } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { SearchFacade } from '../../+state/search/search.facade';
+import { AuthFacade } from '../../+state/auth/auth.facade';
+import { buildCatalogueFilters, SearchService } from './search.service';
 import {
   Criteria,
   DateOption,
   DateOptions,
   Genre,
   Hint,
+  Item,
+  MediaTypeResults,
+  SuperSearchResult,
   SortOptions,
+  User,
 } from '../models';
-import {
-  Search,
-  SearchActionTypes,
-  SearchError,
-  SearchSuccess,
-} from '../../+state/search/search.actions';
 import { TypeaheadService } from './typeahead.service';
 
 export interface SearchChatMessage {
   role: 'user' | 'assistant';
   text: string;
+  resultGroups?: readonly SearchChatResultGroup[];
+  total?: number;
+}
+
+export interface SearchChatResultGroup extends MediaTypeResults {
+  label: string;
+}
+
+export const CHAT_RESULTS_PER_MEDIA_TYPE = 4;
+export const MAX_CHAT_RESULTS_PER_MEDIA_TYPE = 100;
+
+const mediaLabels: Record<string, string> = {
+  bøker: 'Bøker',
+  aviser: 'Aviser',
+  bilder: 'Bilder',
+  tidsskrift: 'Tidsskrift',
+  kart: 'Kart',
+  noter: 'Noter',
+  musikkmanuskripter: 'Musikkmanuskripter',
+  plakater: 'Plakater',
+  privatarkivmateriale: 'Privatarkivmateriale',
+  programrapporter: 'Programrapporter',
+  andre: 'Andre medier',
+  other: 'Andre medier',
+};
+
+function chatResultGroups(result: SuperSearchResult) {
+  return [
+    result.books,
+    result.newspapers,
+    result.photos,
+    result.periodicals,
+    result.maps,
+    result.musicBooks,
+    result.musicManuscripts,
+    result.posters,
+    result.privateArchives,
+    result.programReports,
+    result.others,
+  ];
+}
+
+/** Each answer owns an independent, bounded snapshot for each carousel. */
+export function getChatResultGroups(
+  result: SuperSearchResult,
+  mediaOrder: readonly string[] = [],
+  resultLimit = CHAT_RESULTS_PER_MEDIA_TYPE,
+): SearchChatResultGroup[] {
+  const rank = (mediaType: string | null | undefined) => {
+    const index = mediaOrder.indexOf(mediaType ?? 'andre');
+    return index < 0 ? mediaOrder.length : index;
+  };
+  return chatResultGroups(result)
+    .sort((a, b) => rank(a.mediaType) - rank(b.mediaType))
+    .filter((source) => source.items.length > 0)
+    .map((source) => {
+      const seen = new Set<string>();
+      const items: Item[] = [];
+      for (const item of source.items) {
+        const key = item.id ?? item.urn;
+        if (key && seen.has(key)) continue;
+        if (key) seen.add(key);
+        items.push({ ...item });
+        if (items.length === resultLimit) break;
+      }
+      return Object.assign(new MediaTypeResults(), source, {
+        mediaType: source.mediaType ?? 'andre',
+        items,
+        label: mediaLabels[source.mediaType ?? 'andre'] ?? 'Andre medier',
+      });
+    });
 }
 
 export interface SearchChatFilter {
@@ -40,19 +103,56 @@ export interface SearchChatFilter {
   value?: string;
 }
 
-function copyCriteria(
-  criteria: Criteria,
-  changes: NonNullable<ConstructorParameters<typeof Criteria>[0]> = {},
-): Criteria {
-  return new Criteria({
-    q: criteria.q,
-    mediaType: criteria.mediaType,
-    date: criteria.date,
-    sort: criteria.sort,
-    genre: criteria.genre,
-    filters: [...criteria.filters],
-    ...changes,
-  });
+/** The classic catalogue keeps its single-media criteria unchanged. */
+export interface ChatSearchCriteria extends Criteria {
+  mediaTypes?: readonly string[];
+  resultLimit?: number;
+  resultLimitExplicit?: boolean;
+  defaultResultLimit?: number;
+}
+
+export function getChatMediaTypes(
+  criteria: ChatSearchCriteria,
+): readonly string[] {
+  return criteria.mediaTypes ?? [criteria.mediaType];
+}
+
+export function copyCriteria(
+  criteria: ChatSearchCriteria,
+  changes: NonNullable<ConstructorParameters<typeof Criteria>[0]> & {
+    mediaTypes?: readonly string[];
+    resultLimit?: number;
+    resultLimitExplicit?: boolean;
+    defaultResultLimit?: number;
+  } = {},
+): ChatSearchCriteria {
+  const selected =
+    changes.mediaTypes ??
+    (changes.mediaType ? [changes.mediaType] : getChatMediaTypes(criteria));
+  return Object.assign(
+    new Criteria({
+      q: criteria.q,
+      date: criteria.date,
+      sort: criteria.sort,
+      genre: criteria.genre,
+      filters: [...criteria.filters],
+      ...changes,
+      mediaType: selected.length === 1 ? selected[0] : 'alle',
+    }),
+    {
+      mediaTypes: [...selected],
+      resultLimit:
+        changes.resultLimit ??
+        criteria.resultLimit ??
+        CHAT_RESULTS_PER_MEDIA_TYPE,
+      resultLimitExplicit:
+        changes.resultLimitExplicit ?? criteria.resultLimitExplicit ?? false,
+      defaultResultLimit:
+        changes.defaultResultLimit ??
+        criteria.defaultResultLimit ??
+        CHAT_RESULTS_PER_MEDIA_TYPE,
+    },
+  );
 }
 
 const catalogueFields = {
@@ -64,10 +164,12 @@ const filterIs = (hint: Hint, type: keyof typeof catalogueFields) =>
 const normaliseName = (name: string) =>
   name.normalize('NFKC').trim().toLocaleLowerCase('nb-NO');
 
-function describeSearch(criteria: Criteria): string {
+export function describeSearch(criteria: ChatSearchCriteria): string {
   return [
     criteria.q ? `«${criteria.q}»` : 'alle emner',
-    criteria.mediaType === 'alle' ? 'alle medietyper' : criteria.mediaType,
+    getChatMediaTypes(criteria)
+      .map((type) => (type === 'alle' ? 'alle medietyper' : type))
+      .join(' og '),
     criteria.date.value ? criteria.date.viewValue : null,
     ...criteria.filters.filter((f) => f.enabled).map((f) => f.label),
     criteria.genre?.value ? criteria.genre.viewValue : null,
@@ -145,22 +247,46 @@ function yearRange(criteria: Criteria): [number | null, number | null] {
 /** Validate model output before it can change the catalogue search. */
 export function applyChatSearchPlan(
   value: unknown,
-  current: Criteria,
+  current: ChatSearchCriteria,
 ): {
-  criteria?: Criteria;
+  criteria?: ChatSearchCriteria;
   clarification?: string;
+  more?: readonly string[];
 } {
   if (!value || typeof value !== 'object')
     throw new Error('Invalid search plan');
   const plan = value as Record<string, unknown>;
+  if (plan['action'] === 'more') {
+    const selected = plan['mediaTypes'];
+    if (
+      !Array.isArray(selected) ||
+      !selected.length ||
+      !selected.every(
+        (type) => typeof type === 'string' && mediaTypes.includes(type),
+      ) ||
+      (selected.includes('alle') && selected.length !== 1)
+    ) {
+      throw new Error('Invalid pagination request');
+    }
+    return { more: [...new Set(selected)] };
+  }
   if (plan['action'] === 'clarify') {
     if (typeof plan['message'] !== 'string' || !plan['message'].trim()) {
       throw new Error('Missing clarification');
     }
     return { clarification: plan['message'].slice(0, 600) };
   }
-  const { q, mediaType, fromYear, toYear, sort, reset, places, creators } =
-    plan;
+  const {
+    q,
+    mediaTypes: selected,
+    resultLimit,
+    fromYear,
+    toYear,
+    sort,
+    reset,
+    places,
+    creators,
+  } = plan;
   const validNames = (names: unknown): names is string[] | undefined =>
     names === undefined ||
     (Array.isArray(names) &&
@@ -185,12 +311,22 @@ export function applyChatSearchPlan(
     plan['action'] !== 'search' ||
     typeof q !== 'string' ||
     q.length > 500 ||
-    typeof mediaType !== 'string' ||
-    !mediaTypes.includes(mediaType) ||
+    !Array.isArray(selected) ||
+    selected.length === 0 ||
+    selected.length > mediaTypes.length ||
+    !selected.every(
+      (type) => typeof type === 'string' && mediaTypes.includes(type),
+    ) ||
+    (selected.includes('alle') && selected.length !== 1) ||
     !validYear(fromYear) ||
     !validYear(toYear) ||
     (fromYear !== null && toYear !== null && fromYear > toYear) ||
     !sortOption ||
+    (resultLimit !== null &&
+      (typeof resultLimit !== 'number' ||
+        !Number.isInteger(resultLimit) ||
+        resultLimit < 1 ||
+        resultLimit > MAX_CHAT_RESULTS_PER_MEDIA_TYPE)) ||
     typeof reset !== 'boolean' ||
     !validNames(places) ||
     !validNames(creators)
@@ -245,11 +381,16 @@ export function applyChatSearchPlan(
     }
   }
   return {
-    criteria: new Criteria({
+    criteria: copyCriteria(base, {
       filters,
       genre: base.genre,
       q: q.trim(),
-      mediaType,
+      mediaTypes: [...new Set(selected)],
+      resultLimit:
+        resultLimit ??
+        current.defaultResultLimit ??
+        CHAT_RESULTS_PER_MEDIA_TYPE,
+      resultLimitExplicit: resultLimit !== null,
       date,
       sort: sortOption,
     }),
@@ -258,8 +399,9 @@ export function applyChatSearchPlan(
 
 type SearchPlanGenerator = (
   message: string,
-  criteria: Criteria,
+  criteria: ChatSearchCriteria,
   history: SearchChatMessage[],
+  signal?: AbortSignal,
 ) => Promise<unknown>;
 
 /** Lazy SDK loading keeps ordinary catalogue search independent of AI setup. */
@@ -271,7 +413,7 @@ export const SEARCH_PLAN_GENERATOR = new InjectionToken<SearchPlanGenerator>(
       const app = inject(FirebaseApp);
       let model: GenerativeModel | undefined;
       let appCheck: AppCheck | undefined;
-      return async (message, criteria, history) => {
+      return async (message, criteria, history, signal) => {
         if (!appCheck) {
           const { initializeAppCheck, ReCaptchaEnterpriseProvider } =
             await import('firebase/app-check');
@@ -310,29 +452,43 @@ export const SEARCH_PLAN_GENERATOR = new InjectionToken<SearchPlanGenerator>(
               model: environment.ai.model,
               systemInstruction: `You interpret catalogue searches for the National Library of Norway.
 Return the complete next search criteria using the supplied current criteria as the source of truth.
-Follow-ups preserve subject, media type, dates and sort unless explicitly changed. Never use conversation history to restore filters the user removed manually.
+Follow-ups preserve subject, ALL selected media types, dates and sort unless explicitly changed. Never use conversation history to restore filters the user removed manually.
 Translate ordinary English subjects to Norwegian catalogue keywords (dogs -> hunder), preserving names and explicit quoted phrases.
-Images/photos/bilder means mediaType bilder. All media types means alle.
+mediaTypes is the complete ordered list of selected media types, combined as OR alternatives.
+When the user lists media types, keep their order of mention: "bilder og bøker" -> ["bilder","bøker"], "bøker og bilder" -> ["bøker","bilder"]. An explicit request such as "bilder først" reorders the current selection without removing types.
+Follow-ups preserve the existing mediaTypes order unless explicitly reordered. Append newly added types to the end; removing a type preserves the order of the remaining types.
+Images/photos/bilder means ["bilder"]. "Bilder og bøker" means ["bilder","bøker"]. All media types means ["alle"], never combined with other types.
+"Ta også med kart" adds kart to the current selection. "Bare bøker" replaces it with ["bøker"]. "Uten bilder" removes bilder; if nothing remains, ask for clarification.
+Always return the full mediaTypes selection, including for date, subject, place, creator or sort follow-ups.
 After year 2000 means fromYear 2001; before 2000 means toYear 1999. Since/from 2000 includes 2000.
 Null year means no bound; remove the date restriction means both years null.
 reset=true only for an explicit request to start a new search or clear all filters; use defaults for unspecified fields then.
-Supported changes: subject q, mediaType, whole-year date bounds, sort, places and creators (photographer/author).
+resultLimit is null for automatic sizing, or an integer from 1 to ${MAX_CHAT_RESULTS_PER_MEDIA_TYPE} ONLY when the user explicitly requests a count. With null, the browser supplies defaultResultLimit to fit two rows. Never invent a default count such as 20.
+Preserve an explicit resultLimit on follow-ups unless the user changes it; use null for a new search without a requested count. An explicit count must be fetched and displayed in full, never visually truncated.
+"Jeg vil se 40 treff av fugler i bøker" sets q="fugler", mediaTypes=["bøker"], resultLimit=40. "Vis 40 treff" changes only resultLimit. A requested count belongs in resultLimit, never q. If the requested count is outside the supported range, clarify the supported limit; never silently reduce it.
+Supported changes: subject q, mediaTypes, resultLimit, whole-year date bounds, sort, places and creators (photographer/author).
 places and creators are optional arrays of names, NOT filter syntax. Omit them when unchanged. If changing one category, return ALL desired names in that category; [] removes that category. Existing other filters are preserved unless reset=true.
 Multiple names within a category are AND restrictions. If the user requests OR alternatives between names, clarify that one location/person at a time is supported.
 "Bare fra Oslo" sets places=["Oslo"], preserving the subject and all other criteria. "Fotografert av Anders Beer Wilse" sets creators=["Anders Beer Wilse"]. Do not repeat place or creator names in q when they belong in a filter. Never invent a person's name or silently choose among ambiguous catalogue candidates.
 For unsupported changes, ambiguous requests or questions unrelated to catalogue search, use action clarify and a short question/explanation in the user's language. Do not claim to have found images, generated images or inspected their contents.
 q contains only catalogue search terms, never the full chat request. No raw catalogue filter expressions.
-For action search, message is empty. For clarify, retain current criteria and explain in message.`,
+For requests to load more existing matches ("flere", "vis flere", "neste side"), use action more with mediaTypes=["alle"]. For "flere bilder", use action more with mediaTypes=["bilder"]. Do not change the search criteria or resultLimit to paginate. If the request includes new subject/date/filter changes, use action search instead.
+For action search or more, message is empty. For clarify, retain current criteria and explain in message.`,
               generationConfig: {
                 responseMimeType: 'application/json',
                 thinkingConfig: { thinkingLevel: environment.ai.thinkingLevel },
                 maxOutputTokens: 2048,
                 responseSchema: Schema.object({
                   properties: {
-                    action: Schema.enumString({ enum: ['search', 'clarify'] }),
+                    action: Schema.enumString({
+                      enum: ['search', 'clarify', 'more'],
+                    }),
                     message: Schema.string(),
                     q: Schema.string(),
-                    mediaType: Schema.enumString({ enum: mediaTypes }),
+                    mediaTypes: Schema.array({
+                      items: Schema.enumString({ enum: mediaTypes }),
+                    }),
+                    resultLimit: Schema.integer({ nullable: true }),
                     fromYear: Schema.integer({ nullable: true }),
                     toYear: Schema.integer({ nullable: true }),
                     sort: Schema.enumString({
@@ -358,7 +514,12 @@ For action search, message is empty. For clarify, retain current criteria and ex
             JSON.stringify({
               currentCriteria: {
                 q: criteria.q,
-                mediaType: criteria.mediaType,
+                mediaTypes: getChatMediaTypes(criteria),
+                resultLimit: criteria.resultLimitExplicit
+                  ? criteria.resultLimit
+                  : null,
+                defaultResultLimit:
+                  criteria.defaultResultLimit ?? CHAT_RESULTS_PER_MEDIA_TYPE,
                 fromYear,
                 toYear,
                 sort: criteria.sort.value,
@@ -373,9 +534,12 @@ For action search, message is empty. For clarify, retain current criteria and ex
                   .map((f) => f.label),
                 genre: criteria.genre?.viewValue,
               },
-              recentConversation: history.slice(-8),
+              recentConversation: history
+                .slice(-8)
+                .map(({ role, text }) => ({ role, text })),
               message,
             }),
+            { signal },
           );
         } catch (error) {
           throw new ChatSearchRequestError('model', isTimeout(error), error);
@@ -388,168 +552,143 @@ For action search, message is empty. For clarify, retain current criteria and ex
 
 @Injectable({ providedIn: 'root' })
 export class ChatSearchService {
-  private readonly search = inject(SearchFacade);
-  private readonly actions = inject(Actions);
-  private readonly typeahead = inject(TypeaheadService);
   private readonly generate = inject(SEARCH_PLAN_GENERATOR);
-  private readonly chatMessages = signal<SearchChatMessage[]>([]);
-  private readonly waiting = signal(false);
-  private readonly progress = signal('Tolker søket ditt …');
-  private readonly failure = signal('');
-  private readonly snapshots = signal<
-    { criteria: Criteria; messages: SearchChatMessage[] }[]
-  >([]);
-  private readonly cancelled = new Subject<void>();
-  private revision = 0;
-  private requestNumber = 0;
+  private readonly typeahead = inject(TypeaheadService);
+  private readonly catalogue = inject(SearchService);
+  private readonly auth = inject(AuthFacade);
 
-  readonly messages = this.chatMessages.asReadonly();
-  readonly pending = this.waiting.asReadonly();
-  readonly pendingLabel = this.progress.asReadonly();
-  readonly error = this.failure.asReadonly();
-  readonly canUndo = computed(
-    () => this.snapshots().length > 0 && !this.pending(),
-  );
-
-  async send(text: string): Promise<void> {
-    const message = text.trim();
-    if (!message || message.length > 1000 || this.pending()) return;
-    const revision = this.revision;
-    const history = this.messages();
-    this.append('user', message);
-    this.waiting.set(true);
-    this.progress.set('Tolker søket ditt …');
-    this.failure.set('');
-    try {
-      const current = await firstValueFrom(this.search.getCriteria$);
-      const plan = await this.generate(message, current, history);
-      if (revision !== this.revision) return;
-      let result = applyChatSearchPlan(plan, current);
-      if (result.criteria) {
-        this.progress.set('Sjekker avgrensningene …');
-        result = await this.resolveFilters(result.criteria, current);
-      }
-      if (revision !== this.revision) return;
-      const latest = await firstValueFrom(this.search.getCriteria$);
-      if (latest !== current)
-        throw new Error('Search changed while interpreting the message');
-      this.remember(current, history);
-      if (result.criteria) {
-        await this.runSearch(result.criteria, revision);
-      } else if (result.clarification) {
-        this.append('assistant', result.clarification);
-      }
-    } catch (error) {
-      if (revision !== this.revision) return;
-      console.error('Could not interpret chat search', error);
-      const reason =
-        error instanceof ChatSearchRequestError
-          ? error.stage === 'app-check'
-            ? 'Kunne ikke bekrefte tilkoblingen til Firebase.'
-            : error.timedOut
-            ? 'KI-tjenesten brukte for lang tid på å svare.'
-            : 'KI-tjenesten kunne ikke svare.'
-          : 'KI-søket kunne ikke fullføres.';
-      this.failure.set(
-        `${reason} Du kan bruke Vanlig søk. Søket ditt er ikke endret.`,
-      );
-    } finally {
-      if (revision === this.revision) this.waiting.set(false);
-    }
-  }
-
-  async undo(): Promise<void> {
-    if (!this.canUndo()) return;
-    const snapshot = this.snapshots().at(-1);
-    if (!snapshot) return;
-    this.snapshots.update((snapshots) => snapshots.slice(0, -1));
-    this.chatMessages.set(snapshot.messages);
-    this.failure.set('');
-    this.waiting.set(true);
-    const revision = this.revision;
-    try {
-      await this.runSearch(
-        snapshot.criteria,
-        revision,
-        'Angret siste endring. ',
-      );
-    } finally {
-      if (revision === this.revision) this.waiting.set(false);
-    }
-  }
-
-  newestFirst(): Promise<void> {
-    return this.changeCriteria(
-      (current) => copyCriteria(current, { sort: new SortOptions().dateDesc }),
-      'Vis nyeste først',
-    );
-  }
-
-  removeFilter(chip: SearchChatFilter): Promise<void> {
-    return this.changeCriteria((current) => {
-      switch (chip.type) {
-        case 'query':
-          return copyCriteria(current, { q: '' });
-        case 'mediaType':
-          return copyCriteria(current, { mediaType: 'alle' });
-        case 'date':
-          return copyCriteria(current, { date: new DateOptions().anytime });
-        case 'sort':
-          return copyCriteria(current, { sort: new SortOptions().relevance });
-        case 'genre':
-          return copyCriteria(current, { genre: new Genre() });
-        case 'hint':
-          return copyCriteria(current, {
-            filters: current.filters.filter((f) => f.value !== chip.value),
-          });
-      }
-    }, `Fjern avgrensningen «${chip.label}»`);
-  }
-
-  reset(): void {
-    this.revision++;
-    this.cancelled.next();
-    this.snapshots.set([]);
-    this.chatMessages.set([]);
-    this.waiting.set(false);
-    this.failure.set('');
-  }
-
-  private remember(criteria: Criteria, messages: SearchChatMessage[]): void {
-    this.snapshots.update((snapshots) =>
-      [...snapshots, { criteria: copyCriteria(criteria), messages }].slice(-20),
-    );
-  }
-
-  private append(role: SearchChatMessage['role'], text: string): void {
-    this.chatMessages.update((messages) =>
-      [...messages, { role, text }].slice(-20),
-    );
-  }
-
-  private async changeCriteria(
-    change: (current: Criteria) => Criteria,
+  async interpret(
     message: string,
-  ): Promise<void> {
-    if (this.pending()) return;
-    this.waiting.set(true);
-    this.failure.set('');
-    const revision = this.revision;
-    try {
-      const current = await firstValueFrom(this.search.getCriteria$);
-      if (revision !== this.revision) return;
-      this.remember(current, this.messages());
-      this.append('user', message);
-      await this.runSearch(change(current), revision);
-    } finally {
-      if (revision === this.revision) this.waiting.set(false);
-    }
+    criteria: ChatSearchCriteria,
+    history: SearchChatMessage[],
+    signal?: AbortSignal,
+  ): Promise<{
+    criteria?: ChatSearchCriteria;
+    clarification?: string;
+    more?: readonly string[];
+  }> {
+    const plan = await this.generate(message, criteria, history, signal);
+    if (signal?.aborted)
+      throw new DOMException('Chat request cancelled', 'AbortError');
+    const result = applyChatSearchPlan(plan, criteria);
+    return result;
   }
 
-  private async resolveFilters(
-    criteria: Criteria,
-    previous: Criteria,
-  ): Promise<{ criteria?: Criteria; clarification?: string }> {
+  search(criteria: ChatSearchCriteria): Observable<SuperSearchResult> {
+    return this.auth.currentUser$.pipe(
+      filter((user): user is User => user != null),
+      take(1),
+      switchMap((user) => {
+        const query = {
+          q: criteria.q,
+          mediaType: criteria.mediaType,
+          sort: criteria.sort,
+          size: criteria.resultLimit ?? CHAT_RESULTS_PER_MEDIA_TYPE,
+          filters: buildCatalogueFilters(criteria, user),
+        };
+        const selected = getChatMediaTypes(criteria);
+        if (selected.includes('alle')) return this.catalogue.super(query);
+        if (selected.length === 1) {
+          return this.catalogue.search({ ...query, mediaType: selected[0] });
+        }
+        return forkJoin(
+          selected.map((mediaType) =>
+            this.catalogue.search({ ...query, mediaType }),
+          ),
+        ).pipe(
+          map((results) => {
+            const combined = new SuperSearchResult();
+            combined.totalElements = results.reduce(
+              (total, result) => total + result.totalElements,
+              0,
+            );
+            for (const group of chatResultGroups(combined)) {
+              const index = selected.indexOf(group.mediaType ?? '');
+              if (index < 0) continue;
+              const source = chatResultGroups(results[index]).find(
+                (candidate) => candidate.mediaType === group.mediaType,
+              );
+              if (source)
+                Object.assign(group, source, { items: [...source.items] });
+            }
+            return combined;
+          }),
+        );
+      }),
+    );
+  }
+
+  loadMore(
+    groups: readonly SearchChatResultGroup[],
+    selected: readonly string[] = ['alle'],
+  ): Observable<SearchChatResultGroup[]> {
+    const pending = groups.filter(
+      (group) =>
+        group.nextLink &&
+        (selected.includes('alle') || selected.includes(group.mediaType ?? '')),
+    );
+    if (!pending.length) return of([...groups]);
+    return this.auth.currentUser$.pipe(
+      filter((user): user is User => user != null),
+      take(1),
+      switchMap(() =>
+        forkJoin(
+          pending.map((group) => {
+            // Only follow catalogue pagination links, never arbitrary model URLs.
+            const base = new URL(environment.nb.apiURL);
+            const url = new URL(group.nextLink ?? '', base);
+            if (
+              url.origin !== base.origin ||
+              url.pathname !== '/catalog/v1/items' ||
+              url.username ||
+              url.password
+            ) {
+              throw new Error('Invalid catalogue pagination link');
+            }
+            const type = ['other', 'andre'].includes(group.mediaType ?? '')
+              ? 'others'
+              : group.mediaType ?? '';
+            return this.catalogue.searchByUrl(type, url.href).pipe(
+              map((result) => {
+                const page = chatResultGroups(result).find(
+                  (candidate) => candidate.mediaType === type,
+                );
+                if (!page) throw new Error('Missing catalogue page');
+                const seen = new Set<string>();
+                const items = [...group.items, ...page.items]
+                  .filter((item) => {
+                    const key = item.id ?? item.urn;
+                    if (!key) return true;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                  })
+                  .map((item) => ({ ...item }));
+                return Object.assign(new MediaTypeResults(), group, {
+                  items,
+                  nextLink:
+                    page.nextLink === group.nextLink ? null : page.nextLink,
+                });
+              }),
+            );
+          }),
+        ),
+      ),
+      map((pages) =>
+        groups.map((group) => {
+          const index = pending.indexOf(group);
+          return index < 0
+            ? group
+            : Object.assign({}, pages[index], { label: group.label });
+        }),
+      ),
+    );
+  }
+
+  async resolveFilters(
+    criteria: ChatSearchCriteria,
+    previous: ChatSearchCriteria,
+  ): Promise<{ criteria?: ChatSearchCriteria; clarification?: string }> {
     const filters: Hint[] = [];
     for (const hint of criteria.filters) {
       const type = filterIs(hint, 'place')
@@ -608,68 +747,5 @@ export class ChatSearchService {
       filters.push(exact[0]);
     }
     return { criteria: copyCriteria(criteria, { filters }) };
-  }
-
-  /** Match replies to this request, never to an aggregation or a newer manual search. */
-  private async runSearch(
-    criteria: Criteria,
-    revision: number,
-    prefix = '',
-  ): Promise<void> {
-    this.progress.set('Søker i katalogen …');
-    this.search.setCriteria(criteria);
-    const applied = await firstValueFrom(this.search.getCriteria$);
-    if (revision !== this.revision) return;
-    const requestId = `chat-${++this.requestNumber}`;
-    const completion = firstValueFrom(
-      merge(
-        this.actions.pipe(
-          ofType<SearchSuccess | SearchError>(
-            SearchActionTypes.SearchSuccess,
-            SearchActionTypes.SearchError,
-          ),
-          filter((action) => action.requestId === requestId),
-        ),
-        this.actions.pipe(
-          ofType<Search>(SearchActionTypes.Search),
-          filter((action) => action.requestId !== requestId),
-          map(() => null),
-        ),
-        this.actions.pipe(
-          ofType(SearchActionTypes.ClearAll),
-          map(() => null),
-        ),
-        this.cancelled.pipe(map(() => null)),
-      ).pipe(take(1), timeout({ first: 45000 })),
-    );
-    this.search.search(requestId);
-    try {
-      const response = await completion;
-      if (!response || revision !== this.revision) return;
-      if ((await firstValueFrom(this.search.getCriteria$)) !== applied) return;
-      if (response instanceof SearchError) {
-        this.append(
-          'assistant',
-          `${prefix}Søket er oppdatert, men katalogen kunne ikke hente treffene. Du kan angre endringen.`,
-        );
-      } else {
-        const count = response.payload.totalElements;
-        if (!Number.isFinite(count) || count < 0)
-          throw new Error('Invalid catalogue result count');
-        this.append(
-          'assistant',
-          `${prefix}Fant ${new Intl.NumberFormat('nb-NO').format(
-            count,
-          )} treff. ${describeSearch(criteria)}.`,
-        );
-      }
-    } catch (error) {
-      if (revision !== this.revision) return;
-      console.error('Could not load chat search results', error);
-      this.append(
-        'assistant',
-        `${prefix}Søket er oppdatert, men treffantallet kunne ikke hentes. Du kan angre endringen.`,
-      );
-    }
   }
 }

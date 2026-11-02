@@ -45,14 +45,31 @@ mediaTypeResults.items.length > 0) {
       [dataSource]="carouselItems"
     >
       <ngu-tile *nguCarouselDef="let item; let i = index">
-        <nbd-default-item-card [item]="item"> </nbd-default-item-card>
+        <nbd-default-item-card
+          [item]="item"
+          [list]="list"
+          [compact]="compactCards"
+        >
+        </nbd-default-item-card>
       </ngu-tile>
       @if (!itemCarousel.isFirst()) {
-      <button mat-mini-fab NguCarouselPrev class="nav-button left">
+      <button
+        type="button"
+        mat-mini-fab
+        NguCarouselPrev
+        class="nav-button left"
+        [attr.aria-label]="'Forrige treff: ' + label"
+      >
         <mat-icon>navigate_before</mat-icon>
       </button>
       } @if (!itemCarousel.isLast()) {
-      <button mat-mini-fab NguCarouselNext class="nav-button right">
+      <button
+        type="button"
+        mat-mini-fab
+        NguCarouselNext
+        class="nav-button right"
+        [attr.aria-label]="'Neste treff: ' + label"
+      >
         <mat-icon>navigate_next</mat-icon>
       </button>
       }

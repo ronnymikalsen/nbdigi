@@ -16,6 +16,15 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'ai-search',
+    title: 'KI-søk – NBDigi',
+    loadComponent: () =>
+      import('./ai-search/ai-search-page.component').then(
+        (m) => m.AiSearchPageComponent,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'search',
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),

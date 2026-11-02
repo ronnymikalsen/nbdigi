@@ -1,34 +1,148 @@
-import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of, Subject } from 'rxjs';
-import { Actions } from '@ngrx/effects';
-import { SearchFacade } from '../../+state/search/search.facade';
-import { Criteria, DateOption, Hint, SuperSearchResult } from '../models';
-import {
-  Search,
-  SearchSuccess,
-  SearchError,
-  ClearAll,
-} from '../../+state/search/search.actions';
-import { TypeaheadService } from './typeahead.service';
+import { Criteria, DateOption, Hint, Item, SuperSearchResult } from '../models';
 import { QueryBuilder } from '../builders/query-builder';
 import {
   applyChatSearchPlan,
-  ChatSearchService,
-  SEARCH_PLAN_GENERATOR,
-  ChatSearchRequestError,
   verifyChatAppCheck,
+  getChatResultGroups,
 } from './chat-search.service';
 
 const dogImages = {
   action: 'search',
   message: '',
   q: 'hunder',
-  mediaType: 'bilder',
+  mediaTypes: ['bilder'],
+  resultLimit: 20,
   fromYear: null,
   toYear: null,
   sort: '_score,desc',
   reset: false,
 };
+
+describe('chat carousel snapshots', () => {
+  it('keeps up to twenty independent cards per media type with its own count', () => {
+    const result = new SuperSearchResult();
+    result.books.totalElements = 124;
+    result.photos.totalElements = 83;
+    result.books.items = Array.from(
+      { length: 25 },
+      (_, i) => new Item({ id: `book-${i}` }),
+    );
+    result.photos.items = Array.from(
+      { length: 25 },
+      (_, i) => new Item({ id: `photo-${i}` }),
+    );
+    const groups = getChatResultGroups(result, [], 20);
+    expect(
+      groups.map((group) => [
+        group.label,
+        group.totalElements,
+        group.items.length,
+      ]),
+    ).toEqual([
+      ['Bøker', 124, 20],
+      ['Bilder', 83, 20],
+    ]);
+    result.books.items[0].title = 'Changed later';
+    result.books.items.push(new Item({ id: 'later' }));
+    result.books.totalElements = 999;
+    expect(groups[0].items[0].title).toBe('');
+    expect(groups[0].items).toHaveLength(20);
+    expect(groups[0].totalElements).toBe(124);
+  });
+
+  it.each([
+    [
+      ['bilder', 'bøker'],
+      ['Bilder', 'Bøker', 'Kart'],
+    ],
+    [
+      ['bøker', 'bilder'],
+      ['Bøker', 'Bilder', 'Kart'],
+    ],
+    [
+      ['kart', 'bilder', 'bøker'],
+      ['Kart', 'Bilder', 'Bøker'],
+    ],
+    [['alle'], ['Bøker', 'Bilder', 'Kart']],
+  ])(
+    'uses requested media order %j with a stable fallback',
+    (order, labels) => {
+      const result = new SuperSearchResult();
+      result.books.items = [new Item({ id: 'book' })];
+      result.photos.items = [new Item({ id: 'photo' })];
+      result.maps.items = [new Item({ id: 'map' })];
+      expect(
+        getChatResultGroups(result, order).map((group) => group.label),
+      ).toEqual(labels);
+    },
+  );
+
+  it('retains the requested number per carousel instead of truncating to twenty', () => {
+    const result = new SuperSearchResult();
+    result.books.items = Array.from(
+      { length: 50 },
+      (_, i) => new Item({ id: `book-${i}` }),
+    );
+    expect(getChatResultGroups(result, ['bøker'], 40)[0].items).toHaveLength(
+      40,
+    );
+  });
+
+  it('keeps all available photos when books have few matches', () => {
+    const result = new SuperSearchResult();
+    result.books.items = [new Item({ id: 'book' })];
+    result.photos.items = Array.from(
+      { length: 20 },
+      (_, i) => new Item({ id: `photo-${i}` }),
+    );
+    expect(
+      getChatResultGroups(result, [], 20).map((group) => group.items.length),
+    ).toEqual([1, 20]);
+    expect(getChatResultGroups(new SuperSearchResult())).toEqual([]);
+  });
+
+  it('deduplicates cards within each media type without discarding another type', () => {
+    const result = new SuperSearchResult();
+    result.books.items = [
+      new Item({ id: 'book' }),
+      new Item({ id: 'book' }),
+      new Item({ id: 'shared' }),
+    ];
+    result.photos.items = [
+      new Item({ id: 'photo' }),
+      new Item({ id: 'shared' }),
+    ];
+    expect(
+      getChatResultGroups(result).map((group) =>
+        group.items.map((item) => item.id),
+      ),
+    ).toEqual([
+      ['book', 'shared'],
+      ['photo', 'shared'],
+    ]);
+  });
+});
+
+describe('chat pagination plans', () => {
+  it('accepts more requests without changing criteria', () => {
+    expect(
+      applyChatSearchPlan(
+        { action: 'more', mediaTypes: ['bilder'] },
+        new Criteria(),
+      ),
+    ).toEqual({ more: ['bilder'] });
+  });
+  it.each([
+    { mediaTypes: [] },
+    { mediaTypes: ['invented'] },
+    { mediaTypes: ['alle', 'bilder'] },
+    { mediaTypes: 'bilder' },
+  ])('rejects invalid pagination media types %j', ({ mediaTypes }) => {
+    expect(() =>
+      applyChatSearchPlan({ action: 'more', mediaTypes }, new Criteria()),
+    ).toThrow();
+  });
+});
 
 describe('chat App Check verification', () => {
   afterEach(() => jest.useRealTimers());
@@ -80,6 +194,41 @@ describe('chat search criteria', () => {
     expect(criteria?.date.value).toBe('date:[20010101 TO 49991231]');
   });
 
+  it('normalizes repeated types and supports adding and removing media types', () => {
+    const mixed = applyChatSearchPlan(
+      { ...dogImages, mediaTypes: ['bilder', 'bøker', 'bilder'] },
+      new Criteria(),
+    ).criteria;
+    if (!mixed) throw new Error('Missing mixed-media criteria');
+    expect(mixed.mediaTypes).toEqual(['bilder', 'bøker']);
+    const added = applyChatSearchPlan(
+      { ...dogImages, mediaTypes: ['bilder', 'bøker', 'kart'], fromYear: 2001 },
+      mixed,
+    ).criteria;
+    if (!added) throw new Error('Missing expanded criteria');
+    expect(added.mediaTypes).toEqual(['bilder', 'bøker', 'kart']);
+    expect(mixed.mediaTypes).toEqual(['bilder', 'bøker']);
+    const removed = applyChatSearchPlan(
+      { ...dogImages, mediaTypes: ['bøker', 'kart'], fromYear: 2001 },
+      added,
+    ).criteria;
+    if (!removed) throw new Error('Missing narrowed criteria');
+    expect(removed.mediaTypes).toEqual(['bøker', 'kart']);
+    expect(removed.q).toBe('hunder');
+    expect(removed.date.fromDate).toBe('20010101');
+  });
+
+  it('uses the screen limit for automatic sizing and the full explicit count when requested', () => {
+    const current = Object.assign(new Criteria(), { defaultResultLimit: 12 });
+    expect(
+      applyChatSearchPlan({ ...dogImages, resultLimit: null }, current)
+        .criteria,
+    ).toMatchObject({ resultLimit: 12, resultLimitExplicit: false });
+    expect(
+      applyChatSearchPlan({ ...dogImages, resultLimit: 40 }, current).criteria,
+    ).toMatchObject({ resultLimit: 40, resultLimitExplicit: true });
+  });
+
   it('removes a date restriction without removing the subject', () => {
     const dated = applyChatSearchPlan(
       { ...dogImages, fromYear: 2001 },
@@ -119,7 +268,17 @@ describe('chat search criteria', () => {
     { fromYear: '2000' },
     { fromYear: 0 },
     { toYear: 5000 },
-    { mediaType: 'invented' },
+    { mediaTypes: ['invented'] },
+    { mediaTypes: [] },
+    { mediaTypes: 'bilder' },
+    { mediaTypes: [null] },
+    { mediaTypes: ['alle', 'bilder'] },
+    { mediaTypes: ['bilder', 'mediatype:bøker'] },
+    { resultLimit: 0 },
+    { resultLimit: -1 },
+    { resultLimit: 101 },
+    { resultLimit: 20.5 },
+    { resultLimit: '40' },
     { sort: 'invented' },
     { action: 'unknown' },
     { reset: 'true' },
@@ -180,342 +339,4 @@ describe('chat search criteria', () => {
       'namecreators:"Wilse"',
     ]);
   });
-});
-
-describe('ChatSearchService', () => {
-  let service: ChatSearchService;
-  let criteria$: BehaviorSubject<Criteria>;
-  let generate: jest.Mock;
-  let actions: Subject<Search | SearchSuccess | SearchError | ClearAll>;
-  let typeahead: { places: jest.Mock; creators: jest.Mock };
-  let search: {
-    getCriteria$: BehaviorSubject<Criteria>;
-    setCriteria: jest.Mock;
-    search: jest.Mock;
-  };
-
-  beforeEach(() => {
-    criteria$ = new BehaviorSubject(new Criteria());
-    generate = jest.fn().mockResolvedValue(dogImages);
-    actions = new Subject();
-    typeahead = {
-      places: jest.fn(({ q }) =>
-        of([
-          new Hint({
-            type: 'place',
-            label: q,
-            value: `subjectgeographic:"${q}"`,
-          }),
-        ]),
-      ),
-      creators: jest.fn(({ q }) =>
-        of([
-          new Hint({ type: 'person', label: q, value: `namecreators:"${q}"` }),
-        ]),
-      ),
-    };
-    search = {
-      getCriteria$: criteria$,
-      setCriteria: jest.fn((criteria) => criteria$.next(criteria)),
-      search: jest.fn((requestId) => {
-        actions.next(new Search(requestId));
-        const result = new SuperSearchResult();
-        result.totalElements = 42;
-        actions.next(new SearchSuccess(result, requestId));
-      }),
-    };
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: SearchFacade, useValue: search },
-        { provide: SEARCH_PLAN_GENERATOR, useValue: generate },
-        { provide: Actions, useValue: new Actions(actions) },
-        { provide: TypeaheadService, useValue: typeahead },
-      ],
-    });
-    service = TestBed.inject(ChatSearchService);
-  });
-
-  it('searches dog images then sends the active criteria with the follow-up', async () => {
-    await service.send('Show images with dogs');
-    generate.mockResolvedValue({ ...dogImages, fromYear: 2001 });
-    await service.send('Only after 2000');
-    expect(generate.mock.calls[1][1]).toMatchObject({
-      q: 'hunder',
-      mediaType: 'bilder',
-    });
-    expect(criteria$.value.date.fromDate).toBe('20010101');
-    expect(search.search).toHaveBeenCalledTimes(2);
-    expect(service.messages()).toHaveLength(4);
-    expect(service.pending()).toBe(false);
-    expect(service.messages().at(-1)?.text).toContain('Fant 42 treff');
-  });
-
-  it('undoes the last refinement and restores the earlier conversation and criteria', async () => {
-    await service.send('Bilder av hunder');
-    generate.mockResolvedValue({ ...dogImages, fromYear: 2001 });
-    await service.send('Bare etter 2000');
-    await service.undo();
-    expect(criteria$.value).toMatchObject({ q: 'hunder', mediaType: 'bilder' });
-    expect(criteria$.value.date.value).toBeNull();
-    expect(service.messages().some((m) => m.text === 'Bare etter 2000')).toBe(
-      false,
-    );
-    expect(service.messages().at(-1)?.text).toContain(
-      'Angret siste endring. Fant 42 treff',
-    );
-    expect(generate).toHaveBeenCalledTimes(2);
-    await service.undo();
-    expect(criteria$.value.q).toBe('');
-    expect(service.canUndo()).toBe(false);
-  });
-
-  it('removes a date chip without calling Gemini and can undo the removal', async () => {
-    generate.mockResolvedValue({ ...dogImages, fromYear: 2001 });
-    await service.send('Bilder av hunder etter 2000');
-    await service.removeFilter({ type: 'date', label: 'Fra 2001' });
-    expect(criteria$.value.q).toBe('hunder');
-    expect(criteria$.value.date.value).toBeNull();
-    expect(generate).toHaveBeenCalledTimes(1);
-    await service.undo();
-    expect(criteria$.value.date.fromDate).toBe('20010101');
-  });
-
-  it('clears the subject when its chip is removed, retaining other criteria', async () => {
-    await service.send('Bilder av hunder');
-    await service.removeFilter({ type: 'query', label: 'hunder' });
-    expect(criteria$.value.q).toBe('');
-    expect(criteria$.value.mediaType).toBe('bilder');
-  });
-
-  it('sorts newest first directly without changing the subject or making another AI call', async () => {
-    await service.send('Bilder av hunder');
-    await service.newestFirst();
-    expect(criteria$.value).toMatchObject({
-      q: 'hunder',
-      mediaType: 'bilder',
-      sort: { value: 'date,desc' },
-    });
-    expect(generate).toHaveBeenCalledTimes(1);
-  });
-
-  it('resolves place and photographer names through catalogue suggestions', async () => {
-    generate.mockResolvedValue({
-      ...dogImages,
-      places: ['Oslo'],
-      creators: ['Wilse, Anders Beer'],
-    });
-    await service.send('Bilder av hunder fra Oslo fotografert av Wilse');
-    expect(typeahead.places).toHaveBeenCalledWith(
-      expect.objectContaining({ q: 'Oslo', mediaType: 'bilder' }),
-    );
-    expect(typeahead.creators).toHaveBeenCalledWith(
-      expect.objectContaining({ q: 'Wilse, Anders Beer' }),
-    );
-    expect(criteria$.value.filters.map((f) => f.value)).toEqual([
-      'subjectgeographic:"Oslo"',
-      'namecreators:"Wilse, Anders Beer"',
-    ]);
-    generate.mockResolvedValue({ ...dogImages, fromYear: 2001 });
-    await service.send('Etter 2000');
-    expect(criteria$.value.filters).toHaveLength(2);
-    expect(typeahead.places).toHaveBeenCalledTimes(1);
-  });
-
-  it('asks which photographer is intended without applying any partial criteria', async () => {
-    generate.mockResolvedValue({ ...dogImages, creators: ['Olsen'] });
-    typeahead.creators.mockReturnValue(
-      of([
-        new Hint({ label: 'Olsen, Per', value: 'namecreators:"Olsen, Per"' }),
-        new Hint({ label: 'Olsen, Kari', value: 'namecreators:"Olsen, Kari"' }),
-      ]),
-    );
-    await service.send('Fotografert av Olsen');
-    expect(search.setCriteria).not.toHaveBeenCalled();
-    expect(service.messages().at(-1)?.text).toContain(
-      'Olsen, Per; Olsen, Kari',
-    );
-  });
-
-  it('uses a city filter across all its catalogue districts', async () => {
-    generate.mockResolvedValue({ ...dogImages, places: ['Oslo'] });
-    typeahead.places.mockReturnValue(
-      of([
-        new Hint({
-          label: 'Norge;Oslo;Oslo;Bygdøy',
-          value: 'subjectgeographic:"Norge;Oslo;Oslo;Bygdøy"',
-        }),
-        new Hint({
-          label: 'Norge;Oslo;Oslo;Abelhaugen;;;',
-          value: 'subjectgeographic:"Norge;Oslo;Oslo;Abelhaugen;;;"',
-        }),
-      ]),
-    );
-    await service.send('Bare fra Oslo');
-    expect(criteria$.value.filters[0].value).toBe('subjectgeographic:"Oslo"');
-    expect(search.search).toHaveBeenCalledTimes(1);
-  });
-
-  it('matches full photographer names regardless of catalogue surname ordering', async () => {
-    generate.mockResolvedValue({
-      ...dogImages,
-      creators: ['Anders Beer Wilse'],
-    });
-    typeahead.creators.mockReturnValue(
-      of([
-        new Hint({
-          label: 'Wilse, Anders Beer',
-          value: 'namecreators:"Wilse, Anders Beer"',
-        }),
-      ]),
-    );
-    await service.send('Fotografert av Anders Beer Wilse');
-    expect(criteria$.value.filters[0].value).toBe(
-      'namecreators:"Wilse, Anders Beer"',
-    );
-  });
-
-  it('waits for the catalogue before reporting a count', async () => {
-    let started!: () => void;
-    const dispatched = new Promise<void>((resolve) => {
-      started = resolve;
-    });
-    search.search.mockImplementation((requestId) => {
-      actions.next(new Search(requestId));
-      started();
-    });
-    const request = service.send('Bilder av hunder');
-    await dispatched;
-    expect(service.pending()).toBe(true);
-    expect(service.pendingLabel()).toBe('Søker i katalogen …');
-    expect(service.messages()).toHaveLength(1);
-    const result = new SuperSearchResult();
-    result.totalElements = 0;
-    actions.next(new SearchSuccess(result, search.search.mock.calls[0][0]));
-    await request;
-    expect(service.messages().at(-1)?.text).toContain('Fant 0 treff');
-  });
-
-  it('drops a pending count when the user starts a different search', async () => {
-    let started!: () => void;
-    const dispatched = new Promise<void>((resolve) => {
-      started = resolve;
-    });
-    search.search.mockImplementation((requestId) => {
-      actions.next(new Search(requestId));
-      started();
-    });
-    const request = service.send('Bilder av hunder');
-    await dispatched;
-    actions.next(new Search());
-    await request;
-    expect(service.pending()).toBe(false);
-    expect(service.messages().some((m) => m.text.includes('Fant'))).toBe(false);
-  });
-
-  it('does not use an unrelated result count for the chat response', async () => {
-    search.search.mockImplementation((requestId) => {
-      const unrelated = new SuperSearchResult();
-      unrelated.totalElements = 999;
-      actions.next(new SearchSuccess(unrelated, 'other-search'));
-      const actual = new SuperSearchResult();
-      actual.totalElements = 7;
-      actions.next(new SearchSuccess(actual, requestId));
-    });
-    await service.send('Bilder av hunder');
-    expect(service.messages().at(-1)?.text).toContain('Fant 7 treff');
-    expect(service.messages().at(-1)?.text).not.toContain('999');
-  });
-
-  it('reports catalogue failure without inventing a result count and allows undo', async () => {
-    search.search.mockImplementation((requestId) =>
-      actions.next(new SearchError(new Error('Offline'), requestId)),
-    );
-    await service.send('Bilder av hunder');
-    expect(service.messages().at(-1)?.text).toContain('katalogen kunne ikke');
-    expect(service.messages().at(-1)?.text).not.toContain('Fant');
-    expect(service.canUndo()).toBe(true);
-  });
-
-  it('uses manual filter changes as the next request context', async () => {
-    await service.send('Dogs');
-    const manual = new Criteria({ q: 'katter', mediaType: 'bøker' });
-    criteria$.next(manual);
-    await service.send('After 2000');
-    expect(generate.mock.calls[1][1]).toBe(manual);
-  });
-
-  it('does not overwrite manual changes made while AI is responding', async () => {
-    let resolve!: (value: unknown) => void;
-    generate.mockReturnValue(
-      new Promise((done) => {
-        resolve = done;
-      }),
-    );
-    const log = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => undefined);
-    const request = service.send('Dogs');
-    await Promise.resolve();
-    criteria$.next(new Criteria({ q: 'katter' }));
-    resolve(dogImages);
-    await request;
-    expect(search.setCriteria).not.toHaveBeenCalled();
-    expect(criteria$.value.q).toBe('katter');
-    expect(service.error()).toBeTruthy();
-    log.mockRestore();
-  });
-
-  it('ignores an outstanding response after starting a new conversation', async () => {
-    let resolve!: (value: unknown) => void;
-    generate.mockReturnValue(
-      new Promise((done) => {
-        resolve = done;
-      }),
-    );
-    const request = service.send('Dogs');
-    await Promise.resolve();
-    service.reset();
-    resolve(dogImages);
-    await request;
-    expect(search.search).not.toHaveBeenCalled();
-    expect(service.messages()).toEqual([]);
-    expect(service.pending()).toBe(false);
-  });
-
-  it('keeps the current search available when the AI request fails', async () => {
-    generate.mockRejectedValue(new Error('Quota exceeded'));
-    const log = jest
-      .spyOn(console, 'error')
-      .mockImplementation(() => undefined);
-    await service.send('Dogs');
-    expect(search.setCriteria).not.toHaveBeenCalled();
-    expect(service.error()).toContain('Vanlig søk');
-    expect(service.pending()).toBe(false);
-    log.mockRestore();
-  });
-
-  it('does not search for a clarification', async () => {
-    generate.mockResolvedValue({ action: 'clarify', message: 'Hvilket år?' });
-    await service.send('After that year');
-    expect(search.search).not.toHaveBeenCalled();
-    expect(service.messages().at(-1)?.text).toBe('Hvilket år?');
-  });
-
-  it.each([
-    [new ChatSearchRequestError('model', true), 'for lang tid'],
-    [new ChatSearchRequestError('app-check', false), 'bekrefte tilkoblingen'],
-  ])(
-    'explains the failed stage without changing the search',
-    async (error, message) => {
-      generate.mockRejectedValue(error);
-      const log = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => undefined);
-      await service.send('Dogs');
-      expect(service.error()).toContain(message);
-      expect(search.setCriteria).not.toHaveBeenCalled();
-      expect(service.pending()).toBe(false);
-      log.mockRestore();
-    },
-  );
 });

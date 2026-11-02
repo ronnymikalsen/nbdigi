@@ -1,25 +1,9 @@
-<div id="searchbox-container">
-  <div class="search-box-content">
+<div id="searchbox-container" [class.chat-only]="chatOnly">
+  <div #resultArea class="search-box-content">
     <div class="search-mode" role="group" aria-label="Søkemodus">
-      <button
-        mat-button
-        type="button"
-        [attr.aria-pressed]="chatMode"
-        [disabled]="pending"
-        (click)="setChatMode(true)"
-      >
-        KI-søk
-      </button>
-      <button
-        mat-button
-        type="button"
-        [attr.aria-pressed]="!chatMode"
-        [disabled]="pending"
-        (click)="setChatMode(false)"
-      >
-        Vanlig søk
-      </button>
-      @if (chatMode) {
+      @if (!chatOnly && showAiSearchLink) {
+      <a mat-button routerLink="/ai-search">KI-søk</a>
+      } @if (chatMode) {
       <button
         mat-button
         type="button"
@@ -49,41 +33,63 @@
       aria-relevant="additions text"
     >
       @for (message of messages; track $index) {
-      <p class="chat-message" [class.user-message]="message.role === 'user'">
-        <strong>{{ message.role === 'user' ? 'Du' : 'Nbdigi' }}</strong>
-        <span>{{ message.text }}</span>
-      </p>
+      <article
+        #chatTurn
+        class="chat-turn"
+        [class.user-turn]="message.role === 'user'"
+      >
+        <p class="chat-message" [class.user-message]="message.role === 'user'">
+          @if (message.role === 'user') {
+          <span class="user-sender">Din melding: </span>
+          } @else {
+          <strong>Nbdigi</strong>
+          }
+          <span>{{ message.text }}</span>
+        </p>
+        @if (message.resultGroups?.length) {
+        <div class="chat-result-groups" aria-label="Treff for dette svaret">
+          @for (group of message.resultGroups; track group.mediaType) {
+          <section class="chat-result-group" [attr.aria-label]="group.label">
+            <h3 class="result-heading">
+              {{ group.label }}
+              <span
+                >· {{ group.totalElements | number: '' : 'nb_NO' }} treff</span
+              >
+            </h3>
+            <p class="result-count">Hentet {{ group.items.length }} treff</p>
+            <nbd-chat-result-grid
+              [items]="group.items"
+              [label]="group.label"
+              [canLoadMore]="!!group.nextLink"
+              [pending]="pending"
+              (moreRequested)="submitFollowUp($event)"
+              [compact]="group.mediaType === 'bilder'"
+            />
+          </section>
+          }
+        </div>
+        }
+      </article>
       }
     </div>
     } @else {
     <p class="chat-intro">
-      Hva leter du etter? Prøv «Vis bilder av hunder», og følg opp med «Bare
-      etter 2000».
+      Hva leter du etter? Prøv «Vis bilder og bøker om hunder», og følg opp med
+      «Bare etter 2000».
     </p>
-    }
-    <div class="active-search">
-      <strong>Aktivt søk:</strong>
-      @if (activeFilters.length) {
-      <mat-chip-set aria-label="Aktive søkefiltre">
-        @for (chip of activeFilters; track chip.type + ':' + (chip.value ??
-        chip.label)) {
-        <mat-chip [disabled]="pending" (removed)="filterRemoved.emit(chip)">
-          {{ chip.label }}
-          <button
-            matChipRemove
-            type="button"
-            [disabled]="pending"
-            [attr.aria-label]="'Fjern ' + chip.label"
-          >
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        }
-      </mat-chip-set>
-      } @else { <span>Alle emner · Alle medietyper</span> }
+    } @if (pending) {
+    <div class="chat-status" role="status" aria-atomic="true">
+      <mat-spinner
+        class="status-spinner"
+        [diameter]="20"
+        [strokeWidth]="2"
+        aria-hidden="true"
+      />
+      <mat-icon class="status-static" aria-hidden="true"
+        >hourglass_empty</mat-icon
+      >
+      <span>{{ pendingLabel }}</span>
     </div>
-    @if (pending) {
-    <p class="chat-status" role="status">{{ pendingLabel }}</p>
     } @if (chatError) {
     <p class="chat-error" role="alert">{{ chatError }}</p>
     } }
@@ -124,8 +130,8 @@
         <input
           #composer
           type="text"
-          aria-label="Spør om bilder eller avgrens søket"
-          placeholder="Spør om bilder eller avgrens søket …"
+          aria-label="Spør om bilder, bøker eller andre medier"
+          placeholder="Spør om bilder, bøker eller andre medier …"
           matInput
           [formControl]="queryControl"
           maxlength="1000"

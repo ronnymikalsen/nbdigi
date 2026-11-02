@@ -18,6 +18,7 @@ import { FavoriteList, Item } from '../../../../../../core/models';
 })
 export class DefaultItemCardComponent implements OnInit {
   @Input() item!: Item;
+  @Input() compact = false;
   @Input() list!: FavoriteList | null;
   isDebugOn: Observable<boolean>;
 

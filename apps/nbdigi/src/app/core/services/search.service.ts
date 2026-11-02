@@ -5,6 +5,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   BucketResponse,
+  Criteria,
+  User,
   Item,
   ItemResponse,
   ItemsResponse,
@@ -15,6 +17,40 @@ import {
   YearCount,
 } from '../../core/models';
 import { QueryBuilder } from '../builders/query-builder';
+
+export function buildCatalogueFilters(
+  criteria: Criteria,
+  user?: User | null,
+): string[] {
+  let filters = [
+    ...criteria.filters.filter((h) => h.enabled).map((h) => h.value),
+  ];
+
+  if (
+    user &&
+    user.uid !== '8Ntufmqo1RhCYMbmWv1Ocz156ts1' &&
+    user.uid !== 'dr2snqxHiZRSEkCUUOOfw6pFkJm2' &&
+    user.uid !== 'iHr3SCdKewU6M3bNGLMUwqxvDu73' &&
+    user.uid !== 'V9q3474Py0PfJx8zKeQ3DHlmklR2'
+  ) {
+    filters = [
+      ...filters,
+      'contentClasses:ccbyncnd OR contentClasses:publicdomain OR contentClasses:ccbync OR contentClasses:cc0',
+    ];
+  }
+  filters = [...filters, 'digital:Ja'];
+  filters = [...filters, 'contentClasses:jp2'];
+
+  if (criteria.genre && criteria.genre.value) {
+    filters = [...filters, criteria.genre.value];
+  }
+
+  if (criteria.date && criteria.date.value) {
+    filters = [...filters, criteria.date.value];
+  }
+
+  return filters;
+}
 
 @Injectable()
 export class SearchService {

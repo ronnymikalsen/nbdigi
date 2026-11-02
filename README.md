@@ -18,20 +18,55 @@ Use Nx generators, for example `yarn nx g @nx/angular:component my-component --p
 
 Run `yarn build:production`. Browser artifacts are written to `dist/apps/nbdigi/browser`.
 
+## Deploy
+
+Run `yarn deploy` to build the production app and publish **only Hosting** to
+`nbdigi-9637d`. Firestore rules, indexes and Cloud Functions are deployed separately.
+
+Run `yarn test:firestore-rules` to check owner-only profile and subcollection access
+against the local Firestore emulator (requires Java). After the rules pass, publish
+them separately with `yarn firebase deploy --only firestore:rules --project nbdigi-9637d`.
+
 ## Conversational search
 
-The search box defaults to **KI-søk**. Ask for e.g. `Vis bilder av hunder`,
-then refine with `Bare etter 2000`. The active NgRx search criteria are sent
+Open **KI-søk** in the navigation (`/ai-search`). Ask for e.g. `Vis bilder og bøker om hunder`,
+then refine with `Bare etter 2000`. The chat's own search criteria are sent
 with each message, so subjects, media types and date filters carry forward.
 The chat supports subjects, media types, whole-year date ranges, sorting,
 places and photographers/creators. Other existing filters remain in place
 unless you start a new search.
-**Vanlig søk** uses the original catalogue search without making AI requests.
+Select multiple media types together, add one with `Ta også med kart`, or narrow
+the selection with `Bare bøker`. Date and other refinements apply to every selected
+media type. Mixed searches fetch each selected type in parallel and show separate sections
+with per-type result counts. Without an explicit count, the request size is calculated
+from the available width to fit two rows per type (normally four cards on mobile).
+Ask for a specific count, e.g. `Jeg vil se 40 treff av fugler i bøker` (1–100 per
+media type), to fetch and show all forty. No fetched cards are hidden behind an
+expansion button. `Flere bilder` immediately submits a follow-up and fetches the next page.
+New answers scroll to their beginning so the results are immediately visible.
+Each answer keeps its own snapshots.
+Say `flere` or `vis flere treff` to fetch the next API page for every available
+media type, or `flere bilder` to expand just photos. The chat follows each group's
+catalogue next link and shows only the new cards in fresh grids in the new
+answer, omitting previously shown cards and unrequested media types. Previous
+answers remain unchanged. Undo restores the previous cards and pagination position.
+Each answer retains the requested result cards per media type. Follow-ups add a new result group
+without replacing previous answers. The chat route has no separate result list
+or filter bar. The original search and its filters remain at `/search`.
 Conversation history stays in memory and is cleared by **Nytt søk** or a reload.
+
+Chat state lives in the root-provided `AiSearchStore` (`@ngrx/signals`): criteria,
+messages with result snapshots, request status, errors and undo history. It
+survives route navigation and remains independent of the classic NgRx search
+feature. `ChatSearchService` handles Firebase AI Logic, catalogue name resolution
+and catalogue requests; both search features share the same catalogue restriction
+builder. Reset cancels pending chat requests and clears only the chat state.
+The store does not persist conversations to browser storage or Firestore.
 
 - **Angre** restores the search criteria and conversation from before the last
   change (up to 20 changes, including removing chips and changing sorting).
-- Remove an active filter using its chip. Other search criteria stay in place.
+- Remove a restriction conversationally, e.g. `Fjern datofilteret`. Other search
+  criteria stay in place.
 - Replies report the actual catalogue count for that specific search request.
   A failed or superseded search never supplies a made-up or stale count.
 - Suggestions can draft a year, place or photographer follow-up. **Nyeste først**
@@ -51,7 +86,7 @@ If changing models, choose a thinking level supported by that model.
 
 For local development:
 
-1. Run `yarn start`, open the app and submit a message in **KI-søk**.
+1. Run `yarn start`, open `/ai-search` and submit a message.
 2. Open the browser developer console and find the `AppCheck debug token`.
 3. In Firebase, open **App Check → Apps → nbdigi → Manage debug tokens** and
    register that token. Keep debug tokens private; do not commit them.

@@ -8,8 +8,10 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  QueryList,
   SimpleChanges,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
@@ -40,18 +42,20 @@ import {
 })
 export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @Input() q!: string | null;
+  @Input() chatOnly = false;
+  @Input() showAiSearchLink = true;
   @Input() hints!: Hints | undefined;
   @Input() activeCriteria: Criteria | null = null;
   @Input() messages: readonly SearchChatMessage[] = [];
   @Input() pending = false;
   @Input() chatError = '';
-  @Input() pendingLabel = 'Tolker søket ditt …';
+  @Input() pendingLabel = 'Tenker …';
   @Input() canUndo = false;
   @Output() chatSubmitted = new EventEmitter<string>();
   @Output() undoRequested = new EventEmitter<void>();
   @Output() filterRemoved = new EventEmitter<SearchChatFilter>();
   @Output() newestRequested = new EventEmitter<void>();
-  chatMode = true;
+  chatMode = false;
   @Output() hintSelected = new EventEmitter<Hint>();
   @Output() query = new EventEmitter<string>();
   @Output() searchSelected = new EventEmitter<string>();
@@ -60,6 +64,8 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild(MatAutocompleteTrigger)
   matAutocomplete?: MatAutocompleteTrigger;
   @ViewChild('composer') searchboxContainer?: ElementRef<HTMLInputElement>;
+  @ViewChildren('chatTurn') chatTurns?: QueryList<ElementRef<HTMLElement>>;
+  @ViewChild('resultArea') resultArea?: ElementRef<HTMLElement>;
   @ViewChild('chatHistory') chatHistory?: ElementRef<HTMLDivElement>;
   private displayedMessages: readonly SearchChatMessage[] = [];
   public searchForm!: FormGroup;
@@ -87,6 +93,9 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['chatOnly']) {
+      this.setChatMode(this.chatOnly);
+    }
     if (changes['q'] && !this.chatMode) {
       this.queryControl.patchValue(changes['q'].currentValue);
     }
@@ -100,8 +109,15 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
 
   ngAfterViewChecked(): void {
     if (this.chatHistory && this.displayedMessages !== this.messages) {
-      this.chatHistory.nativeElement.scrollTop =
-        this.chatHistory.nativeElement.scrollHeight;
+      if (this.messages.at(-1)?.role === 'assistant') {
+        this.chatTurns?.last?.nativeElement.scrollIntoView?.({
+          block: 'start',
+        });
+      } else {
+        this.searchboxContainer?.nativeElement.scrollIntoView?.({
+          block: 'nearest',
+        });
+      }
       this.displayedMessages = this.messages;
     }
   }
@@ -157,38 +173,24 @@ export class SearchBoxComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  get activeFilters(): SearchChatFilter[] {
-    const criteria = this.activeCriteria;
-    if (!criteria) return [];
-    const filters: SearchChatFilter[] = [];
-    if (criteria.q) filters.push({ type: 'query', label: criteria.q });
-    if (criteria.mediaType !== 'alle')
-      filters.push({ type: 'mediaType', label: criteria.mediaType });
-    if (criteria.date.value)
-      filters.push({ type: 'date', label: criteria.date.viewValue ?? 'Dato' });
-    if (criteria.sort.value !== '_score,desc')
-      filters.push({
-        type: 'sort',
-        label: criteria.sort.viewValue ?? 'Sortering',
-      });
-    if (criteria.genre?.value)
-      filters.push({
-        type: 'genre',
-        label: criteria.genre.viewValue ?? 'Sjanger',
-      });
-    for (const hint of criteria.filters.filter((f) => f.enabled)) {
-      const prefix = hint.value.startsWith('subjectgeographic:')
-        ? 'Sted: '
-        : hint.value.startsWith('namecreators:')
-        ? 'Fotograf/opphav: '
-        : '';
-      filters.push({
-        type: 'hint',
-        label: prefix + hint.label,
-        value: hint.value,
-      });
-    }
-    return filters;
+  defaultResultLimit(): number {
+    // The history has 4px padding on each side; grid tracks are at least 160px with 8px gaps.
+    const width = Math.max(
+      0,
+      (this.resultArea?.nativeElement.getBoundingClientRect().width ?? 0) - 8,
+    );
+    const columns =
+      width > 0 && width <= 260
+        ? 1
+        : width <= 540
+        ? 2
+        : Math.floor((width + 8) / 168);
+    return Math.max(1, columns) * 2;
+  }
+
+  submitFollowUp(text: string): void {
+    if (this.pending) return;
+    this.chatSubmitted.emit(text);
   }
 
   draftFollowUp(text: string): void {

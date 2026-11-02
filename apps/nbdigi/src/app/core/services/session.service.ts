@@ -20,7 +20,7 @@ import { UserService } from './user.service';
 @Injectable()
 export class SessionService {
   private userRef: DocumentReference<User> | undefined;
-  private currentTheme = 'light-theme';
+  private currentTheme = 'dark-theme';
   private debugon = false;
   private hadAuthenticatedUser = false;
 
